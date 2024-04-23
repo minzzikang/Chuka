@@ -27,28 +27,13 @@ public class JWTUtil {
      * @param token
      * @return
      */
-    public String getKakaoId(String token) {
+    public String getId(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("kakaoId", String.class);
-    }
-
-    /**
-     * 토큰에서 이메일(식별자) 추출하여 리턴한다.
-     *
-     * @param token
-     * @return
-     */
-    public String getUserEmail(String token) {
-        return Jwts.parser()
-                .verifyWith(secretKey)
-                .build()
-                .parseSignedClaims(token)
-                .getPayload()
-                .get("email", String.class); // username -> email
+                .get("id", String.class);
     }
 
     /**
@@ -67,7 +52,7 @@ public class JWTUtil {
     }
 
     public Boolean isExpired(String token) {
-        System.out.println("token ====> " + token);
+//        System.out.println("token ====> " + token);
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
@@ -77,22 +62,22 @@ public class JWTUtil {
                 .before(new Date());
     }
 
-    public String createAccessToken(String name, String kakaoId, Date date) {
+    public String createAccessToken(String nickname, String id, Date date) {
 
         return Jwts.builder()
-                .claim("name", name)
-                .claim("kakaoId", kakaoId)
+                .claim("nickname", nickname)
+                .claim("id", id)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(date)
                 .signWith(secretKey)
                 .compact();
     }
 
-    public String createRefreshToken(String name, String kakaoId, Date date) {
+    public String createRefreshToken(String nickname, String id, Date date) {
 
         return Jwts.builder()
-                .claim("name", name)
-                .claim("kakaoId", kakaoId)
+                .claim("nickname", nickname)
+                .claim("id", id)
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(date)
                 .signWith(secretKey)
