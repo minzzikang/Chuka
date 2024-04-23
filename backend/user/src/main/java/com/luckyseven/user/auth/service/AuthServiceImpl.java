@@ -5,6 +5,8 @@ import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.Roles;
 import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.UserRepository;
+import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.util.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -15,8 +17,11 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -29,6 +34,8 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
 
+    private final JWTUtil jWTUtil;
+    private final RedisService redisService;
     private final UserRepository userRepository;
 
     @Value("${kakao.api.rest.key}")
@@ -121,17 +128,19 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public void joinOrLoginForKakao(KakaoUserDto userDto) {
+    public String joinOrLoginForKakao(KakaoUserDto userDto) {
         User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
 
         log.info("user: {}", user);
         if (user == null) {
             UserDto join = join(userDto);
             log.info("join: {}", join);
-        } else {
-            login(userDto);
-            log.info("login!!");
         }
+
+        String token = login(userDto);
+        log.info("login token: {}", token);
+
+        return token;
     }
 
     private UserDto join(KakaoUserDto userDto) {
@@ -145,7 +154,25 @@ public class AuthServiceImpl implements AuthService {
         return UserDto.of(userRepository.save(user));
     }
 
-    private void login(KakaoUserDto userDto) {
+    private String login(KakaoUserDto userDto) {
 
+        // 엑세스 토큰
+        String accessToken =
+                jWTUtil.createAccessToken(
+                        userDto.getProperties().getNickname(),
+                        String.valueOf(userDto.getId()),
+                        Date.from(Instant.now().plus(1, ChronoUnit.DAYS))); // 1개월 후 토큰 만료
+
+        // 리프레시 토큰
+        String refreshToken =
+                jWTUtil.createRefreshToken(
+                        userDto.getProperties().getNickname(),
+                        String.valueOf(userDto.getId()),
+                        Date.from(Instant.now().plus(90, ChronoUnit.DAYS))); // 3개월 후 토큰 만료
+
+        // redis에 토큰 저장
+        redisService.save(String.valueOf(userDto.getId()), refreshToken);
+
+        return accessToken;
     }
 }

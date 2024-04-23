@@ -6,6 +6,6 @@ public interface AuthService {
 
     String getToken(String code);
     KakaoUserDto getUserInfo(String token);
-    void joinOrLoginForKakao(KakaoUserDto userDto);
+    String joinOrLoginForKakao(KakaoUserDto userDto);
 
 }
