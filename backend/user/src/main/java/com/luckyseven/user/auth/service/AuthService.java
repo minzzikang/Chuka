@@ -4,9 +4,8 @@ import com.luckyseven.user.auth.dto.KakaoUserDto;
 
 public interface AuthService {
 
-    public String test(String test);
-
-    public String getToken(String code);
-    public KakaoUserDto getUserInfo(String token);
+    String getToken(String code);
+    KakaoUserDto getUserInfo(String token);
+    void joinOrLoginForKakao(KakaoUserDto userDto);
 
 }

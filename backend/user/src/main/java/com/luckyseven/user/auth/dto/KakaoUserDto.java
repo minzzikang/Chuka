@@ -11,6 +11,7 @@ import lombok.ToString;
 @Setter
 @ToString
 public class KakaoUserDto {
+
     private Long id;
     private String connectedAt;
     private Properties properties;

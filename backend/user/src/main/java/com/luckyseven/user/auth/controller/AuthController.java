@@ -1,5 +1,6 @@
 package com.luckyseven.user.auth.controller;
 
+import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
@@ -27,7 +28,8 @@ public class AuthController {
 //        response.sendRedirect(redirect_uri);
 
         String token = authService.getToken(code);
-        authService.getUserInfo(token);
+        KakaoUserDto userInfo = authService.getUserInfo(token);
+        authService.joinOrLoginForKakao(userInfo);
 
         return ResponseEntity.status(200).body(null);
     }

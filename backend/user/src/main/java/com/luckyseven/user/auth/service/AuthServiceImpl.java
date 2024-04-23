@@ -1,6 +1,10 @@
 package com.luckyseven.user.auth.service;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
+import com.luckyseven.user.user.dto.UserDto;
+import com.luckyseven.user.user.entity.Roles;
+import com.luckyseven.user.user.entity.User;
+import com.luckyseven.user.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -11,6 +15,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -22,6 +28,8 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED;
 @Service
 @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
+
+    private final UserRepository userRepository;
 
     @Value("${kakao.api.rest.key}")
     private String apiKey;
@@ -35,19 +43,10 @@ public class AuthServiceImpl implements AuthService {
     @Value("${kakao.api.redirect}")
     private String redirectUri;
 
-    public String test(String test) {
-        log.info("test test test ---");
-        System.out.println("ㅋㅋ");
-        return test;
-    }
-
     @Override
     public String getToken(String code) {
         log.info("getToken start!!--");
-        // https://kauth.kakao.com/oauth/token
-        // body grant_type client_id redirect_uri code
 
-        // oauth/token으로 요청
         RestClient restClient = RestClient.create();
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
@@ -65,11 +64,6 @@ public class AuthServiceImpl implements AuthService {
                 .contentType(APPLICATION_FORM_URLENCODED)
                 .body(requestBody)
                 .retrieve();
-
-
-//        ResponseEntity<?> responseEntity = response.toEntity(String.class);
-//        TokenDto responseBody = (TokenDto) responseEntity.getBody();
-//        HttpStatusCode statusCode = responseEntity.getStatusCode();
 
         ResponseEntity<?> responseEntity = response.toEntity(Object.class);
 
@@ -96,6 +90,8 @@ public class AuthServiceImpl implements AuthService {
                 .header("Authorization", "Bearer " + token)
                 .retrieve();
 
+        log.info("response: {}", response);
+
         ResponseEntity<?> responseEntity = response.toEntity(Object.class);
 
         log.info("statusCode: {}", responseEntity.getStatusCode());
@@ -106,10 +102,8 @@ public class AuthServiceImpl implements AuthService {
         kakaoUser.setId((Long) map.get("id"));
         kakaoUser.setConnectedAt((String) map.get("connected_at"));
 
-        log.info("properties: {}", map.get("properties"));
-        log.info("properties: {}", map.get("properties").getClass());
-        log.info("??: {}", map.get("kakao_account"));
-        log.info("??: {}", map.get("kakao_account").getClass());
+        log.info("response - properties: {}", map.get("properties"));
+        log.info("response - kakao_account: {}", map.get("kakao_account"));
 
         KakaoUserDto.Properties properties = new KakaoUserDto.Properties();
         HashMap<String, Object> propertiesTmp = (HashMap<String, Object>) map.get("properties");
@@ -117,12 +111,41 @@ public class AuthServiceImpl implements AuthService {
         properties.setProfileImage((String) propertiesTmp.get("profile_image"));
         properties.setThumbnailImage((String) propertiesTmp.get("thumbnail_image"));
 
-        log.info("properties: {}", properties);
+        log.info("save - properties: {}", properties);
 
         kakaoUser.setProperties(properties);
 
-        log.info("kakaoUser: {}", kakaoUser);
+        log.info("save - kakaoUser: {}", kakaoUser);
 
         return kakaoUser;
+    }
+
+    @Override
+    public void joinOrLoginForKakao(KakaoUserDto userDto) {
+        User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
+
+        log.info("user: {}", user);
+        if (user == null) {
+            UserDto join = join(userDto);
+            log.info("join: {}", join);
+        } else {
+            login(userDto);
+            log.info("login!!");
+        }
+    }
+
+    private UserDto join(KakaoUserDto userDto) {
+        User user = new User();
+        user.setUserId(String.valueOf(userDto.getId()));
+        user.setNickname(userDto.getProperties().getNickname());
+        user.setProfileImage(userDto.getProperties().getProfileImage());
+        user.setRole(Roles.ROLE_USER);
+        user.setJoinDate(LocalDateTime.parse(userDto.getConnectedAt(), DateTimeFormatter.ISO_DATE_TIME));
+
+        return UserDto.of(userRepository.save(user));
+    }
+
+    private void login(KakaoUserDto userDto) {
+
     }
 }
