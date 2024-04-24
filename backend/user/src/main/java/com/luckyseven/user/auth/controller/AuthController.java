@@ -65,9 +65,10 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout() throws IOException {
+    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorization) throws IOException {
         log.info("logout start!!");
-
+        String accessToken = authorization.substring("Bearer ".length());
+        authService.logout(accessToken);
 
         return ResponseEntity.status(200).body(null);
     }

@@ -17,6 +17,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -169,7 +170,7 @@ public class AuthServiceImpl implements AuthService {
                 userDto.getRole()
         );
 
-        redisService.save(userDto.getUserId(), refreshToken);
+        redisService.saveRefreshToken(userDto.getUserId(), refreshToken);
 
         return refreshToken;
     }
@@ -194,6 +195,16 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return null;
+    }
+
+    @Override
+    public void logout(String accessToken) {
+        String id = jWTUtil.getId(accessToken);
+        // refreshToken 삭제
+        redisService.delete(id);
+
+        // accessToken blackList 처리
+        redisService.saveLogoutToken(accessToken);
     }
 
 }

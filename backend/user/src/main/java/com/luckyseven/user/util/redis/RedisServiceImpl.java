@@ -16,9 +16,9 @@ public class RedisServiceImpl implements RedisService {
     @Autowired private RedisTemplate<String, Object> redisTemplate;
 
     @Override
-    public boolean save(String id, String token) {
+    public boolean save(String id, String token, Duration duration) {
         try {
-            redisTemplate.opsForValue().set(id, token, Duration.ofDays(90));
+            redisTemplate.opsForValue().set(id, token, duration);
 
             return true;
         } catch (Exception e) {
@@ -27,6 +27,33 @@ public class RedisServiceImpl implements RedisService {
             return false;
         }
     }
+
+    @Override
+    public boolean saveRefreshToken(String id, String token) {
+        try {
+            redisTemplate.opsForValue().set(id, token, Duration.ofDays(15));
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
+    @Override
+    public boolean saveLogoutToken(String accessToken) {
+        try {
+            redisTemplate.opsForValue().set(accessToken, "logout", Duration.ofHours(1));
+
+            return true;
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            return false;
+        }
+    }
+
 
     @Override
     public String getValues(String key) {

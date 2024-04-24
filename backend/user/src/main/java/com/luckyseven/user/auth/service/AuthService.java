@@ -15,6 +15,6 @@ public interface AuthService {
     String issueRefreshToken(KakaoUserDto userDto);
     String reIssueAccessTokenWithRefreshToken(String refreshToken);
 
-    void logout();
+    void logout(String accessToken);
 
 }
