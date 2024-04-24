@@ -16,18 +16,18 @@ import java.io.IOException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/auth")
 public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
 
-    @GetMapping("/auth/test")
+    @GetMapping("/test")
     public void test() {
         log.info("test!!!!!");
     }
 
-    @GetMapping("/auth/login")
+    @GetMapping("/login")
     public ResponseEntity<?> login(@RequestParam String code, HttpServletResponse response,
                                    @Value("${kakao.api.redirect.front}") String redirectUri) throws IOException {
         int statusCode = 200;
@@ -52,7 +52,7 @@ public class AuthController {
         return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
     }
 
-    @PostMapping("/auth/reissue")
+    @PostMapping("/reissue")
     public ResponseEntity<?> reissueRefreshToken(@RequestHeader("Authorization") String authorization) {
         String refreshToken = authorization.substring("Bearer ".length());
 
@@ -64,7 +64,7 @@ public class AuthController {
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
 
-    @GetMapping("/auth/logout")
+    @GetMapping("/logout")
     public ResponseEntity<?> logout() throws IOException {
         log.info("logout start!!");
 
