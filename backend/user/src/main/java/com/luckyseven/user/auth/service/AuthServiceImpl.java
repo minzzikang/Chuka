@@ -130,7 +130,8 @@ public class AuthServiceImpl implements AuthService {
         user.setNickname(userDto.getProperties().getNickname());
         user.setProfileImage(userDto.getProperties().getProfileImage());
         user.setRole(Roles.ROLE_USER);
-        user.setJoinDate(userDto.getConnectedAt());
+        user.setJoinDate(LocalDateTime.now());
+//        user.setJoinDate(userDto.getConnectedAt());
 
         return UserDto.of(userRepository.save(user));
     }
