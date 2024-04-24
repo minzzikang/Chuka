@@ -22,7 +22,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
-@Tag(name = "Auth", description = "Auth API")
+@Tag(name = "Auth", description = "인증 API")
 public class AuthController {
 
     private final AuthService authService;
