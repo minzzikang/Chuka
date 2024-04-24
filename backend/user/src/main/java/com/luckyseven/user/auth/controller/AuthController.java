@@ -9,10 +9,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 
@@ -36,16 +33,18 @@ public class AuthController {
         int statusCode = 200;
         HttpHeaders responseHeaders = new HttpHeaders();
 
-        String token = authService.getToken(code);
-        KakaoUserDto userInfo = authService.getUserInfo(token);
+        String token = authService.getKakaoToken(code);
+        KakaoUserDto userInfo = authService.getKakaoUserInfo(token);
 
         if (!userService.isExistUser(String.valueOf(userInfo.getId()))) {
             authService.join(userInfo);
             statusCode = 201;
         }
 
-        String accessToken = authService.login(userInfo);
+        String accessToken = authService.issueAccessToken(userInfo);
+        String refreshToken = authService.issueRefreshToken(userInfo);
         responseHeaders.set("Authorization", "Bearer " + accessToken);
+        responseHeaders.set("Refresh-Token", "Bearer " + refreshToken);
 
 //        response.setHeader("Authorization", "Bearer " + accessToken);
 //        response.sendRedirect(redirectUri);
@@ -53,16 +52,22 @@ public class AuthController {
         return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
     }
 
-//    @PostMapping("/auth/reissue")
-//    public ResponseEntity<?> reissueRefreshToken() {
-//
-//
-//    }
+    @PostMapping("/auth/reissue")
+    public ResponseEntity<?> reissueRefreshToken(@RequestHeader("Authorization") String authorization) {
+        String refreshToken = authorization.substring("Bearer ".length());
+
+        String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("Authorization", "Bearer " + newAccessToken);
+
+        return ResponseEntity.status(200).headers(responseHeaders).body(null);
+    }
 
     @GetMapping("/auth/logout")
     public ResponseEntity<?> logout() throws IOException {
+        log.info("logout start!!");
 
-        log.info("logout!!");
 
         return ResponseEntity.status(200).body(null);
     }

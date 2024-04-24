@@ -5,13 +5,14 @@ import com.luckyseven.user.user.dto.UserDto;
 
 public interface AuthService {
 
-    String getToken(String code);
-    KakaoUserDto getUserInfo(String token);
+    String getKakaoToken(String code);
+    KakaoUserDto getKakaoUserInfo(String token);
 
     UserDto join(KakaoUserDto userDto);
-    String login(KakaoUserDto userDto);
 
+    String issueAccessToken(KakaoUserDto userDto);
     String issueRefreshToken(UserDto userDto);
     String issueRefreshToken(KakaoUserDto userDto);
+    String reIssueAccessTokenWithRefreshToken(String refreshToken);
 
 }

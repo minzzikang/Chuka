@@ -17,11 +17,8 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.time.temporal.ChronoUnit;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -51,7 +48,7 @@ public class AuthServiceImpl implements AuthService {
     private String redirectUri;
 
     @Override
-    public String getToken(String code) {
+    public String getKakaoToken(String code) {
         log.info("getToken start!!--");
 
         RestClient restClient = RestClient.create();
@@ -84,7 +81,7 @@ public class AuthServiceImpl implements AuthService {
     }
 
     @Override
-    public KakaoUserDto getUserInfo(String token) {
+    public KakaoUserDto getKakaoUserInfo(String token) {
         RestClient restClient = RestClient.create();
 
         log.info("token: {}", token);
@@ -137,42 +134,40 @@ public class AuthServiceImpl implements AuthService {
         return UserDto.of(userRepository.save(user));
     }
 
-    public String login(KakaoUserDto userDto) {
-        // 엑세스 토큰
-        String accessToken =
-                jWTUtil.createAccessToken(
-                        userDto.getProperties().getNickname(),
-                        String.valueOf(userDto.getId()),
-                        Date.from(Instant.now().plus(1, ChronoUnit.DAYS))); // 1개월 후 토큰 만료
-
-        issueRefreshToken(userDto);
-
-        return accessToken;
+    public String issueAccessToken(KakaoUserDto userDto) {
+        // 1시간 후 토큰 만료
+        return jWTUtil.createAccessToken(
+                String.valueOf(userDto.getId()),
+                userDto.getProperties().getNickname(),
+                Roles.ROLE_USER
+        );
     }
 
-//    @Override
-//    public String joinOrLoginForKakao(KakaoUserDto userDto) {
-//        User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
-//
-//        log.info("user: {}", user);
-//        if (user == null) {
-//            UserDto join = join(userDto);
-//            log.info("join: {}", join);
-//        }
-//
-//        String token = login(userDto);
-//        log.info("login token: {}", token);
-//
-//        return token;
-//    }
+    public String issueAccessToken(UserDto userDto) {
+        // 1시간 후 토큰 만료
+        return jWTUtil.createAccessToken(
+                userDto.getUserId(),
+                userDto.getNickname(),
+                userDto.getRole()
+        );
+    }
+
+    private String issueAccessToken(String userId, String nickname, Roles role) {
+        return jWTUtil.createAccessToken(
+                userId,
+                nickname,
+                role
+        );
+    }
 
     @Override
     public String issueRefreshToken(UserDto userDto) {
-        String refreshToken =
-                jWTUtil.createRefreshToken(
-                        userDto.getNickname(),
-                        userDto.getUserId(),
-                        Date.from(Instant.now().plus(90, ChronoUnit.DAYS))); // 3개월 후 토큰 만료
+        // 15일 후 토큰 만료
+        String refreshToken = jWTUtil.createRefreshToken(
+                userDto.getUserId(),
+                userDto.getNickname(),
+                userDto.getRole()
+        );
 
         redisService.save(userDto.getUserId(), refreshToken);
 
@@ -185,7 +180,20 @@ public class AuthServiceImpl implements AuthService {
         return issueRefreshToken(UserDto.of(userDto));
     }
 
+    @Override
+    public String reIssueAccessTokenWithRefreshToken(String refreshToken) {
+        String id = jWTUtil.getId(refreshToken);
 
+        if (jWTUtil.getType(refreshToken).equals("RTK")
+                && redisService.getValues(id).equals(refreshToken)) {
+                User user = userRepository.findByUserId(id);
 
+                // refreshToken 재발급
+                // issueRefreshToken(UserDto.of(user));
+                return issueAccessToken(UserDto.of(user));
+        }
+
+        return null;
+    }
 
 }

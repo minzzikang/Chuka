@@ -4,7 +4,6 @@ import com.luckyseven.user.auth.dto.KakaoUserDto;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
@@ -16,7 +15,7 @@ class AuthServiceImplTest {
 
     @Test
     void getToken() {
-        authService.getToken("FsNL6rJ3DEqBIPOtybtQTTThaunMDUT7Xol5SnC9IzJ8JOiMWltRBTaR2oUKPXTaAAABjwlf1qgWphHJzwXJqw");
+        authService.getKakaoToken("FsNL6rJ3DEqBIPOtybtQTTThaunMDUT7Xol5SnC9IzJ8JOiMWltRBTaR2oUKPXTaAAABjwlf1qgWphHJzwXJqw");
     }
 
     @Test
