@@ -3,7 +3,11 @@ package com.luckyseven.user.auth.controller;
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import com.luckyseven.user.user.service.UserService;
+import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,6 +22,7 @@ import java.io.IOException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/auth")
+@Tag(name = "Auth", description = "Auth API")
 public class AuthController {
 
     private final AuthService authService;
@@ -29,6 +34,12 @@ public class AuthController {
     }
 
     @GetMapping("/login")
+    @Operation(summary = "로그인 및 회원가입", description = "사용자가 카카오 로그인 및 회원가입을 한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "로그인"),
+            @ApiResponse(responseCode = "201", description = "회원가입"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     public ResponseEntity<?> login(@RequestParam String code, HttpServletResponse response,
                                    @Value("${kakao.api.redirect.front}") String redirectUri) throws IOException {
         int statusCode = 200;
@@ -57,6 +68,11 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
+    @Operation(summary = "AccessToken 재발급", description = "RefreshToken으로 AccessToken을 재발급한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     public ResponseEntity<?> reissueRefreshToken(
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization)
     {
@@ -73,7 +89,13 @@ public class AuthController {
     }
 
     @GetMapping("/logout")
-    public ResponseEntity<?> logout(@RequestHeader("Authorization") String authorization) throws IOException {
+    @Operation(summary = "로그아웃", description = "사용자 로그아웃")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> logout(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
         log.info("logout start!!");
         String accessToken = authorization.substring("Bearer ".length());
         authService.logout(accessToken);
@@ -81,4 +103,5 @@ public class AuthController {
         return ResponseEntity.status(200).body(null);
     }
 }
+
 
