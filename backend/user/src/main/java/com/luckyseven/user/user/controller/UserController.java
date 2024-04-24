@@ -11,10 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -64,7 +61,7 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<UserDto> getUserInfo(@Parameter(hidden = true) @RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<UserDto> getUserInfo(@PathVariable("userId") String userId) {
         UserDto userDto = userService.getUser(userId);
 
         if (userDto == null) {
