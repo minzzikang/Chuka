@@ -1,5 +1,6 @@
 package com.luckyseven.user.util.jwt;
 
+import com.luckyseven.user.user.entity.Roles;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -7,6 +8,8 @@ import org.springframework.stereotype.Component;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 @Component
@@ -36,19 +39,37 @@ public class JWTUtil {
                 .get("id", String.class);
     }
 
+    public String getNickname(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("nickname", String.class);
+    }
+
     /**
      * default : String -> Enum<Roles>으로 변경함.
      *
      * @param token
      * @return
      */
-    public String getRole(String token) {
+    public Roles getRole(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("role", String.class);
+                .get("role", Roles.class);
+    }
+
+    public String getType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("type", String.class);
     }
 
     public Boolean isExpired(String token) {
@@ -62,24 +83,28 @@ public class JWTUtil {
                 .before(new Date());
     }
 
-    public String createAccessToken(String nickname, String id, Date date) {
+    public String createAccessToken(String id, String nickname, Roles role) {
 
         return Jwts.builder()
-                .claim("nickname", nickname)
                 .claim("id", id)
+                .claim("nickname", nickname)
+                .claim("role", role)
+                .claim("type", "ATK")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(date)
+                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
                 .signWith(secretKey)
                 .compact();
     }
 
-    public String createRefreshToken(String nickname, String id, Date date) {
+    public String createRefreshToken(String id, String nickname, Roles role) {
 
         return Jwts.builder()
-                .claim("nickname", nickname)
                 .claim("id", id)
+                .claim("nickname", nickname)
+                .claim("role", role)
+                .claim("type", "RTK")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(date)
+                .expiration(Date.from(Instant.now().plus(15, ChronoUnit.DAYS)))
                 .signWith(secretKey)
                 .compact();
     }
