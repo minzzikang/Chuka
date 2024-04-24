@@ -3,6 +3,7 @@ package com.luckyseven.user.auth.controller;
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import com.luckyseven.user.user.service.UserService;
+import io.swagger.v3.oas.annotations.Parameter;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -46,6 +47,9 @@ public class AuthController {
         responseHeaders.set("Authorization", "Bearer " + accessToken);
         responseHeaders.set("Refresh-Token", "Bearer " + refreshToken);
 
+        log.info("accessToken: {}", accessToken);
+        log.info("refreshToken: {}", refreshToken);
+
 //        response.setHeader("Authorization", "Bearer " + accessToken);
 //        response.sendRedirect(redirectUri);
 
@@ -53,13 +57,17 @@ public class AuthController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<?> reissueRefreshToken(@RequestHeader("Authorization") String authorization) {
+    public ResponseEntity<?> reissueRefreshToken(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization)
+    {
         String refreshToken = authorization.substring("Bearer ".length());
 
         String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
 
         HttpHeaders responseHeaders = new HttpHeaders();
         responseHeaders.set("Authorization", "Bearer " + newAccessToken);
+
+        log.info("accessToken: {}", newAccessToken);
 
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
