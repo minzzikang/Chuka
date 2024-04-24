@@ -8,6 +8,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Slf4j
 @Service
 @Transactional
@@ -32,5 +34,12 @@ public class FundingServiceImpl implements FundingService{
                 .build();
         Funding result = fundingRepository.save(data);
         return result.getFundingId();
+    }
+
+    @Override
+    public List<Funding> findFundings(int eventId){
+        List<Funding> tmp= fundingRepository.findAllByEventId(eventId);
+        log.info(tmp.toString());
+        return null;
     }
 }

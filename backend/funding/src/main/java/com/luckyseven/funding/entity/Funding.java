@@ -2,9 +2,7 @@ package com.luckyseven.funding.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -17,6 +15,8 @@ import java.time.LocalDateTime;
 @Builder
 @ToString
 @DynamicInsert
+@NoArgsConstructor
+@AllArgsConstructor
 public class Funding {
 
     @Id
