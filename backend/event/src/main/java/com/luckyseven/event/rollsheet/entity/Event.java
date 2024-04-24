@@ -1,8 +1,6 @@
 package com.luckyseven.event.rollsheet.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -25,6 +23,7 @@ public class Event {
     @Column(length = 20, nullable = false)
     private String pageUri;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private EventType type;
 
@@ -38,6 +37,7 @@ public class Event {
 
     private String bannerThumbnail;
 
+    @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private Theme theme;
 
