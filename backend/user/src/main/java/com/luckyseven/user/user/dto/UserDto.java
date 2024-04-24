@@ -1,5 +1,6 @@
 package com.luckyseven.user.user.dto;
 
+import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.entity.Roles;
 import com.luckyseven.user.user.entity.User;
 import jakarta.persistence.Column;
@@ -37,6 +38,16 @@ public class UserDto {
         userDto.setProfileImage(user.getProfileImage());
         userDto.setRole(user.getRole());
 
+        return userDto;
+    }
+
+    public static UserDto of(KakaoUserDto user) {
+        UserDto userDto = new UserDto();
+        userDto.setUserId(String.valueOf(user.getId()));
+        userDto.setNickname(user.getProperties().getNickname());
+        userDto.setProfileImage(user.getProperties().getProfileImage());
+        userDto.setJoinDate(user.getConnectedAt());
+        // role
         return userDto;
     }
 

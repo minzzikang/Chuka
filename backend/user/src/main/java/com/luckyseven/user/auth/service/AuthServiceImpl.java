@@ -101,14 +101,13 @@ public class AuthServiceImpl implements AuthService {
 
         ResponseEntity<?> responseEntity = response.toEntity(Object.class);
 
+        log.info("body: {}", responseEntity.getBody());
         log.info("statusCode: {}", responseEntity.getStatusCode());
 
-        log.info("statusCode: {}", responseEntity.getBody());
         Map<String, Object> map = (Map<String, Object>) responseEntity.getBody();
         KakaoUserDto kakaoUser = new KakaoUserDto();
         kakaoUser.setId((Long) map.get("id"));
-        kakaoUser.setConnectedAt((String) map.get("connected_at"));
-
+        kakaoUser.setConnectedAt(LocalDateTime.parse(map.get("connected_at").toString(), DateTimeFormatter.ISO_DATE_TIME));
         log.info("response - properties: {}", map.get("properties"));
         log.info("response - kakao_account: {}", map.get("kakao_account"));
 
@@ -127,35 +126,18 @@ public class AuthServiceImpl implements AuthService {
         return kakaoUser;
     }
 
-    @Override
-    public String joinOrLoginForKakao(KakaoUserDto userDto) {
-        User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
-
-        log.info("user: {}", user);
-        if (user == null) {
-            UserDto join = join(userDto);
-            log.info("join: {}", join);
-        }
-
-        String token = login(userDto);
-        log.info("login token: {}", token);
-
-        return token;
-    }
-
-    private UserDto join(KakaoUserDto userDto) {
+    public UserDto join(KakaoUserDto userDto) {
         User user = new User();
         user.setUserId(String.valueOf(userDto.getId()));
         user.setNickname(userDto.getProperties().getNickname());
         user.setProfileImage(userDto.getProperties().getProfileImage());
         user.setRole(Roles.ROLE_USER);
-        user.setJoinDate(LocalDateTime.parse(userDto.getConnectedAt(), DateTimeFormatter.ISO_DATE_TIME));
+        user.setJoinDate(userDto.getConnectedAt());
 
         return UserDto.of(userRepository.save(user));
     }
 
-    private String login(KakaoUserDto userDto) {
-
+    public String login(KakaoUserDto userDto) {
         // 엑세스 토큰
         String accessToken =
                 jWTUtil.createAccessToken(
@@ -163,16 +145,47 @@ public class AuthServiceImpl implements AuthService {
                         String.valueOf(userDto.getId()),
                         Date.from(Instant.now().plus(1, ChronoUnit.DAYS))); // 1개월 후 토큰 만료
 
-        // 리프레시 토큰
-        String refreshToken =
-                jWTUtil.createRefreshToken(
-                        userDto.getProperties().getNickname(),
-                        String.valueOf(userDto.getId()),
-                        Date.from(Instant.now().plus(90, ChronoUnit.DAYS))); // 3개월 후 토큰 만료
-
-        // redis에 토큰 저장
-        redisService.save(String.valueOf(userDto.getId()), refreshToken);
+        issueRefreshToken(userDto);
 
         return accessToken;
     }
+
+//    @Override
+//    public String joinOrLoginForKakao(KakaoUserDto userDto) {
+//        User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
+//
+//        log.info("user: {}", user);
+//        if (user == null) {
+//            UserDto join = join(userDto);
+//            log.info("join: {}", join);
+//        }
+//
+//        String token = login(userDto);
+//        log.info("login token: {}", token);
+//
+//        return token;
+//    }
+
+    @Override
+    public String issueRefreshToken(UserDto userDto) {
+        String refreshToken =
+                jWTUtil.createRefreshToken(
+                        userDto.getNickname(),
+                        userDto.getUserId(),
+                        Date.from(Instant.now().plus(90, ChronoUnit.DAYS))); // 3개월 후 토큰 만료
+
+        redisService.save(userDto.getUserId(), refreshToken);
+
+        return refreshToken;
+    }
+
+    @Override
+    public String issueRefreshToken(KakaoUserDto userDto) {
+
+        return issueRefreshToken(UserDto.of(userDto));
+    }
+
+
+
+
 }

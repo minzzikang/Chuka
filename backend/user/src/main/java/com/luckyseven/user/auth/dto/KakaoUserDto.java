@@ -2,10 +2,13 @@ package com.luckyseven.user.auth.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
+import com.luckyseven.user.user.dto.UserDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -13,9 +16,15 @@ import lombok.ToString;
 public class KakaoUserDto {
 
     private Long id;
-    private String connectedAt;
+    private LocalDateTime connectedAt;
     private Properties properties;
     private KakaoAcount kakaoAcount;
+
+//    public static KakaoUserDto of(UserDto userDto) {
+//        KakaoUserDto kakaoUserDto = new KakaoUserDto();
+//        kakaoUserDto.setId(userDto.getUserId());
+//        kakaoUserDto.setConnectedAt(userDto.getJoinDate());
+//    }
 
     @Setter
     @Getter
