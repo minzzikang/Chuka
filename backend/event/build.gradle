@@ -70,6 +70,17 @@ dependencies {
 //	implementation group: 'com.github.f4b6a3', name: 'tsid-creator', version: '5.2.6'
 	// ulid
 	implementation group: 'com.github.f4b6a3', name: 'ulid-creator', version: '5.2.3'
+	//Amazon S3 - 클라우드 스토리지 사용
+	implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
+
+	//FilenameUtils
+	implementation 'commons-io:commons-io:2.15.1'
+
+	//ImageMetadataReader -Image EXIF
+	implementation 'com.drewnoakes:metadata-extractor:2.18.0'
+
+	//Scalr -Image rotation
+	implementation 'org.imgscalr:imgscalr-lib:4.2'
 }
 
 dependencyManagement {
