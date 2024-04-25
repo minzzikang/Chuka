@@ -1,17 +1,17 @@
 import { useState } from "react";
 import present from "/img/img_present_funding.png";
 import RecCard from "@common/RecCard";
-import * as F from "@pages/funding/FundingRegPage.styled";
+import * as F from "@/components/funding/FundingLink/FundingLink.styled";
 import Header from "@common/header";
 import { useNavigate } from "react-router-dom";
 
-const FundingRegPage = () => {
+const index = () => {
   const [productLink, setProductLink] = useState("");
-	const navigate = useNavigate()
+  const navigate = useNavigate();
 
-	const handleClick = () => {
-		navigate('/celebrate/funding-info/', { state: {productLink} })
-	}
+  const handleClick = () => {
+    navigate("/celebrate/funding-info/", { state: { productLink } });
+  };
 
   return (
     <>
@@ -29,6 +29,7 @@ const FundingRegPage = () => {
             onChange={(e) => setProductLink(e.target.value)}
           />
           <F.Button onClick={handleClick}>다음</F.Button>
+
           <div style={{ marginTop: "20px" }}></div>
           <F.Text>ㅊㅋ 추천 선물</F.Text>
           <F.Carousel>
@@ -49,4 +50,4 @@ const FundingRegPage = () => {
   );
 };
 
-export default FundingRegPage;
+export default index;
