@@ -61,14 +61,21 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event editEvent(EditEventDto eventDto, int eventId, String userId) {
+    public Event editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
         log.info("editEvent start: {}", eventDto);
         Event event = eventRepository.findByEventId(eventId);
         event.setDate(eventDto.getDate());
         event.setTitle(eventDto.getTitle());
         event.setVisibility(eventDto.getVisibility());
+        if (event.getBanner() != null) {
+            fileService.deleteBannerImageOnAmazonS3(eventId);
+        }
         // TODO: 대표이미지
-
+        if (eventDto.getBannerImage() != null) {
+            String[] bannerPath = fileService.uploadBannerImageToAmazonS3(eventDto.getBannerImage());
+            event.setBanner(bannerPath[0]);
+            event.setBannerThumbnail(bannerPath[1]);
+        }
         return eventRepository.save(event);
     }
 
