@@ -68,6 +68,7 @@ public class EventServiceImpl implements EventService {
         event.setTitle(eventDto.getTitle());
         event.setVisibility(eventDto.getVisibility());
         // TODO: 대표이미지
+
         return eventRepository.save(event);
     }
 
@@ -88,9 +89,9 @@ public class EventServiceImpl implements EventService {
         if (count > 0) {
             throw new UnsupportedOperationException();
         }
-        
-        
+
         // 삭제
+        fileService.deleteBannerImageOnAmazonS3(eventId);
         eventRepository.delete(event);
     }
 
