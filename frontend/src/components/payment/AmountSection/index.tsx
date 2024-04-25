@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { ChangeEvent, useState } from "react";
 import * as A from "@components/payment/AmountSection/AmountSection.styled";
 import { AmountSectionType } from "@/types/fundingType";
 

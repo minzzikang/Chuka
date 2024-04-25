@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import styled from "styled-components";
+import { MessageSectionType } from "@/types/fundingType";
 
 export const Container = styled.div`
   display: flex;
@@ -37,10 +38,11 @@ export const Textarea = styled.textarea`
   padding-left: 10px;
 `;
 
-const index = () => {
 
-    const [nickname, setNickname] = useState("")
-    const [comment, setComment] = useState("")
+
+const index = (props:MessageSectionType) => {
+
+  const {nickname, setNickname, comment, setComment} = props
 
   return (
   <Container>

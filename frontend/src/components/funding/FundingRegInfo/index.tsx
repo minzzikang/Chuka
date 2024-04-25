@@ -2,12 +2,12 @@ import { useState } from "react";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
 import { useLocation } from "react-router-dom";
-import * as F from "@/pages/celebration/funding/FundingRegInfoPage.styled";
+import * as F from "@components/funding/FundingRegInfo/FundingRegInfo.styled";
 import RModal from "@common/responsiveModal";
 import AddressInput from "@/components/addressInput";
-import PresentOpen from "@/components/funding/PresentOpen";
+import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 
-const FundingRegInfoPage = () => {
+const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
 
@@ -177,7 +177,7 @@ const FundingRegInfoPage = () => {
           {isRegOpen && (
             <RModal
               name={"펀딩 등록 신청 완료"}
-              children={<PresentOpen />}
+              children={<FundingRegDoneModal />}
               onClose={() => setIsRegOpen(false)}
             />
           )}
@@ -187,4 +187,4 @@ const FundingRegInfoPage = () => {
   );
 };
 
-export default FundingRegInfoPage;
+export default index;
