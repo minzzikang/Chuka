@@ -4,65 +4,60 @@ import FileInput from "@components/fileInput";
 import Label from "@common/label";
 import Button from "@common/button";
 import Calendar from "@components/calendar";
-import { MdCake, MdFavorite } from "react-icons/md";
-import { RiGraduationCapFill, RiMedal2Fill } from "react-icons/ri";
-import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
-import { useState } from "react";
+import TypeSection from "./TypeSection";
+import { SetStateAction, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
 
-interface CelebrationValues {
+interface CelebrationProps {
+  type: string;
   title: string;
   date: string;
-  file: File | null;
-  fileURL: string | null;
+  banner: File | null;
+  banner_thumbnail: string | null;
+  theme: string;
+  visibility: boolean;
+  create_time: string;
 }
 
 const Index = () => {
   const navigate = useNavigate();
-  const [values, setValues] = useState<CelebrationValues>({
+  const [regData, setRegData] = useState<CelebrationProps>({
+    type: "", // 이벤트 종류
     title: "",
     date: "",
-    file: null,
-    fileURL: null,
+    banner: null, // 대표 이미지
+    banner_thumbnail: null,
+    theme: "", // 롤링페이퍼 배경
+    visibility: true, // 노출 여부
+    create_time: "",
   });
 
-  const categoryList: string[] = [
-    "생일",
-    "입학/졸업",
-    "승진",
-    "스승의날",
-    "결혼",
-    "기타",
-  ];
+  const [type, setType] = useState("생일");
 
   const themeList: string[] = ["cork_board", "black_board"];
-
   const isPublic: string[] = ["public", "private"];
 
-  const [targetCategory, setTargetCategory] = useState("생일");
   const [targetTheme, setTargetTheme] = useState("cork_board");
   const [targetIsPublic, setTargetIsPublic] = useState("public");
 
   const handleTitle = (value: string) => {
-    setValues((prev) => ({ ...prev, title: value }));
+    setRegData((prev) => ({ ...prev, title: value }));
   };
 
   const handleDateChange = (selectedDate: Date) => {
-    setValues((prev) => ({
+    setRegData((prev) => ({
       ...prev,
       date: selectedDate.toISOString(),
     }));
   };
 
-  const handleFileChange = (file: File | null, fileURL: string | null) => {
-    setValues((prev) => ({ ...prev, file, fileURL }));
-  };
-
-  const onClickCategory = (category: string) => {
-    console.log(category);
-    setTargetCategory(category);
+  const handleFileChange = (
+    banner: File | null,
+    banner_thumbnail: string | null
+  ) => {
+    setRegData((prev) => ({ ...prev, banner, banner_thumbnail }));
   };
 
   const onClickTheme = (theme: string) => {
@@ -79,60 +74,13 @@ const Index = () => {
     navigate("/celebrate/rolling");
   };
 
-
   return (
     <c.Container>
-      <c.InputWrap>
-        <Label htmlFor="category" children="ㅊㅋ 종류" />
-        <c.Wrap>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[0])}
-            $active={targetCategory === categoryList[0]}
-          >
-            <MdCake />
-            {categoryList[0]}
-          </c.Button>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[1])}
-            $active={targetCategory === categoryList[1]}
-          >
-            <RiGraduationCapFill />
-            {categoryList[1]}
-          </c.Button>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[2])}
-            $active={targetCategory === categoryList[2]}
-          >
-            <RiMedal2Fill />
-            {categoryList[2]}
-          </c.Button>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[3])}
-            $active={targetCategory === categoryList[3]}
-          >
-            <PiFlowerLotusThin />
-            {categoryList[3]}
-          </c.Button>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[4])}
-            $active={targetCategory === categoryList[4]}
-          >
-            <MdFavorite />
-            {categoryList[4]}
-          </c.Button>
-          <c.Button
-            onClick={() => onClickCategory(categoryList[5])}
-            $active={targetCategory === categoryList[5]}
-          >
-            <PiDotsThreeOutlineFill />
-            {categoryList[5]}
-          </c.Button>
-        </c.Wrap>
-      </c.InputWrap>
+      <TypeSection type={type} setType={setType} />
       <c.InputWrap>
         <Label htmlFor="title" children="ㅊㅋ 제목" />
         <Input
-          value={values.title}
+          value={regData.title}
           id="title"
           placeholder="축하하는 날의 이름을 적어주세요."
           onInputChange={handleTitle}
@@ -147,7 +95,9 @@ const Index = () => {
         <Label htmlFor="img" children="대표 이미지 설정" />
         <FileInput onChange={handleFileChange} />
       </c.InputWrap>
-      {values.fileURL && <c.ImgPreview src={values.fileURL} alt="preview" />}
+      {regData.banner_thumbnail && (
+        <c.ImgPreview src={regData.banner_thumbnail} alt="preview" />
+      )}
       <c.InputWrap>
         <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
         <c.ThemeWrap>
