@@ -48,11 +48,7 @@ const BottomWrap = styled.div`
 `;
 
 const PaymentPage = () => {
-  const [payData, setPayData] = useState<{
-    amount: number;
-    nickname: string;
-    comment: string;
-  }>({
+  const [payData, setPayData] = useState({
     amount: 0,
     nickname: "",
     comment: "",
