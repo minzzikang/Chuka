@@ -34,7 +34,7 @@ public class FundingListController {
         try{
             //log.debug(String.valueOf(eventId));
             List<Funding> tmp = fundingService.findFundings(eventId);
-            return ResponseEntity.status(HttpStatus.OK).body(eventId);
+            return ResponseEntity.status(HttpStatus.OK).body(null);
         } catch (Exception e){
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
