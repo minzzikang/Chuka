@@ -1,5 +1,8 @@
 package com.luckyseven.event.rollsheet.controller;
 
+import com.luckyseven.event.common.exception.BigFileException;
+import com.luckyseven.event.common.exception.EmptyFileException;
+import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
@@ -9,9 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -24,7 +30,7 @@ public class RollSheetController {
 
     private final RollSheetService rollSheetService;
 
-    @PostMapping("/{eventId}")
+    @PostMapping(value = "/{eventId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "롤링페이퍼 등록", description = "롤링페이퍼를 등록(생성)한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -33,7 +39,7 @@ public class RollSheetController {
     })
     public ResponseEntity<?> createRollSheet(
             @PathVariable("eventId") int eventId,
-            @RequestBody CreateRollSheetDto rollSheetDto,
+            @ModelAttribute CreateRollSheetDto rollSheetDto,
             @RequestHeader(name = "loggedInUser", required = false) String userId
     ) {
 
@@ -45,6 +51,18 @@ public class RollSheetController {
             }
 
             return ResponseEntity.status(200).body(rollSheet);
+        } catch (EmptyFileException e) {
+            //400
+            return ResponseEntity.status(400).body("파일이 비어있습니다.");
+        } catch (BigFileException e) {
+            //413
+            return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("업로드한 파일의 용량이 20MB 이상입니다.");
+        } catch (NotValidExtensionException e) {
+            //415
+            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
+        } catch (IOException e) {
+            //415
+            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (NoSuchElementException e) {
             log.error("존재하지 않는 이벤트");
             return ResponseEntity.status(404).body(null);

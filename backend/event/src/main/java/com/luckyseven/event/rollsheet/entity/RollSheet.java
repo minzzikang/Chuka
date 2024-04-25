@@ -23,6 +23,7 @@ public class RollSheet {
     private Font font;
     private String fontColor;
     private String backgroundImage;
+    private String backgroundImageThumbnail;
     private String nickname;
     private LocalDateTime createTime;
 }

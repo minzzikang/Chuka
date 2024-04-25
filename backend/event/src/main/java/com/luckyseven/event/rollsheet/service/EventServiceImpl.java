@@ -8,9 +8,8 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
-import com.luckyseven.event.rollsheet.entity.EventType;
-import com.luckyseven.event.rollsheet.entity.Theme;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.NoSuchElementException;
 
 @Slf4j
 @Service
@@ -29,6 +29,7 @@ public class EventServiceImpl implements EventService {
     private final FileService fileService;
 
     private final EventRepository eventRepository;
+    private final RollSheetRepository rollSheetRepository;
 
     @Override
     public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
@@ -60,14 +61,54 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event editEvent(EditEventDto eventDto, int eventId, String userId) {
+    public Event editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
         log.info("editEvent start: {}", eventDto);
         Event event = eventRepository.findByEventId(eventId);
         event.setDate(eventDto.getDate());
         event.setTitle(eventDto.getTitle());
         event.setVisibility(eventDto.getVisibility());
+        if (event.getBanner() != null) {
+            fileService.deleteBannerImageOnAmazonS3(eventId);
+        }
         // TODO: 대표이미지
+        if (eventDto.getBannerImage() != null) {
+            String[] bannerPath = fileService.uploadBannerImageToAmazonS3(eventDto.getBannerImage());
+            event.setBanner(bannerPath[0]);
+            event.setBannerThumbnail(bannerPath[1]);
+        }
         return eventRepository.save(event);
+    }
+
+    @Override
+    public void deleteEvent(int eventId) {
+        Event event = eventRepository.findByEventId(eventId);
+
+        if (event == null) {
+            throw new NoSuchElementException();
+        }
+
+        // 롤링페이퍼 1개 이상 작성되면 삭제 불가
+        int count = rollSheetRepository.countByEventId(eventId);
+        log.info("count: {}", count);
+        
+        // 펀딩이 모금되지 않은 상태이면 삭제 불가 
+
+        if (count > 0) {
+            throw new UnsupportedOperationException();
+        }
+
+        // 삭제
+        fileService.deleteBannerImageOnAmazonS3(eventId);
+        eventRepository.delete(event);
+    }
+
+    @Override
+    public boolean isMyEvent(int eventId, String userId) {
+        Event event = eventRepository.findByEventId(eventId);
+        if (event.getUserId().equals(userId)) {
+            return true;
+        }
+        return false;
     }
 
 
