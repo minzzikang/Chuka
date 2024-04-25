@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
 
@@ -33,7 +34,7 @@ public class CreateRollSheetDto {
     @Schema(description = "닉네임")
     private String nickname;
 
-//    @Schema(description = "배경사진")
-//    private String backgroundImage;
+    @Schema(description = "배경사진")
+    private MultipartFile backgroundImage;
 
 }

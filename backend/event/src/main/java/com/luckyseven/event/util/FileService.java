@@ -90,4 +90,5 @@ public class FileService {
         //5. Amazon S3의 파일 경로 리턴
         return new String[] {bannerFilePath, bannerThumbnailFilePath};
     }
+
 }
