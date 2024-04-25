@@ -70,7 +70,19 @@ public class RollSheetServiceImpl implements RollSheetService {
     }
 
     @Override
-    public void deleteByEventId(int eventId) {
+    public void deleteByRollSheetId(String rollSheetId) {
+        RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
+        fileService.deleteBackgroundImageOnAmazonS3(rollSheetId);
+        rollSheetRepository.delete(rollSheet);
+    }
+
+    @Override
+    public void deleteAllByEventId(int eventId) {
+        // 이미지 삭제
+        for (RollSheet rollSheet : rollSheetRepository.findByEventId(eventId)) {
+            fileService.deleteBackgroundImageOnAmazonS3(rollSheet.getRollSheetId());
+        }
+
         rollSheetRepository.deleteAllByEventId(eventId);
     }
 }

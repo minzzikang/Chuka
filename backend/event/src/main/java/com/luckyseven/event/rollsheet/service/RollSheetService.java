@@ -14,5 +14,6 @@ public interface RollSheetService {
 
      RollSheet  createRollSheet(CreateRollSheetDto rollSheetDto, String userId, int eventId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
      List<RollSheet> getRollSheetListWithEventId(int eventId) throws NoSuchElementException;
-     void deleteByEventId(int eventId);
+     void deleteByRollSheetId(String rollSheetId);
+     void deleteAllByEventId(int eventId);
 }
