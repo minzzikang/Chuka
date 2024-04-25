@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
-import Lottie from 'react-lottie'
+import Lottie from 'react-lottie';
 import presentOpen from 'assets/lottie/presentOpen.json'
 import { colors } from '@/styles/theme';
 import { useNavigate } from 'react-router-dom';

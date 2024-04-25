@@ -46,6 +46,28 @@ services:
       - "5000:5000"
     networks:
       - jenkins-network
+  user:
+    container_name: user
+    image: lifestooshort/luckyseven-user
+    build:
+      context: backend/user
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - jenkins-network
+  notification:
+    container_name: notification
+    image: lifestooshort/luckyseven-notification
+    build:
+      context: backend/notification
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8082:8082"
+    networks:
+      - jenkins-network
 networks:
   jenkins-network:
     external: true

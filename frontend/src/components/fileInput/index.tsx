@@ -48,7 +48,7 @@ const Index: React.FC<FileInputProps> = ({ onChange }) => {
         onChange={handleFileChange}
         accept="image/*"
       />
-      {selectedFile ? selectedFile.name : "축하하는 날을 대표하는 이미지를 등록해주세요. +"}
+      {selectedFile ? selectedFile.name : "축하할 날을 대표하는 이미지를 등록해주세요."}
     </FileInputContainer>
   );
 };

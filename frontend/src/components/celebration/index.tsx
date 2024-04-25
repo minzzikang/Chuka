@@ -8,6 +8,7 @@ import { MdCake, MdFavorite } from "react-icons/md";
 import { RiGraduationCapFill, RiMedal2Fill } from "react-icons/ri";
 import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
 
@@ -19,6 +20,7 @@ interface CelebrationValues {
 }
 
 const Index = () => {
+  const navigate = useNavigate();
   const [values, setValues] = useState<CelebrationValues>({
     title: "",
     date: "",
@@ -73,7 +75,11 @@ const Index = () => {
     setTargetIsPublic(isPublic);
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    navigate("/celebrate/rolling");
+  };
+
+
   return (
     <c.Container>
       <c.InputWrap>

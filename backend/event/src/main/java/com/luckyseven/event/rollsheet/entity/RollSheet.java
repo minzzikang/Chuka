@@ -1,51 +1,29 @@
 package com.luckyseven.event.rollsheet.entity;
 
-import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.OnDelete;
-import org.hibernate.annotations.OnDeleteAction;
+import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.Font;
+import com.luckyseven.event.rollsheet.entity.Shape;
+import lombok.Data;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
-@Entity
-@Getter
-@Setter
-@ToString
+@Data
+@Document(collection = "roll_sheet")
 public class RollSheet {
 
     @Id
-    private int rollSheetId;
-
-    @ManyToOne
-    @JoinColumn(name = "event_id", nullable = false)
-    @OnDelete(action = OnDeleteAction.CASCADE)
-    private Event event;
-
+    private String rollSheetId;
+    private Integer eventId;
     private String userId;
-
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
     private Shape shape;
-
-    @Column(length = 10)
     private String backgroundColor;
-
     private String content;
-
-    @Enumerated(EnumType.STRING)
     private Font font;
-
     private String fontColor;
-
     private String backgroundImage;
-
-    @Column(length = 15, nullable = false)
+    private String backgroundImageThumbnail;
     private String nickname;
-
-    @Column(nullable = false)
     private LocalDateTime createTime;
-
-
 }
