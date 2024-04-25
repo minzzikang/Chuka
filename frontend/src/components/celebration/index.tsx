@@ -1,14 +1,15 @@
 import * as c from "@components/celebration/Celebration.styled";
-import Input from "@common/input";
+
 import FileInput from "@components/fileInput";
 import Label from "@common/label";
 import Button from "@common/button";
 import Calendar from "@components/calendar";
 import TypeSection from "./TypeSection";
-import { SetStateAction, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
+import CelebrationInfoSection from "./CelebrationInfoSection";
 
 interface CelebrationProps {
   type: string;
@@ -34,15 +35,18 @@ const Index = () => {
     create_time: "",
   });
 
-  const [type, setType] = useState("생일");
+  const [isVisible, setIsVisible] = useState(true);
 
   const themeList: string[] = ["cork_board", "black_board"];
-  const isPublic: string[] = ["public", "private"];
 
   const [targetTheme, setTargetTheme] = useState("cork_board");
-  const [targetIsPublic, setTargetIsPublic] = useState("public");
+
+  const handleType = (newType: string) => {
+    setRegData((prev) => ({ ...prev, type: newType }));
+  };
 
   const handleTitle = (value: string) => {
+    console.log(regData);
     setRegData((prev) => ({ ...prev, title: value }));
   };
 
@@ -60,14 +64,16 @@ const Index = () => {
     setRegData((prev) => ({ ...prev, banner, banner_thumbnail }));
   };
 
+  const handleVisible = (value: boolean) => {
+    setRegData((prev) => ({
+      ...prev,
+      visibility: value,
+    }));
+  };
+
   const onClickTheme = (theme: string) => {
     console.log(theme);
     setTargetTheme(theme);
-  };
-
-  const onClickIsPublic = (isPublic: string) => {
-    console.log(isPublic);
-    setTargetIsPublic(isPublic);
   };
 
   const handleSubmit = () => {
@@ -76,16 +82,13 @@ const Index = () => {
 
   return (
     <c.Container>
-      <TypeSection type={type} setType={setType} />
-      <c.InputWrap>
-        <Label htmlFor="title" children="ㅊㅋ 제목" />
-        <Input
-          value={regData.title}
-          id="title"
-          placeholder="축하하는 날의 이름을 적어주세요."
-          onInputChange={handleTitle}
-        />
-      </c.InputWrap>
+      <TypeSection type={regData.type} handleType={handleType} />
+      <CelebrationInfoSection
+        isVisible={isVisible}
+        title={regData.title}
+        handleTitle={handleTitle}
+        handleVisible={handleVisible}
+      />
       <c.InputWrap>
         <Label htmlFor="date" children="ㅊㅋ 날짜" />
         <Calendar onDateChange={handleDateChange} />
@@ -116,23 +119,6 @@ const Index = () => {
             {"칠판"}
           </c.ThemeButton>
         </c.ThemeWrap>
-      </c.InputWrap>
-      <c.InputWrap>
-        <Label htmlFor="secret" children="ㅊㅋ 공개 여부" />
-        <c.PublicWrap>
-          <c.IsPublicButton
-            onClick={() => onClickIsPublic(isPublic[0])}
-            $active={targetIsPublic === isPublic[0]}
-          >
-            {"공개"}
-          </c.IsPublicButton>
-          <c.IsPublicButton
-            onClick={() => onClickIsPublic(isPublic[1])}
-            $active={targetIsPublic === isPublic[1]}
-          >
-            {"비공개"}
-          </c.IsPublicButton>
-        </c.PublicWrap>
       </c.InputWrap>
       <Button children="등록하기" onClick={handleSubmit} />
     </c.Container>

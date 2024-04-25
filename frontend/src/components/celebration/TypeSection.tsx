@@ -1,12 +1,22 @@
 import { MdCake, MdFavorite } from "react-icons/md";
 import { RiGraduationCapFill, RiMedal2Fill } from "react-icons/ri";
 import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
+
 import Label from "@common/label";
 import { RollingTypeSectionType } from "@/types/rollingType";
-import * as c from "@components/celebration/Celebration.styled";
+import * as t from "@components/celebration/TypeSection.styled";
+
+const typeMap: {[key: string]: string} = {
+  생일: "birthday",
+  "입학/졸업": "school_event",
+  승진: "promotion",
+  스승의날: "teachers_day",
+  결혼: "marriage",
+  기타: "etc",
+};
 
 const TypeSection = (props: RollingTypeSectionType) => {
-  const { type, setType } = props;
+  const { type, handleType } = props;
   const typeList: string[] = [
     "생일",
     "입학/졸업",
@@ -16,21 +26,21 @@ const TypeSection = (props: RollingTypeSectionType) => {
     "기타",
   ];
 
-  const onClickType = (selectType: string) => {
-    console.log(selectType);
-    setType(selectType);
+  const onClickType = (type: string) => {
+    const englishType = typeMap[type];
+    handleType(englishType);
   };
 
   return (
     <>
-      <c.InputWrap>
+      <t.Container>
         <Label htmlFor="type" children="ㅊㅋ 종류" />
-        <c.Wrap>
+        <t.Wrap>
           {typeList.map((item) => (
-            <c.Button
+            <t.Button
               key={item}
               onClick={() => onClickType(item)}
-              $active={type === item}
+              $active={type === typeMap[item]}
             >
               {item === "생일" ? (
                 <MdCake />
@@ -45,11 +55,11 @@ const TypeSection = (props: RollingTypeSectionType) => {
               ) : (
                 <PiDotsThreeOutlineFill />
               )}
-              {item}
-            </c.Button>
+              <span>{item}</span>
+            </t.Button>
           ))}
-        </c.Wrap>
-      </c.InputWrap>
+        </t.Wrap>
+      </t.Container>
     </>
   );
 };
