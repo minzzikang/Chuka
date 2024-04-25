@@ -1,6 +1,6 @@
 import { useState } from "react";
 import present from "/img/img_present_funding.png";
-import RecCard from "@common/RecCard";
+import RecCard from "@/common/RegCard";
 import * as F from "@/components/funding/FundingLink/FundingLink.styled";
 import Header from "@common/header";
 import { useNavigate } from "react-router-dom";

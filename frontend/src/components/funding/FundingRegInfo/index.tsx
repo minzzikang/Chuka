@@ -10,6 +10,8 @@ import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
+  const [postalCode, setPostalCode] = useState("");
+  const [address, setAddress] = useState("");
 
   const [regData, setRegData] = useState({
     product_link: productLink,
@@ -19,8 +21,8 @@ const index = () => {
     end_date: "",
     receiver_name: "",
     receiver_phone: "",
-    postal_code: "",
-    address: "",
+    postal_code: postalCode,
+    address: address,
     address_detail: "",
   });
 
@@ -28,6 +30,7 @@ const index = () => {
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
   const onRegister = async () => {
+    console.log(postalCode, setPostalCode);
     console.log(regData);
     // 새로운 모달 띄우기
     setIsRegOpen(true);
@@ -128,12 +131,12 @@ const index = () => {
           <div style={{ display: "flex", gap: "10px" }}>
             <F.SmallInput
               id="address"
-              value={regData.postal_code}
+              value={postalCode}
               placeholder="우편번호"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  postal_code: e.target.value,
+                  postal_code: postalCode,
                 }))
               }
             />
@@ -144,12 +147,12 @@ const index = () => {
 
           <F.Input
             id="address"
-            value={regData.address}
+            value={address}
             placeholder="주소를 입력해주세요"
             onChange={(e) =>
               setRegData((prevData) => ({
                 ...prevData,
-                address: e.target.value,
+                address: address,
               }))
             }
           />
@@ -169,7 +172,16 @@ const index = () => {
           {isAddressOpen && (
             <RModal
               name={"우편번호 검색"}
-              children={<AddressInput />}
+              children={
+                <AddressInput
+                  // postalCode={postalCode}
+                  setPostalCode={setPostalCode}
+                  // address={address}
+                  setAddress={setAddress}
+                  // isAddressOpen={isAddressOpen}
+                  setIsAddressOpen={setIsAddressOpen}
+                />
+              }
               onClose={() => setIsAddressOpen(false)}
             />
           )}
