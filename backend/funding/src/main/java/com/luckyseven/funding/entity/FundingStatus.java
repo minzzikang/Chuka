@@ -1,6 +1,7 @@
 package com.luckyseven.funding.entity;
 
-public enum fundingStatus {
+public enum FundingStatus {
     BEFORE,
-    AFTER
+    AFTER,
+    REJECT
 }
