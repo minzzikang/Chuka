@@ -7,7 +7,6 @@ import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
-import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.util.FileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -108,7 +107,7 @@ public class EventController {
         EventDto event = null;
         try {
             event = eventService.editEvent(eventDto, eventId, userId);
-        }  catch (EmptyFileException e) {
+        } catch (EmptyFileException e) {
             //400
             return ResponseEntity.status(400).body("파일이 비어있습니다.");
         } catch (BigFileException e) {
