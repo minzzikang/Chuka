@@ -24,7 +24,7 @@ const PaymentPage = () => {
     console.log(amount);
     console.log(nickname);
     console.log(comment);
-    navigate("/");
+    navigate("/done");
   };
 
   return (

@@ -1,63 +1,4 @@
-import React from "react";
-import styled from "styled-components";
-import { colors } from "@/styles/theme";
-
-const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 95px;
-
-  border-bottom: 2px solid #fff;
-  cursor: pointer;
-`;
-
-const Wrap = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 90%;
-`;
-
-const ImgWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 40px;
-  height: 40px;
-  border-radius: 6px;
-  background-color: #fff;
-`;
-
-const LeftWrap = styled.div`
-  display: flex;
-  gap: 10px;
-`;
-
-const TextWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 5px;
-`;
-
-const Comment = styled.div`
-  font-size: 14px;
-`;
-
-const Title = styled.div`
-  font-size: 10px;
-`;
-
-const Date = styled.div`
-  font-size: 10px;
-  color: ${colors.gray};
-`;
-
-const Delete = styled.div`
-  width: 18px;
-  height: 18px;
-`;
+import * as A from './AlarmListItem.styled'
 
 const AlarmListItem = () => {
   const onClick = () => {
@@ -100,23 +41,23 @@ const AlarmListItem = () => {
   };
 
   return (
-    <Container onClick={onClick}>
-      <Wrap>
-        <LeftWrap>
-          <ImgWrap>
+    <A.Container onClick={onClick}>
+      <A.Wrap>
+        <A.LeftWrap>
+          <A.ImgWrap>
             <img src="icon/icon_alarm_event.png" alt="" />
-          </ImgWrap>
-          <TextWrap>
-            <Comment>ㅊㅋ가 등록되었습니다</Comment>
-            <Title>이벤트 제목</Title>
-            <Date>2024.04.08 12:13</Date>
-          </TextWrap>
-        </LeftWrap>
-        <Delete>
+          </A.ImgWrap>
+          <A.TextWrap>
+            <A.Comment>ㅊㅋ가 등록되었습니다</A.Comment>
+            <A.Title>이벤트 제목</A.Title>
+            <A.Date>2024.04.08 12:13</A.Date>
+          </A.TextWrap>
+        </A.LeftWrap>
+        <A.Delete>
           <img src="icon/icon_trash.png" alt="" />
-        </Delete>
-      </Wrap>
-    </Container>
+        </A.Delete>
+      </A.Wrap>
+    </A.Container>
   );
 };
 

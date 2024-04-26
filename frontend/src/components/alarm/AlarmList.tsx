@@ -1,5 +1,3 @@
-import React from 'react';
-
 import styled from 'styled-components'; 
 import AlarmListItem from './AlarmListItem';
 
@@ -19,8 +17,7 @@ export const Container = styled.div`
     }
 `
 
-
-const index = () => {
+const AlarmList = () => {
     return (
         <Container>
             <AlarmListItem/>
@@ -29,4 +26,4 @@ const index = () => {
     );
 };
 
-export default index;
+export default AlarmList;
