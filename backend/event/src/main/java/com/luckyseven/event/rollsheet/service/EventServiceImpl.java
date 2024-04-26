@@ -42,7 +42,7 @@ public class EventServiceImpl implements EventService {
         log.info("bannerImage: {}", eventDto.getBannerImage());
         //Amazon S3에 배너 이미지 업로드 후 경로 저장
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadBannerImageToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }
@@ -54,14 +54,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public Event getEvent(int eventId) {
-        Event event = eventRepository.findByEventId(eventId);
+    public EventDto getEvent(int eventId) {
+        EventDto event = EventDto.of(eventRepository.findByEventId(eventId));
+
+        // 이미지 uri
+        if (event.getBanner() != null && event.getBannerThumbnail() != null) {
+            event.setBannerUrl(fileService.getImageUrl(event.getBanner()));
+            event.setBannerThumbnailUrl(fileService.getImageUrl(event.getBannerThumbnail()));
+        }
 
         return event;
     }
 
     @Override
-    public Event editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
+    public EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
         log.info("editEvent start: {}", eventDto);
         Event event = eventRepository.findByEventId(eventId);
         event.setDate(eventDto.getDate());
@@ -70,13 +76,20 @@ public class EventServiceImpl implements EventService {
         if (event.getBanner() != null) {
             fileService.deleteBannerImageOnAmazonS3(eventId);
         }
-        // TODO: 대표이미지
+
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadBannerImageToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }
-        return eventRepository.save(event);
+
+        EventDto result = EventDto.of(eventRepository.save(event));
+        if (result.getBanner() != null) {
+            result.setBannerUrl(fileService.getImageUrl(event.getBanner()));
+            result.setBannerThumbnailUrl(fileService.getImageUrl(event.getBannerThumbnail()));
+        }
+
+        return result;
     }
 
     @Override
@@ -90,8 +103,8 @@ public class EventServiceImpl implements EventService {
         // 롤링페이퍼 1개 이상 작성되면 삭제 불가
         int count = rollSheetRepository.countByEventId(eventId);
         log.info("count: {}", count);
-        
-        // 펀딩이 모금되지 않은 상태이면 삭제 불가 
+
+        // TODO: 펀딩이 모금되지 않은 상태이면 삭제 불가
 
         if (count > 0) {
             throw new UnsupportedOperationException();
@@ -110,6 +123,5 @@ public class EventServiceImpl implements EventService {
         }
         return false;
     }
-
 
 }

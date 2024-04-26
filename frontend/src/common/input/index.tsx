@@ -17,7 +17,7 @@ const Input = styled.input`
   width: ${(props) => (props.width ? props.width : "339px")};
   height: ${(props) => (props.height ? props.height : "36px")};
   border: 2px solid ${colors.gray};
-  font-size: 1em;
+  font-size: 0.9em;
   padding-left: 8px;
 `;
 

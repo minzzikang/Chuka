@@ -41,6 +41,12 @@ public class EventDto {
     @Schema(description = "이미지(썸네일)")
     private String bannerThumbnail;
 
+    @Schema(description = "이미지 url")
+    private String bannerUrl;
+
+    @Schema(description = "이미지(썸네일) url")
+    private String bannerThumbnailUrl;
+
     @Schema(description = "테마")
     private Theme theme;
 

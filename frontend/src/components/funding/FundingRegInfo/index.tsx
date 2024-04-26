@@ -2,13 +2,12 @@ import { useState } from "react";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
 import { useLocation } from "react-router-dom";
-import * as F from "@pages/funding/FundingRegInfoPage.styled"
-import RModal from "@common/responsiveModal"
-import AddressInput from "@/components/addressInput"
-import PresentOpen from "@/components/funding/PresentOpen";
+import * as F from "@components/funding/FundingRegInfo/FundingRegInfo.styled";
+import RModal from "@common/responsiveModal";
+import AddressInput from "@/components/addressInput";
+import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 
-
-const FundingRegInfoPage = () => {
+const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
 
@@ -25,15 +24,14 @@ const FundingRegInfoPage = () => {
     address_detail: "",
   });
 
-  const [isAddressOpen, setIsAddressOpen] = useState<boolean>(false)
-  const [isRegOpen, setIsRegOpen] = useState<boolean>(false)
-  
+  const [isAddressOpen, setIsAddressOpen] = useState<boolean>(false);
+  const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
   const onRegister = async () => {
-    console.log(regData)
+    console.log(regData);
     // 새로운 모달 띄우기
-    setIsRegOpen(true)
-  }
+    setIsRegOpen(true);
+  };
 
   return (
     <>
@@ -139,7 +137,9 @@ const FundingRegInfoPage = () => {
                 }))
               }
             />
-            <F.SmallBtn onClick={() => setIsAddressOpen(true)}>우편번호 검색</F.SmallBtn>
+            <F.SmallBtn onClick={() => setIsAddressOpen(true)}>
+              우편번호 검색
+            </F.SmallBtn>
           </div>
 
           <F.Input
@@ -165,18 +165,26 @@ const FundingRegInfoPage = () => {
             }
           />
           <F.LargeBtn onClick={onRegister}>펀딩 상품 등록</F.LargeBtn>
-          
-          { isAddressOpen &&
-          <RModal name={"우편번호 검색"} children={<AddressInput/>} onClose={() => setIsAddressOpen(false)} />
-          }
 
-          { isRegOpen &&
-            <RModal name={"펀딩 등록 신청 완료"} children={<PresentOpen/>} onClose={() => setIsRegOpen(false)} />
-          }
+          {isAddressOpen && (
+            <RModal
+              name={"우편번호 검색"}
+              children={<AddressInput />}
+              onClose={() => setIsAddressOpen(false)}
+            />
+          )}
+
+          {isRegOpen && (
+            <RModal
+              name={"펀딩 등록 신청 완료"}
+              children={<FundingRegDoneModal />}
+              onClose={() => setIsRegOpen(false)}
+            />
+          )}
         </F.Wrap>
       </F.Container>
     </>
   );
 };
 
-export default FundingRegInfoPage;
+export default index;
