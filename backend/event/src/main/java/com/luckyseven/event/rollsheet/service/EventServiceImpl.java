@@ -83,12 +83,20 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getPublicEvents(String order, boolean participant) {
-        return null;
+    public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
+        List<EventDto> events = eventQueryRepository.getPublicEvents(isAsc, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
     }
 
     @Override
-    public List<EventDto> getEventsUserParticipatedIn(String userId, boolean participant) {
+    public List<EventDto> getEventsUserParticipatedIn(String userId, boolean participant, int page, int pageSize) {
         return null;
     }
 

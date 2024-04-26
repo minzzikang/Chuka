@@ -8,7 +8,6 @@ import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
@@ -23,7 +22,8 @@ public class EventQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    OrderSpecifier<String> eventDateOrderSpecifier = Expressions.stringPath("event.date").desc();
+    OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
+    OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
 
     /**
      * 내가 생성한 이벤트 조회
@@ -54,11 +54,43 @@ public class EventQueryRepository {
         }
 
         List<EventDto> result = query
-                .orderBy(eventDateOrderSpecifier)
+                .orderBy(eventDateOrderSpecifierDesc)
                 .offset(pageSize * page)
                 .limit(pageSize)
                 .fetch();
 
         return result;
     }
+
+    public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
+        OrderSpecifier<String> orderSpecifier;
+        if (isAsc) {
+            orderSpecifier = eventDateOrderSpecifierAsc;
+        } else {
+            orderSpecifier = eventDateOrderSpecifierDesc;
+        }
+
+        List<EventDto> results = jpaQueryFactory.select(
+                        Projections.bean(EventDto.class,
+                                event.eventId,
+                                event.userId,
+                                event.pageUri,
+                                event.type,
+                                event.title,
+                                event.date,
+                                event.banner,
+                                event.bannerThumbnail,
+                                event.theme,
+                                event.visibility,
+                                event.createTime))
+                .from(event)
+                .where(event.visibility.eq(true))
+                .orderBy(orderSpecifier)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+
+        return results;
+    }
+
 }

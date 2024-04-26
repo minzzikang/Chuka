@@ -75,11 +75,20 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<?> getEvents(
-            @Parameter(description = "정렬조건", example = "latest || earliest") @RequestParam String order,
-            @Parameter(description = "participant", example = "true") @RequestParam boolean participant
+            @Parameter(description = "정렬조건: asc=true: 오래된순 asc=false: 최신순", example = "true") @RequestParam(required = false) boolean asc,
+            @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
+            @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
+        try{
+            List<EventDto> events = eventService.getPublicEvents(asc, page, size);
 
-        return ResponseEntity.status(200).body(null);
+            return ResponseEntity.status(200).body(events);
+        } catch (Exception e) {
+            log.error("[ERROR!] 이벤트 조회 오류 발생");
+            e.printStackTrace();
+
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @GetMapping("/me")
@@ -92,6 +101,7 @@ public class EventController {
             @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
+            @Parameter(description = "participant", example = "true") @RequestParam boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
         log.info("upcoming: {}", upcoming);
