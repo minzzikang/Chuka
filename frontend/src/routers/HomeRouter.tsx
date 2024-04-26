@@ -8,7 +8,7 @@ import FundingRegPage from "@/pages/celebration/funding/FundingLinkPage";
 import FundingRegInfoPage from "@/pages/celebration/funding/FundingInfoPage";
 import PaymentPage from "@/pages/celebration/funding/PaymentPage";
 import RollingMainPage from "@/pages/celebration/rolling/RollingMainPage";
-import RollingBackgroundPage from "@/pages/celebration/rolling/RollingBackgroundPage";
+import RollingBackgroundSelectPage from "@/pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone"
 
 const HomeRouter = () => {
@@ -18,7 +18,7 @@ const HomeRouter = () => {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/celebrate" element={<CelebrationPage />} />
       <Route path="/celebrate/rolling" element={<RollingMainPage />} />
-      <Route path="/celebrate/rolling-select" element={<RollingBackgroundPage />} />
+      <Route path="/celebrate/rolling-select" element={<RollingBackgroundSelectPage />} />
       <Route path="/celebrate/funding" element={<FundingRegPage/>} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage/>} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
