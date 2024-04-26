@@ -4,9 +4,9 @@ from utils.selectors import get_selectors
 
 app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
-@app_views.route('/crawlinghello', methods=['GET'])
+@app_views.route('/crawling/hello', methods=['GET'])
 def hello():
-    return jsonify({"message": "크롤링서버입니다"})
+    return jsonify({"message": "HELLO!! This is Crawling Server"})
 
 @app_views.route("/crawling", methods=["POST"])
 def extract_image():
