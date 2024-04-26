@@ -83,4 +83,20 @@ export const GlobalStyle = createGlobalStyle`
             font-weight: 500;
         }
     }
+
+    textarea {
+        font-size: 12px;
+        outline: none;
+        padding-top: 10px;
+        border-radius: 10px;
+        border-color: ${colors.inputGray};
+        &:focus {
+            border-color: ${colors.mainPink};
+            outline: none;
+        }
+        &::placeholder {
+            color: ${colors.gray};
+            font-weight: 500;
+        }
+    }
 `;

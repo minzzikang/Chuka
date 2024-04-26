@@ -7,7 +7,6 @@ import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
-import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.util.FileService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -71,12 +70,24 @@ public class EventController {
     @Operation(summary = "이벤트 정보 조회", description = "이벤트 정보를 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity<Event> getEvent(@PathVariable("eventId") int eventId) {
-        Event event = eventService.getEvent(eventId);
+    public ResponseEntity<EventDto> getEvent(@PathVariable("eventId") int eventId) {
+        try {
+            EventDto event = eventService.getEvent(eventId);
 
-        return ResponseEntity.status(200).body(event);
+            return ResponseEntity.status(200).body(event);
+        } catch (NullPointerException e) {
+            log.error("존재하지 않는 이벤트 조회");
+            return ResponseEntity.status(404).body(null);
+        } catch (Exception e) {
+            log.error("[Error]");
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.status(400).body(null);
     }
 
     @PutMapping(value = "/{eventId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -93,10 +104,10 @@ public class EventController {
             return ResponseEntity.status(403).body(null);
         }
 
-        Event event = null;
+        EventDto event = null;
         try {
             event = eventService.editEvent(eventDto, eventId, userId);
-        }  catch (EmptyFileException e) {
+        } catch (EmptyFileException e) {
             //400
             return ResponseEntity.status(400).body("파일이 비어있습니다.");
         } catch (BigFileException e) {
