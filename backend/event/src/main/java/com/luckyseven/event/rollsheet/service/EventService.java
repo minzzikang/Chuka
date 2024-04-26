@@ -10,11 +10,17 @@ import com.luckyseven.event.rollsheet.entity.Event;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
+import java.util.List;
 
 public interface EventService {
 
     EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
     EventDto getEvent(int eventId);
+
+    List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
+    List<EventDto> getPublicEvents(String order, boolean participant);
+    List<EventDto> getEventsUserParticipatedIn(String userId, boolean participant);
+
     EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException;
     void deleteEvent(int eventId) throws UnsupportedOperationException;
     boolean isMyEvent(int eventId, String userId);

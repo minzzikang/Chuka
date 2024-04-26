@@ -10,6 +10,7 @@ import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.util.FileService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -21,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -64,6 +66,38 @@ public class EventController {
         }
 
         return ResponseEntity.status(200).body(event);
+    }
+
+    @GetMapping("/")
+    @Operation(summary = "이벤트 조회", description = "이벤트 목록을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류"),
+    })
+    public ResponseEntity<?> getEvents(
+            @Parameter(description = "정렬조건", example = "latest || earliest") @RequestParam String order,
+            @Parameter(description = "participant", example = "true") @RequestParam boolean participant
+    ) {
+
+        return ResponseEntity.status(200).body(null);
+    }
+
+    @GetMapping("/me")
+    @Operation(summary = "내 이벤트 조회", description = "내 이벤트 목록을 조회한다. (이벤트 날짜 기준 내림차순")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류"),
+    })
+    public ResponseEntity<?> getMyEvents(
+            @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
+            @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
+            @Parameter(description = "페이지당 항목 수") @RequestParam int size,
+            @RequestHeader("loggedInUser") String userId
+    ) {
+        log.info("upcoming: {}", upcoming);
+        List<EventDto> results = eventService.getMyEvents(userId, page, size, upcoming);
+
+        return ResponseEntity.status(200).body(results);
     }
 
     @GetMapping("/{eventId}")

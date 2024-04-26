@@ -8,6 +8,7 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
@@ -18,6 +19,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -29,6 +31,7 @@ public class EventServiceImpl implements EventService {
     private final FileService fileService;
 
     private final EventRepository eventRepository;
+    private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
 
     @Override
@@ -64,6 +67,29 @@ public class EventServiceImpl implements EventService {
         }
 
         return event;
+    }
+
+    @Override
+    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming) {
+        List<EventDto> events = eventQueryRepository.getMyEvents(userId, page, pageSize, upcoming);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    @Override
+    public List<EventDto> getPublicEvents(String order, boolean participant) {
+        return null;
+    }
+
+    @Override
+    public List<EventDto> getEventsUserParticipatedIn(String userId, boolean participant) {
+        return null;
     }
 
     @Override
