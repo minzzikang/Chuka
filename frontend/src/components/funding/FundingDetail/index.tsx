@@ -1,4 +1,3 @@
-import React from "react";
 import FundingHeaderSection from "./Header";
 import FundingCrawlingSection from "./Crawling";
 import FundingMessageSection from "./Message";
@@ -11,7 +10,6 @@ const Container = styled.div`
   margin: auto auto;
 `;
 
-const Wrap = styled.div``;
 
 const Button = styled.button`
   width: 100%;
