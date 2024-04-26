@@ -10,6 +10,7 @@ import PaymentPage from "@/pages/celebration/funding/PaymentPage";
 import RollingMainPage from "@/pages/celebration/rolling/RollingMainPage";
 import RollingBackgroundSelectPage from "@/pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone"
+import FundingDetailPage from "@/pages/celebration/funding/FundingDetailPage";
 
 const HomeRouter = () => {
   return (
@@ -28,7 +29,7 @@ const HomeRouter = () => {
 
       
 
-
+      <Route path="/detail" element={<FundingDetailPage/>}/>
       <Route path="/done" element={<PaymentDone />} />
     </Routes>
   );

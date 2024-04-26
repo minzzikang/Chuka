@@ -24,6 +24,10 @@ public class JWTUtil {
                         Jwts.SIG.HS256.key().build().getAlgorithm());
     }
 
+    public void validateToken(final String token) {
+        Jwts.parser().verifyWith(secretKey).build().parseSignedClaims(token);
+    }
+
     /**
      * 토큰에서 카카오 아이디(식별자)를 추출하여 리턴한다.
      *

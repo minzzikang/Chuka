@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '@common/navbar'
-import AlarmList from '@/components/alarm';
+import AlarmList from '@/components/alarm/AlarmList';
 import Header from '@common/header'
 
 const AlarmPage = () => {
