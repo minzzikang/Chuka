@@ -10,6 +10,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -20,11 +21,8 @@ import java.time.LocalDateTime;
 @Schema(description = "이벤트 생성 Dto")
 public class CreateEventDto {
 
-    @Schema(description = "사용자 id")
-    private String userId;
-
     @Schema(description = "이벤트 종류")
-    private String type;
+    private EventType type;
 
     @Schema(description = "이벤트 제목")
     private String title;
@@ -32,13 +30,12 @@ public class CreateEventDto {
     @Schema(description = "이벤트 날짜")
     private LocalDate date;
 
-    @Schema(description = "이미지")
-    private String banner;
-
     @Schema(description = "테마")
-    private String theme;
+    private Theme theme;
 
     @Schema(description = "공개여부")
     private Boolean visibility;
 
+    @Schema(description = "배너 이미지 파일")
+    private MultipartFile bannerImage;
 }

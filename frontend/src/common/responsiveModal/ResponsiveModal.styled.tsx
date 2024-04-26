@@ -6,12 +6,12 @@ export const BlackBox = styled.div`
   position: fixed;
   top: 0;
   z-index: 100;
-  width: 100vw;
-  min-width: ${sizes.minWidth};
-  max-width: ${sizes.maxWidth};
+  width: 100%;
   height: 100dvh;
   background-color: #000;
   opacity: 0.3;
+  min-width: ${sizes.minWidth};
+  max-width: ${sizes.maxWidth};
   @media only screen and (min-width: 430px) {
     width: 430px;
   }

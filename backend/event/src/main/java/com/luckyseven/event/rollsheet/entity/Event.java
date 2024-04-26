@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
+import org.hibernate.annotations.DynamicUpdate;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -13,12 +14,15 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
+@DynamicUpdate
 @Table(indexes = @Index(name = "event_uri_idx", columnList = "page_uri", unique = true))
 public class Event {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int eventId;
 
+    @Column(nullable = false)
     private String userId;
 
     @Column(length = 26, nullable = false)
