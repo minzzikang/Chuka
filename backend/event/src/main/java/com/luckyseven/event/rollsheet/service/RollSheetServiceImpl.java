@@ -68,18 +68,6 @@ public class RollSheetServiceImpl implements RollSheetService {
         if (eventRepository.findByEventId(eventId) == null) {
             throw new NoSuchElementException();
         }
-        /*
-        List<RollSheetDto> results = new ArrayList<>();
-
-        List<RollSheet> rollSheets = rollSheetRepository.findByEventId(eventId);
-        for (RollSheet rollSheet : rollSheets) {
-            RollSheetDto tmp = RollSheetDto.of(rollSheet);
-            if (rollSheet.getBackgroundImage() != null) {
-                tmp.setBackgroundImageUrl(fileService.getImageUrl(rollSheet.getBackgroundImage()));
-                tmp.setBackgroundImageThumbnailUrl(fileService.getImageUrl(rollSheet.getBackgroundImageThumbnail()));
-            }
-            results.add(tmp);
-        }*/
 
         List<RollSheetDto> results = rollSheetRepository.findByEventId(eventId).stream()
                 .map(rollSheet -> {
@@ -95,6 +83,22 @@ public class RollSheetServiceImpl implements RollSheetService {
         log.info("rollSheets: {}", results);
 
         return results;
+    }
+
+    @Override
+    public RollSheetDto getRollSheet(String rollSheetId) throws NoSuchElementException {
+        RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
+        if (rollSheet == null) {
+            throw new NoSuchElementException();
+        }
+
+        RollSheetDto result = RollSheetDto.of(rollSheet);
+        if (rollSheet.getBackgroundImage() != null) {
+            result.setBackgroundImageUrl(fileService.getImageUrl(rollSheet.getBackgroundImage()));
+            result.setBackgroundImageThumbnailUrl(fileService.getImageUrl(rollSheet.getBackgroundImageThumbnail()));
+        }
+
+        return result;
     }
 
     @Override
