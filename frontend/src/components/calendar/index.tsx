@@ -35,9 +35,9 @@ const index: React.FC<CalendarProps> = ({ onDateChange }) => {
   const handleClose = () => setIsOpen(false);
 
   const handleChange = (date: Date | null) => {
-    setSelectedDate(date);
     if (date) {
       onDateChange(date);
+      setSelectedDate(date);
     }
     handleClose();
     console.log("날짜선택:", date);
