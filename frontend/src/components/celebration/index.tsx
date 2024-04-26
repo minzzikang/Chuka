@@ -1,13 +1,9 @@
 import * as c from "@components/celebration/Celebration.styled";
 
-import FileInput from "@components/fileInput";
-import Label from "@common/label";
 import Button from "@common/button";
 import TypeSection from "./TypeSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import CorkImg from "/img/img_rolling_theme_cork.jpg";
-import BoardImg from "/img/img_rolling_theme_board.jpg";
 import CelebrationInfoSection from "./CelebrationInfoSection";
 
 interface CelebrationProps {
@@ -33,12 +29,6 @@ const Index = () => {
     visibility: true, // 노출 여부
     create_time: "",
   });
-
-  const [isVisible, setIsVisible] = useState(true);
-
-  const themeList: string[] = ["cork_board", "black_board"];
-
-  const [targetTheme, setTargetTheme] = useState("cork_board");
 
   const handleType = (newType: string) => {
     setRegData((prev) => ({ ...prev, type: newType }));
@@ -70,9 +60,11 @@ const Index = () => {
     }));
   };
 
-  const onClickTheme = (theme: string) => {
-    console.log(theme);
-    setTargetTheme(theme);
+  const handleTheme = (theme: string) => {
+    setRegData((prev) => ({
+      ...prev,
+      theme: theme,
+    }));
   };
 
   const handleSubmit = () => {
@@ -83,38 +75,15 @@ const Index = () => {
     <c.Container>
       <TypeSection type={regData.type} handleType={handleType} />
       <CelebrationInfoSection
-        isVisible={isVisible}
+        isVisible={regData.visibility}
         title={regData.title}
         handleTitle={handleTitle}
         handleVisible={handleVisible}
         handleDateChange={handleDateChange}
+        handleFileChange={handleFileChange}
+        handleTheme={handleTheme}
+        theme={regData.theme}
       />
-      <c.InputWrap>
-        <Label htmlFor="img" children="대표 이미지 설정" />
-        <FileInput onChange={handleFileChange} />
-      </c.InputWrap>
-      {regData.banner_thumbnail && (
-        <c.ImgPreview src={regData.banner_thumbnail} alt="preview" />
-      )}
-      <c.InputWrap>
-        <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
-        <c.ThemeWrap>
-          <c.ThemeButton
-            onClick={() => onClickTheme(themeList[0])}
-            $active={targetTheme === themeList[0]}
-          >
-            <c.ThemeImg src={CorkImg} />
-            {"보드"}
-          </c.ThemeButton>
-          <c.ThemeButton
-            onClick={() => onClickTheme(themeList[1])}
-            $active={targetTheme === themeList[1]}
-          >
-            <c.ThemeImg src={BoardImg} />
-            {"칠판"}
-          </c.ThemeButton>
-        </c.ThemeWrap>
-      </c.InputWrap>
       <Button children="등록하기" onClick={handleSubmit} />
     </c.Container>
   );
