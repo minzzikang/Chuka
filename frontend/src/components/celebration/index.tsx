@@ -3,7 +3,6 @@ import * as c from "@components/celebration/Celebration.styled";
 import FileInput from "@components/fileInput";
 import Label from "@common/label";
 import Button from "@common/button";
-import Calendar from "@components/calendar";
 import TypeSection from "./TypeSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -46,7 +45,6 @@ const Index = () => {
   };
 
   const handleTitle = (value: string) => {
-    console.log(regData);
     setRegData((prev) => ({ ...prev, title: value }));
   };
 
@@ -65,6 +63,7 @@ const Index = () => {
   };
 
   const handleVisible = (value: boolean) => {
+    console.log(regData);
     setRegData((prev) => ({
       ...prev,
       visibility: value,
@@ -88,12 +87,8 @@ const Index = () => {
         title={regData.title}
         handleTitle={handleTitle}
         handleVisible={handleVisible}
+        handleDateChange={handleDateChange}
       />
-      <c.InputWrap>
-        <Label htmlFor="date" children="ㅊㅋ 날짜" />
-        <Calendar onDateChange={handleDateChange} />
-        <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
-      </c.InputWrap>
       <c.InputWrap>
         <Label htmlFor="img" children="대표 이미지 설정" />
         <FileInput onChange={handleFileChange} />

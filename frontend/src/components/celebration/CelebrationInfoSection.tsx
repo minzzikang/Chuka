@@ -1,10 +1,21 @@
 import Input from "@common/input";
 import Label from "@common/label";
+import Calendar from "@components/calendar";
 import { RollingInfoSectionType } from "@/types/rollingType";
 import * as c from "@components/celebration/CelebrationInfoSection.styled";
 
 const CelebrationInfoSection = (props: RollingInfoSectionType) => {
-  const { handleTitle, title, isVisible, handleVisible } = props;
+  const { 
+    handleTitle,
+    title,
+    isVisible,
+    handleVisible,
+    handleDateChange,
+   } = props;
+
+  const toggleButton = () => {
+    handleVisible(!isVisible)
+  }
 
   return (
     <c.Container>
@@ -17,12 +28,18 @@ const CelebrationInfoSection = (props: RollingInfoSectionType) => {
           onChange={(e) => handleTitle(e.target.value)}
         />
       </c.Wrap>
+        <Label htmlFor="date" children="ㅊㅋ 날짜" />
+        <Calendar onDateChange={handleDateChange} />
+      <c.Wrap>
+        <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
+      </c.Wrap>
       <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
       <c.Wrap>
-        <c.Button onClick={() => handleVisible(true)} $active={isVisible}>
+        {/* 버튼 클릭 시 ui 변경 안됨 */}
+        <c.Button onClick={toggleButton} $active={isVisible}>
           {"허용함"}
         </c.Button>
-        <c.Button onClick={() => handleVisible(false)} $active={!isVisible}>
+        <c.Button onClick={toggleButton} $active={!isVisible}>
           {"허용하지 않음"}
         </c.Button>
       </c.Wrap>

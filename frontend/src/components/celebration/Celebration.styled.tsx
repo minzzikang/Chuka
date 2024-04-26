@@ -33,13 +33,6 @@ export const InputWrap = styled.div`
   margin-bottom: 10px;
 `;
 
-export const P = styled.p`
-  color: ${colors.gray};
-  font-size: 12px;
-  margin-top: 5px;
-  margin-left: 5px;
-`;
-
 export const ImgPreview = styled.img`
   display: block;
   margin: 0 auto;

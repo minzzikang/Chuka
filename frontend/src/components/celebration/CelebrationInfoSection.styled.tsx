@@ -21,8 +21,8 @@ align-items: center;
 
 export const Wrap = styled.div`
     display: flex;
-    margin-bottom: 1em;
     margin-top: 0.3em;
+    margin-bottom: 0.5em;
 `
 
 export const Input = styled.input`
@@ -36,3 +36,10 @@ export const Input = styled.input`
     border-color: ${colors.mainPink};
   }
 `
+
+export const P = styled.p`
+  color: ${colors.gray};
+  font-size: 12px;
+  margin-top: 5px;
+  margin-left: 5px;
+`;
