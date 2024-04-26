@@ -31,6 +31,9 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final RollSheetRepository rollSheetRepository;
 
+    private final int BANNER_WIDTH = 1080;
+    private final int BANNER_HEIGHT = 220;
+
     @Override
     public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
         Event event = new Event();
@@ -39,10 +42,10 @@ public class EventServiceImpl implements EventService {
         event.setType(eventDto.getType());
         event.setTitle(eventDto.getTitle());
         event.setDate(eventDto.getDate());
-        log.info("bannerImage: {}", eventDto.getBannerImage());
+        log.info("bannerImage: {}", eventDto.getBannerImage()); //TODO: 삭제
         //Amazon S3에 배너 이미지 업로드 후 경로 저장
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage(), "banner", BANNER_WIDTH, BANNER_HEIGHT);
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }
@@ -78,7 +81,7 @@ public class EventServiceImpl implements EventService {
         }
 
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage(), "banner", BANNER_WIDTH, BANNER_HEIGHT);
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }

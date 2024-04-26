@@ -57,6 +57,8 @@ public class EventController {
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("업로드한 파일의 용량이 20MB 이상입니다.");
         } catch (NotValidExtensionException e) {
             //415
+            //TODO: 삭제
+            e.printStackTrace();
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (IOException e) {
             //415

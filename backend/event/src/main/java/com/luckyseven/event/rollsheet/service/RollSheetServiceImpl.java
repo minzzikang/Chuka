@@ -32,6 +32,9 @@ public class RollSheetServiceImpl implements RollSheetService {
 
     private final FileService fileService;
 
+    private final int ROLL_SHEET_IMAGE_WIDTH = 1080;
+    private final int ROLL_SHEET_IMAGE_HEIGHT = 2400;
+
     @Override
     public RollSheetDto createRollSheet(CreateRollSheetDto rollSheetDto, String userId, int eventId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
         if (eventRepository.findByEventId(eventId) == null) {
@@ -49,7 +52,7 @@ public class RollSheetServiceImpl implements RollSheetService {
         rollSheet.setCreateTime(LocalDateTime.now());
 
         if (rollSheetDto.getBackgroundImage() != null) {
-            String[] imagePath = fileService.uploadImageWithThumbnailToAmazonS3(rollSheetDto.getBackgroundImage());
+            String[] imagePath = fileService.uploadImageWithThumbnailToAmazonS3(rollSheetDto.getBackgroundImage(), "rollSheet", ROLL_SHEET_IMAGE_WIDTH, ROLL_SHEET_IMAGE_HEIGHT);
             rollSheet.setBackgroundImage(imagePath[0]);
             rollSheet.setBackgroundImageThumbnail(imagePath[1]);
         }

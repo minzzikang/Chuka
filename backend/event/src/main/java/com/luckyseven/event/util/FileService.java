@@ -11,6 +11,7 @@ import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -24,6 +25,7 @@ import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class FileService {
     @Autowired
     FileUtil fileUtil;
@@ -40,7 +42,7 @@ public class FileService {
     @Autowired
     private RollSheetRepository rollSheetRepository;
 
-    public String[] uploadImageWithThumbnailToAmazonS3(MultipartFile multipartFile) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
+    public String[] uploadImageWithThumbnailToAmazonS3(MultipartFile multipartFile, String postfix, int targetWidth, int targetHeight) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
         //1. 파일 유효성 검사
         //1-1. 업로드 한 파일이 비어있는지 확인
         if (multipartFile != null && multipartFile.isEmpty()) {
@@ -49,6 +51,7 @@ public class FileService {
 
         //1-2. 클라이언트가 업로드한 파일의 확장자 추출 (이미지 확장자인지 검사)
         String extension = FilenameUtils.getExtension(multipartFile.getOriginalFilename());
+        log.info("extension: {}", extension);
         if (!imageUtil.isValidBannerImageExtension(extension)) {
             throw new NotValidExtensionException();
         }
@@ -69,14 +72,16 @@ public class FileService {
         //2-1-1. UUID 생성 (같은 이름의 파일 업로드 충돌 방지)
         String uuid = UUID.randomUUID().toString();
 
-        String bannerFilePath = uuid + "_banner." + extension;
-        String bannerThumbnailFilePath = uuid + "_bannerThumbnail." + extension;
+//        String bannerFilePath = uuid + "_banner." + extension;
+//        String bannerThumbnailFilePath = uuid + "_bannerThumbnail." + extension;
+        String bannerFilePath = uuid + "_" + postfix + "." + extension;
+        String bannerThumbnailFilePath = uuid + "_" + postfix + "Thumbnail." + extension;
 
         // 2-2. 파일 객체 생성 (MultipartFile -> File) (썸네일 생성 및 Amazon S3 업로드 위함)
         bannerFile = fileUtil.multipartFile2File(multipartFile);
 
         //2-3. 가로 길이 최대 5300px, 세로 길이 최대 1080px인 썸네일 이미지 생성
-        File bannerThumbnailFile = imageUtil.createThumbnailImage(bannerFile, 1080, 220);
+        File bannerThumbnailFile = imageUtil.createThumbnailImage(bannerFile, targetWidth, targetHeight);
 
         //3. Amazon S3 파일 업로드
         //3-1. 원본 이미지 업로드
