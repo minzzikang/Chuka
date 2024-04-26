@@ -8,9 +8,11 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +36,7 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
+    private final JoinEventRepository joinEventRepository;
 
     @Override
     public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
@@ -105,11 +108,15 @@ public class EventServiceImpl implements EventService {
      */
     @Override
     public List<EventDto> getEventsUserParticipatedIn(String userId,  int page, int pageSize) {
+        List<EventDto> events = eventQueryRepository.getEventsUserParticipatedIn(userId, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
 
-        List<RollSheet> eventIdsByUserId = rollSheetRepository.findEventIdsByUserId(userId);
-        log.info("eventIdsByUserId: {}", eventIdsByUserId);
-
-        return null;
+        return events;
     }
 
     @Override

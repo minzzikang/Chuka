@@ -13,7 +13,4 @@ public interface RollSheetRepository extends MongoRepository<RollSheet, String> 
     int countByEventId(int eventId);
     void deleteAllByEventId(int eventId);
 
-    @Query(value = "{ 'userId' : ?0 }", fields = "{ 'eventId' : 1 }")
-    List<RollSheet> findEventIdsByUserId(String userId);
-
 }

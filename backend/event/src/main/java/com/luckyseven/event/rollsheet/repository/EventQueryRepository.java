@@ -14,6 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 import static com.luckyseven.event.rollsheet.entity.QEvent.event;
+import static com.luckyseven.event.rollsheet.entity.QJoinEvent.joinEvent;
 
 @Slf4j
 @Repository
@@ -27,8 +28,9 @@ public class EventQueryRepository {
 
     /**
      * 내가 생성한 이벤트 조회
-     * @param userId 유저 아이디
-     * @param page 볼 페이지
+     *
+     * @param userId   유저 아이디
+     * @param page     볼 페이지
      * @param pageSize 페이지당 항목 수
      * @return
      */
@@ -86,6 +88,32 @@ public class EventQueryRepository {
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(orderSpecifier)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+
+        return results;
+    }
+
+    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize) {
+        List<EventDto> results = jpaQueryFactory
+                .select(Projections.bean(EventDto.class,
+                        event.eventId,
+                        event.userId,
+                        event.pageUri,
+                        event.type,
+                        event.title,
+                        event.date,
+                        event.banner,
+                        event.bannerThumbnail,
+                        event.theme,
+                        event.visibility,
+                        event.createTime))
+                .from(event)
+                .rightJoin(joinEvent)
+                .on(event.eq(joinEvent.joinEventPK.event))
+                .where(joinEvent.joinEventPK.userId.eq(userId))
+                .orderBy(eventDateOrderSpecifierDesc)
                 .offset(pageSize * page)
                 .limit(pageSize)
                 .fetch();
