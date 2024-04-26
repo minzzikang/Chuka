@@ -1,8 +1,7 @@
 package com.luckyseven.notification.controller;
 
 import com.luckyseven.notification.documents.NotificationType;
-import com.luckyseven.notification.documents.Test;
-import com.luckyseven.notification.repository.NotificationRepository;
+
 import com.luckyseven.notification.service.NotificationService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
+
 
 @RequiredArgsConstructor
 @RestController
@@ -29,7 +27,7 @@ public class TestController {
         return ResponseEntity.ok().body("");
     }
 
-    @GetMapping("/1")
+    @GetMapping("")
     public ResponseEntity<?> test1(){
 
         return ResponseEntity.ok().body("connected");
