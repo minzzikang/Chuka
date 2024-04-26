@@ -1,4 +1,3 @@
-import React from "react";
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
@@ -9,11 +8,6 @@ export const Container = styled.div`
   align-items: center;
   gap: 10px;
 `;
-
-// export const Wrap = styled.div`
-//   display: flex;
-//   flex-direction: column;
-// `;
 
 export const TopWrap = styled.div`
   width: 100%;
@@ -38,9 +32,7 @@ export const CurrentAmount = styled.div<{ $percent: number }>`
 `;
 
 export const BottomWrap = styled.div`
-  display: flex;
-  justify-self: flex-end;
-  align-content: flex-end;
+  margin-left: auto;
   font-size: 1em;
   color: ${colors.black};
 `;
@@ -50,14 +42,14 @@ export const Title = styled.div`
   font-weight: 700;
 `;
 
-export const PinkText = styled.div`
-  font-size: 1em;
-  color: ${colors.mainPink};
-`;
-
-export const BlackText = styled.div`
+export const Text = styled.span`
   font-size: 1em;
   color: ${colors.black};
+`;
+
+export const HighLight = styled(Text)`
+  font-size: 1.1em;
+  color: ${colors.mainPink};
 `;
 
 export const Img = styled.img`
@@ -66,28 +58,3 @@ export const Img = styled.img`
   background-color: #fff;
   border-radius: 20%;
 `;
-
-
-const index = () => {
-  return (
-    <Container>
-      <PinkText>
-        {"작성자"}님의 {"04월 10일"} ㅊㅋ
-      </PinkText>
-      <Title>이벤트 타이틀</Title>
-      <Img src={"img/img_present_funding.png"} />
-      <TopWrap>
-          목표까지<PinkText>{125000}</PinkText>원 남았어요
-        <PinkText>{"D-20"}</PinkText>
-      </TopWrap>
-      <GoalAmount>
-        <CurrentAmount $percent={70}></CurrentAmount>
-      </GoalAmount>
-      <BottomWrap>
-      {480000}
-      </BottomWrap>
-    </Container>
-  );
-};
-
-export default index;

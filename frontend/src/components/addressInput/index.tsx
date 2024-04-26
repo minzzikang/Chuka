@@ -1,14 +1,10 @@
 import React, { Dispatch, SetStateAction, useState } from "react";
 import styled from "styled-components";
 import DaumPostcode from "react-daum-postcode";
-import { set } from "date-fns";
+import { RegDataType } from "../funding/FundingRegInfo";
 
 type AddressType = {
-//   postalCode: string;
-  setPostalCode: Dispatch<SetStateAction<string>>;
-//   address: string;
-  setAddress: Dispatch<SetStateAction<string>>;
-//   isAddressOpen: boolean
+  setValue: Dispatch<SetStateAction<RegDataType>>
   setIsAddressOpen: Dispatch<SetStateAction<boolean>>;
 };
 
@@ -19,12 +15,14 @@ const Container = styled.div`
 `;
 
 const index = (props: AddressType) => {
-  const { setPostalCode, setAddress,  setIsAddressOpen } = props;
-
+  const { setValue, setIsAddressOpen } = props;
 
   const onCompletePost = (data: any) => {
-    setPostalCode(data.zonecode);
-    setAddress(data.roadAddress);
+    setValue((prevData) => ({
+      ...prevData,
+      postal_code: data.zonecode,
+      address: data.roadAddress
+    })) 
     setIsAddressOpen(false)
   };
 

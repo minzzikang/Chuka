@@ -7,13 +7,24 @@ import RModal from "@common/responsiveModal";
 import AddressInput from "@/components/addressInput";
 import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 
+export type RegDataType = {
+  product_link: string;
+  introduce: string;
+  option: string;
+  goal_Amount: string | number;
+  end_date: string;
+  receiver_name: string;
+  receiver_phone: string;
+  postal_code: string;
+  address: string;
+  address_detail: string;
+};
+
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
-  const [postalCode, setPostalCode] = useState("");
-  const [address, setAddress] = useState("");
 
-  const [regData, setRegData] = useState({
+  const [regData, setRegData] = useState<RegDataType>({
     product_link: productLink,
     introduce: "",
     option: "",
@@ -21,8 +32,8 @@ const index = () => {
     end_date: "",
     receiver_name: "",
     receiver_phone: "",
-    postal_code: postalCode,
-    address: address,
+    postal_code: "",
+    address: "",
     address_detail: "",
   });
 
@@ -30,8 +41,10 @@ const index = () => {
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
   const onRegister = async () => {
-    console.log(postalCode, setPostalCode);
     console.log(regData);
+
+    // 목표금액 number로 바꾸기
+
     // 새로운 모달 띄우기
     setIsRegOpen(true);
   };
@@ -79,7 +92,7 @@ const index = () => {
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  goal_Amount: e.target.value,
+                  goal_Amount: Number(e.target.value),
                 }))
               }
             />
@@ -96,6 +109,7 @@ const index = () => {
                   end_date: e.target.value,
                 }))
               }
+              maxLength={8}
             />
           </F.Inner>
           <F.Inner>
@@ -131,14 +145,8 @@ const index = () => {
           <div style={{ display: "flex", gap: "10px" }}>
             <F.SmallInput
               id="address"
-              value={postalCode}
+              value={regData.postal_code}
               placeholder="우편번호"
-              onChange={(e) =>
-                setRegData((prevData) => ({
-                  ...prevData,
-                  postal_code: postalCode,
-                }))
-              }
             />
             <F.SmallBtn onClick={() => setIsAddressOpen(true)}>
               우편번호 검색
@@ -147,14 +155,8 @@ const index = () => {
 
           <F.Input
             id="address"
-            value={address}
+            value={regData.address}
             placeholder="주소를 입력해주세요"
-            onChange={(e) =>
-              setRegData((prevData) => ({
-                ...prevData,
-                address: address,
-              }))
-            }
           />
           <F.Input
             id="address"
@@ -172,26 +174,22 @@ const index = () => {
           {isAddressOpen && (
             <RModal
               name={"우편번호 검색"}
-              children={
-                <AddressInput
-                  // postalCode={postalCode}
-                  setPostalCode={setPostalCode}
-                  // address={address}
-                  setAddress={setAddress}
-                  // isAddressOpen={isAddressOpen}
-                  setIsAddressOpen={setIsAddressOpen}
-                />
-              }
               onClose={() => setIsAddressOpen(false)}
-            />
+            >
+              <AddressInput
+                setValue={setRegData}
+                setIsAddressOpen={setIsAddressOpen}
+              />
+            </RModal>
           )}
 
           {isRegOpen && (
             <RModal
               name={"펀딩 등록 신청 완료"}
-              children={<FundingRegDoneModal />}
               onClose={() => setIsRegOpen(false)}
-            />
+            >
+              <FundingRegDoneModal />
+            </RModal>
           )}
         </F.Wrap>
       </F.Container>
