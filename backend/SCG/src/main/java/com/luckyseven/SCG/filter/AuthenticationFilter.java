@@ -27,7 +27,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
-            System.out.println("===========================필터 적용=========================");
+//            System.out.println("===========================필터 적용=========================");
 
             ServerHttpRequest loggedInUser=null;
             if (validator.isSecured.test(exchange.getRequest())) {
