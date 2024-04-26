@@ -10,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-@Slf4j
+
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -26,8 +26,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Override
     public GatewayFilter apply(Config config) {
-        log.info("===========================필터 적용=========================");
         return ((exchange, chain) -> {
+            System.out.println("===========================필터 적용=========================");
+
             ServerHttpRequest loggedInUser=null;
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
