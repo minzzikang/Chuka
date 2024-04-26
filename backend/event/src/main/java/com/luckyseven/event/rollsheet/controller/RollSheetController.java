@@ -4,6 +4,7 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
+import com.luckyseven.event.rollsheet.dto.RollSheetDto;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,7 +45,7 @@ public class RollSheetController {
     ) {
 
         try {
-            RollSheet rollSheet = rollSheetService.createRollSheet(rollSheetDto, userId, eventId);
+            RollSheetDto rollSheet = rollSheetService.createRollSheet(rollSheetDto, userId, eventId);
 
             if (rollSheet == null) {
                 return ResponseEntity.status(400).body(null);
@@ -84,7 +85,7 @@ public class RollSheetController {
     public ResponseEntity<?> getRollSheets(@PathVariable("eventId") int eventId) {
 
         try {
-            List<RollSheet> results = rollSheetService.getRollSheetListWithEventId(eventId);
+            List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId);
 
             return ResponseEntity.status(200).body(results);
         } catch (NoSuchElementException e) {
