@@ -24,13 +24,13 @@ import java.util.NoSuchElementException;
 @Slf4j
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/events")
 @Tag(name = "RollSheet", description = "이벤트(롤링페이퍼) API")
 public class RollSheetController {
 
     private final RollSheetService rollSheetService;
 
-    @PostMapping(value = "/events/{eventId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(value = "/{eventId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "롤링페이퍼 등록", description = "롤링페이퍼를 등록(생성)한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -73,7 +73,7 @@ public class RollSheetController {
         return ResponseEntity.status(400).body(null);
     }
 
-    @GetMapping("/events/{eventId}/roll-sheets")
+    @GetMapping("/{eventId}/roll-sheets")
     @Operation(summary = "롤링페이퍼 목록 조회", description = "eventId에 해당하는 롤링페이퍼 목록을 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
