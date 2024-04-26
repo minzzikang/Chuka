@@ -181,7 +181,7 @@ const RollingMainPage = () => {
   };
 
   const handleAdd = () => {
-    navigate("/celebrate/rolling-background");
+    navigate("/celebrate/rolling-select");
   };
 
   const handleShare = () => {};

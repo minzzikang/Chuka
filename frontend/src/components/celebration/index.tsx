@@ -68,7 +68,7 @@ const Index = () => {
   };
 
   const handleSubmit = () => {
-    navigate("/celebrate/rolling");
+    navigate("/celebrate/rolling-select");
   };
 
   return (

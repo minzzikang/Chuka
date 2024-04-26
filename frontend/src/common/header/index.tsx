@@ -1,42 +1,26 @@
-import { colors } from "@/styles/theme";
-import styled from "styled-components";
-import { IoIosArrowBack } from "react-icons/io";
+import * as h from "@common/header/Header.styled";
 
 type HeaderType = {
   children: string;
+  onClick?: () => void;
+  label?: string;
 };
 
-const Wrapper = styled.div`
-  margin-top: 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-`;
-
-const Header = styled.span`
-  color: ${colors.black};
-  font-weight: 700;
-  flex-grow: 1;
-  text-align: center;
-`;
-
-const Icon = styled(IoIosArrowBack)`
-  font-size: 24px;
-  cursor: pointer;
-`;
-
-const index = (props: HeaderType) => {
-  const { children } = props;
+const index = ({ children, onClick, label }: HeaderType) => {
   const handleBack = () => {
     console.log("뒤로가기");
     window.history.back();
   };
 
+
   return (
-    <Wrapper>
-      <Icon onClick={handleBack} />
-      <Header>{children}</Header>
-    </Wrapper>
+    <h.Wrapper>
+      <h.Icon onClick={handleBack} />
+      <h.Header>{children}</h.Header>
+      {onClick && label && (
+        <h.TextButton onClick={onClick}>{label}</h.TextButton>
+      )}
+    </h.Wrapper>
   );
 };
 
