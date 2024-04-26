@@ -76,7 +76,7 @@ public class FileService {
         bannerFile = fileUtil.multipartFile2File(multipartFile);
 
         //2-3. 가로 길이 최대 5300px, 세로 길이 최대 1080px인 썸네일 이미지 생성
-        File bannerThumbnailFile = imageUtil.createThumbnailImage(bannerFile, 5300, 1080);
+        File bannerThumbnailFile = imageUtil.createThumbnailImage(bannerFile, 1080, 220);
 
         //3. Amazon S3 파일 업로드
         //3-1. 원본 이미지 업로드
