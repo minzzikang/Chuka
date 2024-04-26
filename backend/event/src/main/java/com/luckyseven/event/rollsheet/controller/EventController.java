@@ -104,8 +104,12 @@ public class EventController {
             @Parameter(description = "participant", example = "true") @RequestParam boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
-        log.info("upcoming: {}", upcoming);
-        List<EventDto> results = eventService.getMyEvents(userId, page, size, upcoming);
+        List<EventDto> results;
+        if (!participant) {
+            results = eventService.getMyEvents(userId, page, size, upcoming);
+        } else {
+            results = eventService.getEventsUserParticipatedIn(userId, page, size);
+        }
 
         return ResponseEntity.status(200).body(results);
     }

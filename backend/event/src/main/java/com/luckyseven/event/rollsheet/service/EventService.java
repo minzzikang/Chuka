@@ -19,7 +19,7 @@ public interface EventService {
 
     List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
     List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
-    List<EventDto> getEventsUserParticipatedIn(String userId, boolean participant, int page, int pageSize);
+    List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize);
 
     EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException;
     void deleteEvent(int eventId) throws UnsupportedOperationException;

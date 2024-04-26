@@ -5,8 +5,12 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
+import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEvent;
+import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import lombok.RequiredArgsConstructor;
@@ -29,14 +33,17 @@ public class RollSheetServiceImpl implements RollSheetService {
 
     private final EventRepository eventRepository;
     private final RollSheetRepository rollSheetRepository;
+    private final JoinEventRepository joinEventRepository;
 
     private final FileService fileService;
 
     @Override
     public RollSheetDto createRollSheet(CreateRollSheetDto rollSheetDto, String userId, int eventId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
-        if (eventRepository.findByEventId(eventId) == null) {
+        Event event = eventRepository.findByEventId(eventId);
+        if (event == null) {
             throw new NoSuchElementException();
         }
+
         RollSheet rollSheet = new RollSheet();
         rollSheet.setEventId(eventId);
         rollSheet.setUserId(userId);
@@ -58,6 +65,13 @@ public class RollSheetServiceImpl implements RollSheetService {
         if (result.getBackgroundImage() != null && result.getBackgroundImageThumbnail() != null) {
             result.setBackgroundImageUrl(fileService.getImageUrl(result.getBackgroundImage()));
             result.setBackgroundImageThumbnailUrl(fileService.getImageUrl(result.getBackgroundImageThumbnail()));
+        }
+
+        // joinEvent 등록
+        if (userId != null && !userId.equals("")) {
+            JoinEvent joinEvent = new JoinEvent();
+            joinEvent.setJoinEventPK(new JoinEventPk(event, userId));
+            joinEventRepository.save(joinEvent);
         }
 
         return result;
