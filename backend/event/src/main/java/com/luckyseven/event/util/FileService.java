@@ -19,35 +19,28 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
 public class FileService {
-    @Value("${spring.servlet.multipart.location}")
-    private String uploadPath;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    @Autowired
-    AmazonS3 amazonS3Client;
-
     @Autowired
     FileUtil fileUtil;
-
     @Autowired
     ImageUtil imageUtil;
-
+    @Autowired
+    AmazonS3 amazonS3Client;
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
     @Autowired
     private EventRepository eventRepository;
-
     @Autowired
     private RollSheetRepository rollSheetRepository;
 
-    public String[] uploadBannerImageToAmazonS3(MultipartFile multipartFile) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
+    public String[] uploadImageWithThumbnailToAmazonS3(MultipartFile multipartFile) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
         //1. 파일 유효성 검사
         //1-1. 업로드 한 파일이 비어있는지 확인
         if (multipartFile != null && multipartFile.isEmpty()) {
@@ -97,7 +90,7 @@ public class FileService {
         fileUtil.removeFile(bannerThumbnailFile);
 
         //5. Amazon S3의 파일 경로 리턴
-        return new String[] {bannerFilePath, bannerThumbnailFilePath};
+        return new String[]{bannerFilePath, bannerThumbnailFilePath};
     }
 
     public boolean deleteBannerImageOnAmazonS3(int eventId) {
@@ -142,6 +135,10 @@ public class FileService {
         }
 
         return false;
+    }
+
+    public String getImageUrl(String uploadPath) {
+        return amazonS3Client.getUrl(bucket, uploadPath).toString();
     }
 
 }
