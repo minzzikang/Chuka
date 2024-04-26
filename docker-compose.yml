@@ -72,7 +72,7 @@ services:
 
   funding:
     container_name: funding
-    image: lifestooshort/luckyseven-funding
+    image: taehopark/luckyseven-funding
     build:
       context: backend/funding
       dockerfile: Dockerfile
@@ -83,7 +83,7 @@ services:
       - jenkins-network
   event:
     container_name: event
-    image: lifestooshort/luckyseven-event
+    image: taehopark/luckyseven-event
     build:
       context: backend/event
       dockerfile: Dockerfile
@@ -95,7 +95,7 @@ services:
 
   crawling:
     container_name: crawling
-    image: lifestooshort/luckyseven-crawling
+    image: taehopark/luckyseven-crawling
     build:
       context: backend/crawling
       dockerfile: Dockerfile
