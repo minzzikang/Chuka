@@ -3,6 +3,8 @@ package com.luckyseven.user.auth.controller;
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import com.luckyseven.user.user.service.UserService;
+import com.luckyseven.user.util.jwt.JWTUtil;
+import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -16,7 +18,9 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.crypto.spec.SecretKeySpec;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController
@@ -27,10 +31,23 @@ public class AuthController {
 
     private final AuthService authService;
     private final UserService userService;
+    private final JWTUtil jwtUtil;
 
     @GetMapping("/test")
     public void test() {
         log.info("test!!!!!");
+    }
+    @GetMapping("/token/{token}")
+    public ResponseEntity<?> ttest(@PathVariable("token") String token) {
+        try {
+
+        log.info("token!!!!!");
+        jwtUtil.validateToken(token);
+            return ResponseEntity.ok().body("유효함");
+        }catch (Exception e){
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+
     }
 
     @GetMapping("/login")

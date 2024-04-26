@@ -1,6 +1,8 @@
 package com.luckyseven.SCG.filter;
 
 import com.luckyseven.SCG.util.JwtUtil;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -8,7 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
-
+@Slf4j
 @Component
 public class AuthenticationFilter extends AbstractGatewayFilterFactory<AuthenticationFilter.Config> {
 
@@ -24,6 +26,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Override
     public GatewayFilter apply(Config config) {
+        log.info("===========================필터 적용=========================");
         return ((exchange, chain) -> {
             ServerHttpRequest loggedInUser=null;
             if (validator.isSecured.test(exchange.getRequest())) {
