@@ -15,7 +15,7 @@ import java.util.Date;
 
 @RequiredArgsConstructor
 @RestController
-@RequestMapping("/test")
+@RequestMapping("api/v1/notifacation/test")
 public class TestController {
     private final NotificationService service;
     @GetMapping("/save")
@@ -27,5 +27,11 @@ public class TestController {
         service.sendNotification("Likpark", NotificationType.FUNDING_DISAPPROVED);
 
         return ResponseEntity.ok().body("");
+    }
+
+    @GetMapping("/1")
+    public ResponseEntity<?> test1(){
+
+        return ResponseEntity.ok().body("connected");
     }
 }
