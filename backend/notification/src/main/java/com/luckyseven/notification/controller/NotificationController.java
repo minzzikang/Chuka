@@ -24,7 +24,7 @@ public class NotificationController {
 
     @GetMapping("")
     public ResponseEntity<?> findAllNotificationsByUserId(@RequestHeader("loggedInUser") String userId) {
-//        log.info("userId : {}",userId);
+        log.info("------------------->> userId : {}",userId);
         try {
 
             List<Notification> notificationList = notificationService.findAllByUserId(userId);
