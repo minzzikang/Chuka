@@ -84,9 +84,15 @@ public class AuthController {
         } catch (HttpClientErrorException e) {
             log.error("KAKAO LOGIN FAILED");
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).headers(responseHeaders).body(null);
         }
 
     }
+
+
+
 
     @PostMapping("/reissue")
     @Operation(summary = "AccessToken 재발급", description = "RefreshToken으로 AccessToken을 재발급한다.")

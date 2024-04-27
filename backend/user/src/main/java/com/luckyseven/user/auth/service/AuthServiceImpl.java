@@ -35,7 +35,6 @@ public class AuthServiceImpl implements AuthService {
     private final JWTUtil jWTUtil;
     private final RedisService redisService;
     private final UserRepository userRepository;
-
     @Value("${kakao.api.rest.key}")
     private String apiKey;
 
