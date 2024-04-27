@@ -11,6 +11,7 @@ import RollingMainPage from "@/pages/celebration/rolling/RollingMainPage";
 import RollingBackgroundSelectPage from "@/pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone"
 import FundingDetailPage from "@/pages/celebration/funding/FundingDetailPage";
+import RollingWritePage from "@/pages/celebration/rolling/RollingWritePage";
 
 const HomeRouter = () => {
   return (
@@ -20,6 +21,7 @@ const HomeRouter = () => {
       <Route path="/celebrate" element={<CelebrationPage />} />
       <Route path="/celebrate/rolling" element={<RollingMainPage />} />
       <Route path="/celebrate/rolling-select" element={<RollingBackgroundSelectPage />} />
+      <Route path="/celebrate/rolling-write" element={<RollingWritePage />} />
       <Route path="/celebrate/funding" element={<FundingRegPage/>} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage/>} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />

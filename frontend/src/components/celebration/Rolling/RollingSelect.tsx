@@ -2,11 +2,15 @@ import Lable from "@common/label";
 import Recg from "/img/img_recgPaper.png";
 import Circle from "/img/img_circlePaper.png";
 import Heart from "/img/img_heartPaper.png";
-import { useState, useEffect, ChangeEvent, useRef } from "react";
 import { IoMdAdd } from "react-icons/io";
+
+import React, { useState, ChangeEvent, useRef, useEffect } from "react";
 import * as r from "@components/celebration/Rolling/RollingSelect.styled";
 import ColorSelectModal from "./ColorSelectModal";
 
+interface RollingSelectProps {
+  onDataChange: (data: any) => void;
+}
 
 const shapeMap: { [key: string]: string } = {
   사각형: "rectangle",
@@ -14,7 +18,7 @@ const shapeMap: { [key: string]: string } = {
   하트: "heart",
 };
 
-const RollingSelect: React.FC = () => {
+const RollingSelect: React.FC<RollingSelectProps> = ({ onDataChange }) => {
   const [regData, setRegData] = useState({
     shape: "",
     background_color: "",
@@ -22,13 +26,13 @@ const RollingSelect: React.FC = () => {
   });
 
   useEffect(() => {
-    console.log(regData);
-  }, [regData]);
+    console.log(regData)
+    onDataChange(regData);
+  }, [regData, onDataChange]);
 
   const [backgroundType, setBackgroundType] = useState<string>("");
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
-  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const shapeList: string[] = ["사각형", "원형", "하트"];
@@ -39,8 +43,6 @@ const RollingSelect: React.FC = () => {
     setRegData((prevData) => ({
       ...prevData,
       shape: englishShape,
-      background_color: "",
-      background_image: "",
     }));
   };
 
@@ -58,7 +60,6 @@ const RollingSelect: React.FC = () => {
 
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setImagePreviewUrl(fileURL);
 
       setRegData((prevData) => ({
         ...prevData,
@@ -66,8 +67,6 @@ const RollingSelect: React.FC = () => {
         background_color: "",
       }));
       setBackgroundType("img");
-    } else {
-      setImagePreviewUrl(null);
     }
   };
 
@@ -131,11 +130,10 @@ const RollingSelect: React.FC = () => {
           />
         )}
       </r.Wrap>
-      {imagePreviewUrl && (
-        <r.ImagePreview src={imagePreviewUrl} alt="Preview" />
+      {selectedFile && backgroundType === 'img' && (
+        <r.ImagePreview src={URL.createObjectURL(selectedFile)} alt="Preview" />
       )}
     </r.Container>
   );
 };
-
 export default RollingSelect;
