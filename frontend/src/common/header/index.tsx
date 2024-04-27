@@ -8,7 +8,6 @@ type HeaderType = {
 
 const index = ({ children, onClick, label }: HeaderType) => {
   const handleBack = () => {
-    console.log("뒤로가기");
     window.history.back();
   };
 

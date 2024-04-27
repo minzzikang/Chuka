@@ -22,14 +22,15 @@ export const BlackBox = styled.div`
 
 export const Container = styled.div`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
   position: fixed;
+  flex-direction: column;
+  align-items: center;
   border-radius: 1em;
   background-color: ${colors.white};
   width: 100%;
   height: auto;
+  bottom: 0;
+  z-index: 200;
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};
   @media only screen and (min-width: 430px) {
@@ -38,10 +39,6 @@ export const Container = styled.div`
   @media only screen and (min-width: 600px) {
     width: 375px;
   }
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 200;
 `;
 
 export const P = styled.p`
