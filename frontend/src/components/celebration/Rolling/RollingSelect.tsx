@@ -20,7 +20,7 @@ const shapeMap: { [key: string]: string } = {
 
 const RollingSelect: React.FC<RollingSelectProps> = ({ onDataChange }) => {
   const [regData, setRegData] = useState({
-    shape: "",
+    shape: "rectangle",
     background_color: "",
     background_image: "",
   });
