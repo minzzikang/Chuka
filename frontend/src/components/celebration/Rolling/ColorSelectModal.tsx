@@ -1,16 +1,16 @@
 import * as c from "./ColorSelectModal.styled";
 import { ModalType } from "@/types/commonType";
 import { useState } from "react";
+import ColorCard from "./ColorCard";
 
-
-
-const index = ({ name, children, onClose, onColorSelect }: ModalType) => {
+const index = ({ name, onClose, onSelectColor }: ModalType) => {
   const [selectedColor, setSelectedColor] = useState("");
 
   const handleCilck = () => {
-    if (onColorSelect) {
-      onColorSelect(selectedColor);
+    if (onSelectColor) {
+      onSelectColor(selectedColor);
     }
+    onClose();
   };
 
   return (
@@ -19,11 +19,9 @@ const index = ({ name, children, onClose, onColorSelect }: ModalType) => {
       <c.Container>
         <c.Wrap>
           <c.ModalName>{name}</c.ModalName>
-          {children}
+          <ColorCard onSelectColor={setSelectedColor} />
         </c.Wrap>
-        <c.Button onClick={() => onColorSelect && onColorSelect(selectedColor)}>
-          선택
-        </c.Button>
+        <c.Button onClick={handleCilck}>선택</c.Button>
         <c.Backdrop>
           <img
             src={"/icon/icon_close_black.png"}

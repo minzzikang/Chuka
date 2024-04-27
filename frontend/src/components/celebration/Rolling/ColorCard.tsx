@@ -1,24 +1,12 @@
-import styled from "styled-components";
+import React, { useState } from "react";
 import { colors } from "@/styles/theme";
-import { useState } from "react";
+import * as c from "./ColorCard.styled";
 
-const Container = styled.div`
-  display: flex;
-  padding: 10px;
-`;
+interface ColorCardProps {
+  onSelectColor: (color: string) => void;
+}
 
-const Card = styled.div<{ isSelected: boolean; color: string }>`
-  width: 60px;
-  height: 60px;
-  background-color: ${(props) => props.color};
-  margin: 5px;
-  border-radius: 1em;
-  box-shadow: 1px 0.5px 0 0 gray;
-  border: ${(props) => props.isSelected ? `2px solid ${colors.mainPink}` : 'none'};
-  cursor: pointer;
-`;
-
-const ColorCard = () => {
+const ColorCard: React.FC<ColorCardProps> = ({ onSelectColor }) => {
   const [selectedColor, setSelectedColor] = useState<string>("");
 
   const colorList = [
@@ -30,18 +18,19 @@ const ColorCard = () => {
   ];
 
   return (
-    <Container>
+    <c.Container>
       {colorList.map((color) => (
-        <Card
+        <c.Card
           key={color}
           color={color}
           isSelected={color === selectedColor}
           onClick={() => {
             setSelectedColor(color);
+            onSelectColor(color);
           }}
         />
       ))}
-    </Container>
+    </c.Container>
   );
 };
 
