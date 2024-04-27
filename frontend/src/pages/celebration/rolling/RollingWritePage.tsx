@@ -1,5 +1,5 @@
 import Navbar from "@common/navbar";
-import RollingWrite from "@/components/celebration/Rolling/RollingWrite";
+import RollingWrite from "@/components/celebration/Rolling/RollingRegInfo/RollingWrite";
 import { useState, useEffect } from "react";
 
 const RollingWritePage = () => {
@@ -15,10 +15,9 @@ const RollingWritePage = () => {
   useEffect(() => {
     // api 연결 로직 추가 예정
   }, [regData]);
-  
 
   const handleData = (data: any) => {
-    setRegData(data)
+    setRegData(data);
   };
 
   return (

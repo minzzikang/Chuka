@@ -1,15 +1,12 @@
 import Navbar from "@common/navbar";
+import RollingHeader from "@/components/celebration/Rolling/RollingMain/RollingHeader";
 import styled from "styled-components";
 import { colors, sizes } from "@styles/theme";
-import Logo from "/img/img_logo.png";
-import ShareIcon from "/icon/icon_share.png";
-import AddIcon from "/icon/icon_add_message.png";
-import TestImg from "/img/img_main_banner.png";
 import Theme from "/img/img_rolling_theme_cork.jpg";
-import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import Drawer from "@components/drawer";
-import { IoMdSettings } from "react-icons/io";
+import Banner from "@/components/celebration/Rolling/RollingMain/Banner";
+
 
 type ButtonProps = {
   isOpen: boolean;
@@ -47,43 +44,6 @@ export const Container = styled.div`
   position: relative;
 `;
 
-export const Header = styled.div`
-  display: flex;
-  margin-left: 10px;
-  width: 100%;
-  position: relative;
-`;
-
-export const BtnWrap = styled.div`
-  display: flex;
-  align-items: center;
-  margin-right: 20px;
-  cursor: pointer;
-`;
-
-export const IconWrap = styled.div`
-  display: flex;
-  position: absolute;
-  top: 20px;
-  right: 0;
-`;
-
-export const Icon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 3px;
-`;
-
-export const Img = styled.img`
-  width: 15%;
-  height: auto;
-`;
-
-export const Span = styled.span`
-  color: ${colors.mainPink};
-  font-weight: 500;
-`;
-
 export const P = styled.p`
   position: absolute;
   font-size: 20px;
@@ -96,54 +56,6 @@ export const P = styled.p`
   transform: translate(40%, 0);
   top: 25%;
   z-index: 10;
-`;
-
-export const BannerWrap = styled.div`
-  position: relative;
-`;
-
-export const Title = styled.p`
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  font-size: 20px;
-  color: ${colors.black};
-  text-shadow:
-    -0.5px 0px ${colors.white},
-    0px 0.5px ${colors.white},
-    0.5px 0px ${colors.white},
-    0px -0.5px ${colors.white};
-`;
-
-export const Name = styled.p`
-  position: absolute;
-  top: 50px;
-  left: 10px;
-  font-size: 16px;
-  color: ${colors.black};
-  text-shadow:
-    -0.5px 0px ${colors.white},
-    0px 0.5px ${colors.white},
-    0.5px 0px ${colors.white},
-    0px -0.5px ${colors.white};
-`;
-
-export const Dday = styled.p`
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  font-size: 26px;
-  color: ${colors.black};
-  text-shadow:
-    -0.5px 0px ${colors.white},
-    0px 0.5px ${colors.white},
-    0.5px 0px ${colors.white},
-    0px -0.5px ${colors.white};
-`;
-
-export const Banner = styled.img`
-  opacity: 0.5;
-  width: 100%;
 `;
 
 export const Paper = styled.div`
@@ -173,48 +85,18 @@ export const RollingTheme = styled.img`
 `;
 
 const RollingMainPage = () => {
-  const navigate = useNavigate();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   const toggleDrawer = () => {
     setDrawerOpen(!isDrawerOpen);
   };
 
-  const handleAdd = () => {
-    navigate("/celebrate/rolling-select");
-  };
-
-  const handleShare = () => {};
-
-  const handleModify = () => {
-    navigate("/celebrate")
-  };
 
   return (
     <>
       <Container>
-        <Header>
-          <Img src={Logo} alt="logo" />
-          <IconWrap>
-            <BtnWrap onClick={handleShare}>
-              <Icon src={ShareIcon} alt="share" />
-              <Span>공유하기</Span>
-            </BtnWrap>
-            <BtnWrap onClick={handleAdd}>
-              <Icon src={AddIcon} alt="add" />
-              <Span>작성하기</Span>
-            </BtnWrap>
-          </IconWrap>
-        </Header>
-        <BannerWrap>
-          <Banner src={TestImg} />
-          <Title>
-            이벤트 제목
-            <IoMdSettings onClick={handleModify}/>
-          </Title>
-          <Name>작성자 이름</Name>
-          <Dday>남은 날짜</Dday>
-        </BannerWrap>
+        <RollingHeader />
+        <Banner />
         <Paper>
           <P>롤링페이퍼를 작성해주세요.</P>
           <RollingTheme src={Theme} alt="theme"></RollingTheme>

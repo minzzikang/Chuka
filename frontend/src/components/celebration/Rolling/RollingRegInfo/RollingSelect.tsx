@@ -4,7 +4,7 @@ import Circle from "/img/img_circlePaper.png";
 import Heart from "/img/img_heartPaper.png";
 import { IoMdAdd } from "react-icons/io";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
-import * as r from "@components/celebration/Rolling/RollingSelect.styled";
+import * as r from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect.styled";
 import ColorSelectModal from "./ColorSelectModal";
 import Header from "@common/header";
 import { useNavigate } from "react-router-dom";
