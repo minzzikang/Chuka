@@ -1,4 +1,4 @@
-import RollingPreview from "@/components/celebration/Rolling/RollingPreview";
+import RollingPreview from "@/components/celebration/Rolling/RollingRegInfo/RollingPreview";
 import Navbar from "@common/navbar";
 import { useState, useEffect } from "react";
 

@@ -1,5 +1,5 @@
 import Navbar from "@common/navbar";
-import RollingSelect from "@/components/celebration/Rolling/RollingSelect";
+import RollingSelect from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect";
 import { useState, useEffect } from "react";
 
 const RollingBackgroundSelectPage = () => {
@@ -14,7 +14,7 @@ const RollingBackgroundSelectPage = () => {
   }, [regData]);
 
   const handleData = (data: any) => {
-    setRegData(data)
+    setRegData(data);
   };
 
   return (
