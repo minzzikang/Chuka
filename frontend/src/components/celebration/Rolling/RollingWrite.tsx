@@ -1,15 +1,36 @@
 import { colors } from "@styles/theme";
 import * as r from "./RollingWrite.styled";
-import React, { useState, useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import Header from "@common/header";
 
-const RollingWrite: React.FC = () => {
+interface RegDataProps {
+  shape: string;
+  background_color: string;
+  background_image: string;
+  font: string;
+  font_color: string;
+  content: string;
+}
+
+interface RollingWriteProps {
+    onUpdateData: (data: RegDataProps) => void;
+  }
+
+const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
+  const location = useLocation<{ regData: RegDataProps }>();
   const navigate = useNavigate();
-  const [regData, setRegData] = useState({
-    font: "",
-    font_color: "",
-    content: "",
-  });
+
+  const [regData, setRegData] = useState<RegDataProps>(
+    location.state?.regData || {
+      shape: "",
+      background_color: "",
+      background_image: "",
+      font: "",
+      font_color: "",
+      content: "",
+    }
+  );
 
   useEffect(() => {
     console.log(regData);
@@ -45,8 +66,14 @@ const RollingWrite: React.FC = () => {
     }));
   };
 
+  const handleSubmit = () => {
+    onUpdateData(regData);
+    navigate("/celebrate/rolling-preview", { state: { regData } });
+  };
+
   return (
     <>
+      <Header children="내용 작성하기" label="다음" onClick={handleSubmit} />
       <r.Container>
         <r.MessageBox
           id="content"

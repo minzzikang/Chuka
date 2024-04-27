@@ -1,12 +1,8 @@
 import Navbar from "@common/navbar";
-import Header from "@common/header";
-import { useNavigate } from "react-router-dom";
 import RollingSelect from "@/components/celebration/Rolling/RollingSelect";
 import { useState, useEffect } from "react";
 
 const RollingBackgroundSelectPage = () => {
-  const navigate = useNavigate();
-
   const [regData, setRegData] = useState({
     shape: "",
     background_color: "",
@@ -14,21 +10,16 @@ const RollingBackgroundSelectPage = () => {
   });
 
   useEffect(() => {
-    console.log(regData)
+    // api 연결 로직 추가 예정
   }, [regData]);
 
-  const goNext = () => {
-    navigate("/celebrate/rolling-write", { state: { regData } });
-  };
-
-  const handleRegData = (data: any) => {
-    setRegData(data);
+  const handleData = (data: any) => {
+    setRegData(data)
   };
 
   return (
     <>
-      <Header children="배경 선택하기" label="다음" onClick={goNext} />
-      <RollingSelect onDataChange={handleRegData} />
+      <RollingSelect onUpdateData={handleData} />
       <Navbar current="celebration" />
     </>
   );
