@@ -50,8 +50,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String getKakaoToken(String code) {
-        log.info("getToken start!!--");
-
         RestClient restClient = RestClient.create();
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
@@ -71,12 +69,10 @@ public class AuthServiceImpl implements AuthService {
                 .retrieve();
 
         ResponseEntity<?> responseEntity = response.toEntity(Object.class);
-
-        log.info("statusCode: {}", responseEntity.getStatusCode());
-
         Map<String, Object> map = (Map<String, Object>) responseEntity.getBody();
         String accessToken = (String) Objects.requireNonNull(map).get("access_token");
-        log.info("accessToken: {}", accessToken);
+
+        log.info("kakaoAccessToken: {}", accessToken);
 
         return accessToken;
     }
