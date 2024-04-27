@@ -61,8 +61,8 @@ public class EventController {
             //415
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (IOException e) {
-            //415
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
+            //500
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 IO 중 에러 발생");
         }
 
         return ResponseEntity.status(200).body(event);
