@@ -18,7 +18,7 @@ interface RollingWriteProps {
   }
 
 const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
-  const location = useLocation<{ regData: RegDataProps }>();
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [regData, setRegData] = useState<RegDataProps>(
