@@ -10,60 +10,35 @@ import Navbar from "@common/navbar"
 
 import RadioButton from "@/common/radioButton";
 import { MdCake } from "react-icons/md";
+import HomeIntro from '@components/home/HomeIntro'
+import HomeEventReg from '@components/home/HomeReg'
+import HomeEventList from '@components/home/HomeEventList'
+
 
 
 const Container = styled.div`
   display: flex;
-  width: 100%;
+  flex-direction: column;
+  margin: auto auto;
+  /* justify-content: center; */
+  align-items: center;
+  width: 90%;
   height: 100vh;
 `;
 
-const Wrap = styled.div`
-  display: flex;
-`;
+
 
 const HomePage = () => {
-  const [vvalue, setVvalue] = useState("");
-
-  const [modalOpen, setModalOpen] = useState<boolean>(false)
-
-  const handleChange = (value: string) => {
-    console.log(value);
-    setVvalue(value);
-  };
-
-  //라디오 버튼 테스트
-  const [value, setValue] = useState("");
-  const [selected, setSelected] = useState("");
-  const handleRadioChange = (value: string) => {
-    setSelected(value); // 라디오 버튼 선택값을 변경
-    console.log("버튼선택", value);
-  };
-
-
 
   return (
-    <div>
-      { modalOpen && (
-        <RModal name={"마이페이지"} children={<LoginPage/>} onClose={() => setModalOpen(false)} />
-      )}
+    <Container>
+    <HomeIntro/>
+    <HomeEventReg />
+    <br />
+    <HomeEventList />
 
-      <Label htmlFor={"id"}>사랑해요</Label>
-      <Input value={vvalue} id={"id"} placeholder={"아이디"} onInputChange={handleChange} onEnterKeyUp={handleChange} />
-      <Button children={"확인"} onClick={() => setModalOpen(true)}></Button>
-      <Navbar current="home"/>
-      
-      <RadioButton
-        value="option1"
-        checked={selected === "option1"}
-        onChange={() => handleRadioChange("option1")}
-      >
-        <div style={{ display: "flex", alignItems: "center" }}>
-          <MdCake />
-          <span>생일</span>
-        </div>
-      </RadioButton>
-    </div>
+    <Navbar current={"home"}/>
+    </Container>
   );
 };
 

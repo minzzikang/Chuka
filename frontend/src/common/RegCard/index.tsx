@@ -1,4 +1,4 @@
-import * as C from "@/common/RegCard/RegCard.styled";
+import * as C from "@/common/regCard/RegCard.styled";
 import { RecCardType } from "@/types/commonType";
 
 const index = (props: RecCardType) => {
