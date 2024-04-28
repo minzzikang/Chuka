@@ -67,10 +67,6 @@ const Index = () => {
     }));
   };
 
-  const handleSubmit = () => {
-    navigate("/celebrate/rolling");
-  };
-
   return (
     <c.Container>
       <TypeSection type={regData.type} handleType={handleType} />
@@ -84,7 +80,7 @@ const Index = () => {
         handleTheme={handleTheme}
         theme={regData.theme}
       />
-      <Button children="등록하기" onClick={handleSubmit} />
+      <Button children="등록하기" onClick={() => navigate("/celebrate/rolling")} />
     </c.Container>
   );
 };

@@ -10,7 +10,7 @@ const index = ({ name, children, onClose }: ModalType) => {
           <m.ModalName>{name}</m.ModalName>
           {children}
           <m.Backdrop>
-            <img src="/icon/icon_close.png" alt="" onClick={onClose} />
+            <img src="/icon/icon_close.png" alt="close" onClick={onClose} />
           </m.Backdrop>
         </m.Wrap>
       </m.Container>

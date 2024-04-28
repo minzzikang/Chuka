@@ -9,8 +9,9 @@
 
 export type ModalType = {
   name: string;
-  children: React.ReactNode;
+  children?: React.ReactNode;
   onClose: () => void;
+  onSelectColor?: (color: string) => void;
 };
 
 

@@ -1,6 +1,8 @@
 package com.luckyseven.SCG.filter;
 
 import com.luckyseven.SCG.util.JwtUtil;
+import lombok.extern.java.Log;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -25,6 +27,8 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
     @Override
     public GatewayFilter apply(Config config) {
         return ((exchange, chain) -> {
+//            System.out.println("===========================필터 적용=========================");
+
             ServerHttpRequest loggedInUser=null;
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not

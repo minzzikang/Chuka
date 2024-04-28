@@ -35,7 +35,6 @@ public class AuthServiceImpl implements AuthService {
     private final JWTUtil jWTUtil;
     private final RedisService redisService;
     private final UserRepository userRepository;
-
     @Value("${kakao.api.rest.key}")
     private String apiKey;
 
@@ -50,8 +49,6 @@ public class AuthServiceImpl implements AuthService {
 
     @Override
     public String getKakaoToken(String code) {
-        log.info("getToken start!!--");
-
         RestClient restClient = RestClient.create();
         MultiValueMap<String, String> requestBody = new LinkedMultiValueMap<>();
 
@@ -71,12 +68,10 @@ public class AuthServiceImpl implements AuthService {
                 .retrieve();
 
         ResponseEntity<?> responseEntity = response.toEntity(Object.class);
-
-        log.info("statusCode: {}", responseEntity.getStatusCode());
-
         Map<String, Object> map = (Map<String, Object>) responseEntity.getBody();
         String accessToken = (String) Objects.requireNonNull(map).get("access_token");
-        log.info("accessToken: {}", accessToken);
+
+        log.info("kakaoAccessToken: {}", accessToken);
 
         return accessToken;
     }
@@ -133,7 +128,7 @@ public class AuthServiceImpl implements AuthService {
         user.setJoinDate(LocalDateTime.now());
 //        user.setJoinDate(userDto.getConnectedAt());
 
-        return UserDto.of(userRepository.save(user));
+        return UserDto.of(userRepository.saveAndFlush(user));
     }
 
     public String issueAccessToken(KakaoUserDto userDto) {
