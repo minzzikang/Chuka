@@ -79,4 +79,16 @@
     url("../assets/fonts/Pretendard-Thin.woff") format("woff");
 }
 
+@font-face {
+  font-family: "Goocneaeum";
+  font-display: swap;
+  font-weight: normal;
+  src: local("Goocneaeum") url("../assets/fonts/Goocneaeum.woff") format("woff");
+}
 
+@font-face {
+  font-family: "Treegarden";
+  src: local("Treegarden") url("../assets/fonts/Treegarden.woff") format("woff");
+  font-weight: normal;
+  font-display: swap;
+}

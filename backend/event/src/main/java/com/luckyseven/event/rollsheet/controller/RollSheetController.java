@@ -4,7 +4,7 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
-import com.luckyseven.event.rollsheet.entity.RollSheet;
+import com.luckyseven.event.rollsheet.dto.RollSheetDto;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -44,7 +44,7 @@ public class RollSheetController {
     ) {
 
         try {
-            RollSheet rollSheet = rollSheetService.createRollSheet(rollSheetDto, userId, eventId);
+            RollSheetDto rollSheet = rollSheetService.createRollSheet(rollSheetDto, userId, eventId);
 
             if (rollSheet == null) {
                 return ResponseEntity.status(400).body(null);
@@ -73,7 +73,7 @@ public class RollSheetController {
         return ResponseEntity.status(400).body(null);
     }
 
-    @GetMapping("/events/{eventId}/roll-sheets")
+    @GetMapping("/{eventId}/roll-sheets")
     @Operation(summary = "롤링페이퍼 목록 조회", description = "eventId에 해당하는 롤링페이퍼 목록을 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -84,7 +84,7 @@ public class RollSheetController {
     public ResponseEntity<?> getRollSheets(@PathVariable("eventId") int eventId) {
 
         try {
-            List<RollSheet> results = rollSheetService.getRollSheetListWithEventId(eventId);
+            List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId);
 
             return ResponseEntity.status(200).body(results);
         } catch (NoSuchElementException e) {
@@ -94,4 +94,27 @@ public class RollSheetController {
             return ResponseEntity.status(400).body(null);
         }
     }
+
+    @GetMapping("/roll-sheets/{rollSheetId}")
+    @Operation(summary = "롤링페이퍼 단건 조회", description = "rollSheetId에 해당하는 롤링페이퍼를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "200", description = "실패"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> getRollSheet(@PathVariable("rollSheetId") String rollSheetId) {
+
+        try {
+            RollSheetDto result = rollSheetService.getRollSheet(rollSheetId);
+
+            return ResponseEntity.status(200).body(result);
+        } catch (NoSuchElementException e) {
+            log.error("존재하지 않는 이벤트");
+            return ResponseEntity.status(404).body(null);
+        } catch (Exception e) {
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
 }

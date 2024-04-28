@@ -11,6 +11,7 @@ import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -19,35 +20,29 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.UUID;
 
 @Service
+@Slf4j
 public class FileService {
-    @Value("${spring.servlet.multipart.location}")
-    private String uploadPath;
-
-    @Value("${cloud.aws.s3.bucket}")
-    private String bucket;
-
-    @Autowired
-    AmazonS3 amazonS3Client;
-
     @Autowired
     FileUtil fileUtil;
-
     @Autowired
     ImageUtil imageUtil;
-
+    @Autowired
+    AmazonS3 amazonS3Client;
+    @Value("${spring.servlet.multipart.location}")
+    private String uploadPath;
+    @Value("${cloud.aws.s3.bucket}")
+    private String bucket;
     @Autowired
     private EventRepository eventRepository;
-
     @Autowired
     private RollSheetRepository rollSheetRepository;
 
-    public String[] uploadBannerImageToAmazonS3(MultipartFile multipartFile) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
+    public String[] uploadImageWithThumbnailToAmazonS3(MultipartFile multipartFile, String postfix, int targetWidth, int targetHeight) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
         //1. 파일 유효성 검사
         //1-1. 업로드 한 파일이 비어있는지 확인
         if (multipartFile != null && multipartFile.isEmpty()) {
@@ -66,7 +61,7 @@ public class FileService {
         }
 
         //2. File 객체 생성
-        File bannerFile = null;
+        File imageFile = null;
 
         //2-1. 파일 명 결정
         //application.properties 파일에 저장된 ${spring.servlet.multipart.location} 값 불러옴 (Amazon S3에 저장할 디렉토리 경로) 예: chuka/upload/
@@ -76,28 +71,30 @@ public class FileService {
         //2-1-1. UUID 생성 (같은 이름의 파일 업로드 충돌 방지)
         String uuid = UUID.randomUUID().toString();
 
-        String bannerFilePath = uuid + "_banner." + extension;
-        String bannerThumbnailFilePath = uuid + "_bannerThumbnail." + extension;
+//        String bannerFilePath = uuid + "_banner." + extension;
+//        String bannerThumbnailFilePath = uuid + "_bannerThumbnail." + extension;
+        String imageFilePath = uuid + "_" + postfix + "." + extension;
+        String imageThumbnailFilePath = uuid + "_" + postfix + "Thumbnail." + extension;
 
         // 2-2. 파일 객체 생성 (MultipartFile -> File) (썸네일 생성 및 Amazon S3 업로드 위함)
-        bannerFile = fileUtil.multipartFile2File(multipartFile);
+        imageFile = fileUtil.multipartFile2File(multipartFile);
 
-        //2-3. 가로 길이 최대 5300px, 세로 길이 최대 1080px인 썸네일 이미지 생성
-        File bannerThumbnailFile = imageUtil.createThumbnailImage(bannerFile, 5300, 1080);
+        //2-3. 가로 길이 최대 1080px, 세로 길이 최대 22px 썸네일 이미지 생성
+        File imageThumbnailFile = imageUtil.createThumbnailImage(imageFile, targetWidth, targetHeight);
 
         //3. Amazon S3 파일 업로드
         //3-1. 원본 이미지 업로드
-        amazonS3Client.putObject(new PutObjectRequest(bucket, bannerFilePath, bannerFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        amazonS3Client.putObject(new PutObjectRequest(bucket, imageFilePath, imageFile).withCannedAcl(CannedAccessControlList.PublicRead));
 
         //3-2. 썸네일 이미지 업로드
-        amazonS3Client.putObject(new PutObjectRequest(bucket, bannerThumbnailFilePath, bannerThumbnailFile).withCannedAcl(CannedAccessControlList.PublicRead));
+        amazonS3Client.putObject(new PutObjectRequest(bucket, imageThumbnailFilePath, imageThumbnailFile).withCannedAcl(CannedAccessControlList.PublicRead));
 
         //4. MultipartFile -> File로 변환하면서 로컬에 저장된 파일 삭제
-        fileUtil.removeFile(bannerFile);
-        fileUtil.removeFile(bannerThumbnailFile);
+        fileUtil.removeFile(imageFile);
+        fileUtil.removeFile(imageThumbnailFile);
 
         //5. Amazon S3의 파일 경로 리턴
-        return new String[] {bannerFilePath, bannerThumbnailFilePath};
+        return new String[]{imageFilePath, imageThumbnailFilePath};
     }
 
     public boolean deleteBannerImageOnAmazonS3(int eventId) {
@@ -142,6 +139,10 @@ public class FileService {
         }
 
         return false;
+    }
+
+    public String getImageUrl(String uploadPath) {
+        return amazonS3Client.getUrl(bucket, uploadPath).toString();
     }
 
 }
