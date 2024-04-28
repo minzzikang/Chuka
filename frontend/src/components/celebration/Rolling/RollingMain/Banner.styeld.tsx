@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { colors, sizes } from "@styles/theme";
+import { colors } from "@styles/theme";
 
 export const Wrap = styled.div`
   position: relative;
