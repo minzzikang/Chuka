@@ -44,7 +44,9 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
     navigate("/");
   };
 
-  const handleSubmit = () => {};
+  const handleSubmit = () => {
+    
+  };
 
   return (
     <>
