@@ -5,6 +5,7 @@ import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.FcmToken;
 import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
+import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -17,6 +18,7 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
+import java.util.List;
 import java.util.Map;
 
 @Slf4j
@@ -27,6 +29,7 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final FcmTokenRepository fcmTokenRepository;
+    private final UserQueryRepository userQueryRepository;
 
     @Value("${kakao.api.admin.key}")
     private String adminKey;
@@ -71,6 +74,12 @@ public class UserServiceImpl implements UserService {
         fcmToken.setFcmToken(token);
         fcmToken.setUser(user);
         fcmTokenRepository.saveAndFlush(fcmToken);
+    }
+
+    @Override
+    public List<String> getUserFcmToken(String userId) {
+
+        return userQueryRepository.getFcmTokenWithUserId(userId);
     }
 
     private String unlink(String userId) {

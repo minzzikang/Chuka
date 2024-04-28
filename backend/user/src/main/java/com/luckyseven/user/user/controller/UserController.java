@@ -16,6 +16,8 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @Slf4j
 @RestController
 @RequiredArgsConstructor
@@ -76,7 +78,13 @@ public class UserController {
         return ResponseEntity.status(200).body(userDto);
     }
 
-    @PostMapping("/fcm")
+    @PostMapping("/fcm-token")
+    @Operation(summary = "fcm token 저장", description = "회원의 fcm token을 저장한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
     public ResponseEntity<BaseResponseBody> saveFcmToken(
             @RequestBody FcmTokenDto fcmToken, @RequestHeader("loggedInUser") String userId
     ) {
@@ -87,6 +95,25 @@ public class UserController {
         } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
 
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));
+        }
+    }
+
+    @GetMapping("/{userId}/fcm-token")
+    @Operation(summary = "fcm token 조회", description = "userId의 fcm token을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<List<String>> getFcmToken( @PathVariable("userId") String userId) {
+
+        try {
+            List<String> results = userService.getUserFcmToken(userId);
+
+            return ResponseEntity.status(200).body(results);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).body(null);
         }
     }
 
