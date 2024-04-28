@@ -11,4 +11,6 @@ public interface UserService {
     UserDto getUser(String userId);
     void deleteUser(String userId);
 
+    void saveFcmToken(String userId, String token);
+
 }

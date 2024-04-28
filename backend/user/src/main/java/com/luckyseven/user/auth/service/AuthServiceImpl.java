@@ -35,7 +35,6 @@ public class AuthServiceImpl implements AuthService {
     private final JWTUtil jWTUtil;
     private final RedisService redisService;
     private final UserRepository userRepository;
-
     @Value("${kakao.api.rest.key}")
     private String apiKey;
 
@@ -129,7 +128,7 @@ public class AuthServiceImpl implements AuthService {
         user.setJoinDate(LocalDateTime.now());
 //        user.setJoinDate(userDto.getConnectedAt());
 
-        return UserDto.of(userRepository.save(user));
+        return UserDto.of(userRepository.saveAndFlush(user));
     }
 
     public String issueAccessToken(KakaoUserDto userDto) {

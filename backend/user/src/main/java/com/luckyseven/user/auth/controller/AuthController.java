@@ -51,7 +51,7 @@ public class AuthController {
 
     }
 
-    @GetMapping("/login/kakao")
+    @PostMapping("/login/kakao")
     @Operation(summary = "로그인 및 회원가입", description = "사용자가 카카오 로그인 및 회원가입을 한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "로그인"),
@@ -84,6 +84,9 @@ public class AuthController {
         } catch (HttpClientErrorException e) {
             log.error("KAKAO LOGIN FAILED");
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(400).headers(responseHeaders).body(null);
         }
 
     }
@@ -109,7 +112,7 @@ public class AuthController {
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
 
-    @GetMapping("/logout")
+    @PostMapping("/logout")
     @Operation(summary = "로그아웃", description = "사용자 로그아웃")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -117,7 +120,6 @@ public class AuthController {
     })
     public ResponseEntity<?> logout(
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
-        log.info("logout start!!");
         String accessToken = authorization.substring("Bearer ".length());
         authService.logout(accessToken);
 
