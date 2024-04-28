@@ -3,6 +3,8 @@ package com.luckyseven.user.user.service;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 
+import java.util.List;
+
 public interface UserService {
 
     boolean isExistUser(String userId);
@@ -12,5 +14,6 @@ public interface UserService {
     void deleteUser(String userId);
 
     void saveFcmToken(String userId, String token);
+    List<String> getUserFcmToken(String userId);
 
 }
