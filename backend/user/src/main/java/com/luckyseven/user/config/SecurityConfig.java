@@ -19,31 +19,19 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
+import java.util.List;
 
 @Configuration
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
 
-//        private final JWTFilter jwtFilter;
-//    private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final JWTUtil jwtUtil;
-
-    @Bean
-    public PasswordEncoder passwordEncoder() {
-        return new BCryptPasswordEncoder();
-    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
 
         return configuration.getAuthenticationManager();
-    }
-
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-
-        return new BCryptPasswordEncoder();
     }
 
     @Bean
@@ -56,7 +44,7 @@ public class SecurityConfig {
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
 
-                                configuration.setAllowedOrigins(Collections.singletonList("http://localhost:5000"));
+                                configuration.setAllowedOrigins(List.of("http://localhost:5000", "ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8083", "http://k10c107.p.ssafy.io:8083", "http://k10c107.p.ssafy.io:8084"));
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -77,22 +65,16 @@ public class SecurityConfig {
         http
                 .httpBasic((auth) -> auth.disable());
 
-
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/","/swagger-resources/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/**","/api/v1/auth/test", "/api/v1/test").permitAll()
-                        .requestMatchers("/api/v1/users/**").permitAll()
-                        .requestMatchers("/api/v1/admin/**").hasRole("ADMIN")
                         .requestMatchers("/api/v1/users/me/**").hasRole("USER")
+                        .requestMatchers("/api/v1/users/**").permitAll()
                         .anyRequest().authenticated());
-
 
         http
                 .sessionManagement((session) -> session
                         .sessionCreationPolicy(SessionCreationPolicy.STATELESS));
-        //JWTFilter 추가
-//        http
-//                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
