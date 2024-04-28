@@ -1,8 +1,13 @@
 package com.luckyseven.funding.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
+
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 @Entity
@@ -12,7 +17,7 @@ import java.time.LocalTime;
 @DynamicInsert
 @NoArgsConstructor
 @AllArgsConstructor
-public class Sponsor {
+public class Sponsor implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer sponsorId;
@@ -33,6 +38,7 @@ public class Sponsor {
     @Column
     private String nickname;
 
-    @Column
-    private LocalTime joinTime;
+    @CreationTimestamp
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
+    private LocalDateTime joinTime;
 }

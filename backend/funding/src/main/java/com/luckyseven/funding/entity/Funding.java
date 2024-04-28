@@ -9,6 +9,8 @@ import org.hibernate.annotations.DynamicInsert;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -72,5 +74,10 @@ public class Funding {
     @CreationTimestamp
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss", timezone = "Asia/Seoul")
     private LocalDateTime createTime;
+
+    @Builder.Default
+    @OneToMany(mappedBy = "funding")
+    @OrderBy("amount desc")
+    private List<Sponsor> sponsorList = new ArrayList<>();
 
 }
