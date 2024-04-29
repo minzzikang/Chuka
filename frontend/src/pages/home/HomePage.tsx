@@ -1,11 +1,8 @@
-import Button from "@/common/button";
+import { useEffect } from "react";
+import { fetchUserInfo } from "@/apis/auth";
+import { useRecoilState } from "recoil";
+import { userState } from "@/stores/user";
 import styled from "styled-components";
-import Input from "@common/input";
-import { useState } from "react";
-import Label from "@common/label";
-
-import LoginPage from "../login/LoginPage";
-import RModal from "@common/responsiveModal";
 import Navbar from "@common/navbar";
 import HomeHeader from "@components/home/HomeHeader/";
 import HomeIntro from "@components/home/HomeIntro";
@@ -23,6 +20,18 @@ const Container = styled.div`
 `;
 
 const HomePage = () => {
+  const [user, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    fetchUserInfo()
+      .then((data) => {
+        setUser({ ...user, ...data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
   return (
     <Container>
       <HomeHeader />
