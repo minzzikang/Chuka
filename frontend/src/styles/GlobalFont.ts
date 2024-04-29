@@ -83,6 +83,13 @@ const GlobalFont = createGlobalStyle`
     url("../assets/fonts/Pretendard-Thin.woff") format("woff");
 }
 
+@font-face {
+    font-family: 'Goocneaeum';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Gootneaeum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 /* @font-face {
   font-family: "Goocneaeum";
   font-weight: normal;
@@ -92,12 +99,6 @@ const GlobalFont = createGlobalStyle`
     url("../assets/fonts/Goocneaeum-Regular.woff") format("woff");
 } */
 
-@font-face {
-    font-family: 'Goocneaeum';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Gootneaeum.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
-}
 
 /* @font-face {
   font-family: "Treegarden";

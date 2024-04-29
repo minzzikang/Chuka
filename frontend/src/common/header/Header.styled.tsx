@@ -2,9 +2,8 @@ import { colors } from "@/styles/theme";
 import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
 
-
 export const Wrapper = styled.div`
-  margin-top: 20px;
+  margin-top: 15px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -18,7 +17,7 @@ export const TextButton = styled.button`
   font-size: 14px;
   margin-right: 10px;
   cursor: pointer;
-`
+`;
 
 export const Header = styled.span`
   color: ${colors.black};
@@ -28,6 +27,9 @@ export const Header = styled.span`
 `;
 
 export const Icon = styled(IoIosArrowBack)`
+  position: fixed;
+  left: 10px;
+  top: 10px;
   font-size: 24px;
   cursor: pointer;
 `;
