@@ -5,10 +5,10 @@ import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
 
 import { RollingInfoSectionType } from "@/types/rollingType";
-import * as c from "@components/celebration/CelebrationInfoSection.styled";
+import * as c from "@/components/celebration/CelebrationInfoSection/CelebrationInfoSection.styled";
 
 
-const CelebrationInfoSection = (props: RollingInfoSectionType) => {
+const index = (props: RollingInfoSectionType) => {
   const { 
     handleTitle,
     title,
@@ -82,4 +82,4 @@ const CelebrationInfoSection = (props: RollingInfoSectionType) => {
   );
 };
 
-export default CelebrationInfoSection;
+export default index;

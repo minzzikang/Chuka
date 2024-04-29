@@ -15,6 +15,7 @@ import RollingWritePage from "@/pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@/pages/celebration/rolling/RollingPreviewPage";
 import RollingDetailPage from "@/pages/celebration/rolling/RollingDetailPage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
+import MyCelebratePage from "@/pages/mypage/MyCelebratePage";
 
 const HomeRouter = () => {
   return (
@@ -28,11 +29,14 @@ const HomeRouter = () => {
       <Route path="/celebrate/rolling-write" element={<RollingWritePage />} />
       <Route path="/celebrate/rolling-preview" element={<RollingPreviewPage />} />
       <Route path="/celebrate/rolling/detail" element={<RollingDetailPage />} />
+
       <Route path="/celebrate/funding" element={<FundingRegPage />} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
       <Route path="/alarm" element={<AlarmPage />} />
+
       <Route path="/mypage" element={<MyPage />} />
+      <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
 
       <Route path="/detail" element={<FundingDetailPage />} />
       <Route path="/done" element={<PaymentDone />} />
