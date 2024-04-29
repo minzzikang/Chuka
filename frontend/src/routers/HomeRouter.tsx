@@ -14,12 +14,14 @@ import FundingDetailPage from "@/pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@/pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@/pages/celebration/rolling/RollingPreviewPage";
 import RollingDetailPage from "@/pages/celebration/rolling/RollingDetailPage";
+import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 
 const HomeRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
+      <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
       <Route path="/celebrate" element={<CelebrationPage />} />
       <Route path="/celebrate/rolling" element={<RollingMainPage />} />
       <Route path="/celebrate/rolling-select" element={<RollingBackgroundSelectPage />} />
