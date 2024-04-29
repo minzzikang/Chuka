@@ -1,4 +1,3 @@
-import React from 'react';
 import Navbar from '@common/navbar'
 import ProfileSection from '@components/mypage/ProfileSection'
 import SettingSection from '@components/mypage/SettingSection'

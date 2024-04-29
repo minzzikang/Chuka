@@ -1,5 +1,4 @@
 import { colors } from "@/styles/theme";
-import { userInfo } from "os";
 import styled from "styled-components";
 
 const Container = styled.div`

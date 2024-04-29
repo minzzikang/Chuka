@@ -5,13 +5,13 @@ import { colors, sizes } from "./theme";
 export const GlobalStyle = createGlobalStyle`
     ${reset}
     :root {
-        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'Gootneaeum', 'Treegarden';
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
         font-size: 16px;
     }
     * {
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'Gootneaeum', 'Treegarden';
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
     }
     html, body {
         margin: 0;
@@ -31,6 +31,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     #root {
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
         width: 100%;
         min-width: ${sizes.minWidth};
         max-width: ${sizes.maxWidth};
@@ -51,6 +52,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     button {
         font-size: 16px;
+        font-family: 'Courier New', Courier, monospace;
         border: none;
         cursor: pointer;
         background: none;
