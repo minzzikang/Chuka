@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -22,4 +21,22 @@ export const Highlight = styled(Text)`
 
 export const FlexRow = styled.div`
   display: flex;
+  margin-bottom: 2.5em;
+`;
+
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  height: 49px;
+  background-color: ${colors.yelloKakao};
+  color: ${colors.black};
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.25);
+
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 10px;
+  }
 `;
