@@ -43,8 +43,7 @@ public class SecurityConfig {
                             @Override
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
-
-                                configuration.setAllowedOrigins(List.of("http://localhost:5000", "ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8083", "http://k10c107.p.ssafy.io:8083", "http://k10c107.p.ssafy.io:8084"));
+                                configuration.setAllowedOrigins(List.of("http://localhost:5000", "https://chuka.kr", "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8083", "http://k10c107.p.ssafy.io:8083", "http://k10c107.p.ssafy.io:8084"));
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -68,8 +67,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/","/swagger-resources/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/**","/api/v1/auth/test", "/api/v1/test").permitAll()
-                        .requestMatchers("/api/v1/users/me/**").hasRole("USER")
-                        .requestMatchers("/api/v1/users/**").permitAll()
+                        .requestMatchers("/api/v1/users/**", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated());
 
         http
