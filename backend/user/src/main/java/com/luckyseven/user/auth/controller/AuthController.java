@@ -35,9 +35,11 @@ public class AuthController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/test")
-    public void test() {
+    public ResponseEntity<?> test() {
         log.info("test!!!!!");
+        return ResponseEntity.status(200).body("test");
     }
+
     @GetMapping("/token/{token}")
     public ResponseEntity<?> ttest(@PathVariable("token") String token) {
         try {
@@ -98,7 +100,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> reissueRefreshToken(
-            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization)
+            @RequestHeader("Authorization") String authorization)
     {
         String refreshToken = authorization.substring("Bearer ".length());
 
