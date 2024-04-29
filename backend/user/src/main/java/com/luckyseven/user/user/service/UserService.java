@@ -16,4 +16,6 @@ public interface UserService {
     void saveFcmToken(String userId, String token);
     List<String> getUserFcmToken(String userId);
 
+    void logout(String accessToken);
+
 }
