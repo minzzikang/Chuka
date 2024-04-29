@@ -16,6 +16,7 @@ import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.IOException;
 import java.util.List;
 
 @Slf4j
@@ -115,6 +116,20 @@ public class UserController {
 
             return ResponseEntity.status(400).body(null);
         }
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "사용자 로그아웃")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> logout(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
+        String accessToken = authorization.substring("Bearer ".length());
+        userService.logout(accessToken);
+
+        return ResponseEntity.status(200).body(null);
     }
 
 }

@@ -193,14 +193,4 @@ public class AuthServiceImpl implements AuthService {
         return null;
     }
 
-    @Override
-    public void logout(String accessToken) {
-        String id = jWTUtil.getId(accessToken);
-        // refreshToken 삭제
-        redisService.delete(id);
-
-        // accessToken blackList 처리
-        redisService.saveLogoutToken(accessToken);
-    }
-
 }

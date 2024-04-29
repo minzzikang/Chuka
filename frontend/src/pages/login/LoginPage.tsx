@@ -1,7 +1,17 @@
 import logo from "/img/img_main_logo.png";
 import * as l from "@pages/login/LoginPage.styled";
+import kakao from "/icon/icon_kakao.png";
+
 
 const LoginPage = () => {
+  const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
+  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
+  
+  const handleClick = () => {
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    window.location.href = kakaoURL;
+  };
+
   return (
     <l.Container>
       <img src={logo} alt="logo" />
@@ -11,6 +21,10 @@ const LoginPage = () => {
         <l.Highlight>축하</l.Highlight>
         <l.Text>해요</l.Text>
       </l.FlexRow>
+      <l.Button onClick={handleClick}>
+        <img src={kakao} alt="kakao" />
+        카카오로 시작하기
+      </l.Button>
     </l.Container>
   );
 };
