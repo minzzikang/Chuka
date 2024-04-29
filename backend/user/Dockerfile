@@ -19,3 +19,5 @@ WORKDIR /backend/user
 COPY --from=builder /backend/user/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar","app.jar" ]
 VOLUME /tmp
+
+ENV TZ Asia/Seoul

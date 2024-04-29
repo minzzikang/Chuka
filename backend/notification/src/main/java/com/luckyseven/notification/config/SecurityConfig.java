@@ -1,4 +1,5 @@
-package com.luckyseven.user.config;
+package com.luckyseven.notification.config;
+
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -6,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -23,15 +25,14 @@ import java.util.Collections;
 import java.util.List;
 
 @Configuration
-@RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-
+    //
     @Value("${user-id}")
     private String ID;
     @Value("${user-pwd}")
     private String PWD;
-
+//    private final JWTUtil jwtUtil;
     @Bean
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
 
@@ -53,15 +54,7 @@ public class SecurityConfig {
                             @Override
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(
-                                        List.of(
-                                                "http://localhost:5000",
-                                                "https://chuka.kr",
-                                                "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
-                                                "http://k10c107.p.ssafy.io:8083",
-                                                "http://k10c107.p.ssafy.io:8084"
-                                        )
-                                );
+                                configuration.setAllowedOrigins(List.of("http://localhost:5000", "https://chuka.kr", "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082", "http://k10c107.p.ssafy.io:8083", "http://k10c107.p.ssafy.io:8084"));
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -80,12 +73,12 @@ public class SecurityConfig {
                 .formLogin((auth) -> auth.disable());
 
         http
-                .httpBasic((auth) -> auth.disable());
+                .httpBasic(Customizer.withDefaults());
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/**", "/api/v1/auth/test", "/api/v1/test").permitAll()
-                        .requestMatchers("/api/v1/users/**", "/api/v1/auth/**").permitAll()
+                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**", "/api/v1/notifications/**").permitAll()
+                        .requestMatchers("/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         http
@@ -107,5 +100,4 @@ public class SecurityConfig {
 
         return new InMemoryUserDetailsManager(user1);
     }
-
 }
