@@ -11,7 +11,7 @@ const LoginRedirectHandler = () => {
 
     if (code) {
       axios
-        .post(`${BASE_URL}/auth/login/kakao`, { code })
+        .post(`${BASE_URL}/auth/login/kakao`, code)
         .then((res) => {
           localStorage.setItem("token", res.data.token);
           navigate("/");
