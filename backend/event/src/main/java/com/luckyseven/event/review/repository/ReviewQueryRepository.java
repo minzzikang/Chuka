@@ -1,20 +1,18 @@
-package com.luckyseven.event.rollsheet.repository;
+package com.luckyseven.event.review.repository;
 
-import com.luckyseven.event.rollsheet.entity.Review;
+import com.luckyseven.event.review.entity.Review;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoOperations;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Repository
 @RequiredArgsConstructor
 public class ReviewQueryRepository {
 
-//    private final MongoTemplate mongoTemplate;
         private final MongoOperations mongoOperations;
 
         public List<Review> findByReview() {

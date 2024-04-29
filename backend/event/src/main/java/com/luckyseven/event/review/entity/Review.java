@@ -1,4 +1,4 @@
-package com.luckyseven.event.rollsheet.entity;
+package com.luckyseven.event.review.entity;
 
 import lombok.Data;
 import org.springframework.data.annotation.Id;
