@@ -14,8 +14,8 @@ interface RegDataProps {
 }
 
 interface RollingWriteProps {
-    onUpdateData: (data: RegDataProps) => void;
-  }
+  onUpdateData: (data: RegDataProps) => void;
+}
 
 const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
   const location = useLocation();
@@ -37,7 +37,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
   }, [regData]);
 
   const [selectedColor, setSelectedColor] = useState<string>("black");
-  const [selectedFont, setSelectedFont] = useState<string>("Pretend");
+  const [selectedFont, setSelectedFont] = useState<string>("Pretendard");
 
   const colorList = [
     colors.black,
@@ -126,5 +126,8 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     </>
   );
 };
+
+
+
 
 export default RollingWrite;

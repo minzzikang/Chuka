@@ -1,4 +1,3 @@
-import React, { useState } from "react";
 import MessageList from "./MessageList";
 import * as F from './FundingMessage.styled'
 
