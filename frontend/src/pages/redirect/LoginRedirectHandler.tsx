@@ -12,9 +12,11 @@ const LoginRedirectHandler = () => {
   }, [navigate]);
 
   const getToken = () => {
+    const url = "https://kauth.kakao.com/oauth/token";
+
     if (code) {
       axios
-        .post(`${BASE_URL}/auth/login/kakao`, code)
+        .post(url, code)
         .then((res) => {
           console.log(res.data);
           localStorage.setItem("accessToken", res.data.access_token);
