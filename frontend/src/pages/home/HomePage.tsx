@@ -28,7 +28,6 @@ const HomePage = () => {
       <HomeHeader />
       <HomeIntro />
       <HomeEventReg />
-      <br />
       <HomeEventList />
 
       <Navbar current={"home"} />
