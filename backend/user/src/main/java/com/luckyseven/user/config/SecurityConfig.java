@@ -1,6 +1,5 @@
 package com.luckyseven.user.config;
 
-import com.luckyseven.user.util.jwt.JWTUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -21,8 +20,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfig {
-
-    private final JWTUtil jwtUtil;
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
