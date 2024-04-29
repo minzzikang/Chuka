@@ -8,8 +8,6 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
-import com.luckyseven.event.rollsheet.entity.JoinEventPk;
-import com.luckyseven.event.rollsheet.entity.RollSheet;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
@@ -36,7 +34,6 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
-    private final JoinEventRepository joinEventRepository;
 
     private final int BANNER_WIDTH = 1080;
     private final int BANNER_HEIGHT = 220;
@@ -103,13 +100,14 @@ public class EventServiceImpl implements EventService {
 
     /**
      * 내가 참여한 기록이 있는 이벤트 조회
+     *
      * @param userId
      * @param page
      * @param pageSize
      * @return
      */
     @Override
-    public List<EventDto> getEventsUserParticipatedIn(String userId,  int page, int pageSize) {
+    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize) {
         List<EventDto> events = eventQueryRepository.getEventsUserParticipatedIn(userId, page, pageSize);
         for (EventDto eventDto : events) {
             if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
