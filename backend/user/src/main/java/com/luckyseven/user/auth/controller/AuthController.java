@@ -60,7 +60,7 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "회원가입"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<KakaoUserDto> login(@RequestParam String code) {
+    public ResponseEntity<KakaoUserDto> login(@RequestBody String code) {
         int statusCode = 200;
         HttpHeaders responseHeaders = new HttpHeaders();
 
@@ -115,19 +115,7 @@ public class AuthController {
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
 
-    @PostMapping("/logout")
-    @Operation(summary = "로그아웃", description = "사용자 로그아웃")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")
-    })
-    public ResponseEntity<?> logout(
-            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
-        String accessToken = authorization.substring("Bearer ".length());
-        authService.logout(accessToken);
 
-        return ResponseEntity.status(200).body(null);
-    }
 }
 
 
