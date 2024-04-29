@@ -1,9 +1,8 @@
 package com.luckyseven.user.config;
 
-import com.luckyseven.user.util.jwt.JWTUtil;
-//import com.luckyseven.user.util.jwt.JwtAuthenticationFilter;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -11,10 +10,11 @@ import org.springframework.security.config.annotation.authentication.configurati
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 
@@ -26,7 +26,16 @@ import java.util.List;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    private final JWTUtil jwtUtil;
+    @Value("${user-id}")
+    private String ID;
+    @Value("${user-pwd}")
+    private String PWD;
+
+    @Bean
+    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+
+        return new BCryptPasswordEncoder();
+    }
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
@@ -43,7 +52,15 @@ public class SecurityConfig {
                             @Override
                             public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
                                 CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(List.of("http://localhost:5000", "https://chuka.kr", "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8083", "http://k10c107.p.ssafy.io:8083", "http://k10c107.p.ssafy.io:8084"));
+                                configuration.setAllowedOrigins(
+                                        List.of(
+                                                "http://localhost:5000",
+                                                "https://chuka.kr",
+                                                "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
+                                                "http://k10c107.p.ssafy.io:8083",
+                                                "http://k10c107.p.ssafy.io:8084"
+                                        )
+                                );
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
@@ -66,7 +83,7 @@ public class SecurityConfig {
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/","/swagger-resources/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/**","/api/v1/auth/test", "/api/v1/test").permitAll()
+                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**", "/swagger-ui/**", "/api/v1/auth/**", "/api/v1/auth/test", "/api/v1/test").permitAll()
                         .requestMatchers("/api/v1/users/**", "/api/v1/auth/**").permitAll()
                         .anyRequest().authenticated());
 
@@ -76,4 +93,18 @@ public class SecurityConfig {
 
         return http.build();
     }
+
+    @Bean
+    public UserDetailsService userDetailsService() {
+
+        UserDetails user1 = User.builder()
+                .username(ID)
+                .password(bCryptPasswordEncoder().encode(PWD))
+                .roles("ADMIN")
+                .build();
+
+
+        return new InMemoryUserDetailsManager(user1);
+    }
+
 }
