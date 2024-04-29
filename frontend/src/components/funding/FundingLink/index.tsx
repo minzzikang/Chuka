@@ -1,6 +1,6 @@
 import { useState } from "react";
 import present from "/img/img_present_funding.png";
-import RecCard from "@/common/RegCard";
+import RegCard from "@/common/RegCard";
 import * as F from "@/components/funding/FundingLink/FundingLink.styled";
 import Header from "@common/header";
 import { useNavigate } from "react-router-dom";
@@ -33,12 +33,12 @@ const index = () => {
           <div style={{ marginTop: "20px" }}></div>
           <F.Text>ㅊㅋ 추천 선물</F.Text>
           <F.Carousel>
-            <RecCard
+            <RegCard
               imgUrl={present}
               title="삼성 갤럭시 버즈2 프로"
               amount="138880"
             />
-            <RecCard
+            <RegCard
               imgUrl={present}
               title="삼성 갤럭시 버즈2 프로"
               amount="138880"

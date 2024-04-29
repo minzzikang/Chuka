@@ -1,4 +1,4 @@
-import React from 'react';
+
 import FundingDetail from '@components/funding/FundingDetail'
 
 const FundingDetailPage = () => {

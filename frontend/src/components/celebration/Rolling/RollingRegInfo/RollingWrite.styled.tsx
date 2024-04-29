@@ -16,7 +16,7 @@ export const MessageBox = styled.textarea<{ font: string }>`
   width: 95%;
   height: 300px;
   border: none;
-  font-size: 1em;
+  font-size: 1.5em;
   font-family: ${(props) => props.font}, Pretendard;
 `;
 
@@ -38,7 +38,7 @@ export const ColorButton = styled.div<{ color: string; isSelected: boolean }>`
 `;
 
 export const PretendButton = styled.button<{ isSelected: boolean }>`
-  font-family: Pretendard;
+  font-family: "Pretendard";
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
@@ -49,7 +49,7 @@ export const PretendButton = styled.button<{ isSelected: boolean }>`
 `;
 
 export const GoocneaeumButton = styled.button<{ isSelected: boolean }>`
-  font-family: Goocneaeum;
+  font-family: "Goocneaeum";
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
@@ -60,7 +60,7 @@ export const GoocneaeumButton = styled.button<{ isSelected: boolean }>`
 `;
 
 export const TreegardenButton = styled.button<{ isSelected: boolean }>`
-  font-family: Treegarden;
+  font-family: "Treegarden" !important;
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
