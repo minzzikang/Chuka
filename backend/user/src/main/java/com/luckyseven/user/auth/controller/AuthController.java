@@ -60,7 +60,7 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "회원가입"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<KakaoUserDto> login(@RequestParam String code) {
+    public ResponseEntity<KakaoUserDto> login(@RequestBody String code) {
         int statusCode = 200;
         HttpHeaders responseHeaders = new HttpHeaders();
 
