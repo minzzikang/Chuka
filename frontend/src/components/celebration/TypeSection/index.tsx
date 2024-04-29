@@ -4,9 +4,9 @@ import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
 
 import Label from "@common/label";
 import { RollingTypeSectionType } from "@/types/rollingType";
-import * as t from "@components/celebration/TypeSection.styled";
+import * as t from "@/components/celebration/TypeSection/TypeSection.styled";
 
-const typeMap: {[key: string]: string} = {
+const typeMap: { [key: string]: string } = {
   생일: "birthday",
   "입학/졸업": "school_event",
   승진: "promotion",
@@ -15,7 +15,7 @@ const typeMap: {[key: string]: string} = {
   기타: "etc",
 };
 
-const TypeSection = (props: RollingTypeSectionType) => {
+const index = (props: RollingTypeSectionType) => {
   const { type, handleType } = props;
   const typeList: string[] = [
     "생일",
@@ -64,4 +64,4 @@ const TypeSection = (props: RollingTypeSectionType) => {
   );
 };
 
-export default TypeSection;
+export default index;
