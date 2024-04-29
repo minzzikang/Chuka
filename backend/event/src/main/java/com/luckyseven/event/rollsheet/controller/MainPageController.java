@@ -1,7 +1,9 @@
 package com.luckyseven.event.rollsheet.controller;
 
 import com.luckyseven.event.rollsheet.dto.CountEventDto;
+import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.MainPageService;
+import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -20,7 +22,8 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Event Main", description = "이벤트(롤링페이퍼) API")
 public class MainPageController {
 
-    private final MainPageService mainPageService;
+    private final EventService eventService;
+    private final RollSheetService rollSheetService;
 
     @GetMapping("/count")
     @Operation(summary = "이벤트 개수, 축하메시지 개수", description = "누적된 이벤트와 축하 메시지 개수를 조회한다.")
@@ -33,8 +36,8 @@ public class MainPageController {
 
         try {
             CountEventDto result = new CountEventDto();
-            result.setEventCnt(mainPageService.countEvent());
-            result.setMsgCnt(mainPageService.countRollSheet());
+            result.setEventCnt(eventService.countEvent());
+            result.setMsgCnt(rollSheetService.countRollSheet());
 
             return ResponseEntity.status(200).body(result);
         } catch (Exception e) {

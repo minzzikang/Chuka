@@ -179,4 +179,9 @@ public class EventServiceImpl implements EventService {
         return false;
     }
 
+    @Override
+    public int countEvent() {
+        return Math.toIntExact(eventRepository.count());
+    }
+
 }
