@@ -9,13 +9,13 @@ import java.time.LocalDate;
 @AllArgsConstructor
 @ToString
 public class FundingCreateReq {
-    private int eventId;
+    private Integer eventId;
 
     private String productLink;
 
     private String introduce;
 
-    private int goalAmount;
+    private Integer goalAmount;
 
     private String option;
 

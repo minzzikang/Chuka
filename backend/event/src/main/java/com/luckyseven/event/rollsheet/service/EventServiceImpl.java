@@ -8,7 +8,11 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEventPk;
+import com.luckyseven.event.rollsheet.entity.RollSheet;
+import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -29,7 +34,12 @@ public class EventServiceImpl implements EventService {
     private final FileService fileService;
 
     private final EventRepository eventRepository;
+    private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
+    private final JoinEventRepository joinEventRepository;
+
+    private final int BANNER_WIDTH = 1080;
+    private final int BANNER_HEIGHT = 220;
 
     @Override
     public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
@@ -39,10 +49,9 @@ public class EventServiceImpl implements EventService {
         event.setType(eventDto.getType());
         event.setTitle(eventDto.getTitle());
         event.setDate(eventDto.getDate());
-        log.info("bannerImage: {}", eventDto.getBannerImage());
         //Amazon S3에 배너 이미지 업로드 후 경로 저장
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage(), "banner", BANNER_WIDTH, BANNER_HEIGHT);
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }
@@ -67,6 +76,52 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming) {
+        List<EventDto> events = eventQueryRepository.getMyEvents(userId, page, pageSize, upcoming);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    @Override
+    public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
+        List<EventDto> events = eventQueryRepository.getPublicEvents(isAsc, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    /**
+     * 내가 참여한 기록이 있는 이벤트 조회
+     * @param userId
+     * @param page
+     * @param pageSize
+     * @return
+     */
+    @Override
+    public List<EventDto> getEventsUserParticipatedIn(String userId,  int page, int pageSize) {
+        List<EventDto> events = eventQueryRepository.getEventsUserParticipatedIn(userId, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    @Override
     public EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException {
         log.info("editEvent start: {}", eventDto);
         Event event = eventRepository.findByEventId(eventId);
@@ -78,7 +133,7 @@ public class EventServiceImpl implements EventService {
         }
 
         if (eventDto.getBannerImage() != null) {
-            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage());
+            String[] bannerPath = fileService.uploadImageWithThumbnailToAmazonS3(eventDto.getBannerImage(), "banner", BANNER_WIDTH, BANNER_HEIGHT);
             event.setBanner(bannerPath[0]);
             event.setBannerThumbnail(bannerPath[1]);
         }
