@@ -1,22 +1,31 @@
 import Navbar from "@common/navbar";
-import Header from "@common/header";
-import { useNavigate, useLocation } from "react-router-dom";
+import RollingWrite from "@/components/celebration/Rolling/RollingRegInfo/RollingWrite";
+import { useState, useEffect } from "react";
 
 const RollingWritePage = () => {
-    const navigate = useNavigate();
-    const location = useLocation();
-    const fetchData = location.state.value;
-    
-    const goNext = () => [navigate("/celebrate/rolling-preview")];
+  const [regData, setRegData] = useState({
+    shape: "",
+    background_color: "",
+    background_image: "",
+    font: "",
+    font_color: "",
+    content: "",
+  });
 
+  useEffect(() => {
+    // api 연결 로직 추가 예정
+  }, [regData]);
 
-    return (
-        <>
-          <Header children="내용 작성하기" label="다음" onClick={goNext} />
-          <Navbar current="celebration" />
-        </>
-      );
+  const handleData = (data: any) => {
+    setRegData(data);
+  };
 
-}
+  return (
+    <>
+      <RollingWrite onUpdateData={handleData} />
+      <Navbar current="celebration" />
+    </>
+  );
+};
 
 export default RollingWritePage;

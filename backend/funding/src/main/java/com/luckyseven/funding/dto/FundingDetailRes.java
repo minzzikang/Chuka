@@ -1,11 +1,14 @@
 package com.luckyseven.funding.dto;
 
+import com.luckyseven.funding.entity.Funding;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
 
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+import java.util.List;
 
 
 @Getter
@@ -20,8 +23,22 @@ public class FundingDetailRes implements Serializable {
     private final Integer goalAmount;
     private final Integer remainAmount;
     private final String introduce;
+    private final List<SponsorRes> sponsors;
 
+    public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors) {
+        return new FundingDetailRes(
+                funding.getFundingId(),
+                LocalDate.now(),
+                "임시 이벤트 제목",
+                funding.getProductImage(),
+                (int) ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate()),
+                funding.getGoalAmount(),
+                Math.max(funding.getGoalAmount() - nowFundingAmount, 0),
+                funding.getIntroduce(),
+                sponsors
 
+        );
+    }
 }
 
 
