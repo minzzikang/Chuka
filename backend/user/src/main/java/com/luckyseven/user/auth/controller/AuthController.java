@@ -35,9 +35,11 @@ public class AuthController {
     private final JWTUtil jwtUtil;
 
     @GetMapping("/test")
-    public void test() {
+    public ResponseEntity<?> test() {
         log.info("test!!!!!");
+        return ResponseEntity.status(200).body("test");
     }
+
     @GetMapping("/token/{token}")
     public ResponseEntity<?> ttest(@PathVariable("token") String token) {
         try {
@@ -58,7 +60,7 @@ public class AuthController {
             @ApiResponse(responseCode = "201", description = "회원가입"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<KakaoUserDto> login(@RequestParam String code) {
+    public ResponseEntity<KakaoUserDto> login(@RequestBody String code) {
         int statusCode = 200;
         HttpHeaders responseHeaders = new HttpHeaders();
 
@@ -82,7 +84,8 @@ public class AuthController {
 
             return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
         } catch (HttpClientErrorException e) {
-            log.error("KAKAO LOGIN FAILED");
+            log.error("KAKAO LOGIN FAILED HttpClientErrorException");
+            e.printStackTrace();
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         } catch (Exception e) {
             e.printStackTrace();
@@ -98,7 +101,7 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> reissueRefreshToken(
-            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization)
+            @RequestHeader("Authorization") String authorization)
     {
         String refreshToken = authorization.substring("Bearer ".length());
 
@@ -112,19 +115,7 @@ public class AuthController {
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
 
-    @PostMapping("/logout")
-    @Operation(summary = "로그아웃", description = "사용자 로그아웃")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")
-    })
-    public ResponseEntity<?> logout(
-            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
-        String accessToken = authorization.substring("Bearer ".length());
-        authService.logout(accessToken);
 
-        return ResponseEntity.status(200).body(null);
-    }
 }
 
 

@@ -33,7 +33,6 @@ import java.util.NoSuchElementException;
 public class EventController {
 
     private final EventService eventService;
-    private final FileService fileService;
 
 
     @PostMapping(value = "/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
