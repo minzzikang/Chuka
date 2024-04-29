@@ -9,7 +9,6 @@ import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
 
-
 const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -33,20 +32,16 @@ const HomePage = () => {
       });
   }, []);
 
-
-
-
-
   return (
     <Container>
-    <HomeHeader />
-    <HomeIntro />
-    <HomeEventReg />
-    <br />
-    <HomeEventList />
+      <HomeHeader />
+      <HomeIntro />
+      <HomeEventReg />
+      <br />
+      <HomeEventList />
 
-    <Navbar current={"home"} />
-  </Container>
+      <Navbar current={"home"} />
+    </Container>
   );
 };
 
