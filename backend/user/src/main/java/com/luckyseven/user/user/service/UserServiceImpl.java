@@ -7,6 +7,8 @@ import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
+import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.util.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -26,6 +28,10 @@ import java.util.Map;
 @Transactional
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
+    private final JWTUtil jWTUtil;
+
+    private final RedisService redisService;
 
     private final UserRepository userRepository;
     private final FcmTokenRepository fcmTokenRepository;
@@ -80,6 +86,16 @@ public class UserServiceImpl implements UserService {
     public List<String> getUserFcmToken(String userId) {
 
         return userQueryRepository.getFcmTokenWithUserId(userId);
+    }
+
+    @Override
+    public void logout(String accessToken) {
+        String id = jWTUtil.getId(accessToken);
+        // refreshToken 삭제
+        redisService.delete(id);
+
+        // accessToken blackList 처리
+        redisService.saveLogoutToken(accessToken);
     }
 
     private String unlink(String userId) {
