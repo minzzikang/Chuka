@@ -23,6 +23,8 @@ public class EventQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
+    OrderSpecifier<String> createTimeOrderSpecifierDesc = Expressions.stringPath("event.createTime").desc();
+    OrderSpecifier<String> createTimeOrderSpecifierAsc = Expressions.stringPath("event.createTime").asc();
     OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
     OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
 
@@ -65,6 +67,37 @@ public class EventQueryRepository {
     }
 
     public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
+        OrderSpecifier<String> orderSpecifier;
+        if (isAsc) {
+            orderSpecifier = createTimeOrderSpecifierAsc;
+        } else {
+            orderSpecifier = createTimeOrderSpecifierDesc;
+        }
+
+        List<EventDto> results = jpaQueryFactory.select(
+                        Projections.bean(EventDto.class,
+                                event.eventId,
+                                event.userId,
+                                event.pageUri,
+                                event.type,
+                                event.title,
+                                event.date,
+                                event.banner,
+                                event.bannerThumbnail,
+                                event.theme,
+                                event.visibility,
+                                event.createTime))
+                .from(event)
+                .where(event.visibility.eq(true))
+                .orderBy(orderSpecifier)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+
+        return results;
+    }
+
+    public List<EventDto> getPublicEventsOrderByDate(boolean isAsc, int page, int pageSize) {
         OrderSpecifier<String> orderSpecifier;
         if (isAsc) {
             orderSpecifier = eventDateOrderSpecifierAsc;

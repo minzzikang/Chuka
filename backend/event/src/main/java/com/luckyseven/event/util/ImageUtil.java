@@ -7,6 +7,7 @@ import com.drew.metadata.Metadata;
 import com.drew.metadata.MetadataException;
 import com.drew.metadata.exif.ExifIFD0Directory;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.FilenameUtils;
 import org.imgscalr.Scalr;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ import java.io.File;
 import java.io.IOException;
 
 @Component
+@Slf4j
 public class ImageUtil {
     private String[] bannerImageExtensions = {"jpg", "png", "jpeg", "gif", "webp"};
     private String[] transparentImageExtensions = {"png"};
@@ -33,7 +35,7 @@ public class ImageUtil {
         return false;
     }
     public boolean isTransparentImageExtensions(String extension) throws NotValidExtensionException {
-        if(isValidBannerImageExtension(extension)) {
+        if(!isValidBannerImageExtension(extension)) {
             throw new NotValidExtensionException();
         }
 
@@ -106,27 +108,14 @@ public class ImageUtil {
         int originalHeight = originalImage.getHeight();
 
         //원본 이미지의 해상도가 썸네일 이미지의 해상도보다 작은 경우 Input 그대로 리턴 (해상도 늘리지 않음)
-        if (originalWidth <= targetWidth || originalHeight <= targetHeight) {
+        if (originalWidth <= targetWidth && originalHeight <= targetHeight) {
             return originalImageFile;
         }
 
         float scale = Math.min((float) targetWidth / originalWidth, (float) targetHeight / originalHeight);
 
-        //아래 두 줄의 코드가 깔끔한 방법이지만 ((원본) 641 × 641 이미지를 (썸네일) 최대 한 변의 길이가 640인 이미지로 만든다고 했을 때 다시 641 ×
-        //641 이미지가 생성됨 #소수점 오차를 해결하기 위한 방법)
-        //int scaledWidth = (int) (originalWidth * scale);
-        //int scaledHeight = (int) (originalHeight * scale);
-
-        int scaledWidth = 0;
-        int scaledHeight = 0;
-
-        if (originalWidth > originalHeight) {
-            scaledWidth = targetWidth;
-            scaledHeight = (int) (originalHeight * scale);
-        } else {
-            scaledWidth = (int) (originalWidth * scale);
-            scaledHeight = targetWidth;
-        }
+        int scaledWidth = (int) (originalWidth * scale);
+        int scaledHeight = (int) (originalHeight * scale);
 
         //썸네일 이미지 생성
         File thumbnailFile = null;

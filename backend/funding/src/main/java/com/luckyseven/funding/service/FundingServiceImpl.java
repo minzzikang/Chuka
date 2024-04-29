@@ -3,9 +3,11 @@ package com.luckyseven.funding.service;
 import com.luckyseven.funding.dto.FundingCreateReq;
 import com.luckyseven.funding.dto.FundingDetailRes;
 import com.luckyseven.funding.dto.FundingRes;
+import com.luckyseven.funding.dto.SponsorRes;
 import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
 import com.luckyseven.funding.entity.FundingStatus;
+import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.repository.FundingRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -13,9 +15,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.ZoneId;
 import java.time.temporal.ChronoUnit;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -49,10 +54,10 @@ public class FundingServiceImpl implements FundingService {
 
         return fundingList.stream()
                 .map(funding -> {
-                    //각 펀딩 아이디에 맞는 현재 펀딩 금액을 디비에서 불러오기 현재는 임시로 100000으로 설정
-                    //디비에서 계산해서 불러와야하나? 쭉 불러와서 백엔드에서 계산해야하나?
-                    int currentFundingAmount = 100000;
-                    LocalDate nowDate = LocalDate.now();
+                    int currentFundingAmount = funding.getSponsorList().stream()
+                            .mapToInt(Sponsor::getAmount)
+                            .sum();
+                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
                     boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
                     boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
                     FundingResult fundingResult;
@@ -71,18 +76,17 @@ public class FundingServiceImpl implements FundingService {
     }
 
     @Override
-    public FundingDetailRes getFunding(final int fundingId){
+    public FundingDetailRes getFunding(final int fundingId) {
         final Funding funding = fundingRepository.findById(fundingId)
-                .orElseThrow();
-        return new FundingDetailRes(
-                funding.getFundingId(),
-                LocalDate.now(),
-                "이벤트타이틀하드코딩",
-                funding.getProductImage(),
-                (int) ChronoUnit.DAYS.between(LocalDate.now(),funding.getEndDate()),
-                funding.getGoalAmount(),
-                0, //펀딩에 참여한사람 금액 모아야해서 하드코딩
-                funding.getIntroduce()
-        );
+                .orElseThrow(() -> new NoSuchElementException(fundingId+"에 해당하는 펀딩이 없습니다."));
+        List<Sponsor> sponsorList = funding.getSponsorList();
+        List<SponsorRes> sponsorsResList = sponsorList.stream()
+                .map(sponsor -> SponsorRes.of(sponsor, "프로필이미지"))
+                .toList();
+        final int nowFundingAmount = sponsorList.stream()
+                .mapToInt(Sponsor::getAmount)
+                .sum();
+
+        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList);
     }
 }

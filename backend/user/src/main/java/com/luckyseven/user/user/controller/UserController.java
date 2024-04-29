@@ -1,5 +1,7 @@
 package com.luckyseven.user.user.controller;
 
+import com.luckyseven.user.common.response.BaseResponseBody;
+import com.luckyseven.user.user.dto.FcmTokenDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.service.UserService;
@@ -10,8 +12,12 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
 
 @Slf4j
 @RestController
@@ -71,6 +77,59 @@ public class UserController {
         }
 
         return ResponseEntity.status(200).body(userDto);
+    }
+
+    @PostMapping("/fcm-token")
+    @Operation(summary = "fcm token 저장", description = "회원의 fcm token을 저장한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<BaseResponseBody> saveFcmToken(
+            @RequestBody FcmTokenDto fcmToken, @RequestHeader("loggedInUser") String userId
+    ) {
+        try {
+            userService.saveFcmToken(userId, fcmToken.getFcmToken());
+
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "fcm token 저장 성공"));
+        } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));
+        }
+    }
+
+    @GetMapping("/{userId}/fcm-token")
+    @Operation(summary = "fcm token 조회", description = "userId의 fcm token을 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<List<String>> getFcmToken( @PathVariable("userId") String userId) {
+
+        try {
+            List<String> results = userService.getUserFcmToken(userId);
+
+            return ResponseEntity.status(200).body(results);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PostMapping("/logout")
+    @Operation(summary = "로그아웃", description = "사용자 로그아웃")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> logout(
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
+        String accessToken = authorization.substring("Bearer ".length());
+        userService.logout(accessToken);
+
+        return ResponseEntity.status(200).body(null);
     }
 
 }
