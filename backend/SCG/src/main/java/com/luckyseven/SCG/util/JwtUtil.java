@@ -33,4 +33,13 @@ public class JwtUtil {
                 .get("id", String.class);
     }
 
+    public String getType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("Type", String.class);
+    }
+
 }
