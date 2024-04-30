@@ -33,8 +33,7 @@ public class EventController {
 
     private final EventService eventService;
 
-
-    @PostMapping(value = "/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -66,7 +65,7 @@ public class EventController {
         return ResponseEntity.status(200).body(event);
     }
 
-    @GetMapping("/")
+    @GetMapping
     @Operation(summary = "이벤트 목록 조회", description = "이벤트 목록을 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
