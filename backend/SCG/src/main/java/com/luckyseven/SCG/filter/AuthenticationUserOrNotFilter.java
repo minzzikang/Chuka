@@ -1,6 +1,7 @@
 package com.luckyseven.SCG.filter;
 
 import com.luckyseven.SCG.util.JwtUtil;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
 import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
@@ -9,6 +10,7 @@ import org.springframework.http.server.reactive.ServerHttpRequest;
 import org.springframework.stereotype.Component;
 
 
+@Slf4j
 @Component
 public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<AuthenticationUserOrNotFilter.Config> {
 
@@ -31,7 +33,7 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                 // header contains token or not
                 String authHeader = null;
 
-                if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
+                if (exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
                     authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 }
 
