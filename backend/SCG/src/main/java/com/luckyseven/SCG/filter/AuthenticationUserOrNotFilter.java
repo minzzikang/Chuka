@@ -44,6 +44,10 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                     try {
                         jwtUtil.validateToken(authHeader);
 
+                        if (!jwtUtil.getType(authHeader).equals("ATK")) {
+                            throw new RuntimeException("different type token");
+                        }
+
                         loggedInUser = exchange.getRequest()
                                 .mutate()
                                 .header("loggedInUser", jwtUtil.getId(authHeader)).build();
