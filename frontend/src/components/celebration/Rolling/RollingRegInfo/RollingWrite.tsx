@@ -2,7 +2,6 @@ import { colors } from "@styles/theme";
 import * as r from "./RollingWrite.styled";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import Header from "@common/header";
 
 interface RegDataProps {
   shape: string;
@@ -11,6 +10,7 @@ interface RegDataProps {
   font: string;
   font_color: string;
   content: string;
+  nickname: string;
 }
 
 interface RollingWriteProps {
@@ -21,20 +21,13 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const [regData, setRegData] = useState<RegDataProps>(
-    location.state?.regData || {
-      shape: "",
-      background_color: "",
-      background_image: "",
-      font: "",
-      font_color: "",
-      content: "",
-    }
-  );
+  const initData = { ...location.state };
+
+  const [regData, setRegData] = useState(initData);
 
   useEffect(() => {
-    console.log(regData);
-  }, [regData]);
+    console.log(initData);
+  }, [initData]);
 
   const [selectedColor, setSelectedColor] = useState<string>("black");
   const [selectedFont, setSelectedFont] = useState<string>("Pretendard");
@@ -52,7 +45,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
 
   const handleSelectColor = (color: string) => {
     setSelectedColor(color);
-    setRegData((prevData) => ({
+    setRegData((prevData: any) => ({
       ...prevData,
       font_color: color,
     }));
@@ -60,7 +53,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
 
   const handleSelectFont = (font: string) => {
     setSelectedFont(font);
-    setRegData((prevData) => ({
+    setRegData((prevData: any) => ({
       ...prevData,
       font: font,
     }));
@@ -71,9 +64,17 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     navigate("/celebrate/rolling-preview", { state: { regData } });
   };
 
+  const handleBack = () => {
+    navigate("/celebrate/rolling-select", { state: { regData } });
+  };
+
   return (
     <>
-      <Header children="내용 작성하기" label="다음" onClick={handleSubmit} />
+      <r.Header>
+        <r.Icon onClick={handleBack} />
+        <span>배경 선택하기</span>
+        <button onClick={handleSubmit}>다음</button>
+      </r.Header>
       <r.Container>
         <r.MessageBox
           id="content"
@@ -82,7 +83,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
           style={{ color: regData.font_color }}
           value={regData.content}
           onChange={(e) =>
-            setRegData((prevData) => ({
+            setRegData((prevData: any) => ({
               ...prevData,
               content: e.target.value,
             }))
@@ -126,8 +127,5 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     </>
   );
 };
-
-
-
 
 export default RollingWrite;
