@@ -23,7 +23,13 @@ public class ReviewController {
 
     private final ReviewService reviewService;
 
-    @GetMapping("/")
+    @GetMapping("/test")
+    public ResponseEntity<String> test(
+    ) {
+        return ResponseEntity.status(200).body("review Controller");
+    }
+
+    @GetMapping
     @Operation(summary = "리뷰 조회", description = "리뷰를 최신순으로 3개 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -36,7 +42,7 @@ public class ReviewController {
         return ResponseEntity.status(200).body(reviews);
     }
 
-    @PostMapping("/")
+    @PostMapping
     @Operation(summary = "리뷰 작성", description = "리뷰를 작성한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
