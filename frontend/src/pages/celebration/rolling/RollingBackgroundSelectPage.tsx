@@ -10,7 +10,7 @@ const RollingBackgroundSelectPage = () => {
   });
 
   useEffect(() => {
-    // api 연결 로직 추가 예정
+    console.log(regData);
   }, [regData]);
 
   const handleData = (data: any) => {
