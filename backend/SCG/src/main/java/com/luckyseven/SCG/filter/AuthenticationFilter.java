@@ -1,6 +1,7 @@
 package com.luckyseven.SCG.filter;
 
 import com.luckyseven.SCG.util.JwtUtil;
+import com.luckyseven.SCG.util.redis.RedisService;
 import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +20,9 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
 
     @Autowired
     private JwtUtil jwtUtil;
+
+    @Autowired
+    private RedisService redisService;
 
     public AuthenticationFilter() {
         super(Config.class);
@@ -42,6 +46,15 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
                 }
                 try {
                     jwtUtil.validateToken(authHeader);
+
+                    if (!jwtUtil.getType(authHeader).equals("ATK")) {
+                        throw new RuntimeException("different type token");
+                    }
+
+                    String values = redisService.getValues(authHeader);
+                    if (values != null && values.equals("logout")) {
+                        throw new RuntimeException("invalid token");
+                    }
 
                     loggedInUser = exchange.getRequest()
                             .mutate()
