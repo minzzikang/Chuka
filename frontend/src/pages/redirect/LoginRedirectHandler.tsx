@@ -12,33 +12,28 @@ const LoginRedirectHandler = () => {
 
   useEffect(() => {
     if (code) {
-      getToken(code).then((res) => {
-        console.log(res.access_token);
-      })
+      getToken(code);
     }
   }, []);
 
-  const getToken = async (code: string) => {
-    const response = await fetch(
-      `https://kauth.kakao.com/oauth/token?grant_type=authorization_code&client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&code=${code}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8',
-        },
-      }
-    );
-    return response.json()
-      // .post(`${BASE_URL}/auth/login/kakao`, code)
-      // .then((res) => {
-      //   console.log(res.data);
-      //   localStorage.setItem("accessToken", res.data.access_token);
-      //   navigate("/");
-      // })
-      // .catch((err) => {
-      //   console.error(err);
-      // });
+  const getToken = (code: string) => {
+    axios
+      .post(`${BASE_URL}/auth/login/kakao`, code)
+      .then((res) => {
+        let accessToken = res.headers.authorization;
+        let refreshToken = res.headers.refresh;
+        console.log(accessToken);
+        console.log(refreshToken);
+        localStorage.setItem("access_token", accessToken);
+        axios.defaults.headers.common["Authorization"] =
+          `Bearer ${accessToken}`;
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error(err);
+      });
   };
-  
+
   return (
     <>
       <p>로그인 처리 중입니다.</p>
