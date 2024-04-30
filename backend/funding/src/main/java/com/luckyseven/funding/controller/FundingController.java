@@ -35,10 +35,10 @@ public class FundingController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
-    public ResponseEntity<?> createFunding(@RequestBody final FundingCreateReq dto) {
+    public ResponseEntity<?> createFunding(@RequestBody final FundingCreateReq dto, @RequestHeader("loggedInUser") String userId) {
         try {
             //log.debug(dto.toString());
-            final int fundingId = fundingService.createFunding(dto);
+            final int fundingId = fundingService.createFunding(dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(fundingId);
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
@@ -106,6 +106,25 @@ public class FundingController {
         try {
             final int sponsorId = sponsorService.joinFunding(fundingId, dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(sponsorId);
+        } catch (Exception e) {
+            log.info("[ERROR] : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(null);
+        }
+    }
+
+    @GetMapping("/me")
+    @Operation(
+            summary = "나의 펀딩 조회",
+            description = "실제 api를 요청할 때는 <strong>loggedInUser</strong>가 아니라 헤더에 토큰을 담아보내주세요. <strong>loggedInUser</strong>는 백엔드 게이트웨이에서 토큰을 바꿔서 보낼 예정입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+
+    public ResponseEntity<?> getmyFundings(@RequestHeader("loggedInUser") String userId) {
+        try {
+            return ResponseEntity.status(HttpStatus.OK).body(fundingService.getMyFunding(userId));
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
