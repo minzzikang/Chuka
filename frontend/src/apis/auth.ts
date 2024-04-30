@@ -1,4 +1,7 @@
 import { authRequest } from "@utils/requestMethods";
+import { userType } from "@/types/authType";
+import { BASE_URL } from "@/utils/requestMethods";
+import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
@@ -18,11 +21,17 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 };
 
 // 회원 정보 조회
-export const fetchUserInfo = async () => {
-  return authRequest
-    .get("/users/me")
-    .then((res) => {
-      console.log(res);
-    })
-    .catch((err) => console.log(err));
+export const fetchUserInfo = async (): Promise<userType> => {
+  try {
+    const res = await axios.get<userType>(`${BASE_URL}/users/me`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+      },
+    });
+    console.log(res.data);
+    return res.data;
+  } catch (err) {
+    console.log(err);
+    throw new Error("회원정보 불러오기 실패");
+  }
 };
