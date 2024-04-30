@@ -15,6 +15,8 @@ import RollingWritePage from "@/pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@/pages/celebration/rolling/RollingPreviewPage";
 import RollingDetailPage from "@/pages/celebration/rolling/RollingDetailPage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
+import ReviewPage from '@components/home/ReviewPage'
+
 
 const HomeRouter = () => {
   return (
@@ -33,7 +35,9 @@ const HomeRouter = () => {
       <Route path="/celebrate/payment" element={<PaymentPage />} />
       <Route path="/alarm" element={<AlarmPage />} />
       <Route path="/mypage" element={<MyPage />} />
-
+      
+      <Route path="/review" element={<ReviewPage />} />
+      
       <Route path="/detail" element={<FundingDetailPage />} />
       <Route path="/done" element={<PaymentDone />} />
     </Routes>
