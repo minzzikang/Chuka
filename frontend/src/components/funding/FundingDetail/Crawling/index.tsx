@@ -1,4 +1,3 @@
-import React from "react";
 import * as C from './FundingCrawling.styled'
 type CrawlingType = {
   percent: number;

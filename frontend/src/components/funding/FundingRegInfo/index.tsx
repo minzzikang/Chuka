@@ -51,8 +51,8 @@ const index = () => {
 
   return (
     <>
-      <Header children="펀딩 등록하기" />
       <F.Container>
+        <Header children="펀딩 등록하기" />
         <F.Img src={DefaultFunding} />
         <F.Wrap>
           <F.Inner>

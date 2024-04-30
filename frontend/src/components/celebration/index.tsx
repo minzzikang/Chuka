@@ -80,7 +80,10 @@ const Index = () => {
         handleTheme={handleTheme}
         theme={regData.theme}
       />
-      <Button children="등록하기" onClick={() => navigate("/celebrate/rolling")} />
+      <Button
+        children="등록하기"
+        onClick={() => navigate("/celebrate/rolling")}
+      />
     </c.Container>
   );
 };
