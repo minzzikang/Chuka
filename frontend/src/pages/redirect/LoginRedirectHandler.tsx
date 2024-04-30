@@ -3,8 +3,6 @@ import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "@/utils/requestMethods";
 
-const KAKAO_API_KEY = process.env.VITE_KAKAO_API_KEY;
-const REDIRECT_URI = process.env.VITE_REDIRECT_URI;
 
 const LoginRedirectHandler = () => {
   const navigate = useNavigate();
@@ -21,9 +19,7 @@ const LoginRedirectHandler = () => {
       .post(`${BASE_URL}/auth/login/kakao`, code)
       .then((res) => {
         let accessToken = res.headers.authorization;
-        let refreshToken = res.headers.refresh;
         console.log(accessToken);
-        console.log(refreshToken);
         localStorage.setItem("access_token", accessToken);
         axios.defaults.headers.common["Authorization"] =
           `Bearer ${accessToken}`;
