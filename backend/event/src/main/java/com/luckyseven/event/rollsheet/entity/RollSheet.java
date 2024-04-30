@@ -1,8 +1,5 @@
 package com.luckyseven.event.rollsheet.entity;
 
-import com.luckyseven.event.rollsheet.entity.Event;
-import com.luckyseven.event.rollsheet.entity.Font;
-import com.luckyseven.event.rollsheet.entity.Shape;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -26,4 +23,5 @@ public class RollSheet {
     private String backgroundImageThumbnail;
     private String nickname;
     private LocalDateTime createTime;
+
 }

@@ -84,7 +84,7 @@ public class AuthController {
 
             return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
         } catch (HttpClientErrorException e) {
-            log.error("KAKAO LOGIN FAILED HttpClientErrorException");
+            log.error("KAKAO LOGIN FAILED");
             e.printStackTrace();
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         } catch (Exception e) {

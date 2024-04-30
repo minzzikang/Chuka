@@ -1,3 +1,7 @@
+import { createGlobalStyle } from "styled-components";
+
+const GlobalFont = createGlobalStyle`
+
 @font-face {
   font-family: "Pretendard";
   font-weight: 900;
@@ -63,7 +67,7 @@
 
 @font-face {
   font-family: "Pretendard";
-  font-weight: 300;
+  font-weight: 200;
   font-display: swap;
   src:
     local("Pretendard"),
@@ -80,15 +84,47 @@
 }
 
 @font-face {
-  font-family: "Goocneaeum";
-  font-display: swap;
-  font-weight: normal;
-  src: local("Goocneaeum") url("../assets/fonts/Goocneaeum.woff") format("woff");
+    font-family: 'Goocneaeum';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Gootneaeum.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
 }
 
-@font-face {
-  font-family: "Treegarden";
-  src: local("Treegarden") url("../assets/fonts/Treegarden.woff") format("woff");
+/* @font-face {
+  font-family: "Goocneaeum";
   font-weight: normal;
   font-display: swap;
-}
+  src:
+    local("Goocneaeum"),
+    url("../assets/fonts/Goocneaeum-Regular.woff") format("woff");
+} */
+
+
+/* @font-face {
+  font-family: "Treegarden";
+  font-weight: normal;
+  font-display: swap;
+  src:
+    local("Treegarden"),
+    url("../assets/fonts/Treegarden-Regular.woff") format("woff");
+} */
+
+
+
+/* @font-face {
+  font-family: "YeonSung";
+  font-weight: 400;
+  font-display: swap;
+  src: local("YeonSung"), url("../assets/fonts/YeonSung-Regular.woff") format("woff");
+} */
+
+/* @font-face {
+  font-family: "HiMelody";
+  font-weight: 400;
+  font-display: swap;
+  src: local("HiMelody"), url("../assets/fonts/HiMelody-Regular.woff") format("woff");
+} */
+
+`;
+
+export default GlobalFont;
