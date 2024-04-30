@@ -8,7 +8,6 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.service.EventService;
-import com.luckyseven.event.util.FileService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -68,7 +67,7 @@ public class EventController {
     }
 
     @GetMapping("/")
-    @Operation(summary = "이벤트 조회", description = "이벤트 목록을 조회한다.")
+    @Operation(summary = "이벤트 목록 조회", description = "이벤트 목록을 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
