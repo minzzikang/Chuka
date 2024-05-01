@@ -7,24 +7,25 @@ export const Container = styled.div`
 `;
 
 export const Button = styled.button<{ $active: boolean }>`
-background-color: ${(props) => (props.$active ? colors.white : colors.mainPink)};
-border: 2px solid ${colors.mainPink};
-color: ${(props) => (props.$active ? colors.mainPink: colors.white )};
-border-radius: 0.7em;
-font-size: 0.9em;
-width: 100px;
-height: 36px;
-display: flex;
-justify-content: center;
-align-items: center;
-margin-right: 10px;
+  background-color: ${(props) =>
+    props.$active ? colors.mainPink : colors.white};
+  border: 2px solid ${colors.mainPink};
+  color: ${(props) => (props.$active ? colors.white : colors.mainPink)};
+  border-radius: 0.7em;
+  font-size: 0.9em;
+  width: 100px;
+  height: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
 `;
 
 export const Wrap = styled.div`
-    display: flex;
-    margin-top: 0.3em;
-    margin-bottom: 0.5em;
-`
+  display: flex;
+  margin-top: 0.3em;
+  margin-bottom: 0.5em;
+`;
 
 export const Input = styled.input`
   width: 339px;
@@ -36,7 +37,7 @@ export const Input = styled.input`
   &:focus {
     border-color: ${colors.mainPink};
   }
-`
+`;
 
 export const P = styled.p`
   color: ${colors.gray};

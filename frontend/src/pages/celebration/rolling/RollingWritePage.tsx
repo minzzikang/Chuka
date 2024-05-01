@@ -7,6 +7,7 @@ const RollingWritePage = () => {
     shape: "",
     background_color: "",
     background_image: "",
+    background_image_thumbnail: "",
     font: "",
     font_color: "",
     content: "",
@@ -14,6 +15,7 @@ const RollingWritePage = () => {
 
   useEffect(() => {
     // api 연결 로직 추가 예정
+    console.log(regData)
   }, [regData]);
 
   const handleData = (data: any) => {

@@ -28,30 +28,27 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
 );
 
 const index: React.FC<CalendarProps> = ({ onDateChange }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
   const [isOpen, setIsOpen] = useState(false);
-
-  const handleOpen = () => setIsOpen(true);
-  const handleClose = () => setIsOpen(false);
 
   const handleChange = (date: Date | null) => {
     if (date) {
       onDateChange(date);
       setSelectedDate(date);
     }
-    handleClose();
-    console.log("날짜선택:", date);
+    setIsOpen(false);
+    console.log("날짜선택:", selectedDate);
   };
 
   return (
     <>
       {isOpen && <div className="overlay" />}
       <DatePicker
-        customInput={<CustomInput onClick={handleOpen} />}
+        customInput={<CustomInput onClick={() => setIsOpen(true)} />}
         selected={selectedDate}
         onChange={handleChange}
-        onCalendarOpen={handleOpen}
-        onCalendarClose={handleClose}
+        onCalendarOpen={() => setIsOpen(true)}
+        onCalendarClose={() => setIsOpen(false)}
         minDate={new Date()}
         locale={ko}
         dateFormat="yyyy-MM-dd"

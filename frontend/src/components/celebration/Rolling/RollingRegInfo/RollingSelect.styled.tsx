@@ -1,9 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
-
-export type ButtonType = {
-  isActive: boolean;
-};
+import { IoIosArrowBack } from "react-icons/io";
 
 export const Container = styled.div`
   display: flex;
@@ -17,18 +14,49 @@ export const Wrap = styled.div`
   margin-bottom: 20px;
 `;
 
-export const ShapeButton = styled.button<ButtonType>`
+export const Header = styled.div`
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    color: ${colors.black};
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: ${colors.black};
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+`;
+
+export const Icon = styled(IoIosArrowBack)`
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
+export const ShapeButton = styled.button<{ isActive: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  width: 100px;
-  height: 100px;
+  width: 150px;
+  height: 150px;
   padding: 5px;
   border: 2px solid;
-  border-color: ${(props) =>
-    props.isActive ? colors.mainPink : colors.inputGray};
-  color: ${(props) => (props.isActive ? colors.mainPink : colors.gray)};
+  border-color: ${({ isActive }) =>
+    isActive ? colors.mainPink : colors.inputGray};
+  color: ${({ isActive }) => (isActive ? colors.mainPink : colors.gray)};
   background-color: ${colors.white};
 `;
 
@@ -38,17 +66,16 @@ export const Img = styled.img`
   margin-bottom: 5px;
 `;
 
-export const BackgroundButton = styled.button<ButtonType>`
+export const BackgroundButton = styled.button<{ isActive: boolean }>`
   display: flex;
-  margin-right: 30px;
   justify-content: center;
   align-items: center;
-  width: 130px;
+  width: 150px;
   height: 60px;
   border: 2px solid;
-  border-color: ${(props) =>
-    props.isActive ? colors.mainPink : colors.inputGray};
-  color: ${(props) => (props.isActive ? colors.mainPink : colors.gray)};
+  border-color: ${({ isActive }) =>
+    isActive ? colors.mainPink : colors.inputGray};
+  color: ${({ isActive }) => (isActive ? colors.mainPink : colors.gray)};
   background-color: ${colors.white};
 `;
 
