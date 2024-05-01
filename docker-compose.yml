@@ -34,6 +34,76 @@ services:
       - "8080:8080"
     networks:
       - jenkins-network
+  frontend:
+    container_name: frontend
+    image: taehopark/luckyseven-frontend
+    build:
+      context: frontend
+      dockerfile: Dockerfile
+    restart: always
+    command : npm run dev
+    ports:
+      - "5000:5000"
+    networks:
+      - jenkins-network
+  user:
+    container_name: user
+    image: lifestooshort/luckyseven-user
+    build:
+      context: backend/user
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8081:8081"
+    networks:
+      - jenkins-network
+  notification:
+    container_name: notification
+    image: lifestooshort/luckyseven-notification
+    build:
+      context: backend/notification
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8082:8082"
+    networks:
+      - jenkins-network
+
+
+  funding:
+    container_name: funding
+    image: taehopark/luckyseven-funding
+    build:
+      context: backend/funding
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8083:8083"
+    networks:
+      - jenkins-network
+  event:
+    container_name: event
+    image: taehopark/luckyseven-event
+    build:
+      context: backend/event
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8084:8084"
+    networks:
+      - jenkins-network
+
+  crawling:
+    container_name: crawling
+    image: taehopark/luckyseven-crawling
+    build:
+      context: backend/crawling
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - "8085:8085"
+    networks:
+      - jenkins-network
 
 networks:
   jenkins-network:

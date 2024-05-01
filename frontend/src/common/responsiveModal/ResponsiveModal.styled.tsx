@@ -7,11 +7,11 @@ export const BlackBox = styled.div`
   top: 0;
   z-index: 100;
   width: 100%;
-  min-width: ${sizes.minWidth};
-  max-width: ${sizes.maxWidth};
   height: 100dvh;
   background-color: #000;
   opacity: 0.3;
+  min-width: ${sizes.minWidth};
+  max-width: ${sizes.maxWidth};
   @media only screen and (min-width: 430px) {
     width: 430px;
   }
@@ -28,7 +28,7 @@ export const Container = styled.div`
   width: 100%;
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};
-  background-color: ${colors.black};
+  background-color: ${colors.white};
   border-radius: 12px 12px 0 0;
   overflow-y: scroll;
   &::-webkit-scrollbar {

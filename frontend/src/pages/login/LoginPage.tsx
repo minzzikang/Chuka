@@ -1,40 +1,31 @@
 import logo from "/img/img_main_logo.png";
-import styled from "styled-components";
-import { colors } from "@styles/theme";
+import * as l from "@pages/login/LoginPage.styled";
+import kakao from "/icon/icon_kakao.png";
 
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 100dvh;
-`;
-
-export const Text = styled.span`
-  font-weight: 600;
-  font-size: 1.5rem;
-  margin: 5px;
-`;
-
-export const Highlight = styled(Text)`
-  color: ${colors.mainPink};
-`;
-
-export const FlexRow = styled.div`
-  display: flex;
-`;
 
 const LoginPage = () => {
+  const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
+  const REDIRECT_URI = import.meta.env.VITE_TEST_URI
+  
+  const handleClick = () => {
+    const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
+    window.location.href = kakaoURL;
+  };
+
   return (
-    <Container>
+    <l.Container>
       <img src={logo} alt="logo" />
-      <Text>특별한 날,</Text>
-      <FlexRow>
-        <Text>함께</Text>
-        <Highlight>축하</Highlight>
-        <Text>해요</Text>
-      </FlexRow>
-    </Container>
+      <l.Text>특별한 날,</l.Text>
+      <l.FlexRow>
+        <l.Text>함께</l.Text>
+        <l.Highlight>축하</l.Highlight>
+        <l.Text>해요</l.Text>
+      </l.FlexRow>
+      <l.Button onClick={handleClick}>
+        <img src={kakao} alt="kakao" />
+        카카오로 시작하기
+      </l.Button>
+    </l.Container>
   );
 };
 

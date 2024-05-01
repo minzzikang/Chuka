@@ -1,7 +1,7 @@
 
 import { ModalType } from '@/types/commonType'
 import * as r from '@common/responsiveModal/ResponsiveModal.styled'
-import { useRecoilValue } from 'recoil'
+
 
 const Index = ({ name, children, onClose }: ModalType) => {
 
@@ -16,7 +16,7 @@ const Index = ({ name, children, onClose }: ModalType) => {
         </r.Wrap>
         <r.Backdrop>
           <img
-            src={'/icon/icon_close.png'}
+            src={'/icon/icon_close_black.png'}
             alt=""
             onClick={onClose}
           />

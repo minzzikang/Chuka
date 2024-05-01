@@ -14,7 +14,7 @@ pipeline {
                     steps {
                         script {
                             sh "ls -al"
-                            sh "docker compose -p luckyseven build --no-cache SCG"
+                            sh "docker compose -p luckyseven build --no-cache scg"
                         }
                     }
                 }

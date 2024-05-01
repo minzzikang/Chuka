@@ -21,7 +21,7 @@ const Button = styled.button<ButtonType>`
   width: ${(props) => (props.$width ? props.$width : "339px")};
   height: ${(props) => (props.$height ? props.$height : "49px")};
   background-color: ${(props) =>
-    props.$backgroundColor ? props.$backgroundColor : `${colors.pink01}`};
+    props.$backgroundColor ? props.$backgroundColor : `${colors.mainPink}`};
   color: ${(props) => (props.color ? props.color : "#fff")};
 
   font-size: 1em;

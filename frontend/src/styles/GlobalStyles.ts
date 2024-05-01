@@ -5,13 +5,13 @@ import { colors, sizes } from "./theme";
 export const GlobalStyle = createGlobalStyle`
     ${reset}
     :root {
-        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'NanumGgocNaeEum', 'NanumNaMuJeongWeon';
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
         font-size: 16px;
     }
     * {
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'NanumGgocNaeEum', 'NanumNaMuJeongWeon';
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
     }
     html, body {
         margin: 0;
@@ -31,6 +31,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     #root {
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
         width: 100%;
         min-width: ${sizes.minWidth};
         max-width: ${sizes.maxWidth};
@@ -51,6 +52,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     button {
         font-size: 16px;
+        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'Courier New', Courier, monospace;
         border: none;
         cursor: pointer;
         background: none;
@@ -60,6 +62,9 @@ export const GlobalStyle = createGlobalStyle`
         }
     }
     label {
+        color: ${colors.mainPink};
+        font-size: 12px;
+        
         &:focus {
             color: ${colors.mainPink};
             outline: none;
@@ -70,6 +75,23 @@ export const GlobalStyle = createGlobalStyle`
         font-size: 12px;
         outline: none;
         border-radius: 10px;
+        border-color: ${colors.inputGray};
+        &:focus {
+            border-color: ${colors.mainPink};
+            outline: none;
+        }
+        &::placeholder {
+            color: ${colors.gray};
+            font-weight: 500;
+        }
+    }
+
+    textarea {
+        font-size: 12px;
+        outline: none;
+        padding-top: 10px;
+        border-radius: 10px;
+        border-color: ${colors.inputGray};
         &:focus {
             border-color: ${colors.mainPink};
             outline: none;

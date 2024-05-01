@@ -1,7 +1,20 @@
 package com.luckyseven.user.auth.service;
 
+import com.luckyseven.user.auth.dto.KakaoUserDto;
+import com.luckyseven.user.user.dto.UserDto;
+
 public interface AuthService {
 
-    void getToken(String code);
+    String getKakaoToken(String code);
+    KakaoUserDto getKakaoUserInfo(String token);
+
+    UserDto join(KakaoUserDto userDto);
+
+    String issueAccessToken(KakaoUserDto userDto);
+    String issueRefreshToken(UserDto userDto);
+    String issueRefreshToken(KakaoUserDto userDto);
+    String reIssueAccessTokenWithRefreshToken(String refreshToken);
+
+
 
 }
