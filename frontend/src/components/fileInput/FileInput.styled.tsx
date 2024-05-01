@@ -4,7 +4,9 @@ import { colors } from "@/styles/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-`
+  align-items: center;
+  justify-content: center;
+`;
 
 export const FileInputContainer = styled.div`
   width: 339px;
@@ -24,8 +26,8 @@ export const ImagePreview = styled.img`
   display: block;
   margin: 0 auto;
   padding: 10px;
-  max-width: 100%;
-  max-height: 100vh;
-  width: 30%;
+  max-width: 90%;
+  max-height: 200px;
+  width: auto;
   height: auto;
 `;
