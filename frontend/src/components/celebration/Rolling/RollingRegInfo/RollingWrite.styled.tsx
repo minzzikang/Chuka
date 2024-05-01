@@ -1,11 +1,43 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
+import { IoIosArrowBack } from "react-icons/io";
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+export const Header = styled.div`
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    color: ${colors.black};
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: ${colors.black};
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+`;
+
+export const Icon = styled(IoIosArrowBack)`
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
 `;
 
 export const MessageBox = styled.textarea<{ font: string }>`

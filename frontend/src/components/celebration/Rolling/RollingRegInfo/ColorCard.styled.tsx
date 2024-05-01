@@ -9,11 +9,11 @@ export const Container = styled.div`
 export const Card = styled.div<{ isSelected: boolean; color: string }>`
   width: 60px;
   height: 60px;
-  background-color: ${(props) => props.color};
+  background-color: ${({ color }) => color};
   margin: 5px;
   border-radius: 1em;
   box-shadow: 1px 0.5px 0 0 gray;
-  border: ${(props) =>
-    props.isSelected ? `2px solid ${colors.mainPink}` : "none"};
+  border: ${({ isSelected }) =>
+    isSelected ? `2px solid ${colors.mainPink}` : "none"};
   cursor: pointer;
 `;

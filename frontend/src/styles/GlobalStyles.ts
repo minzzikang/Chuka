@@ -52,7 +52,7 @@ export const GlobalStyle = createGlobalStyle`
     }
     button {
         font-size: 16px;
-        font-family: 'Courier New', Courier, monospace;
+        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'Courier New', Courier, monospace;
         border: none;
         cursor: pointer;
         background: none;

@@ -90,24 +90,12 @@ const GlobalFont = createGlobalStyle`
     font-style: normal;
 }
 
-/* @font-face {
-  font-family: "Goocneaeum";
-  font-weight: normal;
-  font-display: swap;
-  src:
-    local("Goocneaeum"),
-    url("../assets/fonts/Goocneaeum-Regular.woff") format("woff");
-} */
-
-
-/* @font-face {
-  font-family: "Treegarden";
-  font-weight: normal;
-  font-display: swap;
-  src:
-    local("Treegarden"),
-    url("../assets/fonts/Treegarden-Regular.woff") format("woff");
-} */
+@font-face {
+    font-family: 'Treegarden';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
 
 
