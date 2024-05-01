@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { BASE_URL } from "@/utils/requestMethods";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
-import { fetchUserInfo, loginSuccess } from "@/apis/auth";
+// import { fetchUserInfo, loginSuccess } from "@/apis/auth";
 
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
@@ -21,12 +21,18 @@ const LoginRedirectHandler = () => {
     axios
       .post(`${BASE_URL}/auth/login/kakao`, code)
       .then((res) => {
-        let accessToken = res.headers.authorization;
-        console.log(accessToken);
+        const accessToken = res.headers["authorization"];
+        const refreshToken = res.headers["refresh-token"];
+        // console.log(accessToken);
+        console.log(accessToken, refreshToken);
         localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
+
         axios.defaults.headers.common["Authorization"] =
           `Bearer ${accessToken}`;
-        fetchUserInfo();
+        axios.defaults.headers.common["Refresh-Token"] =
+          `Bearer ${accessToken}`;
+        // fetchUserInfo();
         navigate("/");
       })
       .catch((err) => {

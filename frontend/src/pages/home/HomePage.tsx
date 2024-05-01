@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { fetchUserInfo } from "@/apis/auth";
+// import { fetchUserInfo } from "@/apis/auth";
 import { useRecoilState } from "recoil";
 import { userState } from "@/stores/user";
 import * as h from "./HomePage.styled";
@@ -14,15 +14,15 @@ const HomePage = () => {
   const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
-    fetchUserInfo()
-      .then((data: any) => {
-        console.log(user);
-        console.log(data);
-        setUser({ ...user, ...data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    // fetchUserInfo()
+    //   .then((data: any) => {
+    //     console.log(user);
+    //     console.log(data);
+    //     setUser({ ...user, ...data });
+    //   })
+    //   .catch((err) => {
+    //     console.log(err);
+    //   });
   }, []);
 
   return (

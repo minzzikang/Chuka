@@ -1,13 +1,21 @@
 import { authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
-import { BASE_URL } from "@/utils/requestMethods";
-import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
+// 리프레시 토큰 요청
 export const refresh = async () => {
+  const refreshToken = localStorage.getItem("refresh_token");
   return authRequest
-    .post("/auth/reissue")
+    .post(
+      "/auth/reissue",
+      {},
+      {
+        headers: {
+          Refresh: refreshToken,
+        },
+      }
+    )
     .then((res) => loginSuccess(res.data))
     .catch((err) => console.log(err));
 };
@@ -21,17 +29,17 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 };
 
 // 회원 정보 조회
-export const fetchUserInfo = async () => {
-  try {
-    const res = await axios.get(`${BASE_URL}/users/me`, {
-      headers: {
-        Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-      },
-    });
-    console.log(res.data);
-    return res.data;
-  } catch (err) {
-    console.log(err);
-    throw new Error("회원정보 불러오기 실패");
-  }
-};
+// export const fetchUserInfo = async () => {
+//   try {
+//     const res = await axios.get(`${BASE_URL}/users/me`, {
+//       headers: {
+//         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
+//       },
+//     });
+//     console.log(res.data);
+//     return res.data;
+//   } catch (err) {
+//     console.log(err);
+//     throw new Error("회원정보 불러오기 실패");
+//   }
+// };

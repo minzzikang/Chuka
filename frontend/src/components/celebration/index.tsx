@@ -2,7 +2,7 @@ import * as c from "@components/celebration/Celebration.styled";
 import Button from "@common/button";
 import TypeSection from "./TypeSection";
 import CelebrationInfoSection from "./CelebrationInfoSection";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
 
@@ -24,6 +24,10 @@ const Index = () => {
     banner: null, // 대표 이미지
     theme: "cork_board", // 롤링페이퍼 배경
     visibility: true, // 노출 여부
+  });
+
+  useEffect(() => {
+    console.log(regData.visibility);
   });
 
   const handleType = (newType: string) => {
@@ -55,7 +59,6 @@ const Index = () => {
   };
 
   const handleVisible = (value: boolean) => {
-    console.log(regData);
     setRegData((prev) => ({
       ...prev,
       visibility: value,
@@ -85,7 +88,7 @@ const Index = () => {
     try {
       const res = await createEventReg(formData);
       console.log(res);
-      navigate("/celebrate/rolling");
+      navigate(`/celebrate/rolling`);
     } catch (err) {
       console.error(err);
     }
