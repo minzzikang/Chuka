@@ -1,5 +1,4 @@
 import * as r from "./RollingPreview.styled";
-import Header from "@common/header";
 import { useState, useEffect } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 
@@ -44,23 +43,26 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
     navigate("/");
   };
 
-  const handleSubmit = () => {
-    
+  const handleSubmit = () => {};
+
+  const handleBack = () => {
+    navigate("/celebrate/rolling-write", { state: { regData } });
   };
 
   return (
     <>
-      <Header
-        children="미리보기"
-        label="취소"
-        onClick={() => setIsModalOpen(true)}
-      />
+      <r.Header>
+        <r.Icon onClick={handleBack} />
+        <span>미리보기</span>
+        <button onClick={() => setIsModalOpen(true)}>취소</button>
+      </r.Header>
       <r.Container>
         <r.MessageBox
           bgColor={regData.background_color}
           bgImage={regData.background_image}
           fontColor={regData.font_color}
           fontFamily={regData.font}
+          shape={regData.shape}
         >
           {regData.content}
         </r.MessageBox>
