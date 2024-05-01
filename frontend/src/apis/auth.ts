@@ -1,5 +1,5 @@
 import { authRequest } from "@utils/requestMethods";
-import { userType } from "@/types/authType";
+import { userType, SendFCMTokenType } from "@/types/authType";
 import { BASE_URL } from "@/utils/requestMethods";
 import axios from "axios";
 
@@ -34,4 +34,12 @@ export const fetchUserInfo = async () => {
     console.log(err);
     throw new Error("회원정보 불러오기 실패");
   }
+};
+
+// FCM 기기 토큰 전송
+export const sendFCMToken = async (req: SendFCMTokenType) => {
+  return authRequest
+    .post('/notifications', req)
+    .then((res) => console.log(res.data, "fcm token 전송"))
+    .catch((err) => console.log(err));
 };
