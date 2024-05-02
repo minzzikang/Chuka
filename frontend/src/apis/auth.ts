@@ -40,5 +40,5 @@ export const loginSuccess = async (res: {
 
 // 회원 정보 조회
 export const fetchUserInfo = async () => {
-  return authRequest.get("api/v1/users/me").then(res => res);
+  return authRequest.get("/users/me").then((res) => res.data);
 };

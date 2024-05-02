@@ -16,7 +16,7 @@ const LoginPage = () => {
 
 
     // window.location.href = kakaoURL;
-    window.location.href = kakaoURL;
+    window.location.href = LOCAL_URL;
   };
 
   return (
