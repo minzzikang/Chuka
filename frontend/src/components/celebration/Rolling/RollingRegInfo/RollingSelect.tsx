@@ -5,7 +5,7 @@ import { IoMdAdd } from "react-icons/io";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import * as r from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect.styled";
 import ColorSelectModal from "./ColorSelectModal";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 interface RegDataProps {
   shape: string;
@@ -27,28 +27,44 @@ const shapeMap: { [key: string]: string } = {
 };
 
 const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
-  const location = useLocation();
   const navigate = useNavigate();
 
-  const [regData, setRegData] = useState<RegDataProps>(
-    location.state?.regData || {
-      shape: "",
-      background_color: "",
-      background_image: "",
-      font: "",
-      font_color: "",
-      content: "",
-      nickname: "",
-    }
-  );
+  const [regData, setRegData] = useState<RegDataProps>(() => {
+    const savedData = sessionStorage.getItem("regData");
+    return savedData
+      ? JSON.parse(savedData)
+      : {
+          shape: "",
+          background_color: "",
+          background_image: "",
+          font: "",
+          font_color: "",
+          content: "",
+          nickname: "",
+        };
+  });
 
   useEffect(() => {
-    console.log(regData);
+    console.log("데이터", regData);
+    sessionStorage.setItem("regData", JSON.stringify(regData));
+    if (regData.background_image) {
+      sessionStorage.setItem("selectedFileUrl", regData.background_image);
+    }
   }, [regData]);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem("regData");
+    if (savedData) {
+      setRegData(JSON.parse(savedData));
+    }
+  }, []);
 
   const [backgroundType, setBackgroundType] = useState<string>("");
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [selectedFile, setSelectedFile] = useState<string | null>(() => {
+    return sessionStorage.getItem("selectedFileUrl");
+  });
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const shapeList: string[] = ["사각형", "원형"];
@@ -68,14 +84,16 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
       background_color: color,
       background_image: "",
     }));
+    setSelectedFile(null);
+    sessionStorage.removeItem("selectedFileUrl");
   };
 
   const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files ? e.target.files[0] : null;
-    setSelectedFile(file);
 
     if (file) {
       const fileURL = URL.createObjectURL(file);
+      setSelectedFile(fileURL);
 
       setRegData((prevData) => ({
         ...prevData,
@@ -83,6 +101,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
         background_color: "",
       }));
       setBackgroundType("img");
+      sessionStorage.setItem("selectedFileUrl", fileURL);
     }
   };
 
@@ -166,10 +185,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
           )}
         </r.Wrap>
         {selectedFile && backgroundType === "img" && (
-          <r.ImagePreview
-            src={URL.createObjectURL(selectedFile)}
-            alt="Preview"
-          />
+          <r.ImagePreview src={selectedFile} alt="Preview" />
         )}
       </r.Container>
     </>
