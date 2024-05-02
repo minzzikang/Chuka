@@ -2,14 +2,17 @@ import logo from "/img/img_main_logo.png";
 import * as l from "@pages/login/LoginPage.styled";
 import kakao from "/icon/icon_kakao.png";
 
-
 const LoginPage = () => {
-  const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY
-  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI
-  
+  const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
+  const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
+  const REDIRECT_URI2 = import.meta.env.VITE_REDIRECT_URI2;
+
   const handleClick = () => {
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
-    window.location.href = kakaoURL;
+    const kakaoURL2 = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
+
+    // window.location.href = kakaoURL;
+    window.location.href = kakaoURL2;
   };
 
   return (
