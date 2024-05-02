@@ -1,6 +1,7 @@
 import * as h from '@components/home/HomeIntro/HomeIntro.styled'
 import Lottie from "react-lottie";
 import animationData from "@assets/lottie/chuka.json";
+import { useEffect } from 'react';
 
 
 const index = () => {
@@ -22,6 +23,8 @@ const index = () => {
       console.log(err);
     }
   };
+
+  useEffect
 
   return (
     <h.Container>
