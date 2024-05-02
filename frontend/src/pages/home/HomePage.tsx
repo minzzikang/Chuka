@@ -8,24 +8,7 @@ import HomeHeader from "@components/home/HomeHeader/";
 import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
-import HomeReview from "@components/home/HomeReview"
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
-const Wrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  margin: auto auto;
-  justify-content: center;
-  align-items: center;
-  width: 90%;
-  height: 100vh;
-  gap: 50px;
-`;
+import HomeReview from "@components/home/HomeReview";
 
 const HomePage = () => {
   const [user, setUser] = useRecoilState(userState);
@@ -43,21 +26,21 @@ const HomePage = () => {
   }, []);
 
   return (
-    <Container>
-    <Wrap>
-      <HomeHeader />
-      <div style={{marginTop:'50px'}}></div>
-      <HomeIntro />
-      <HomeEventReg />
-      <HomeEventList />
-      <HomeReview />
-      {/* <div style={{marginTop:'1000px'}}></div> */}
-    </Wrap>
-    <div>
-      {/* <img src="/img/img_main_banner.png" alt="" style={{width:'100%', position:"absolute"}} /> */}
-      <Navbar current={"home"}/>
-    </div>
-    </Container>
+    <>
+      <h.Wrap>
+        <HomeHeader />
+        <HomeIntro />
+        <HomeEventReg />
+        <HomeEventList />
+        <HomeReview />
+      </h.Wrap>
+      <img
+        src="/img/img_main_banner.png"
+        alt=""
+        style={{ width: "100%", position:'fixed', bottom:'60px' }}
+      />
+      <Navbar current={"home"} />
+    </>
   );
 };
 
