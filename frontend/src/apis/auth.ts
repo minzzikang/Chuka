@@ -22,15 +22,23 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 
 // 회원 정보 조회
 export const fetchUserInfo = async () => {
+  console.log("오고있니..?");
+  let accessToken = localStorage.getItem("access_token");
+
+  while (accessToken === null) {
+    accessToken = localStorage.getItem("access_token");
+    console.log("null 이야");
+  }
+  console.log("널아님", accessToken);
   try {
     const res = await axios.get(`${BASE_URL}/users/me`, {
       headers: {
         Authorization: `${localStorage.getItem("access_token")}`,
       },
     });
-    console.log(res.data);
+    console.log("데이터", res.data);
     return res.data;
   } catch (err) {
-    console.log(err);
+    console.log("?????????????????", err);
   }
 };
