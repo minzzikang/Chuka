@@ -91,6 +91,7 @@ const Index = () => {
       navigate(`/celebrate/rolling`);
     } catch (err) {
       console.error(err);
+      navigate("/celebrate/rolling");
     }
   };
 

@@ -48,22 +48,23 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                     try {
                         jwtUtil.validateToken(authHeader);
 
-                        if (!jwtUtil.getType(authHeader).equals("ATK")) {
-                            throw new RuntimeException("different type token");
-                        }
-
-                        String values = redisService.getValues(authHeader);
-                        if (values != null && values.equals("logout")) {
-                            throw new RuntimeException("invalid token");
-                        }
-
-                        loggedInUser = exchange.getRequest()
-                                .mutate()
-                                .header("loggedInUser", jwtUtil.getId(authHeader)).build();
-
                     } catch (Exception e) {
                         throw new RuntimeException("un authorized access to application");
                     }
+
+                    if (!jwtUtil.getType(authHeader).equals("ATK")) {
+                        throw new RuntimeException("different type token");
+                    }
+
+                    String values = redisService.getValues(authHeader);
+                    if (values != null && values.equals("logout")) {
+                        throw new RuntimeException("invalid token");
+                    }
+
+                    loggedInUser = exchange.getRequest()
+                            .mutate()
+                            .header("loggedInUser", jwtUtil.getId(authHeader)).build();
+
                 }
 
             }

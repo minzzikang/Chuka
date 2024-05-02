@@ -8,32 +8,37 @@ import HomeHeader from "@components/home/HomeHeader/";
 import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
-
+import HomeReview from "@components/home/HomeReview";
 
 const HomePage = () => {
   const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
-    // fetchUserInfo()
-    //   .then((data: any) => {
-    //     console.log(user);
-    //     console.log(data);
-    //     setUser({ ...user, ...data });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err);
-    //   });
+    fetchUserInfo()
+      .then((data: any) => {
+        setUser({ ...user, ...data });
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   }, []);
 
   return (
-    <h.Container>
-      <HomeHeader />
-      <HomeIntro />
-      <HomeEventReg />
-      <br />
-      <HomeEventList />
+    <>
+      <h.Wrap>
+        <HomeHeader />
+        <HomeIntro />
+        <HomeEventReg />
+        <HomeEventList />
+        <HomeReview />
+      </h.Wrap>
+      <img
+        src="/img/img_main_banner.png"
+        alt=""
+        style={{ width: "100%", position:'fixed', bottom:'60px' }}
+      />
       <Navbar current={"home"} />
-    </h.Container>
+    </>
   );
 };
 
