@@ -22,7 +22,7 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 
 // 회원 정보 조회
 export const fetchUserInfo = () => {
-  let accessToken = localStorage.getItem("access_token");
+  const accessToken = localStorage.getItem("access_token");
   console.log("로컬 토큰", accessToken);
   return axios
     .get("/domain/users/me", {
