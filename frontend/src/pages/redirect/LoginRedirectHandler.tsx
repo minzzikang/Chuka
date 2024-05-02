@@ -18,32 +18,20 @@ const LoginRedirectHandler = () => {
   }, [code]);
 
   const getToken = (code: string) => {
+    axios
+      .post(`${BASE_URL}/auth/login/kakao`, code)
+      .then((res) => {
+        // console.log("나와주세요", code);
+        console.log("살려줘", res);
+        const accessToken = res.headers["authorization"];
+        const refreshToken = res.headers["refresh-token"];
+        localStorage.setItem("access_token", accessToken);
+        localStorage.setItem("refresh_token", refreshToken);
 
-    console.log('코드의!!!!!!!!!!!!!!!!!!!!',code);
-
-
-    axios.post(`${BASE_URL}/auth/login/kakao`, code).then((res) => {
-      const accessToken = res.headers["authorization"];
-      const refreshToken = res.headers["refresh-token"];
-
-      accessToken &&
-        loginSuccess({ accessToken, refreshToken })
-          .then(() => {
-            localStorage.setItem("access_token", accessToken);
-            localStorage.setItem("refresh_token", refreshToken);
-
-            console.log('뺏지 유저 :',  );
-
-
-            fetchUserInfo().then((res) => {
-              console.log('뺏지 유저 후우우우우', res);
-              setUserState(res.data);
-              console.log('메인 이동 !!!!!!!!!!!');
-              navigate("/");
-            });
-          })
-          .catch((err) => console.error(err));
-    });
+        setUserState(res.data);
+        navigate("/");
+      })
+      .catch((err) => console.error(err));
   };
 
   return (

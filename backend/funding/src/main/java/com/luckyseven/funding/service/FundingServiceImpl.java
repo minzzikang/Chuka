@@ -1,14 +1,12 @@
 package com.luckyseven.funding.service;
 
-import com.luckyseven.funding.dto.FundingCreateReq;
-import com.luckyseven.funding.dto.FundingDetailRes;
-import com.luckyseven.funding.dto.FundingRes;
-import com.luckyseven.funding.dto.SponsorRes;
+import com.luckyseven.funding.dto.*;
 import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
 import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.repository.FundingRepository;
+import com.luckyseven.funding.util.EventFeignClient;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -16,11 +14,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
-import java.time.temporal.ChronoUnit;
 import java.util.List;
 import java.util.NoSuchElementException;
-import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -28,6 +23,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
+    private final EventFeignClient eventFeignClient;
 
     @Override
     public int createFunding(final FundingCreateReq dto, String userId) {
@@ -87,8 +83,9 @@ public class FundingServiceImpl implements FundingService {
         final int nowFundingAmount = sponsorList.stream()
                 .mapToInt(Sponsor::getAmount)
                 .sum();
+        EventDto eventDto = eventFeignClient.getEvent(funding.getEventId());
 
-        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList);
+        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList, eventDto.getDate(), eventDto.getTitle());
     }
 
     @Override
