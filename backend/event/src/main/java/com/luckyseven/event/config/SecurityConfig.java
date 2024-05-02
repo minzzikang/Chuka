@@ -82,8 +82,10 @@ public class SecurityConfig {
         http
                 .formLogin((auth) -> auth.disable());
 
+//        http
+//                .httpBasic(Customizer.withDefaults());
         http
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic((auth) -> auth.disable());
 
         http
                 .authorizeHttpRequests((auth) -> auth
