@@ -25,4 +25,6 @@ public interface EventService {
     void deleteEvent(int eventId) throws UnsupportedOperationException;
     boolean isMyEvent(int eventId, String userId);
 
+    int countEvent();
+
 }

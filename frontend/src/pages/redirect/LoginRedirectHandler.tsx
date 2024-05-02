@@ -5,8 +5,12 @@ import { BASE_URL } from "@/utils/requestMethods";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
 import { fetchUserInfo, loginSuccess } from "@/apis/auth";
+import { userState } from "@stores/user";
+import { useSetRecoilState } from "recoil";
+import { fetchUserInfo, loginSuccess } from "@/apis/auth";
 
 const LoginRedirectHandler = () => {
+  const setUserState = useSetRecoilState(userState);
   const setUserState = useSetRecoilState(userState);
   const navigate = useNavigate();
   const code = new URLSearchParams(window.location.search).get("code");
@@ -15,6 +19,7 @@ const LoginRedirectHandler = () => {
     if (code) {
       getToken(code);
     }
+  }, [code]);
   }, [code]);
 
   const getToken = (code: string) => {
@@ -26,7 +31,6 @@ const LoginRedirectHandler = () => {
         localStorage.setItem("access_token", accessToken);
         axios.defaults.headers.common["Authorization"] =
           `Bearer ${accessToken}`;
-
         fetchUserInfo();
         navigate("/");
       })
