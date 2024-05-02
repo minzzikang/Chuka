@@ -25,10 +25,10 @@ export const fetchUserInfo = async () => {
   console.log("오고있니..?");
   let accessToken = localStorage.getItem("access_token");
 
-  while (accessToken === null) {
-    accessToken = localStorage.getItem("access_token");
-    console.log("null 이야");
-  }
+  // while (accessToken === null) {
+  //   accessToken = localStorage.getItem("access_token");
+  //   console.log("null 이야");
+  // }
   console.log("널아님", accessToken);
   try {
     const res = await axios.get(`${BASE_URL}/users/me`, {
