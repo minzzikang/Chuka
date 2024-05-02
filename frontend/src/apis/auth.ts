@@ -1,6 +1,5 @@
 import { authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
-import { BASE_URL } from "@/utils/requestMethods";
 import axios from "axios";
 
 const JWT_EXPIRY_TIME = 30 * 60 * 1000; //30분에 한 번
@@ -33,12 +32,19 @@ export const loginSuccess = async (res: {
 }) => {
   const { accessToken, refreshToken } = res;
 
-  authRequest.defaults.headers.Authorization = `Bearer ${accessToken}`;
-  authRequest.defaults.headers["Refresh-Token"] = `Bearer ${refreshToken}`;
+  authRequest.defaults.headers["Authorization"] = accessToken;
+  authRequest.defaults.headers["Refresh-Token"] = refreshToken;
   setTimeout(() => refresh(), JWT_EXPIRY_TIME);
 };
 
 // 회원 정보 조회
 export const fetchUserInfo = async () => {
-  return authRequest.get("/users/me").then((res) => res.data);
+  const accessToken = localStorage.getItem("access_token");
+  const response = await axios.get("https://chuka.kr/api/v1/users/me", {
+    headers: {
+      Authorization: `${accessToken}`,
+    },
+  });
+  console.log("유저 정보", response.data);
+  return response.data;
 };
