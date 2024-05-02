@@ -7,7 +7,7 @@ import { useLocation } from "react-router-dom";
 
 const Container = styled.div`
   width: 100%;
-  height: 600px;
+  /* height: 600px; */
   display: flex;
   flex-direction: column;
   justify-content: center;
