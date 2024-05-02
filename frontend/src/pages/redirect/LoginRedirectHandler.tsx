@@ -22,17 +22,16 @@ const LoginRedirectHandler = () => {
       const accessToken = res.headers["authorization"];
       const refreshToken = res.headers["refresh-token"];
 
-      localStorage.setItem("access_token", accessToken);
-      localStorage.setItem("refresh_token", refreshToken);
-
       accessToken &&
         loginSuccess({ accessToken, refreshToken })
-          .then(() =>
+          .then(() => {
+            localStorage.setItem("access_token", accessToken);
+            localStorage.setItem("refresh_token", refreshToken);
             fetchUserInfo().then((res) => {
               setUserState(res.data);
               navigate("/");
-            })
-          )
+            });
+          })
           .catch((err) => console.error(err));
     });
   };
