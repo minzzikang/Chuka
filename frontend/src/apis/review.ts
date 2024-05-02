@@ -6,7 +6,7 @@ const url = '/api/v1'
 
 export const createReview = async (params:object) : Promise<any> => {
     authRequest
-        .post(`${url}/reviews`, params)
+        .post(`/reviews`, params)
         .then(res => {
             return res.data
         })
@@ -16,7 +16,7 @@ export const createReview = async (params:object) : Promise<any> => {
 
 export const fetchReview = async () : Promise<any> => {
     authRequest
-    .get(`${url}/reviews`).then(res => {return res.data})
+    .get(`/reviews`).then(res => {return res.data})
     .catch(error => console.error(error))
 
 }
