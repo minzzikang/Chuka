@@ -56,11 +56,13 @@ export default defineConfig({
     watch: {
       usePolling: true,
     },
+    // CORS -> 프록시 설정
     proxy:{
-      "/api":{
-        target:"https://chuka.kr",
+      "/domain":{
+        target:"https://chuka.kr/",
         changeOrigin:true,
-        rewrite: (path) => path.replace(/^\/api/, ""),
+        // "domain" -> "https://chuka.kr/"로 치환 : CORs 에러 회피
+        rewrite: (path) => path.replace(/^\/domain/, ""),
         secure:false,
       }
     },
