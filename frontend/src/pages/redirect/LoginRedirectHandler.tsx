@@ -20,6 +20,8 @@ const LoginRedirectHandler = () => {
 
   const getToken = (code: string) => {
 
+    console.log('코드의!!!!!!!!!!!!!!!!!!!!: ', code);
+
 
     axios.post(`${BASE_URL}/api/v1/auth/login/kakao`, code).then(res => {
       const accessToken = res.headers["authorization"];
@@ -31,9 +33,12 @@ const LoginRedirectHandler = () => {
             localStorage.setItem("access_token", accessToken);
             localStorage.setItem("refresh_token", refreshToken);
 
+            console.log('뺏지 유저  :', accessToken, refreshToken );
+
+
             fetchUserInfo().then(res => {
-              console.log('뺏지 유저 후우우우우', res.data);
-              setUserState(res.data.data);
+              console.log('뺏지 유저 후우우우우', res);
+              setUserState(res.data);
               console.log('메인 이동 !!!!!!!!!!!');
               navigate("/");
             });
