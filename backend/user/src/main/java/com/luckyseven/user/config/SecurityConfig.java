@@ -69,6 +69,7 @@ public class SecurityConfig {
                                 configuration.setMaxAge(3600L);
                                 configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
                                 configuration.setExposedHeaders(Collections.singletonList("Authorization"));
+                                configuration.setExposedHeaders(Collections.singletonList("Refresh-Token"));
 
                                 return configuration;
 
