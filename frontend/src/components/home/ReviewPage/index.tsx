@@ -4,6 +4,9 @@ import styled from "styled-components";
 import TopSection from "@components/home/ReviewPage/TopSection";
 import MiddleSection from "@components/home/ReviewPage/MiddleSection";
 import Header from '@common/header'
+import axios from "axios";
+import { createReview } from "@/apis/review";
+import { useNavigate } from "react-router-dom";
 
 const Container = styled.div`
   display: flex;
@@ -22,13 +25,22 @@ const LargeBtn = styled.button`
 `;
 
 const index = () => {
-  const [regData, setRegData] = useState<{ comment: string; phone: string }>({
-    comment: "",
-    phone: "",
+  const [regData, setRegData] = useState<{ content: string; phoneNumber: string }>({
+    content: "",
+    phoneNumber: "",
   });
 
+  const navigate = useNavigate()
+
   const onRegister = async () => {
-    console.log("리뷰 등록", regData);
+    try {
+      const response = createReview(regData)
+      console.log(response);
+      navigate('/')
+      console.log("리뷰 등록", regData);
+    } catch (err) {
+      console.error(err)
+    }
   };
   return (
     <Container>
@@ -36,12 +48,12 @@ const index = () => {
       <div style={{marginTop:'50px'}}></div>
       <TopSection />
       <MiddleSection
-        comment={regData.comment}
+        comment={regData.content}
         setComment={(value) =>
-          setRegData((prev) => ({ ...prev, comment: value }))
+          setRegData((prev) => ({ ...prev, content: value }))
         }
-        phone={regData.phone}
-        setPhone={(value) => setRegData((prev) => ({ ...prev, phone: value }))}
+        phone={regData.phoneNumber}
+        setPhone={(value) => setRegData((prev) => ({ ...prev, phoneNumber: value }))}
       />
       <LargeBtn onClick={onRegister}>등록하기</LargeBtn>
     </Container>
