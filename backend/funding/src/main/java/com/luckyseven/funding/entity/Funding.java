@@ -82,4 +82,15 @@ public class Funding {
 
     @Column
     private String userId;
+
+    public void successCrawling(FundingStatus status, String productImage, String productName, Integer productPrice) {
+        this.status = status;
+        this.productImage = productImage;
+        this.productName = productName;
+        this.productPrice = productPrice;
+    }
+
+    public void failCrawling(FundingStatus status) {
+        this.status = status;
+    }
 }
