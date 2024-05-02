@@ -4,6 +4,8 @@ import { colors } from "@styles/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
+  width: 100%;
+  align-items: center;
 `;
 
 export const Button = styled.button<{ $active: boolean }>`
@@ -23,6 +25,8 @@ export const Button = styled.button<{ $active: boolean }>`
 
 export const Wrap = styled.div`
   display: flex;
+  flex-direction: column;
+  width: 80%;
   margin-top: 0.3em;
   margin-bottom: 0.5em;
 `;
@@ -46,7 +50,13 @@ export const P = styled.p`
   margin-left: 5px;
 `;
 
-export const ThemeButton = styled.button<{ $active: boolean }>`
+export const BtnWrap = styled.div`
+  display: flex;
+`;
+
+export const ThemeButton = styled.button<{
+  $active: boolean;
+}>`
   background-color: ${colors.white};
   border: 2px solid
     ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
