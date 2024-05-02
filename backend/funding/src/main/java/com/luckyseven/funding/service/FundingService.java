@@ -7,7 +7,8 @@ import com.luckyseven.funding.dto.FundingRes;
 import java.util.List;
 
 public interface FundingService {
-    int createFunding(FundingCreateReq dto);
+    int createFunding(FundingCreateReq dto, String userId);
     List<FundingRes> findFundings(int eventId);
     FundingDetailRes getFunding(int fundingId);
+    List<FundingRes> getMyFunding(String userId);
 }

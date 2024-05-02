@@ -30,7 +30,7 @@ public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
 
     @Override
-    public int createFunding(final FundingCreateReq dto) {
+    public int createFunding(final FundingCreateReq dto, String userId) {
         final Funding data = Funding.builder()
                 .eventId(dto.getEventId())
                 .productLink(dto.getProductLink())
@@ -43,6 +43,7 @@ public class FundingServiceImpl implements FundingService {
                 .address(dto.getAddress())
                 .addressDetail(dto.getAddressDetail())
                 .endDate(dto.getEndDate())
+                .userId(userId)
                 .build();
         final Funding result = fundingRepository.save(data);
         return result.getFundingId();
@@ -88,5 +89,32 @@ public class FundingServiceImpl implements FundingService {
                 .sum();
 
         return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList);
+    }
+
+    @Override
+    public List<FundingRes> getMyFunding(String userId) {
+        final List<Funding> fundingList = fundingRepository.findAllByUserId(userId);
+
+        return fundingList.stream()
+                .map(funding -> {
+                    int currentFundingAmount = funding.getSponsorList().stream()
+                            .mapToInt(Sponsor::getAmount)
+                            .sum();
+                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
+                    boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
+                    boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
+                    FundingResult fundingResult;
+
+                    if (isGoal)
+                        fundingResult = FundingResult.SUCCESS;
+                    else {
+                        if (isFundingPeriod)
+                            fundingResult = FundingResult.ONGOING;
+                        else
+                            fundingResult = FundingResult.COMPLETE;
+                    }
+                    return FundingRes.of(funding, fundingResult);
+                })
+                .toList();
     }
 }
