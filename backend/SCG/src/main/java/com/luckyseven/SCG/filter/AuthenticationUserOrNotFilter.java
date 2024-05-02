@@ -53,13 +53,11 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                     }
 
                     if (!jwtUtil.getType(authHeader).equals("ATK")) {
-                        log.info("TYPE: {}", jwtUtil.getType(authHeader));
                         throw new RuntimeException("different type token");
                     }
 
                     String values = redisService.getValues(authHeader);
                     if (values != null && values.equals("logout")) {
-                        log.info("redis: {}", values);
                         throw new RuntimeException("invalid token");
                     }
 
