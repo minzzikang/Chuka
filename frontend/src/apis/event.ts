@@ -1,11 +1,12 @@
 import { authRequest } from "@utils/requestMethods";
+import axios from "axios";
 
-const url = "/events";
+const accessToken = localStorage.getItem("access_token");
 
 // 이벤트 등록
 export const createEventReg = async (data: FormData) => {
   return authRequest
-    .post(`${url}`, data, {
+    .post(`/domain/events`, data, {
       headers: { "Content-Type": "multipart/form-data" },
     })
     .then((res) => {
@@ -16,5 +17,14 @@ export const createEventReg = async (data: FormData) => {
 
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string) => {
-  return authRequest.get(`${url}/${eventId}`).then((res) => res.data);
+  return axios
+    .get(`/domain/events${eventId}`, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    })
+    .then((res) => {
+      console.log("이벤트 정보", res.data);
+      return res.data;
+    });
 };
