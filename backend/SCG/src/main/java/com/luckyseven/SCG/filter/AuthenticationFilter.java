@@ -2,7 +2,6 @@ package com.luckyseven.SCG.filter;
 
 import com.luckyseven.SCG.util.JwtUtil;
 import com.luckyseven.SCG.util.redis.RedisService;
-import lombok.extern.java.Log;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cloud.gateway.filter.GatewayFilter;
@@ -33,7 +32,7 @@ public class AuthenticationFilter extends AbstractGatewayFilterFactory<Authentic
         return ((exchange, chain) -> {
 //            System.out.println("===========================필터 적용=========================");
 
-            ServerHttpRequest loggedInUser=null;
+            ServerHttpRequest loggedInUser = null;
             if (validator.isSecured.test(exchange.getRequest())) {
                 //header contains token or not
                 if (!exchange.getRequest().getHeaders().containsKey(HttpHeaders.AUTHORIZATION)) {
