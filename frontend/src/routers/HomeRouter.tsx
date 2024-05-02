@@ -27,6 +27,7 @@ const HomeRouter = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
+      
       <Route path="/celebrate" element={<CelebrationPage />} />
       <Route path="/celebrate/rolling" element={<RollingMainPage />} />
       <Route
