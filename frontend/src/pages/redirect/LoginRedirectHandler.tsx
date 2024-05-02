@@ -18,20 +18,23 @@ const LoginRedirectHandler = () => {
   }, [code]);
 
   const getToken = (code: string) => {
-    axios
-      .post(`${BASE_URL}/auth/login/kakao`, code)
-      .then((res) => {
-        let accessToken = res.headers.authorization;
-        console.log(accessToken);
-        localStorage.setItem("access_token", accessToken);
-        axios.defaults.headers.common["Authorization"] =
-          `Bearer ${accessToken}`;
-        fetchUserInfo();
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error(err);
-      });
+    axios.post(`${BASE_URL}/auth/login/kakao`, code).then((res) => {
+      const accessToken = res.headers["authorization"];
+      const refreshToken = res.headers["refresh-token"];
+
+      localStorage.setItem("access_token", accessToken);
+      localStorage.setItem("refresh_token", refreshToken);
+
+      accessToken &&
+        loginSuccess({ accessToken, refreshToken })
+          .then(() =>
+            fetchUserInfo().then((res) => {
+              setUserState(res.data);
+              navigate("/");
+            })
+          )
+          .catch((err) => console.error(err));
+    });
   };
 
   return (
