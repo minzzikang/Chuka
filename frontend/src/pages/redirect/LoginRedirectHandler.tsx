@@ -19,7 +19,7 @@ const LoginRedirectHandler = () => {
 
   const getToken = (code: string) => {
     axios
-      .post(`${BASE_URL}/auth/login/kakao`, code)
+      .post("/domain/auth/login/kakao", code)
       .then((res) => {
         // console.log("나와주세요", code);
         console.log("살려줘", res);
