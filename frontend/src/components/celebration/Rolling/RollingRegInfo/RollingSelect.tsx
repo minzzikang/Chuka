@@ -1,38 +1,46 @@
 import Lable from "@common/label";
 import Recg from "/img/img_recgPaper.png";
 import Circle from "/img/img_circlePaper.png";
-import Heart from "/img/img_heartPaper.png";
 import { IoMdAdd } from "react-icons/io";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import * as r from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect.styled";
 import ColorSelectModal from "./ColorSelectModal";
-import Header from "@common/header";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
-interface RollingSelectData {
+interface RegDataProps {
   shape: string;
   background_color: string;
+  content: string;
+  font: string;
+  font_color: string;
   background_image: string;
+  nickname: string;
 }
 
 interface RollingSelectProps {
-  onUpdateData: (data: RollingSelectData) => void;
+  onUpdateData: (data: RegDataProps) => void;
 }
 
 const shapeMap: { [key: string]: string } = {
   사각형: "rectangle",
   원형: "circle",
-  하트: "heart",
 };
 
 const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
-  const [regData, setRegData] = useState<RollingSelectData>({
-    shape: "rectangle",
-    background_color: "",
-    background_image: "",
-  });
-
+  const location = useLocation();
   const navigate = useNavigate();
+
+  const [regData, setRegData] = useState<RegDataProps>(
+    location.state?.regData || {
+      shape: "",
+      background_color: "",
+      background_image: "",
+      font: "",
+      font_color: "",
+      content: "",
+      nickname: "",
+    }
+  );
 
   useEffect(() => {
     console.log(regData);
@@ -43,7 +51,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const shapeList: string[] = ["사각형", "원형", "하트"];
+  const shapeList: string[] = ["사각형", "원형"];
 
   const onClickShape = (shape: string) => {
     const englishShape = shapeMap[shape];
@@ -85,12 +93,26 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
 
   const handleSubmit = () => {
     onUpdateData(regData);
-    navigate("/celebrate/rolling-write", { state: { regData } });
+    navigate("/celebrate/rolling-write", {
+      state: {
+        shape: `${regData.shape}`,
+        background_image: `${regData.background_image}`,
+        background_color: `${regData.background_color}`,
+      },
+    });
   };
 
   return (
     <>
-      <Header children="배경 선택하기" label="다음" onClick={handleSubmit} />
+      <r.Header>
+        <r.Icon
+          onClick={() => {
+            navigate(-1);
+          }}
+        />
+        <span>배경 선택하기</span>
+        <button onClick={handleSubmit}>다음</button>
+      </r.Header>
       <r.Container>
         <Lable htmlFor="paper-shape" children="종이 모양 선택" />
         <r.Wrap>
@@ -102,10 +124,8 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
             >
               {shape === "사각형" ? (
                 <r.Img src={Recg} alt={shape} />
-              ) : shape === "원형" ? (
-                <r.Img src={Circle} alt={shape} />
               ) : (
-                <r.Img src={Heart} alt={shape} />
+                <r.Img src={Circle} alt={shape} />
               )}
               {shape}
             </r.ShapeButton>
