@@ -5,6 +5,7 @@ import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
 import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.entity.Sponsor;
+import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.util.EventFeignClient;
 import jakarta.transaction.Transactional;
@@ -24,6 +25,7 @@ import java.util.NoSuchElementException;
 public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
     private final EventFeignClient eventFeignClient;
+    private final ProducerService producerService;
 
     @Override
     public int createFunding(final FundingCreateReq dto, String userId) {
@@ -42,6 +44,7 @@ public class FundingServiceImpl implements FundingService {
                 .userId(userId)
                 .build();
         final Funding result = fundingRepository.save(data);
+        producerService.sendCrawlingMessage(result.getFundingId(),result.getProductLink());
         return result.getFundingId();
     }
 
