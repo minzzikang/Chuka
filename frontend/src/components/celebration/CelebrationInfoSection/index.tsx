@@ -50,30 +50,34 @@ const index = (props: RollingInfoSectionType) => {
         <FileInput onChange={handleFileChange} />
       </c.Wrap>
       <c.Wrap>
-      <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
-        <c.ThemeButton
-          onClick={() => onClickTheme(themeList[0])}
-          $active={theme === themeList[0]}
-        >
-          <c.ThemeImg src={CorkImg} />
-          {"보드"}
-        </c.ThemeButton>
-        <c.ThemeButton
-          onClick={() => onClickTheme(themeList[1])}
-          $active={theme === themeList[1]}
-        >
-          <c.ThemeImg src={BoardImg} />
-          {"칠판"}
-        </c.ThemeButton>
+        <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
+        <c.BtnWrap>
+          <c.ThemeButton
+            onClick={() => onClickTheme(themeList[0])}
+            $active={theme === themeList[0]}
+          >
+            <c.ThemeImg src={CorkImg} />
+            {"보드"}
+          </c.ThemeButton>
+          <c.ThemeButton
+            onClick={() => onClickTheme(themeList[1])}
+            $active={theme === themeList[1]}
+          >
+            <c.ThemeImg src={BoardImg} />
+            {"칠판"}
+          </c.ThemeButton>
+        </c.BtnWrap>
       </c.Wrap>
       <c.Wrap>
-      <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
-        <c.Button onClick={toggleButton} $active={isVisible}>
-          {"허용함"}
-        </c.Button>
-        <c.Button onClick={toggleButton} $active={!isVisible}>
-          {"허용하지 않음"}
-        </c.Button>
+        <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
+        <c.BtnWrap>
+          <c.Button onClick={toggleButton} $active={isVisible}>
+            {"허용함"}
+          </c.Button>
+          <c.Button onClick={toggleButton} $active={!isVisible}>
+            {"허용하지 않음"}
+          </c.Button>
+        </c.BtnWrap>
       </c.Wrap>
     </c.Container>
   );

@@ -5,8 +5,9 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  width: 100%;
   align-items: center;
-`
+`;
 
 export const FileInputContainer = styled.div`
   width: 339px;
@@ -23,8 +24,7 @@ export const FileInputContainer = styled.div`
 `;
 
 export const ImagePreview = styled.img`
-  display: block;
-  margin: 0 auto;
+  display: flex;
   padding: 10px;
   max-width: 100%;
   max-height: 100vh;
