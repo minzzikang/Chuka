@@ -13,12 +13,11 @@ import java.util.NoSuchElementException;
 public interface RollSheetService {
 
     RollSheetDto createRollSheet(CreateRollSheetDto rollSheetDto, String userId, int eventId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
-
     List<RollSheetDto> getRollSheetListWithEventId(int eventId) throws NoSuchElementException;
-
     RollSheetDto getRollSheet(String rollSheetId) throws NoSuchElementException;
 
     void deleteByRollSheetId(String rollSheetId);
-
     void deleteAllByEventId(int eventId);
+
+    int countRollSheet();
 }

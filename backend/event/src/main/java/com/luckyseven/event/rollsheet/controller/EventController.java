@@ -4,11 +4,12 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
+import com.luckyseven.event.rollsheet.dto.CountEventDto;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.service.EventService;
-import com.luckyseven.event.util.FileService;
+import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,9 +34,9 @@ import java.util.NoSuchElementException;
 public class EventController {
 
     private final EventService eventService;
+    private final RollSheetService rollSheetService;
 
-
-    @PostMapping(value = "/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+    @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
@@ -67,8 +68,8 @@ public class EventController {
         return ResponseEntity.status(200).body(event);
     }
 
-    @GetMapping("/")
-    @Operation(summary = "이벤트 조회", description = "이벤트 목록을 조회한다.")
+    @GetMapping
+    @Operation(summary = "이벤트 목록 조회", description = "이벤트 목록을 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
@@ -198,6 +199,28 @@ public class EventController {
         }
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "이벤트 삭제"));
+
+    }
+
+    @GetMapping("/count")
+    @Operation(summary = "이벤트, 축하메시지 개수 조회", description = "이벤트를 개수, 축하메시지 개수를 조회한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "500", description = "서버 오류"),
+    })
+    public ResponseEntity<?> getCount() {
+
+        try {
+            CountEventDto result = new CountEventDto();
+            result.setEventCnt(eventService.countEvent());
+            result.setMsgCnt(rollSheetService.countRollSheet());
+
+            return ResponseEntity.status(200).body(result);
+        } catch (Exception e) {
+
+            return ResponseEntity.status(400).body(null);
+        }
 
     }
 }

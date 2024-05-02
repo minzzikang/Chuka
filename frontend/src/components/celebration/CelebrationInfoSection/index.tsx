@@ -5,11 +5,10 @@ import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
 
 import { RollingInfoSectionType } from "@/types/rollingType";
-import * as c from "@components/celebration/CelebrationInfoSection.styled";
+import * as c from "@/components/celebration/CelebrationInfoSection/CelebrationInfoSection.styled";
 
-
-const CelebrationInfoSection = (props: RollingInfoSectionType) => {
-  const { 
+const index = (props: RollingInfoSectionType) => {
+  const {
     handleTitle,
     title,
     isVisible,
@@ -18,17 +17,17 @@ const CelebrationInfoSection = (props: RollingInfoSectionType) => {
     handleFileChange,
     handleTheme,
     theme,
-   } = props;
+  } = props;
 
   const toggleButton = () => {
-    handleVisible(!isVisible)
-  }
+    handleVisible(!isVisible);
+  };
 
   const themeList: string[] = ["cork_board", "black_board"];
 
   const onClickTheme = (theme: string) => {
     handleTheme(theme);
-  }
+  };
 
   return (
     <c.Container>
@@ -41,36 +40,34 @@ const CelebrationInfoSection = (props: RollingInfoSectionType) => {
           onChange={(e) => handleTitle(e.target.value)}
         />
       </c.Wrap>
-        <Label htmlFor="date" children="ㅊㅋ 날짜" />
-        {/* 달력 선택 날짜와 부모요소 전달 날짜 다름 */}
-        <Calendar onDateChange={handleDateChange} />
+      <Label htmlFor="date" children="ㅊㅋ 날짜" />
+      <Calendar onDateChange={handleDateChange} />
       <c.Wrap>
         <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
       </c.Wrap>
-        <Label htmlFor="img" children="대표 이미지 설정" />
+      <Label htmlFor="img" children="대표 이미지 설정" />
       <c.Wrap>
         <FileInput onChange={handleFileChange} />
       </c.Wrap>
-        <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
+      <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />
       <c.Wrap>
-          <c.ThemeButton
-            onClick={() => onClickTheme(themeList[0])}
-            $active={theme === themeList[0]}
-          >
-            <c.ThemeImg src={CorkImg} />
-            {"보드"}
-          </c.ThemeButton>
-          <c.ThemeButton
-            onClick={() => onClickTheme(themeList[1])}
-            $active={theme === themeList[1]}
-          >
-            <c.ThemeImg src={BoardImg} />
-            {"칠판"}
-          </c.ThemeButton>
+        <c.ThemeButton
+          onClick={() => onClickTheme(themeList[0])}
+          $active={theme === themeList[0]}
+        >
+          <c.ThemeImg src={CorkImg} />
+          {"보드"}
+        </c.ThemeButton>
+        <c.ThemeButton
+          onClick={() => onClickTheme(themeList[1])}
+          $active={theme === themeList[1]}
+        >
+          <c.ThemeImg src={BoardImg} />
+          {"칠판"}
+        </c.ThemeButton>
       </c.Wrap>
       <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
       <c.Wrap>
-        {/* 버튼 클릭 시 ui 변경 안됨 */}
         <c.Button onClick={toggleButton} $active={isVisible}>
           {"허용함"}
         </c.Button>
@@ -82,4 +79,4 @@ const CelebrationInfoSection = (props: RollingInfoSectionType) => {
   );
 };
 
-export default CelebrationInfoSection;
+export default index;

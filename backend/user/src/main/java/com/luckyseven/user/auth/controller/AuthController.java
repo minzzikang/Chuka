@@ -4,24 +4,17 @@ import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import com.luckyseven.user.user.service.UserService;
 import com.luckyseven.user.util.jwt.JWTUtil;
-import io.jsonwebtoken.Jwts;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
-import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
-
-import javax.crypto.spec.SecretKeySpec;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 
 @Slf4j
 @RestController
@@ -44,10 +37,10 @@ public class AuthController {
     public ResponseEntity<?> ttest(@PathVariable("token") String token) {
         try {
 
-        log.info("token!!!!!");
-        jwtUtil.validateToken(token);
+            log.info("token!!!!!");
+            jwtUtil.validateToken(token);
             return ResponseEntity.ok().body("유효함");
-        }catch (Exception e){
+        } catch (Exception e) {
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 
@@ -84,7 +77,7 @@ public class AuthController {
 
             return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
         } catch (HttpClientErrorException e) {
-            log.error("KAKAO LOGIN FAILED HttpClientErrorException");
+            log.error("KAKAO LOGIN FAILED");
             e.printStackTrace();
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         } catch (Exception e) {
@@ -101,9 +94,11 @@ public class AuthController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> reissueRefreshToken(
-            @RequestHeader("Authorization") String authorization)
-    {
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
+    ) {
+        log.info("refreshToken: {}", authorization);
         String refreshToken = authorization.substring("Bearer ".length());
+        log.info("refreshToken: {}", refreshToken);
 
         String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
 
