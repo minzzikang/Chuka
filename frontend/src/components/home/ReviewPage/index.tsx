@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import TopSection from "@components/home/ReviewPage/TopSection";
 import MiddleSection from "@components/home/ReviewPage/MiddleSection";
-import HomeHeader from "@components/home/HomeHeader/";
+import Header from '@common/header'
 
 const Container = styled.div`
   display: flex;
@@ -32,8 +32,8 @@ const index = () => {
   };
   return (
     <Container>
-      <HomeHeader />
-      <div style={{marginTop:'70px'}}></div>
+      <Header children={"후기 작성"} />
+      <div style={{marginTop:'50px'}}></div>
       <TopSection />
       <MiddleSection
         comment={regData.comment}
