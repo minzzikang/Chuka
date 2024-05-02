@@ -44,7 +44,9 @@ const Index: React.FC<FileInputProps> = ({ onChange }) => {
           ? selectedFile.name
           : "축하할 날을 대표하는 이미지를 등록해주세요."}
       </f.FileInputContainer>
-      {imagePreviewUrl && <f.ImagePreview src={imagePreviewUrl} alt="Preview" />}
+      {imagePreviewUrl && (
+        <f.ImagePreview src={imagePreviewUrl} alt="Preview" />
+      )}
     </f.Container>
   );
 };
