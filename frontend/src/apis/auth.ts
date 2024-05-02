@@ -1,5 +1,6 @@
 import { authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
+import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
