@@ -82,14 +82,17 @@ public class SecurityConfig {
         http
                 .formLogin((auth) -> auth.disable());
 
+//        http
+//                .httpBasic(Customizer.withDefaults());
         http
-                .httpBasic(Customizer.withDefaults());
+                .httpBasic((auth) -> auth.disable());
 
         http
                 .authorizeHttpRequests((auth) -> auth
-                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+//                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/events/**", "/api/v1/reviews/**").permitAll()
-                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
+//                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         http

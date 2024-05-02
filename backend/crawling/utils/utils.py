@@ -51,6 +51,6 @@ def extract_shopping_info(url: str, selectors: dict):
         name_tag = soup.find(selectors['name_tag'], class_=selectors['name'])
         name = re.sub(r'\(.*?\)|\[.*?\]', '', name_tag.text).strip() if name_tag else None
 
-        return {"product_url": image_url, "product_price": price, "product_name": name}
+        return {"productUrl": image_url, "productPrice": price, "productName": name}
     except Exception as e:
-        return {"error": str(e)}
+        return {"status":400, "message": str(e)}
