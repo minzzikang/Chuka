@@ -2,6 +2,9 @@ import { authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
 import { BASE_URL } from "@/utils/requestMethods";
 import axios from "axios";
+import { userType } from "@/types/authType";
+import { BASE_URL } from "@/utils/requestMethods";
+import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
@@ -21,9 +24,9 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 };
 
 // 회원 정보 조회
-export const fetchUserInfo = async (): Promise<userType> => {
+export const fetchUserInfo = async () => {
   try {
-    const res = await axios.get<userType>(`${BASE_URL}/users/me`, {
+    const res = await axios.get(`${BASE_URL}/users/me`, {
       headers: {
         Authorization: `Bearer ${localStorage.getItem("access_token")}`,
       },

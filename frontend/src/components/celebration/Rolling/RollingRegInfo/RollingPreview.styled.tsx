@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { colors, sizes } from "@styles/theme";
+import { IoIosArrowBack } from "react-icons/io";
 
 export const BlackBox = styled.div`
   display: flex;
@@ -59,22 +60,58 @@ export const Container = styled.div`
   align-items: center;
 `;
 
+export const Header = styled.div`
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  span {
+    color: ${colors.black};
+    font-weight: 700;
+    flex-grow: 1;
+    text-align: center;
+  }
+
+  button {
+    background: none;
+    border: none;
+    color: ${colors.black};
+    font-weight: 700;
+    font-size: 14px;
+    margin-right: 10px;
+  }
+`;
+
+export const Icon = styled(IoIosArrowBack)`
+  position: fixed;
+  left: 10px;
+  top: 10px;
+  font-size: 24px;
+  cursor: pointer;
+`;
+
 export const MessageBox = styled.div<{
   bgColor?: string;
   bgImage?: string;
   fontColor?: string;
   fontFamily?: string;
+  shape?: string;
 }>`
+  display: flex;
+  justify-content: center;
   background-color: ${({ bgColor }) => bgColor || colors.white};
   background-image: ${({ bgImage }) => (bgImage ? `url(${bgImage})` : "none")};
   color: ${({ fontColor }) => fontColor || colors.black};
   font-family: ${({ fontFamily }) => fontFamily || "Pretendard"};
   margin: 20px;
-  border-radius: 1em;
+  border-radius: ${({ shape }) => (shape === "circle" ? "50%" : "1em")};
   padding: 10px;
-  width: 95%;
-  height: 300px;
   font-size: 1em;
+  background-size: cover;
+  background-position: center;
+  width: 90%;
+  height: 400px;
 `;
 
 export const Button = styled.button`
