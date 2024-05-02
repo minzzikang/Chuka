@@ -13,7 +13,6 @@ import java.nio.charset.StandardCharsets;
 public class JwtUtil {
     private final SecretKey secretKey;
 
-
     public JwtUtil(@Value("${secret-key}") String secret) {
         secretKey = new SecretKeySpec(
                 secret.getBytes(StandardCharsets.UTF_8),
@@ -31,6 +30,15 @@ public class JwtUtil {
                 .parseSignedClaims(token)
                 .getPayload()
                 .get("id", String.class);
+    }
+
+    public String getType(String token) {
+        return Jwts.parser()
+                .verifyWith(secretKey)
+                .build()
+                .parseSignedClaims(token)
+                .getPayload()
+                .get("type", String.class);
     }
 
 }

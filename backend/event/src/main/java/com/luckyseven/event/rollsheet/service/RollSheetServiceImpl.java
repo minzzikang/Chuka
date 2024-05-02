@@ -134,4 +134,9 @@ public class RollSheetServiceImpl implements RollSheetService {
 
         rollSheetRepository.deleteAllByEventId(eventId);
     }
+
+    @Override
+    public int countRollSheet() {
+        return Math.toIntExact(rollSheetRepository.count());
+    }
 }

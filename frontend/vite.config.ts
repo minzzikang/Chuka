@@ -6,7 +6,7 @@ import { VitePWA } from "vite-plugin-pwa";
 // https://vitejs.dev/config/
 export default defineConfig({
   build: {
-    outDir:'dev-dist'
+    outDir: "dev-dist",
   },
   plugins: [
     react(),
@@ -51,5 +51,17 @@ export default defineConfig({
       },
     }),
   ],
-
+  // 추가한 부분 => 수정 필요함(소켓 안됨..)
+  server: {
+    watch: {
+      usePolling: true,
+    },
+    host: true,
+    strictPort: true,
+    port: 5000,
+    hmr: {
+      host: "localhost",
+      protocol: "wss",
+    },
+  },
 });
