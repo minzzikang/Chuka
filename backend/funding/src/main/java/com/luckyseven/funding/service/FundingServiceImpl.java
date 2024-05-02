@@ -7,15 +7,20 @@ import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.util.EventFeignClient;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
+import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static com.luckyseven.funding.dto.FundingCreateReq.getNullPropertyNames;
 
 @Slf4j
 @Service
@@ -113,5 +118,29 @@ public class FundingServiceImpl implements FundingService {
                     return FundingRes.of(funding, fundingResult);
                 })
                 .toList();
+    }
+
+    @Override
+    public Funding modifyFunding(final int fundingId, final FundingCreateReq dto, String userId) throws EntityNotFoundException, IllegalAccessException{
+        Funding funding = fundingRepository.findById(fundingId).orElseThrow(EntityNotFoundException::new);
+
+        //작성자와 수정을 시도하려는 사람의 ID 일치 여부 확인
+        if(!userId.equals(funding.getUserId())) {
+            throw new IllegalAccessException();
+        }
+
+        log.info("받은 dto: {}", dto);
+
+        //FIXME: 작동 안함
+//        BeanUtils.copyProperties(dto, funding, "eventId");
+//        BeanUtils.copyProperties(dto, funding, "eventId", getNullPropertyNames(dto));
+        dto.setEventId(funding.getEventId());                                   //eventId는 변조되어서는 안됨
+        BeanUtils.copyProperties(dto, funding, getNullPropertyNames(dto));      //null인 Field 제외하고 값 복사
+
+        log.info("수정된 funding: {}", funding);
+
+        funding = fundingRepository.save(funding);
+
+        return funding;
     }
 }
