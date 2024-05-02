@@ -21,19 +21,18 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 };
 
 // 회원 정보 조회
-export const fetchUserInfo = async () => {
-  console.log("오고있니..?");
+export const fetchUserInfo = () => {
   let accessToken = localStorage.getItem("access_token");
-
-  try {
-    const res = await axios.get(`${BASE_URL}/users/me`, {
+  console.log("로컬 토큰", accessToken);
+  return axios
+    .get("/domain/users/me", {
       headers: {
-        Authorization: `${localStorage.getItem("access_token")}`,
+        Authorization: `${accessToken}`,
       },
-    });
-    // console.log("데이터", res.data);
-    return res.data;
-  } catch (err) {
-    console.log("?????????????????", err);
-  }
+    })
+    .then((res) => {
+      console.log("get 요청 데이터", res.data);
+      return res.data;
+    })
+    .catch((err) => console.error(err));
 };
