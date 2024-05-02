@@ -25,11 +25,11 @@ public class FundingDetailRes implements Serializable {
     private final String introduce;
     private final List<SponsorRes> sponsors;
 
-    public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors) {
+    public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors, final LocalDate date, final String title) {
         return new FundingDetailRes(
                 funding.getFundingId(),
-                LocalDate.now(),
-                "임시 이벤트 제목",
+                date,
+                title,
                 funding.getProductImage(),
                 (int) ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate()),
                 funding.getGoalAmount(),
