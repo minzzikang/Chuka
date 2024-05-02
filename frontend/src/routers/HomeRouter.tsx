@@ -10,6 +10,9 @@ import PaymentPage from "@pages/celebration/funding/PaymentPage";
 import RollingMainPage from "@pages/celebration/rolling/RollingMainPage";
 import RollingBackgroundSelectPage from "@pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone";
+
+import ReviewPage from '@components/home/ReviewPage'
+
 import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@pages/celebration/rolling/RollingPreviewPage";
@@ -43,6 +46,9 @@ const HomeRouter = () => {
       <Route path="/alarm" element={<AlarmPage />} />
 
       <Route path="/mypage" element={<MyPage />} />
+      
+      <Route path="/review" element={<ReviewPage />} />
+      
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
 

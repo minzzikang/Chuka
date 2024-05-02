@@ -46,12 +46,13 @@ const Button = styled.button`
   align-items: center;
   gap: 5px;
   border-radius: 10px;
+  margin-bottom: 15px;
 `;
 
 const index = () => {
   return (
     <Container>
-      <div>
+      <div style={{marginTop:'20px'}}>
         <Title>
           <Hightlight>축하</Hightlight>&nbsp;하고 싶은 날이 있으신가요?
         </Title>
