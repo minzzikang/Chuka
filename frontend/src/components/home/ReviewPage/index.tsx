@@ -1,59 +1,51 @@
-import { colors } from '@/styles/theme';
-import React from 'react';
-import styled from 'styled-components';
+import { colors } from "@/styles/theme";
+import React, { useState } from "react";
+import styled from "styled-components";
+import TopSection from "@components/home/ReviewPage/TopSection";
+import MiddleSection from "@components/home/ReviewPage/MiddleSection";
+import HomeHeader from "@components/home/HomeHeader/";
 
 const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-
-
-`
-const EventWrap = styled.div`
-display: flex;
-    
-`
-
-
-const Title = styled.div`
-    font-size: 1.8em;
-    color: ${colors.mainPink};
-    font-weight: 700;
-`
-
-const Desc = styled.div`
-    font-size: 1em;
-
-`
-
-const SmallBtn = styled.button`
-background-color: ${colors.mainPink};
-color: #ffff;
-
-`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+`;
 
 const LargeBtn = styled.button`
-width: 100%;
-height: 49px;
-background-color: ${colors.mainPink};
-color: #ffff;
-`
-
-const TextArea = styled.textarea`
-    
-`
-
-const PhoneInput = styled.input`
-    
-`
+  width: 80%;
+  height: 49px;
+  margin-top: 30px;
+  background-color: ${colors.mainPink};
+  color: #ffff;
+`;
 
 const index = () => {
-    return (
-        <Container>
-            <Title>소중한 후기를 작성해주세요</Title>
-        </Container>
-    );
+  const [regData, setRegData] = useState<{ comment: string; phone: string }>({
+    comment: "",
+    phone: "",
+  });
+
+  const onRegister = async () => {
+    console.log("리뷰 등록", regData);
+  };
+  return (
+    <Container>
+      <HomeHeader />
+      <div style={{marginTop:'70px'}}></div>
+      <TopSection />
+      <MiddleSection
+        comment={regData.comment}
+        setComment={(value) =>
+          setRegData((prev) => ({ ...prev, comment: value }))
+        }
+        phone={regData.phone}
+        setPhone={(value) => setRegData((prev) => ({ ...prev, phone: value }))}
+      />
+      <LargeBtn onClick={onRegister}>등록하기</LargeBtn>
+    </Container>
+  );
 };
 
 export default index;
