@@ -16,8 +16,6 @@ const HomePage = () => {
   useEffect(() => {
     fetchUserInfo()
       .then((data: any) => {
-        console.log(user);
-        console.log(data);
         setUser({ ...user, ...data });
       })
       .catch((err) => {
