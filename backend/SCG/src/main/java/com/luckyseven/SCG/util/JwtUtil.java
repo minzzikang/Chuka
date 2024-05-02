@@ -40,7 +40,7 @@ public class JwtUtil {
                 .build()
                 .parseSignedClaims(token)
                 .getPayload()
-                .get("Type", String.class);
+                .get("type", String.class);
     }
 
 }
