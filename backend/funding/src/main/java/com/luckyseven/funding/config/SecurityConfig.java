@@ -85,7 +85,6 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults());
 
         http
-                //FIXME: 수정
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/fundings/**").permitAll()
