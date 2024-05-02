@@ -5,6 +5,7 @@ import { BASE_URL } from "@/utils/requestMethods";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
 import { fetchUserInfo, loginSuccess } from "@/apis/auth";
+import { ref } from "firebase/database";
 
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
