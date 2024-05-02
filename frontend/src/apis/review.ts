@@ -15,15 +15,12 @@ export const createReview = async (params: object): Promise<any> => {
 };
 
 export const fetchReview = async (): Promise<any> => {
-  axios
-    .get("/domain/reviews", {
-      headers: {
-        Authorization: `${accessToken}`,
-      },
-    })
-    .then((res) => {
-      console.log("review", res.data);
-      return res.data;
-    })
-    .catch((error) => console.error(error));
+  try {
+    const response = await axios.get("/domain/reviews");
+    console.log(response.data);
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
 };
