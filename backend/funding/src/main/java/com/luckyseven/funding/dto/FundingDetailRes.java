@@ -28,7 +28,9 @@ public class FundingDetailRes implements Serializable {
     public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors) {
         return new FundingDetailRes(
                 funding.getFundingId(),
+                //FIXME: LocalDate.now() -> 종료일
                 LocalDate.now(),
+                //FIXME: "임시 이벤트 제목" -> Event API 이용해서 제목 받아오기
                 "임시 이벤트 제목",
                 funding.getProductImage(),
                 (int) ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate()),
