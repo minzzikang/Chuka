@@ -52,11 +52,13 @@ export const GlobalStyle = createGlobalStyle`
     }
     button {
         font-size: 16px;
-        font-family: 'Pretendard', Arial, Helvetica, sans-serif, 'Courier New', Courier, monospace;
+        /* font-family: 'Pretendard', Arial, Helvetica, sans-serif; */
+        /* font-weight: 400; */
         border: none;
         cursor: pointer;
         background: none;
         border-radius: 10px;
+        
         &:disabled {
             background-color: #CACFD9;
         }

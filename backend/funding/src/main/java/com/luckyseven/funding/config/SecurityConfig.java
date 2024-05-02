@@ -1,4 +1,4 @@
-package com.luckyseven.event.config;
+package com.luckyseven.funding.config;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -56,18 +56,20 @@ public class SecurityConfig {
                                 CorsConfiguration configuration = new CorsConfiguration();
                                 configuration.setAllowedOrigins(
                                         List.of(
-                                                "http://k10c107.p.ssafy.io:8080",
+                                                "http://localhost:5000",
+                                                "https://chuka.kr",
                                                 "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8081",
                                                 "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
                                                 "http://k10c107.p.ssafy.io:8083",
-                                                "http://k10c107.p.ssafy.io:8084"
+                                                "http://k10c107.p.ssafy.io:8085"
                                         )
                                 );
                                 configuration.setAllowedMethods(Collections.singletonList("*"));
                                 configuration.setAllowCredentials(true);
                                 configuration.setAllowedHeaders(Collections.singletonList("*"));
                                 configuration.setMaxAge(3600L);
-                                configuration.setExposedHeaders(List.of("Set-Cookie", "Authorization", "Refresh-Token"));
+                                configuration.setExposedHeaders(Collections.singletonList("Set-Cookie"));
+                                configuration.setExposedHeaders(Collections.singletonList("Authorization"));
 
                                 return configuration;
 
@@ -85,7 +87,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/api/v1/events/**", "/api/v1/reviews/**").permitAll()
+                        .requestMatchers("/api/v1/fundings/**").permitAll()
                         .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
