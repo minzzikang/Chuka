@@ -80,4 +80,6 @@ public class Funding {
     @OrderBy("amount desc")
     private List<Sponsor> sponsorList = new ArrayList<>();
 
+    @Column
+    private String userId;
 }
