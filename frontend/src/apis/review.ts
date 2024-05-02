@@ -1,22 +1,29 @@
 import { authRequest } from "@/utils/requestMethods";
+import axios from "axios";
 
-const url = '/api/v1/reviews'
+const accessToken = localStorage.getItem("access_token");
 
 // 리뷰 작성
 
-export const createReview = async (params:object) : Promise<any> => {
-    authRequest
-        .post(`/reviews`, params)
-        .then(res => {
-            return res.data
-        })
-        .catch(error => console.error(error))
-}
+export const createReview = async (params: object): Promise<any> => {
+  axios
+    .post("/domain/reviews", params)
+    .then((res) => {
+      return res.data;
+    })
+    .catch((error) => console.error(error));
+};
 
-
-export const fetchReview = async () : Promise<any> => {
-    authRequest
-    .get(`/reviews`).then(res => {return res.data})
-    .catch(error => console.error(error))
-
-}
+export const fetchReview = async (): Promise<any> => {
+  axios
+    .get("/domain/reviews", {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    })
+    .then((res) => {
+      console.log("review", res.data);
+      return res.data;
+    })
+    .catch((error) => console.error(error));
+};
