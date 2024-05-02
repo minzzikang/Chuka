@@ -34,6 +34,7 @@ const HomePage = () => {
     <Container>
     <Wrap>
       <HomeHeader />
+      <div style={{marginTop:'50px'}}></div>
       <HomeIntro />
       <HomeEventReg />
       <HomeEventList />
