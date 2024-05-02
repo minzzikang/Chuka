@@ -9,3 +9,14 @@ export const Container = styled.div`
   width: 90%;
   height: 100vh;
 `;
+
+export const Wrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin: auto auto;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 100%;
+  gap: 30px;
+`;
