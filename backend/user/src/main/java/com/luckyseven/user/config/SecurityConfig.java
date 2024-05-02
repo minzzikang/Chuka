@@ -60,6 +60,7 @@ public class SecurityConfig {
                                                 "http://localhost:5000",
                                                 "https://chuka.kr",
                                                 "http://k10c107.p.ssafy.io:8080",
+                                                "http://k10c107.p.ssafy.io:5000",
                                                 "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
                                                 "http://k10c107.p.ssafy.io:8083",
                                                 "http://k10c107.p.ssafy.io:8084"
