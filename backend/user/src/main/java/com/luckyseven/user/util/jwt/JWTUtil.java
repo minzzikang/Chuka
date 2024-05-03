@@ -95,7 +95,8 @@ public class JWTUtil {
                 .claim("role", role)
                 .claim("type", "ATK")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+//                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
                 .signWith(secretKey)
                 .compact();
     }
@@ -109,6 +110,19 @@ public class JWTUtil {
                 .claim("type", "RTK")
                 .issuedAt(new Date(System.currentTimeMillis()))
                 .expiration(Date.from(Instant.now().plus(15, ChronoUnit.DAYS)))
+                .signWith(secretKey)
+                .compact();
+    }
+
+    public String createAccessTokenTmp(String id, String nickname) {
+
+        return Jwts.builder()
+                .claim("id", id)
+                .claim("nickname", nickname)
+                .claim("role", "ROLE_USER")
+                .claim("type", "ATK")
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
                 .signWith(secretKey)
                 .compact();
     }
