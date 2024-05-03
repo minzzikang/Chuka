@@ -40,7 +40,7 @@ public class FundingCreateReq {
 
     private LocalDate endDate;
 
-    //TODO: 테스트 중
+    //Null인 Field 배열 리턴 (BeanUtils.copyProperties() 에서 사용)
     public static String[] getNullPropertyNames (Object source) {
         final BeanWrapper src = new BeanWrapperImpl(source);
         java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();

@@ -129,15 +129,8 @@ public class FundingServiceImpl implements FundingService {
             throw new IllegalAccessException();
         }
 
-        log.info("받은 dto: {}", dto);
-
-        //FIXME: 작동 안함
-//        BeanUtils.copyProperties(dto, funding, "eventId");
-//        BeanUtils.copyProperties(dto, funding, "eventId", getNullPropertyNames(dto));
         dto.setEventId(funding.getEventId());                                   //eventId는 변조되어서는 안됨
         BeanUtils.copyProperties(dto, funding, getNullPropertyNames(dto));      //null인 Field 제외하고 값 복사
-
-        log.info("수정된 funding: {}", funding);
 
         funding = fundingRepository.save(funding);
 
