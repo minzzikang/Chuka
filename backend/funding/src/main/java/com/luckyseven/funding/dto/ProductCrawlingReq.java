@@ -10,4 +10,5 @@ import lombok.ToString;
 public class ProductCrawlingReq{
     private Integer fundingId;
     private String productUrl;
+    private String userId;
 }

@@ -23,8 +23,8 @@ public class ProducerService {
     @Value("${rabbitmq.crawling.exchange}")
     private String CRAWLING_EXCHANGE;
 
-    public void sendCrawlingMessage(int fundingId, String productUrl) {
-        ProductCrawlingReq productCrawlingReq = new ProductCrawlingReq(fundingId, productUrl);
+    public void sendCrawlingMessage(int fundingId, String productUrl, String userId) {
+        ProductCrawlingReq productCrawlingReq = new ProductCrawlingReq(fundingId, productUrl, userId);
         log.info(productCrawlingReq.toString());
         rabbitTemplate.convertAndSend(CRAWLING_EXCHANGE, "", productCrawlingReq);
     }
