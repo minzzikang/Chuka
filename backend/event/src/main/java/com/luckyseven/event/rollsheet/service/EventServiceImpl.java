@@ -164,10 +164,10 @@ public class EventServiceImpl implements EventService {
         log.info("count: {}", count);
 
         // TODO: 펀딩이 모금된 상태이면 삭제 불가
-        Response response = fundingFeignClient.deleteFunding(eventId, event.getUserId());
-        log.info("funding response: {}", response);
-        log.info("funding response: {}", response.status());
-        log.info("funding response: {}", response.body());
+//        Response response = fundingFeignClient.deleteFunding(34, event.getUserId());
+//        log.info("funding response: {}", response);
+//        log.info("funding response: {}", response.status());
+//        log.info("funding response: {}", response.body());
 
         if (count > 0) {
             throw new UnsupportedOperationException();
