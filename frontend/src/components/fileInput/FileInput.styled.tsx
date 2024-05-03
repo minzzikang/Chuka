@@ -26,8 +26,8 @@ export const FileInputContainer = styled.div`
 export const ImagePreview = styled.img`
   display: flex;
   padding: 10px;
-  max-width: 100%;
-  max-height: 100vh;
-  width: 30%;
+  max-width: 90%;
+  max-height: 200px;
+  width: auto;
   height: auto;
 `;

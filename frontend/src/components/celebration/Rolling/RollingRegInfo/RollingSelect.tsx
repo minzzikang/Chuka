@@ -22,8 +22,8 @@ interface RollingSelectProps {
 }
 
 const shapeMap: { [key: string]: string } = {
-  사각형: "rectangle",
-  원형: "circle",
+  사각형: "RECTANGLE",
+  원형: "CIRCLE",
 };
 
 const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {

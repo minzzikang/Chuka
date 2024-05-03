@@ -1,14 +1,16 @@
 import Logo from "/img/img_logo.png";
 import ShareIcon from "/icon/icon_share.png";
 import AddIcon from "/icon/icon_add_message.png";
-import { useNavigate } from "react-router-dom";
-import * as r from "./RollingHeader.styled"
+import { useNavigate, useParams } from "react-router-dom";
+import * as r from "./RollingHeader.styled";
 
 const RollingHeader = () => {
+  const { pageUri } = useParams();
+
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate("/celebrate/rolling-select");
+    navigate(`../rolling/${pageUri}/select`, { state: { event: pageUri } });
   };
 
   const handleShare = () => {};
