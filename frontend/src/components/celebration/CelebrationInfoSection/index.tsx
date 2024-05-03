@@ -23,7 +23,7 @@ const index = (props: RollingInfoSectionType) => {
     handleVisible(!isVisible);
   };
 
-  const themeList: string[] = ["cork_board", "black_board"];
+  const themeList: string[] = ["CORK_BOARD", "BLACK_BOARD"];
 
   const onClickTheme = (theme: string) => {
     handleTheme(theme);
