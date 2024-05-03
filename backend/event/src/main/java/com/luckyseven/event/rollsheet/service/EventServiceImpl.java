@@ -40,6 +40,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
+        log.info("createEvent: {}", eventDto);
         Event event = new Event();
         event.setUserId(userId);
         event.setPageUri(UlidCreator.getUlid().toString());
@@ -157,7 +158,8 @@ public class EventServiceImpl implements EventService {
         int count = rollSheetRepository.countByEventId(eventId);
         log.info("count: {}", count);
 
-        // TODO: 펀딩이 모금되지 않은 상태이면 삭제 불가
+        // TODO: 펀딩이 모금된 않은 상태이면 삭제 불가
+        //
 
         if (count > 0) {
             throw new UnsupportedOperationException();
