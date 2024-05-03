@@ -12,8 +12,8 @@ export const Container = styled.div`
 export const Button = styled.button<{ $active: boolean }>`
   background-color: ${(props) =>
     props.$active ? colors.mainPink : colors.white};
-  border: 2px solid ${colors.mainPink};
-  color: ${(props) => (props.$active ? colors.white : colors.mainPink)};
+  border: 2px solid ${(props) => props.$active ? 'none' : colors.inputGray};
+  color: ${(props) => (props.$active ? colors.white : colors.gray)};
   border-radius: 0.7em;
   font-size: 0.9em;
   width: 100px;
