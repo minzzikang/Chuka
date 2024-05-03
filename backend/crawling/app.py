@@ -10,9 +10,9 @@ app = Flask(__name__)
 
 
 def create_app():
-    eureka_client.init(eureka_server="http://luckyseven:cnzkcnzk7!@k10c107.p.ssafy.io:8761/eureka",
-                app_name="crawling",
-                instance_port=rest_port)
+    # eureka_client.init(eureka_server="http://luckyseven:cnzkcnzk7!@k10c107.p.ssafy.io:8761/eureka",
+    #             app_name="crawling",
+    #             instance_port=rest_port)
 
     app = Flask(__name__)
     app.register_blueprint(app_views)
