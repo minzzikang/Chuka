@@ -95,7 +95,9 @@ const Index = () => {
     try {
       const res = await createEventReg(formData);
       console.log("post 값", res);
-      navigate(`/celebrate/rolling/${res.pageUri}`);
+      navigate(`/celebrate/rolling/${res.pageUri}`, {
+        state: { eventId: res.eventId },
+      });
     } catch (err) {
       console.error(err);
     }
