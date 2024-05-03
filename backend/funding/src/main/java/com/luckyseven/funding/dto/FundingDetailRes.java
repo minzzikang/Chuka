@@ -1,6 +1,7 @@
 package com.luckyseven.funding.dto;
 
 import com.luckyseven.funding.entity.Funding;
+import com.luckyseven.funding.entity.FundingStatus;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.ToString;
@@ -18,6 +19,7 @@ public class FundingDetailRes implements Serializable {
     private final Integer fundingId;
     private final LocalDate eventDate;
     private final String eventTitle;
+    private final FundingStatus status;
     private final String productImage;
     private final Integer dDay;
     private final Integer goalAmount;
@@ -30,6 +32,7 @@ public class FundingDetailRes implements Serializable {
                 funding.getFundingId(),
                 date,
                 title,
+                funding.getStatus(),
                 funding.getProductImage(),
                 (int) ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate()),
                 funding.getGoalAmount(),
