@@ -4,6 +4,7 @@ import com.luckyseven.funding.dto.FundingCreateReq;
 import com.luckyseven.funding.dto.FundingDetailRes;
 import com.luckyseven.funding.dto.FundingRes;
 import com.luckyseven.funding.entity.Funding;
+import com.luckyseven.funding.exception.NotLoggedInUserException;
 import jakarta.persistence.EntityNotFoundException;
 
 import java.util.List;
@@ -14,5 +15,5 @@ public interface FundingService {
     FundingDetailRes getFunding(int fundingId);
     List<FundingRes> getMyFunding(String userId);
     @Deprecated Funding modifyFunding(final int fundingId, final FundingCreateReq dto, String userId) throws EntityNotFoundException, IllegalAccessException;
-    void deleteFundings(int fundingId, String userId) throws EntityNotFoundException, IllegalAccessException;
+    void deleteFundings(int fundingId, String userId) throws NotLoggedInUserException, IllegalStateException, EntityNotFoundException;
 }
