@@ -110,6 +110,21 @@ public class AuthController {
         return ResponseEntity.status(200).headers(responseHeaders).body(null);
     }
 
+    @PostMapping("/token")
+    @Operation(summary = "access token 생성기", description = "유효기간 3일")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> tokenCreator(
+            @Parameter(description = "userId") @RequestParam String id,
+            @Parameter(description = "nickname") @RequestParam String nickname
+    ) {
+        String newAccessToken = jwtUtil.createAccessTokenTmp(id, nickname);
+
+        return ResponseEntity.status(200).body(newAccessToken);
+    }
+
 
 }
 
