@@ -30,6 +30,7 @@ public class ConsumerService {
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
         Funding funding = fundingRepository.findById(productRes.getFundingId())
                 .orElseThrow(NoSuchElementException::new);
+        log.info("크롤링 서버로 부터 받은 userId 정보: "+productRes.getUserId());
         if(productRes.getStatus() != 200){
                 funding.failCrawling(FundingStatus.REJECT);
                 //여기서 알림 서버에 거절되었다는걸 보내는 것을 작성해야함

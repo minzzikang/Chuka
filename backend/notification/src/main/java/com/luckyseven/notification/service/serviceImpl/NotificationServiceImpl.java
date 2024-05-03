@@ -37,4 +37,9 @@ public class NotificationServiceImpl implements NotificationService {
         repository.save(notification);
 
     }
+
+    @Override
+    public void deleteAllByUserId(String userId) {
+        repository.deleteAllByUserId(userId);
+    }
 }

@@ -18,7 +18,7 @@ const Index: React.FC<FileInputProps> = ({ onChange }) => {
       const fileURL = URL.createObjectURL(file);
       setImagePreviewUrl(fileURL);
       onChange(file, fileURL);
-      console.log(file);
+      console.log("파일입니당", file);
     } else {
       setImagePreviewUrl(null);
     }

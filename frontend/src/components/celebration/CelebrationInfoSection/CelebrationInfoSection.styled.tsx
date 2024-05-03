@@ -6,6 +6,7 @@ export const Container = styled.div`
   flex-direction: column;
   width: 100%;
   align-items: center;
+  justify-content: center;
 `;
 
 export const Button = styled.button<{ $active: boolean }>`
@@ -26,9 +27,9 @@ export const Button = styled.button<{ $active: boolean }>`
 export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
-  width: 80%;
   margin-top: 0.3em;
   margin-bottom: 0.5em;
+  width: 90%;
 `;
 
 export const Input = styled.input`
@@ -41,6 +42,45 @@ export const Input = styled.input`
   &:focus {
     border-color: ${colors.mainPink};
   }
+`;
+
+export const FileInputContainer = styled.div`
+  width: 339px;
+  height: 36px;
+  display: flex;
+  color: ${colors.gray};
+  border: 2px solid ${colors.inputGray};
+  border-radius: 0.7em;
+  font-size: 0.9em;
+  padding-left: 8px;
+  padding-right: 12px;
+  align-items: center;
+  background-color: ${colors.white};
+  cursor: pointer;
+
+  img {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    margin-left: auto;
+  }
+`;
+
+export const HiddenInput = styled.input`
+  display: none;
+`;
+
+export const FileInputLabel = styled.label`
+  color: ${colors.mainPink};
+  margin-bottom: 5px;
+`;
+
+export const ImagePreview = styled.img`
+  padding: 10px;
+  max-width: 70%;
+  max-height: 180px;
+  width: auto;
+  height: auto;
 `;
 
 export const P = styled.p`
