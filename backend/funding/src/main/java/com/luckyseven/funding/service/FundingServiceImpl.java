@@ -55,7 +55,7 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.AFTER);
+        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.APPROVE);
 
         return fundingList.stream()
                 .map(funding -> {
@@ -139,5 +139,17 @@ public class FundingServiceImpl implements FundingService {
         funding = fundingRepository.save(funding);
 
         return funding;
+    }
+
+    @Override
+    public void deleteFundings(int fundingId, String userId) throws EntityNotFoundException, IllegalAccessException {
+        Funding funding = fundingRepository.findById(fundingId).orElseThrow(() -> new EntityNotFoundException()); //람다 표현식 필요
+
+        //작성자와 수정을 시도하려는 사람의 ID 일치 여부 확인
+        if(!userId.equals(funding.getUserId())) {
+            throw new IllegalAccessException();
+        }
+
+        fundingRepository.delete(funding);
     }
 }
