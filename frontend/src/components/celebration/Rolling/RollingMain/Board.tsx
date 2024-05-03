@@ -1,12 +1,39 @@
-import Theme from "/img/img_rolling_theme_cork.jpg";
+import CorkBoard from "/img/img_rolling_theme_cork.jpg";
+import BlackBoard from "/img/img_rolling_theme_board.jpg";
 import Drawer from "@components/drawer";
-import { useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useLocation } from "react-router-dom";
+import { fetchEventInfo } from "@/apis/event";
 import * as b from "./Board.styled";
 
 const Board = () => {
-  const { pageUri } = useParams();
+  const { state } = useLocation();
+  const navigate = useNavigate();
+
+  const [values, setValues] = useState<{ theme: string }>();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+
+  useEffect(() => {
+    if (state?.eventId) {
+      const fetchInfo = async () => {
+        try {
+          const eventInfo = await fetchEventInfo(state.eventId);
+          setValues(eventInfo);
+        } catch (err) {
+          console.error(err);
+        }
+      };
+      fetchInfo();
+    }
+  }, [state?.eventId]);
+
+  const Theme = values
+    ? values.theme === "CORK_BOARD"
+      ? CorkBoard
+      : BlackBoard
+    : CorkBoard;
+
   return (
     <>
       <b.Container>

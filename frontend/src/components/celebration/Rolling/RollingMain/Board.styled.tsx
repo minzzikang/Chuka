@@ -26,11 +26,12 @@ export const P = styled.p`
     1px 0px ${colors.white},
     0px -1px ${colors.white};
   transform: translate(40%, 0);
-  top: 25%;
+  top: 10%;
   z-index: 10;
 `;
 
 export const Container = styled.div`
+position: relative;
   flex-grow: 1;
   overflow-y: scroll;
   -ms-overflow-style: none;

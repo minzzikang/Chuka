@@ -32,7 +32,6 @@ const index = (props: RollingInfoSectionType) => {
       const fileURL = URL.createObjectURL(file);
       setImagePreviewUrl(fileURL);
       setFileName(file.name);
-      console.log("파일입니당", file);
     } else {
       setImagePreviewUrl(null);
       setFileName("");
