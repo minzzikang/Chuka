@@ -9,7 +9,9 @@ interface EventInfo {
   title: string;
   date: string;
   banner: string;
+  banner_thumbnail: string;
   user_id: string;
+  create_time: Date;
 }
 
 const Banner = () => {
@@ -24,6 +26,7 @@ const Banner = () => {
       try {
         if (pageUri) {
           const eventInfo = await fetchEventInfo(pageUri);
+          console.log(eventInfo);
           setValues(eventInfo);
         }
       } catch (err) {
@@ -37,7 +40,7 @@ const Banner = () => {
     return <p>Loading...</p>;
   }
 
-  const bannerImg = values.banner ? values.banner : TestImg;
+  const bannerImg = values.banner ? values.banner_thumbnail : TestImg;
 
   return (
     <>

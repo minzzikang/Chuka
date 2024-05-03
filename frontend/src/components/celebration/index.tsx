@@ -86,22 +86,14 @@ const Index = () => {
   const handleSubmit = async () => {
     const formData = new FormData();
 
-    const registerInfo = JSON.stringify({
-      type: regData.type,
-      title: regData.title,
-      date: regData.date,
-      theme: regData.theme,
-      visibility: regData.visibility,
-    });
-
-    formData.append("registerInfo", registerInfo);
+    formData.append("type", regData.type);
+    formData.append("title", regData.title);
+    formData.append("date", regData.date);
+    formData.append("theme", regData.theme);
+    formData.append("visibility", JSON.stringify(regData.visibility));
 
     if (bannerImage) {
       formData.append("bannerImage", bannerImage);
-    }
-
-    for (let [key, value] of formData.entries()) {
-      console.log("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ", key, value);
     }
 
     try {
