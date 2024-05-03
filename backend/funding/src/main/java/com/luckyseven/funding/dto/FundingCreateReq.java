@@ -15,7 +15,6 @@ import java.util.Set;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-//FIXME: 테스트 중 annotation
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FundingCreateReq {
     private Integer eventId;
