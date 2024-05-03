@@ -28,7 +28,7 @@ const Index = () => {
     visibility: true, // 노출 여부
   });
 
-  const [bannerImage, setBannerImage] = useState(null);
+  const [bannerImage, setBannerImage] = useState<File | null>(null);
 
   useEffect(() => {}, []);
 
@@ -75,12 +75,8 @@ const Index = () => {
     }));
   };
 
-  const handleFileChange = (e: any) => {
-    const file = e.target.files[0];
-
-    if (file) {
-      setBannerImage(file);
-    }
+  const handleFileChange = (file: File | null) => {
+    setBannerImage(file);
   };
 
   const handleSubmit = async () => {
