@@ -29,10 +29,10 @@ const HomeRouter = () => {
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
       
       <Route path="/celebrate" element={<CelebrationPage />} />
-      <Route path="/celebrate/rolling/:eventId" element={<RollingMainPage />} />
-      <Route path="/celebrate/rolling/:eventId/select" element={<RollingBackgroundSelectPage />} />
-      <Route path="/celebrate/rolling/:eventId/write" element={<RollingWritePage />} />
-      <Route path="/celebrate/rolling/:eventId/preview" element={<RollingPreviewPage />} />
+      <Route path="/celebrate/rolling/:pageUri" element={<RollingMainPage />} />
+      <Route path="/celebrate/rolling/:pageUri/select" element={<RollingBackgroundSelectPage />} />
+      <Route path="/celebrate/rolling/:pageUri/write" element={<RollingWritePage />} />
+      <Route path="/celebrate/rolling/:pageUri/preview" element={<RollingPreviewPage />} />
       <Route path="/celebrate/rolling/detail" element={<RollingDetailPage />} />
       <Route path="/celebrate/funding" element={<FundingRegPage />} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage />} />

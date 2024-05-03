@@ -5,30 +5,32 @@ import CelebrationInfoSection from "./CelebrationInfoSection";
 import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/stores/user";
 
 interface CelebrationProps {
   type: string;
   title: string;
   date: string;
-  banner: File | null;
   theme: string;
   visibility: boolean;
 }
 
 const Index = () => {
+  const user = useRecoilValue(userState);
+
   const navigate = useNavigate();
   const [regData, setRegData] = useState<CelebrationProps>({
     type: "birthday", // 이벤트 종류
     title: "",
     date: "",
-    banner: null, // 대표 이미지
     theme: "cork_board", // 롤링페이퍼 배경
     visibility: true, // 노출 여부
   });
 
-  useEffect(() => {
-    console.log(regData.visibility);
-  });
+  const [bannerImage, setBannerImage] = useState(null);
+
+  useEffect(() => {}, []);
 
   const handleType = (newType: string) => {
     setRegData((prev) => ({
@@ -45,16 +47,17 @@ const Index = () => {
   };
 
   const handleDateChange = (selectedDate: Date) => {
-    setRegData((prev) => ({
-      ...prev,
-      date: selectedDate.toISOString(),
-    }));
-  };
+    // 한국 시간으로 변환
+    const koreaTime = selectedDate.toLocaleString("en-US", {
+      timeZone: "Asia/Seoul",
+    });
 
-  const handleFileChange = (banner: File | null) => {
+    const koreaDate = new Date(koreaTime);
+    const formattedDate = `${koreaDate.getFullYear()}-${(koreaDate.getMonth() + 1).toString().padStart(2, "0")}-${koreaDate.getDate().toString().padStart(2, "0")}`;
+
     setRegData((prev) => ({
       ...prev,
-      banner: banner,
+      date: formattedDate,
     }));
   };
 
@@ -72,26 +75,41 @@ const Index = () => {
     }));
   };
 
+  const handleFileChange = (e: any) => {
+    const file = e.target.files[0];
+
+    if (file) {
+      setBannerImage(file);
+    }
+  };
+
   const handleSubmit = async () => {
     const formData = new FormData();
 
-    formData.append("type", regData.type);
-    formData.append("title", regData.title);
-    formData.append("date", regData.date);
-    formData.append("theme", regData.theme);
-    formData.append("visibility", JSON.stringify(regData.visibility));
+    const registerInfo = JSON.stringify({
+      type: regData.type,
+      title: regData.title,
+      date: regData.date,
+      theme: regData.theme,
+      visibility: regData.visibility,
+    });
 
-    if (regData.banner) {
-      formData.append("banner", regData.banner);
+    formData.append("registerInfo", registerInfo);
+
+    if (bannerImage) {
+      formData.append("bannerImage", bannerImage);
+    }
+
+    for (let [key, value] of formData.entries()) {
+      console.log("ㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴㄴ", key, value);
     }
 
     try {
       const res = await createEventReg(formData);
-      console.log(res);
-      navigate(`/celebrate/rolling`);
+      console.log("post 값", res);
+      navigate(`/celebrate/rolling/${res.pageUri}`);
     } catch (err) {
       console.error(err);
-      navigate("/celebrate/rolling");
     }
   };
 
@@ -108,7 +126,7 @@ const Index = () => {
         handleTheme={handleTheme}
         theme={regData.theme}
       />
-      <Button children="등록하기" onClick={() => handleSubmit()} />
+      <Button onClick={handleSubmit}>등록하기</Button>
     </c.Container>
   );
 };

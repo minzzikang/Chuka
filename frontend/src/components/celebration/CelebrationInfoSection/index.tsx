@@ -19,6 +19,10 @@ const index = (props: RollingInfoSectionType) => {
     theme,
   } = props;
 
+  const toggleButton = () => {
+    handleVisible(!isVisible);
+  };
+
   const themeList: string[] = ["cork_board", "black_board"];
 
   const onClickTheme = (theme: string) => {
@@ -65,12 +69,15 @@ const index = (props: RollingInfoSectionType) => {
         </c.BtnWrap>
       </c.Wrap>
       <c.Wrap>
-        <c.Button onClick={() => handleVisible(true)} $active={isVisible}>
-          {"허용함"}
-        </c.Button>
-        <c.Button onClick={() => handleVisible(false)} $active={!isVisible}>
-          {"허용하지 않음"}
-        </c.Button>
+        <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
+        <c.BtnWrap>
+          <c.Button onClick={toggleButton} $active={isVisible}>
+            {"허용함"}
+          </c.Button>
+          <c.Button onClick={toggleButton} $active={!isVisible}>
+            {"허용하지 않음"}
+          </c.Button>
+        </c.BtnWrap>
       </c.Wrap>
     </c.Container>
   );
