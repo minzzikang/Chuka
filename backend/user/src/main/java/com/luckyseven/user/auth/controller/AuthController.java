@@ -41,6 +41,7 @@ public class AuthController {
             jwtUtil.validateToken(token);
             return ResponseEntity.ok().body("유효함");
         } catch (Exception e) {
+            log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
 
@@ -78,10 +79,10 @@ public class AuthController {
             return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
         } catch (HttpClientErrorException e) {
             log.error("KAKAO LOGIN FAILED");
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error(e.getMessage());
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         }
 
@@ -96,18 +97,24 @@ public class AuthController {
     public ResponseEntity<?> reissueRefreshToken(
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
     ) {
-        log.info("refreshToken: {}", authorization);
-        String refreshToken = authorization.substring("Bearer ".length());
-        log.info("refreshToken: {}", refreshToken);
+        try {
+            log.info("refreshToken: {}", authorization);
+            String refreshToken = authorization.substring("Bearer ".length());
+            log.info("refreshToken: {}", refreshToken);
 
-        String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+            String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
 
-        HttpHeaders responseHeaders = new HttpHeaders();
-        responseHeaders.set("Authorization", "Bearer " + newAccessToken);
+            HttpHeaders responseHeaders = new HttpHeaders();
+            responseHeaders.set("Authorization", "Bearer " + newAccessToken);
 
-        log.info("accessToken: {}", newAccessToken);
+            log.info("accessToken: {}", newAccessToken);
 
-        return ResponseEntity.status(200).headers(responseHeaders).body(null);
+            return ResponseEntity.status(200).headers(responseHeaders).body(null);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @PostMapping("/token")
