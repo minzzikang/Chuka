@@ -23,6 +23,9 @@ public class EventDto {
     @Schema(description = "사용자 id")
     private String userId;
 
+    @Schema(description = "사용자 nickname")
+    private String nickname;
+
     @Schema(description = "페이지 uri")
     private String pageUri;
 
@@ -60,6 +63,7 @@ public class EventDto {
         EventDto dto = new EventDto();
         dto.setEventId(event.getEventId());
         dto.setUserId(event.getUserId());
+        dto.setNickname(event.getNickname());
         dto.setPageUri(event.getPageUri());
         dto.setType(event.getType());
         dto.setTitle(event.getTitle());

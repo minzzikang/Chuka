@@ -13,6 +13,8 @@ import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
+import com.luckyseven.event.util.feignClient.FundingFeignClient;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -35,14 +37,17 @@ public class EventServiceImpl implements EventService {
     private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
 
+    private final FundingFeignClient fundingFeignClient;
+
     private final int BANNER_WIDTH = 1080;
     private final int BANNER_HEIGHT = 220;
 
     @Override
-    public EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
+    public EventDto createEvent(CreateEventDto eventDto, String userId, String nickname) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException {
         log.info("createEvent: {}", eventDto);
         Event event = new Event();
         event.setUserId(userId);
+        event.setNickname(nickname);
         event.setPageUri(UlidCreator.getUlid().toString());
         event.setType(eventDto.getType());
         event.setTitle(eventDto.getTitle());
@@ -158,16 +163,19 @@ public class EventServiceImpl implements EventService {
         int count = rollSheetRepository.countByEventId(eventId);
         log.info("count: {}", count);
 
-        // TODO: 펀딩이 모금된 않은 상태이면 삭제 불가
-        //
+        // TODO: 펀딩이 모금된 상태이면 삭제 불가
+        Response response = fundingFeignClient.deleteFunding(eventId, event.getUserId());
+        log.info("funding response: {}", response);
+        log.info("funding response: {}", response.status());
+        log.info("funding response: {}", response.body());
 
         if (count > 0) {
             throw new UnsupportedOperationException();
         }
 
         // 삭제
-        fileService.deleteBannerImageOnAmazonS3(eventId);
-        eventRepository.delete(event);
+//        fileService.deleteBannerImageOnAmazonS3(eventId);
+//        eventRepository.delete(event);
     }
 
     @Override
