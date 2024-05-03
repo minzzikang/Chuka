@@ -4,7 +4,7 @@ import Navbar from "@common/navbar";
 import styled from "styled-components";
 import { sizes } from "@styles/theme";
 import Board from "@/components/celebration/Rolling/RollingMain/Board";
-
+import { useParams, useNavigate } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -22,6 +22,9 @@ export const Container = styled.div`
 `;
 
 const RollingMainPage = () => {
+  const { pageUri } = useParams();
+  console.log("Page URI:", pageUri);
+
   return (
     <>
       <Container>

@@ -28,7 +28,7 @@ const CustomInput = forwardRef<HTMLInputElement, CustomInputProps>(
 );
 
 const index: React.FC<CalendarProps> = ({ onDateChange }) => {
-  const [selectedDate, setSelectedDate] = useState<Date | null>(new Date());
+  const [selectedDate, setSelectedDate] = useState<Date | null>();
   const [isOpen, setIsOpen] = useState(false);
 
   const handleChange = (date: Date | null) => {
@@ -37,7 +37,6 @@ const index: React.FC<CalendarProps> = ({ onDateChange }) => {
       setSelectedDate(date);
     }
     setIsOpen(false);
-    console.log("날짜선택:", selectedDate);
   };
 
   return (
