@@ -1,13 +1,22 @@
 import { authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
-import { BASE_URL } from "@/utils/requestMethods";
 import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
+// 리프레시 토큰 요청
 export const refresh = async () => {
+  const refreshToken = localStorage.getItem("refresh_token");
   return authRequest
-    .post("/auth/reissue")
+    .post(
+      "/auth/reissue",
+      {},
+      {
+        headers: {
+          Refresh: refreshToken,
+        },
+      }
+    )
     .then((res) => loginSuccess(res.data))
     .catch((err) => console.log(err));
 };

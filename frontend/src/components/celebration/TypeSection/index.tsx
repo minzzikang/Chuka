@@ -7,12 +7,12 @@ import { RollingTypeSectionType } from "@/types/rollingType";
 import * as t from "@/components/celebration/TypeSection/TypeSection.styled";
 
 const typeMap: { [key: string]: string } = {
-  생일: "birthday",
-  "입학/졸업": "school_event",
-  승진: "promotion",
-  스승의날: "teachers_day",
-  결혼: "marriage",
-  기타: "etc",
+  생일: "BIRTHDAY",
+  "입학/졸업": "SCHOOL_EVENT",
+  승진: "PROMOTION",
+  스승의날: "TEACHERS_DAY",
+  결혼: "MARRIAGE",
+  기타: "ETC",
 };
 
 const index = (props: RollingTypeSectionType) => {

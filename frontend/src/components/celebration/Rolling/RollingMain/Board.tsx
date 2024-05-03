@@ -1,9 +1,11 @@
 import Theme from "/img/img_rolling_theme_cork.jpg";
 import Drawer from "@components/drawer";
 import { useState } from "react";
-import * as b from "./Board.styled"
+import { useNavigate, useParams } from "react-router";
+import * as b from "./Board.styled";
 
 const Board = () => {
+  const { pageUri } = useParams();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   return (
     <>
