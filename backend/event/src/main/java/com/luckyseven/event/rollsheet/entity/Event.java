@@ -25,6 +25,9 @@ public class Event {
     @Column(nullable = false)
     private String userId;
 
+    @Column(nullable = false)
+    private String nickname;
+
     @Column(length = 26, nullable = false)
     private String pageUri;
 

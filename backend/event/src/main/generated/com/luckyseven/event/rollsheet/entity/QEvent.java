@@ -29,6 +29,8 @@ public class QEvent extends EntityPathBase<Event> {
 
     public final NumberPath<Integer> eventId = createNumber("eventId", Integer.class);
 
+    public final StringPath nickname = createString("nickname");
+
     public final StringPath pageUri = createString("pageUri");
 
     public final EnumPath<Theme> theme = createEnum("theme", Theme.class);

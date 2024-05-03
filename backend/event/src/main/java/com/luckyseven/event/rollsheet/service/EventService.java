@@ -14,7 +14,7 @@ import java.util.List;
 
 public interface EventService {
 
-    EventDto createEvent(CreateEventDto eventDto, String userId) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
+    EventDto createEvent(CreateEventDto eventDto, String userId, String nickname) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
     EventDto getEvent(int eventId);
 
     List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
