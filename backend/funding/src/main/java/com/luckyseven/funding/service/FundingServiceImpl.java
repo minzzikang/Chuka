@@ -55,7 +55,7 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.AFTER);
+        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.APPROVE);
 
         return fundingList.stream()
                 .map(funding -> {
