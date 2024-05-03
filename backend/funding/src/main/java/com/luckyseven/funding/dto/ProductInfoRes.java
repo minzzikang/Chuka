@@ -19,4 +19,5 @@ public class ProductInfoRes implements Serializable {
     private String productName;
     private Integer status;
     private String message;
+    private String userId;
 }

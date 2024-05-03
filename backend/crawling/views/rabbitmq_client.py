@@ -56,6 +56,7 @@ def receive_message():
         except Exception as e:
             info = {"status": 400, "message": str(e)}
         info['fundingId'] = data.get('fundingId')
+        info['userId'] = data.get('userId')
         print(info)
         send_message(info)
         

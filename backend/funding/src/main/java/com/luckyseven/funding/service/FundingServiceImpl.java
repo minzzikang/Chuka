@@ -49,7 +49,7 @@ public class FundingServiceImpl implements FundingService {
                 .userId(userId)
                 .build();
         final Funding result = fundingRepository.save(data);
-        producerService.sendCrawlingMessage(result.getFundingId(),result.getProductLink());
+        producerService.sendCrawlingMessage(result.getFundingId(),result.getProductLink(),userId);
         return result.getFundingId();
     }
 
