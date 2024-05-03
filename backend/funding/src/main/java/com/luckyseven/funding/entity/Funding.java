@@ -56,7 +56,7 @@ public class Funding {
     @Column
     private String addressDetail;
 
-    @ColumnDefault("'BEFORE'")
+    @ColumnDefault("'PENDING'")
     @Enumerated(EnumType.STRING)
     private FundingStatus status;
 
