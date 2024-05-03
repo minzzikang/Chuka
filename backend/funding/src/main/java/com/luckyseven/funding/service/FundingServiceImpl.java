@@ -5,6 +5,7 @@ import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
 import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.entity.Sponsor;
+import com.luckyseven.funding.exception.NotLoggedInUserException;
 import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.util.EventFeignClient;
@@ -15,7 +16,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.lang.reflect.Field;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.List;
@@ -142,14 +142,22 @@ public class FundingServiceImpl implements FundingService {
     }
 
     @Override
-    public void deleteFundings(int fundingId, String userId) throws EntityNotFoundException, IllegalAccessException {
+    public void deleteFundings(int fundingId, String userId) throws NotLoggedInUserException, IllegalStateException, EntityNotFoundException {
+        //레코드 없음 -> 404 응답
         Funding funding = fundingRepository.findById(fundingId).orElseThrow(() -> new EntityNotFoundException()); //람다 표현식 필요
 
-        //작성자와 수정을 시도하려는 사람의 ID 일치 여부 확인
+        //작성자와 수정을 시도하려는 사람의 ID 불일치 -> 401 응답
         if(!userId.equals(funding.getUserId())) {
-            throw new IllegalAccessException();
+            log.info("펀딩 정보 삭제 권한 없음 (로그인 유저 불일치)");
+            throw new NotLoggedInUserException();
         }
 
-        fundingRepository.delete(funding);
+        if(!funding.getSponsorList().isEmpty()) {
+            //참여했으면 중지 -> 403 응답
+            throw new IllegalStateException();
+        } else {
+            //참여 안 했으면 삭제 가능 -> 200 응답
+            fundingRepository.delete(funding);
+        }
     }
 }
