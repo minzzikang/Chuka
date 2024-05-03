@@ -16,16 +16,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/v1/notifacations/test")
 public class TestController {
     private final NotificationService service;
-    @GetMapping("/save")
-    public ResponseEntity<?> test(){
-        service.sendNotification("3452659543", NotificationType.EVENT_CREATE);
-        service.sendNotification("3452659543", NotificationType.EVENT_OPEN);
-        service.sendNotification("3452659543", NotificationType.FUNDING_APPROVED);
-        service.sendNotification("3452659543", NotificationType.FUNDING_COMPLET);
-        service.sendNotification("3452659543", NotificationType.FUNDING_DISAPPROVED);
-
-        return ResponseEntity.ok().body("");
-    }
+//    @GetMapping("/save")
+//    public ResponseEntity<?> test(){
+//        service.sendNotification("3452659543", NotificationType.EVENT_CREATE);
+//        service.sendNotification("3452659543", NotificationType.EVENT_OPEN);
+//        service.sendNotification("3452659543", NotificationType.FUNDING_APPROVED);
+//        service.sendNotification("3452659543", NotificationType.FUNDING_COMPLET);
+//        service.sendNotification("3452659543", NotificationType.FUNDING_DISAPPROVED);
+//
+//        return ResponseEntity.ok().body("");
+//    }
 
     @GetMapping("")
     public ResponseEntity<?> test1(){

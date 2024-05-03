@@ -49,13 +49,13 @@ public class FundingServiceImpl implements FundingService {
                 .userId(userId)
                 .build();
         final Funding result = fundingRepository.save(data);
-        producerService.sendCrawlingMessage(result.getFundingId(),result.getProductLink());
+        producerService.sendCrawlingMessage(result.getFundingId(),result.getProductLink(),userId);
         return result.getFundingId();
     }
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.AFTER);
+        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.APPROVE);
 
         return fundingList.stream()
                 .map(funding -> {
