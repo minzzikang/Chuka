@@ -37,7 +37,8 @@ public class ConsumerService {
         }
 
         String productImageUrl = productRes.getProductImageUrl();
-        //S3전문가님 productImageUrl에 S3에 저장하고 나온 주소를 넣어주세요~~! 부탁드립니다-지연
-        funding.successCrawling(FundingStatus.AFTER, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
+        log.info(productImageUrl);
+        funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
+        //여기서 알림 서버에 승인되었다는걸 보내는 것을 작성해야함
     }
 }
