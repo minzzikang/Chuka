@@ -3,7 +3,7 @@ import present from "/img/img_present_funding.png";
 // import RegCard from "@/common/regCard";
 import * as F from "@/components/funding/FundingLink/FundingLink.styled";
 import Header from "@common/header";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const index = () => {
   const [productLink, setProductLink] = useState("");
@@ -13,11 +13,13 @@ const index = () => {
     navigate("/celebrate/funding-info/", { state: { productLink } });
   };
 
+  const location = useLocation()
+
   return (
     <>
       <Header children="펀딩 등록하기" />
       <F.Container>
-        <F.Img src={present} alt="" />
+        <F.Img src={present} alt="" onClick={() => (console.log(location))} />
         <F.Wrap>
           <F.Label htmlFor="product-link">
             받고 싶은 선물을 구매할 수 있는 링크를 입력해주세요.

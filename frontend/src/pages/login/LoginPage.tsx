@@ -1,11 +1,14 @@
 import logo from "/img/img_main_logo.png";
 import * as l from "@pages/login/LoginPage.styled";
 import kakao from "/icon/icon_kakao.png";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const REDIRECT_URI2 = import.meta.env.VITE_REDIRECT_URI2;
+  const location = useLocation()
+  const navigate = useNavigate()
 
   const handleClick = () => {
     // 배포 URL
@@ -16,7 +19,13 @@ const LoginPage = () => {
 
     // window.location.href = kakaoURL;
     window.location.href = LOCAL_URL;
+
+    // console.log(location);
+
+    // navigate(LOCAL_URL, { state: { from: location.pathname } });
+
   };
+
 
   return (
     <l.Container>
