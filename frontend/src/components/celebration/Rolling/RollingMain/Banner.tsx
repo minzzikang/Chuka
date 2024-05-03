@@ -13,7 +13,7 @@ interface EventInfo {
 }
 
 const Banner = () => {
-  const { eventId } = useParams();
+  const { pageUri } = useParams();
 
   const navigate = useNavigate();
   const [values, setValues] = useState<EventInfo | null>(null);
@@ -22,8 +22,8 @@ const Banner = () => {
   useEffect(() => {
     const fetchInfo = async () => {
       try {
-        if (eventId) {
-          const eventInfo = await fetchEventInfo(eventId);
+        if (pageUri) {
+          const eventInfo = await fetchEventInfo(pageUri);
           setValues(eventInfo);
         }
       } catch (err) {
@@ -31,7 +31,7 @@ const Banner = () => {
       }
     };
     fetchInfo();
-  }, [eventId]);
+  }, [pageUri]);
 
   if (!values) {
     return <p>Loading...</p>;
