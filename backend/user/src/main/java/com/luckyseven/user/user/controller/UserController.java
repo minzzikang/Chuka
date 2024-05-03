@@ -55,28 +55,41 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> deleteMyId(@RequestHeader("loggedInUser") String userId) {
-        // TODO : SINYEONG
-        userService.deleteUser(userId);
+        try {
+            // TODO : SINYEONG
+            userService.deleteUser(userId);
 
-        return ResponseEntity.status(200).body(null);
+            return ResponseEntity.status(200).body(null);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @GetMapping("/{userId}")
     @Operation(summary = "회원 정보 조회", description = "userId에 해당하는 회원 정보를 조회한다")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<UserDto> getUserInfo(@PathVariable("userId") String userId) {
-        UserDto userDto = userService.getUser(userId);
+        try {
+            UserDto userDto = userService.getUser(userId);
 
-        if (userDto == null) {
+            if (userDto == null) {
 
-            return ResponseEntity.status(404).body(null);
+                return ResponseEntity.status(404).body(null);
+            }
+
+            return ResponseEntity.status(200).body(userDto);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(400).body(null);
         }
-
-        return ResponseEntity.status(200).body(userDto);
     }
 
     @PostMapping("/fcm-token")
@@ -94,6 +107,7 @@ public class UserController {
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "fcm token 저장 성공"));
         } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+            log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));
         }
@@ -113,7 +127,7 @@ public class UserController {
 
             return ResponseEntity.status(200).body(results);
         } catch (Exception e) {
-
+            log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
@@ -125,11 +139,17 @@ public class UserController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> logout(
-            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization) throws IOException {
-        String accessToken = authorization.substring("Bearer ".length());
-        userService.logout(accessToken);
+            @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
+    ) throws IOException {
+        try {
+            String accessToken = authorization.substring("Bearer ".length());
+            userService.logout(accessToken);
 
-        return ResponseEntity.status(200).body(null);
+            return ResponseEntity.status(200).body(null);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
 }
