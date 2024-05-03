@@ -12,7 +12,7 @@ export const navbarList = [
       name: 'celebration',
       imgSrc: '/icon/icon_celebrate_gray.png',
       activeImgSrc: '/icon/icon_celebrate_pink.png',
-      label: '축하하기',
+      label: '추카',
       width: 20,
       height: 20,
       url: '/celebrate',

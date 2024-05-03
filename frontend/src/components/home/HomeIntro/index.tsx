@@ -2,6 +2,7 @@ import * as h from '@components/home/HomeIntro/HomeIntro.styled'
 import Lottie from "react-lottie";
 import animationData from "@assets/lottie/chuka.json";
 import { useEffect } from 'react';
+import useCountNum from '@/utils/useCountUp';
 
 
 const index = () => {
@@ -53,11 +54,11 @@ const index = () => {
         <h.ChukaInfoWrap>
           <h.TextWrap>
             <h.Text>누적 축하 이벤트</h.Text>
-            <h.Text>{512}개</h.Text>
+            <h.Text>{useCountNum(51,0,3000)} 개</h.Text>
           </h.TextWrap>
           <h.TextWrap>
             <h.Text>누적 축하 메시지</h.Text>
-            <h.Text>{6812}개</h.Text>
+            <h.Text>{useCountNum(586,10,3000)} 개</h.Text>
           </h.TextWrap>
         </h.ChukaInfoWrap>
       </h.InfoWrap>
@@ -66,3 +67,5 @@ const index = () => {
 };
 
 export default index;
+
+
