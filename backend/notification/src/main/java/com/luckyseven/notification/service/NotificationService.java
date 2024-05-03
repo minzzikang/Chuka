@@ -16,4 +16,6 @@ public interface NotificationService {
 
     // 알림 발생시키는 로직.
     void sendNotification(String userId, NotificationType type);
+
+    void deleteAllByUserId(String userId);
 }
