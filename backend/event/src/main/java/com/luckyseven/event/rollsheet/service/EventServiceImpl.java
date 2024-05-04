@@ -180,8 +180,8 @@ public class EventServiceImpl implements EventService {
         }
 
         // 삭제
-        fileService.deleteBannerImageOnAmazonS3(eventId);
-        eventRepository.delete(event);
+//        fileService.deleteBannerImageOnAmazonS3(eventId);
+//        eventRepository.delete(event);
     }
 
     @Override
