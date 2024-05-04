@@ -13,10 +13,7 @@ const RollingWritePage = () => {
     content: "",
   });
 
-  useEffect(() => {
-    // api 연결 로직 추가 예정
-    console.log(regData)
-  }, [regData]);
+  useEffect(() => {}, [regData]);
 
   const handleData = (data: any) => {
     setRegData(data);
