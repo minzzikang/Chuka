@@ -17,6 +17,7 @@ import com.luckyseven.event.util.feignClient.FundingFeignClient;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -163,19 +164,24 @@ public class EventServiceImpl implements EventService {
         int count = rollSheetRepository.countByEventId(eventId);
         log.info("count: {}", count);
 
-        // TODO: 펀딩이 모금된 상태이면 삭제 불가
-//        Response response = fundingFeignClient.deleteFunding(34, event.getUserId());
-//        log.info("funding response: {}", response);
-//        log.info("funding response: {}", response.status());
-//        log.info("funding response: {}", response.body());
-
         if (count > 0) {
-            throw new UnsupportedOperationException();
+            throw new UnsupportedOperationException("Rolling paper already written");
+        }
+
+        // TODO: 펀딩이 모금된 상태이면 삭제 불가
+        Response response = fundingFeignClient.deleteFunding(eventId);
+        int status = response.status();
+        if (status != HttpStatus.SC_OK) {
+            log.info("{}", response);
+            if (response.body() != null) {
+                log.info("펀딩 삭제 불가: {}", response.body().toString());
+            }
+            throw new UnsupportedOperationException("The funding has been raised");
         }
 
         // 삭제
-//        fileService.deleteBannerImageOnAmazonS3(eventId);
-//        eventRepository.delete(event);
+        fileService.deleteBannerImageOnAmazonS3(eventId);
+        eventRepository.delete(event);
     }
 
     @Override
