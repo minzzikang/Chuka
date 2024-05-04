@@ -7,26 +7,28 @@ import { useLocation } from "react-router-dom";
 import { fetchEventInfo } from "@/apis/event";
 import * as b from "./Board.styled";
 
-const Board = () => {
-  const { state } = useLocation();
+interface BoardProps {
+  eventId: string;
+}
+
+const Board = ({ eventId }: BoardProps) => {
   const navigate = useNavigate();
 
   const [values, setValues] = useState<{ theme: string }>();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
 
   useEffect(() => {
-    if (state?.eventId) {
-      const fetchInfo = async () => {
-        try {
-          const eventInfo = await fetchEventInfo(state.eventId);
-          setValues(eventInfo);
-        } catch (err) {
-          console.error(err);
-        }
-      };
-      fetchInfo();
-    }
-  }, [state?.eventId]);
+    const fetchInfo = async () => {
+      try {
+        const eventInfo = await fetchEventInfo(eventId);
+        setValues(eventInfo);
+        sessionStorage.setItem("eventId", eventId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchInfo();
+  }, [eventId]);
 
   const Theme = values
     ? values.theme === "CORK_BOARD"
