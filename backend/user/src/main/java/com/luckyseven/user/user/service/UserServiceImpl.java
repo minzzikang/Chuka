@@ -7,6 +7,7 @@ import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
+import com.luckyseven.user.util.feignClient.FundingFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
 import com.luckyseven.user.util.redis.RedisService;
 import lombok.RequiredArgsConstructor;
@@ -37,6 +38,8 @@ public class UserServiceImpl implements UserService {
     private final FcmTokenRepository fcmTokenRepository;
     private final UserQueryRepository userQueryRepository;
 
+    private final FundingFeignClient fundingFeginClient;
+
     @Value("${kakao.api.admin.key}")
     private String adminKey;
 
@@ -64,8 +67,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        // TODO: 알림 삭제, 펀딩 삭제, 롤링페이퍼 삭제, 회원 삭제
+        // TODO: 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
         User user = userRepository.findByUserId(userId);
+
+
 
         userRepository.delete(user);
 
