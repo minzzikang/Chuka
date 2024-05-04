@@ -160,4 +160,26 @@ public class FundingServiceImpl implements FundingService {
             fundingRepository.delete(funding);
         }
     }
+
+    @Override
+    public void deleteFundingsByEventId(int eventId) throws IllegalStateException, EntityNotFoundException {
+        List<Funding> fundingList = fundingRepository.findAllByEventId(eventId);
+
+        //레코드 없음 -> 404 응답
+        if(fundingList.isEmpty()) {
+            throw new EntityNotFoundException();
+        }
+
+        for(Funding funding : fundingList) {
+            if(!funding.getSponsorList().isEmpty()) {
+                //참여했으면 중지 -> 403 응답
+                throw new IllegalStateException();
+            }
+        }
+
+        for(Funding funding : fundingList) {
+            //참여 안 했으면 삭제 가능 -> 200 응답
+            fundingRepository.delete(funding);
+        }
+    }
 }
