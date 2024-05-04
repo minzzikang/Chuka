@@ -30,7 +30,9 @@ const Index = () => {
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
 
-  useEffect(() => {}, []);
+  useEffect(() => {
+    // console.log(localStorage.getItem("access_token"));
+  }, []);
 
   const handleType = (newType: string) => {
     setRegData((prev) => ({

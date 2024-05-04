@@ -1,11 +1,9 @@
 import { authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
-let accessToken = localStorage.getItem("access_token");
-
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
-  console.log("ㅌㅋ", accessToken);
+  const accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.post(`/domain/events`, formdata, {
       headers: {
@@ -25,7 +23,7 @@ export const fetchEventInfo = async (eventId: string) => {
   return axios
     .get(`/domain/events/${eventId}`, {
       headers: {
-        Authorization: `${accessToken}`,
+        Authorization: `${localStorage.getItem("access_token")}`,
       },
     })
     .then((res) => {
