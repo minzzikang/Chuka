@@ -10,11 +10,8 @@ import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
-import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
-import com.luckyseven.event.util.feignClient.FundingFeignClient;
-import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -36,8 +33,6 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
-
-    private final FundingFeignClient fundingFeignClient;
 
     private final int BANNER_WIDTH = 1080;
     private final int BANNER_HEIGHT = 220;
