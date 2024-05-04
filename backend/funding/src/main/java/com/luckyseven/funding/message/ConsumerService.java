@@ -28,18 +28,24 @@ public class ConsumerService {
     @Transactional
     @RabbitListener(queues = PRODUCT_QUEUE)
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
-        Funding funding = fundingRepository.findById(productRes.getFundingId())
-                .orElseThrow(NoSuchElementException::new);
-        log.info("크롤링 서버로 부터 받은 userId 정보: "+productRes.getUserId());
-        if(productRes.getStatus() != 200){
+        try{
+            Funding funding = fundingRepository.findById(productRes.getFundingId())
+                    .orElseThrow(NoSuchElementException::new);
+            log.info("크롤링 서버로 부터 받은 userId 정보: "+productRes.getUserId());
+            if(productRes.getStatus() != 200){
                 funding.failCrawling(FundingStatus.REJECT);
                 //여기서 알림 서버에 거절되었다는걸 보내는 것을 작성해야함
                 return;
+            }
+
+            String productImageUrl = productRes.getProductImageUrl();
+            log.info(productImageUrl);
+            funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
+            //여기서 알림 서버에 승인되었다는걸 보내는 것을 작성해야함
+        }catch (Exception e){
+            log.error("ConsumerService 에러 메세지: {}", e.getMessage());
+            throw e;
         }
 
-        String productImageUrl = productRes.getProductImageUrl();
-        log.info(productImageUrl);
-        funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
-        //여기서 알림 서버에 승인되었다는걸 보내는 것을 작성해야함
     }
 }
