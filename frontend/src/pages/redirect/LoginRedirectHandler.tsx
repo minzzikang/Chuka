@@ -26,7 +26,7 @@ const LoginRedirectHandler = () => {
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("refresh_token", refreshToken);
 
-        fetchUserInfo().then((res) => setUserState(res.data));
+        fetchUserInfo().then((res) => setUserState(res));
 
         if (accessToken) {
           if (prevUrl) {

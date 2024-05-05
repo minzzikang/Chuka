@@ -1,6 +1,7 @@
 import Navbar from "@common/navbar";
 import RollingSelect from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect";
 import { useState, useEffect } from "react";
+import { useParams, useLocation } from "react-router-dom";
 
 const RollingBackgroundSelectPage = () => {
   const [regData, setRegData] = useState({

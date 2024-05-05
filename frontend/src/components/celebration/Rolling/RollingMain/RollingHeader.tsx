@@ -1,15 +1,22 @@
 import Logo from "/img/img_logo.png";
 import ShareIcon from "/icon/icon_share.png";
 import AddIcon from "/icon/icon_add_message.png";
-import { useNavigate } from "react-router-dom";
-import * as r from "./RollingHeader.styled"
 import { ShareKakao } from "@/services/kakaoShare";
+import { useNavigate, useParams } from "react-router-dom";
+import * as r from "./RollingHeader.styled";
 
-const RollingHeader = () => {
+interface HeaderProps {
+  eventId: string;
+}
+
+const RollingHeader = ({ eventId }: HeaderProps) => {
+  const { pageUri } = useParams();
+
   const navigate = useNavigate();
 
   const handleAdd = () => {
-    navigate("/celebrate/rolling-select");
+    console.log(pageUri);
+    navigate(`/celebrate/rolling/${pageUri}/select`);
   };
 
 

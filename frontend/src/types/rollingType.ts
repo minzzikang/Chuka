@@ -11,7 +11,7 @@ export type RollingInfoSectionType = {
     handleTitle: (value: string) => void
     handleVisible: (value: boolean) => void
     handleDateChange: (value: Date) => void
-    handleFileChange: (banner: File | null, bannerThumbnail: string | null) => void
+    handleFileChange: (banner: File | null) => void
     handleTheme: (value: string) => void
     theme: string
 }

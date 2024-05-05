@@ -1,8 +1,9 @@
 import Label from "@common/label";
 import Calendar from "@components/calendar";
-import FileInput from "@components/fileInput";
 import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
+import FileIcon from "/icon/icon_file_upload.png";
+import { ChangeEvent, useState, useRef } from "react";
 
 import { RollingInfoSectionType } from "@/types/rollingType";
 import * as c from "@/components/celebration/CelebrationInfoSection/CelebrationInfoSection.styled";
@@ -19,14 +20,39 @@ const index = (props: RollingInfoSectionType) => {
     theme,
   } = props;
 
+  const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
+  const [fileName, setFileName] = useState("");
+
+  const handleImgChange = (e: ChangeEvent<HTMLInputElement>) => {
+    e.preventDefault();
+
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      setImagePreviewUrl(fileURL);
+      setFileName(file.name);
+    } else {
+      setImagePreviewUrl(null);
+      setFileName("");
+    }
+    handleFileChange(file);
+  };
+
   const toggleButton = () => {
     handleVisible(!isVisible);
   };
 
-  const themeList: string[] = ["cork_board", "black_board"];
+  const themeList: string[] = ["CORK_BOARD", "BLACK_BOARD"];
 
   const onClickTheme = (theme: string) => {
     handleTheme(theme);
+  };
+
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const TriggerFileInput = () => {
+    fileInputRef.current?.click();
   };
 
   return (
@@ -46,8 +72,22 @@ const index = (props: RollingInfoSectionType) => {
         <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
       </c.Wrap>
       <c.Wrap>
-        <Label htmlFor="img" children="대표 이미지 설정" />
-        <FileInput onChange={handleFileChange} />
+        <c.FileInputLabel htmlFor="img">대표 이미지 설정</c.FileInputLabel>
+        <c.FileInputContainer onClick={TriggerFileInput}>
+          <c.HiddenInput
+            type="file"
+            name="img"
+            id="img"
+            ref={fileInputRef}
+            onChange={handleImgChange}
+            accept="image/*"
+          />
+          {fileName || "축하하는 날을 대표하는 이미지를 등록해주세요."}
+          <img src={FileIcon} />
+        </c.FileInputContainer>
+        {imagePreviewUrl && (
+          <c.ImagePreview src={imagePreviewUrl} alt="Preview" />
+        )}
       </c.Wrap>
       <c.Wrap>
         <Label htmlFor="theme" children="롤링 페이퍼 테마 선택" />

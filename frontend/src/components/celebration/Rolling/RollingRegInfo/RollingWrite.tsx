@@ -1,14 +1,14 @@
 import { colors } from "@styles/theme";
 import * as r from "./RollingWrite.styled";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 interface RegDataProps {
   shape: string;
-  background_color: string;
-  background_image: string;
+  backgroundColor: string;
+  backgroundImage: string;
   font: string;
-  font_color: string;
+  fontColor: string;
   content: string;
   nickname: string;
 }
@@ -18,16 +18,38 @@ interface RollingWriteProps {
 }
 
 const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
-  const location = useLocation();
+  const { pageUri } = useParams();
   const navigate = useNavigate();
 
-  const initData = { ...location.state };
-
-  const [regData, setRegData] = useState(initData);
+  const [regData, setRegData] = useState<RegDataProps>(() => {
+    const savedData = sessionStorage.getItem("regData");
+    return savedData
+      ? JSON.parse(savedData)
+      : {
+          shape: "",
+          backgroundColor: "",
+          backgroundImage: "",
+          font: "",
+          fontColor: "",
+          content: "",
+          nickname: "",
+        };
+  });
 
   useEffect(() => {
-    console.log(initData);
-  }, [initData]);
+    console.log("롤링데이터", regData);
+    sessionStorage.setItem("regData", JSON.stringify(regData));
+    if (regData.backgroundImage) {
+      sessionStorage.setItem("selectedFileUrl", regData.backgroundImage);
+    }
+  }, [regData]);
+
+  useEffect(() => {
+    const savedData = sessionStorage.getItem("regData");
+    if (savedData) {
+      setRegData(JSON.parse(savedData));
+    }
+  }, []);
 
   const [selectedColor, setSelectedColor] = useState<string>("black");
   const [selectedFont, setSelectedFont] = useState<string>("Pretendard");
@@ -47,7 +69,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     setSelectedColor(color);
     setRegData((prevData: any) => ({
       ...prevData,
-      font_color: color,
+      fontColor: color,
     }));
   };
 
@@ -61,33 +83,35 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
 
   const handleSubmit = () => {
     onUpdateData(regData);
-    navigate("/celebrate/rolling-preview", { state: { regData } });
+    navigate(`/celebrate/rolling/${pageUri}/preview`);
   };
 
   const handleBack = () => {
-    navigate("/celebrate/rolling-select", { state: { regData } });
+    navigate(`/celebrate/rolling/${pageUri}/select`);
   };
 
   return (
     <>
       <r.Header>
         <r.Icon onClick={handleBack} />
-        <span>배경 선택하기</span>
+        <span>메시지 작성하기</span>
         <button onClick={handleSubmit}>다음</button>
       </r.Header>
       <r.Container>
         <r.MessageBox
           id="content"
           font={selectedFont}
+          backColor={regData.backgroundColor}
           placeholder="내용을 작성해주세요."
-          style={{ color: regData.font_color }}
+          style={{ color: regData.fontColor }}
           value={regData.content}
-          onChange={(e) =>
+          maxLength={300}
+          onChange={(e) => {
             setRegData((prevData: any) => ({
               ...prevData,
               content: e.target.value,
-            }))
-          }
+            }));
+          }}
         />
         <r.Wrap>
           {colorList.map((color) => (

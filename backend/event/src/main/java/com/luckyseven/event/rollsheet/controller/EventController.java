@@ -10,6 +10,7 @@ import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
+import com.luckyseven.event.util.jwt.JWTUtil;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -33,11 +34,13 @@ import java.util.NoSuchElementException;
 @Tag(name = "Event", description = "이벤트(롤링페이퍼) API")
 public class EventController {
 
+    private final JWTUtil jwtUtil;
+
     private final EventService eventService;
     private final RollSheetService rollSheetService;
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.")
+    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger에서 Authorization token 설정 必")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "400", description = "비어있는 파일"),
@@ -46,11 +49,16 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
             @ApiResponse(responseCode = "503", description = "서버 오류 (File IO)")
     })
-    public ResponseEntity<?> createEvent(@ModelAttribute CreateEventDto createEventDto, @RequestHeader("loggedInUser") String userId) {   //java.lang.IllegalArgumentException: No enum constant com.luckyseven.event.rollsheet.entity.EventType.생일
+    public ResponseEntity<?> createEvent(
+            @ModelAttribute CreateEventDto createEventDto,
+            @RequestHeader("loggedInUser") String userId,
+            @RequestHeader("Authorization") String authorization
+    ) {
         EventDto event = null;
 
         try {
-            event = eventService.createEvent(createEventDto, userId);
+            String nickname = jwtUtil.getNickname(authorization.substring("Bearer ".length()));
+            event = eventService.createEvent(createEventDto, userId, nickname);
         } catch (EmptyFileException e) {
             //400
             return ResponseEntity.status(400).body("파일이 비어있습니다.");
@@ -63,6 +71,9 @@ public class EventController {
         } catch (IOException e) {
             //500
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("파일 IO 중 에러 발생");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(400).body("에러 발생");
         }
 
         return ResponseEntity.status(200).body(event);
@@ -85,7 +96,7 @@ public class EventController {
             return ResponseEntity.status(200).body(events);
         } catch (Exception e) {
             log.error("[ERROR!] 이벤트 조회 오류 발생");
-            e.printStackTrace();
+            log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(null);
         }
@@ -129,10 +140,11 @@ public class EventController {
             return ResponseEntity.status(200).body(event);
         } catch (NullPointerException e) {
             log.error("존재하지 않는 이벤트 조회");
+            log.error(e.getMessage());
             return ResponseEntity.status(404).body(null);
         } catch (Exception e) {
             log.error("[Error]");
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
 
         return ResponseEntity.status(400).body(null);
@@ -167,6 +179,9 @@ public class EventController {
         } catch (IOException e) {
             //415
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(400).body("에러 발생");
         }
 
         return ResponseEntity.status(200).body(event);
@@ -183,19 +198,27 @@ public class EventController {
     })
     public ResponseEntity deleteEvent(@PathVariable("eventId") int eventId, @RequestHeader("loggedInUser") String userId) {
 
-        if (!eventService.isMyEvent(eventId, userId)) {
-            return ResponseEntity.status(403).body(BaseResponseBody.of(403, "권한 없음"));
+        try {
+            if (!eventService.isMyEvent(eventId, userId)) {
+                return ResponseEntity.status(403).body(BaseResponseBody.of(403, "권한 없음"));
+            }
+        } catch (NullPointerException e) {
+            log.info(e.getMessage());
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이벤트"));
         }
 
         try {
             eventService.deleteEvent(eventId);
 
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이벤트"));
         } catch (UnsupportedOperationException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "삭제 불가능한 이벤트"));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body(BaseResponseBody.of(400, ""));
+            log.error(e.getMessage());
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "에러"));
         }
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "이벤트 삭제"));
@@ -218,7 +241,7 @@ public class EventController {
 
             return ResponseEntity.status(200).body(result);
         } catch (Exception e) {
-
+            log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
 

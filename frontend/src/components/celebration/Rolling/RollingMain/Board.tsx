@@ -1,17 +1,25 @@
-import Theme from "/img/img_rolling_theme_cork.jpg";
+import CorkBoard from "/img/img_rolling_theme_cork.jpg";
+import BlackBoard from "/img/img_rolling_theme_board.jpg";
 import Drawer from "@components/drawer";
-import { useState } from "react";
-import * as b from "./Board.styled"
-import { useNavigate } from "react-router-dom";
 import RModal from '@common/responsiveModal'
 import FundingModal from './FundingModal'
+import { useEffect, useState } from "react";
+import { fetchEventInfo } from "@/apis/event";
+import * as b from "./Board.styled";
 
-const Board = () => {
+interface BoardProps {
+  eventId: string;
+}
+
+const Board = ({ eventId }: BoardProps) => {
+
+  const [values, setValues] = useState<{ theme: string }>();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
+
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem('access_token')
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
 
 
   const goFunding = () => {
@@ -22,6 +30,25 @@ const Board = () => {
       setIsModalOpen(true)
     }
   }
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      try {
+        const eventInfo = await fetchEventInfo(eventId);
+        setValues(eventInfo);
+        sessionStorage.setItem("eventId", eventId);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchInfo();
+  }, [eventId]);
+
+  const Theme = values
+    ? values.theme === "CORK_BOARD"
+      ? CorkBoard
+      : BlackBoard
+    : CorkBoard;
 
   return (
     <>
@@ -38,7 +65,6 @@ const Board = () => {
           <FundingModal setIsModalOpen={setIsModalOpen}  />
         </RModal>
       )}
-
     </>
   );
 };
