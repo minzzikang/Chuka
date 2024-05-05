@@ -1,7 +1,6 @@
 import logo from "/img/img_main_logo.png";
 import * as l from "@pages/login/LoginPage.styled";
 import kakao from "/icon/icon_kakao.png";
-import { useLocation, useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -16,8 +15,8 @@ const LoginPage = () => {
     // 로컬 URL
     const LOCAL_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
 
-    // window.location.href = kakaoURL;
-    window.location.href = LOCAL_URL;
+    window.location.href = kakaoURL;
+    // window.location.href = LOCAL_URL;
 
   };
 
