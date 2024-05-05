@@ -18,7 +18,10 @@ interface RollingWriteProps {
 }
 
 const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
-  const { pageUri } = useParams();
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
   const navigate = useNavigate();
 
   const [regData, setRegData] = useState<RegDataProps>(() => {
@@ -83,11 +86,11 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
 
   const handleSubmit = () => {
     onUpdateData(regData);
-    navigate(`/celebrate/rolling/${pageUri}/preview`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/preview`);
   };
 
   const handleBack = () => {
-    navigate(`/celebrate/rolling/${pageUri}/select`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/select`);
   };
 
   return (
