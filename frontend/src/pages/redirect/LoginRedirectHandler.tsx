@@ -21,8 +21,6 @@ const LoginRedirectHandler = () => {
     axios
       .post("/domain/auth/login/kakao", code)
       .then((res) => {
-        // console.log("나와주세요", code);
-        // console.log("살려줘", res);
         const accessToken = res.headers["authorization"];
         const refreshToken = res.headers["refresh-token"];
         localStorage.setItem("access_token", accessToken);

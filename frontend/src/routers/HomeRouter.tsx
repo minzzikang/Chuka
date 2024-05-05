@@ -11,7 +11,7 @@ import RollingMainPage from "@pages/celebration/rolling/RollingMainPage";
 import RollingBackgroundSelectPage from "@pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone";
 
-import ReviewPage from '@components/home/ReviewPage'
+import ReviewPage from "@components/home/ReviewPage";
 
 import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
@@ -27,22 +27,37 @@ const HomeRouter = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
-      
+
       <Route path="/celebrate" element={<CelebrationPage />} />
-      <Route path="/celebrate/rolling/:pageUri" element={<RollingMainPage />} />
-      <Route path="/celebrate/rolling/:pageUri/select" element={<RollingBackgroundSelectPage />} />
-      <Route path="/celebrate/rolling/:pageUri/write" element={<RollingWritePage />} />
-      <Route path="/celebrate/rolling/:pageUri/preview" element={<RollingPreviewPage />} />
-      <Route path="/celebrate/rolling/:pageUri/detail" element={<RollingDetailPage />} />
+      <Route
+        path="/celebrate/rolling/:eventId/:pageUri"
+        element={<RollingMainPage />}
+      />
+      <Route
+        path="/celebrate/rolling/:eventId/:pageUri/select"
+        element={<RollingBackgroundSelectPage />}
+      />
+      <Route
+        path="/celebrate/rolling/:eventId/:pageUri/write"
+        element={<RollingWritePage />}
+      />
+      <Route
+        path="/celebrate/rolling/:eventId/:pageUri/preview"
+        element={<RollingPreviewPage />}
+      />
+      <Route
+        path="/celebrate/rolling/:eventId/:pageUri/detail"
+        element={<RollingDetailPage />}
+      />
       <Route path="/celebrate/funding" element={<FundingRegPage />} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
       <Route path="/alarm" element={<AlarmPage />} />
 
       <Route path="/mypage" element={<MyPage />} />
-      
+
       <Route path="/review" element={<ReviewPage />} />
-      
+
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
 

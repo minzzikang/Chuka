@@ -21,7 +21,10 @@ interface RollingPreviewProps {
 
 const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
   const user = useRecoilValue(userState);
-  const { pageUri } = useParams();
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
   const navigate = useNavigate();
 
   const [regData, setRegData] = useState<RegDataProps>(() => {
@@ -54,11 +57,6 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
 
   const handleSubmit = async () => {
     setSaveModalOpen(false);
-    const eventId = sessionStorage.getItem("eventId");
-    if (!eventId) {
-      console.error("이벤트id 없음");
-      return;
-    }
 
     const formData = new FormData();
 
@@ -71,17 +69,21 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
       formData.append("backgroundImage", regData.backgroundImage);
     }
 
-    try {
-      const res = await createRollMsg(formData, eventId);
-      console.log("메시지 정보", res);
-      navigate(`/celebrate/rolling/${pageUri}/detail`);
-    } catch (err) {
-      console.error(err);
+    if (typeof eventId === "string") {
+      try {
+        const res = await createRollMsg(formData, eventId);
+        console.log("메시지 정보", res);
+        navigate(`/celebrate/rolling/${eventId}/${pageUri}/detail`);
+      } catch (err) {
+        console.error(err);
+      }
+    } else {
+      console.error("eventId 이상");
     }
   };
 
   const handleBack = () => {
-    navigate(`/celebrate/rolling/${pageUri}/write`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
   };
 
   return (

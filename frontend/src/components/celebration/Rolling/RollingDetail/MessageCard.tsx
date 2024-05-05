@@ -1,18 +1,32 @@
 import * as m from "./MessageCard.styled";
 import { useEffect, useState } from "react";
 
-
-interface MessageProps {
-  eventId: string;
+interface MessageCardProps {
   nickname: string;
   content: string;
+  bgImage?: string;
+  bgColor?: string;
+  font?: string;
+  fontColor?: string;
 }
 
-const MessageCard = ({ eventId, nickname, content }: MessageProps) => {
+const MessageCard = ({
+  nickname,
+  content,
+  bgImage,
+  bgColor,
+  font,
+  fontColor,
+}: MessageCardProps) => {
   return (
     <>
       <m.Container>
-        <m.MessageBox>
+        <m.MessageBox
+          $bgImage={bgImage}
+          $bgColor={bgColor}
+          $fontColor={fontColor}
+          $font={font}
+        >
           {content}
           <m.Nickname>From. {nickname}</m.Nickname>
         </m.MessageBox>
