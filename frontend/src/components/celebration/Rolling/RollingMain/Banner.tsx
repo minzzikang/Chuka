@@ -5,7 +5,6 @@ import TestImg from "/img/img_main_banner.png";
 import { IoMdSettings } from "react-icons/io";
 import { fetchEventInfo } from "@/apis/event";
 
-
 interface EventInfo {
   title: string;
   date: string;
@@ -16,26 +15,28 @@ interface EventInfo {
   nickname: string;
 }
 
-interface BannerProps {
-  eventId: string;
-}
-
-
-const Banner = ({ eventId} : BannerProps ) => {
+const Banner = () => {
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
   const [values, setValues] = useState<EventInfo | null>(null);
 
   useEffect(() => {
-      const fetchInfo = async () => {
+    const fetchInfo = async () => {
+      if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          console.log("id", eventId);
           console.log("이벤트get요청", eventInfo);
           setValues(eventInfo);
         } catch (err) {
           console.error(err);
         }
-      };
-      fetchInfo();
+      } else {
+        console.error("eventId 이상");
+      }
+    };
+    fetchInfo();
   }, [eventId]);
 
   if (!values) {
