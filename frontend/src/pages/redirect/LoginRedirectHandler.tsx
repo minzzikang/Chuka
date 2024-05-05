@@ -1,15 +1,15 @@
 import axios from "axios";
 import { useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { BASE_URL } from "@/utils/requestMethods";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
-import { fetchUserInfo, loginSuccess } from "@/apis/auth";
+import { fetchUserInfo } from "@/apis/auth";
 
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
   const navigate = useNavigate();
   const code = new URLSearchParams(window.location.search).get("code");
+  const prevUrl = sessionStorage.getItem("prevUrl");
 
   useEffect(() => {
     if (code) {
@@ -21,15 +21,40 @@ const LoginRedirectHandler = () => {
     axios
       .post("/domain/auth/login/kakao", code)
       .then((res) => {
-        // console.log("나와주세요", code);
-        // console.log("살려줘", res);
         const accessToken = res.headers["authorization"];
         const refreshToken = res.headers["refresh-token"];
         localStorage.setItem("access_token", accessToken);
         localStorage.setItem("refresh_token", refreshToken);
 
         fetchUserInfo().then((res) => setUserState(res));
-        navigate("/");
+
+        if (accessToken) {
+          if (prevUrl) {
+            try {
+              // URL 파싱
+              const parsedUrl = new URL(prevUrl);
+              const path = parsedUrl.pathname;
+
+              switch (path) {
+                // 메인페이지에서 이벤트 등록시
+                case "/":
+                  navigate(`/celebrate`);
+                  break;
+                // 펀딩 drawer 열람시 || 알림 조회시 || 마이페이지 조회시 || navbar로 이벤트 등록시
+                default:
+                  navigate(`${path}`);
+                  break;
+              }
+            } catch (error) {
+              console.error("Invalid URL:", prevUrl);
+              navigate("/");
+            }
+          } else {
+            navigate("/");
+          }
+        } else {
+          navigate("/login");
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -40,5 +65,4 @@ const LoginRedirectHandler = () => {
     </>
   );
 };
-
 export default LoginRedirectHandler;

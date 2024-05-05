@@ -22,11 +22,11 @@ const HomePage = () => {
         <HomeEventList />
         <HomeReview />
       </h.Wrap>
-      <img
-        src="/img/img_main_banner.png"
-        alt=""
-        style={{ width: "100%", position: "fixed", bottom: "60px" }}
-      />
+        <img
+          src="/img/img_main_banner.png"
+          alt=""
+          style={{ width: "100%", position: "fixed", bottom: "60px" }}
+        />
       <Navbar current={"home"} />
     </>
   );

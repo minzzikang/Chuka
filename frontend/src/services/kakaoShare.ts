@@ -1,6 +1,3 @@
-import { useEffect } from "react";
-import defaultImg from '/icon/apple-touch-icon.png'
-
 const KAKAO_JS_API_KEY = import.meta.env.VITE_KAKAO_JS_API_KEY;
 
 
@@ -17,7 +14,7 @@ export const ShareKakao = () => {
         title: "재옹 생일파티", // 이벤트 제목
         description: "아메리카노, 빵, 케익", // 펀딩 소개 문구
         imageUrl:
-        "https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png", // 이벤트 대표 이미지 or 기본 이미지(이벤트 default?)
+        "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
         link: {
           mobileWebUrl: "https://developers.kakao.com", // 이벤트 URL
           webUrl: "https://developers.kakao.com", // 이벤트 URL
