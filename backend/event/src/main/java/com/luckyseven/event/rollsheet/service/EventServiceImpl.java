@@ -185,7 +185,9 @@ public class EventServiceImpl implements EventService {
             }
         }
 
-        fileService.deleteBannerImageOnAmazonS3(eventId);
+        if (event.getBanner() != null) {
+            fileService.deleteBannerImageOnAmazonS3(eventId);
+        }
         eventRepository.delete(event);
     }
 
