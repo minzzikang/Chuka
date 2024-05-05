@@ -5,15 +5,15 @@ import { IoMdAdd } from "react-icons/io";
 import { useState, ChangeEvent, useRef, useEffect } from "react";
 import * as r from "@/components/celebration/Rolling/RollingRegInfo/RollingSelect.styled";
 import ColorSelectModal from "./ColorSelectModal";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface RegDataProps {
   shape: string;
-  background_color: string;
+  backgroundColor: string;
   content: string;
   font: string;
-  font_color: string;
-  background_image: string;
+  fontColor: string;
+  backgroundImage: string;
   nickname: string;
 }
 
@@ -28,6 +28,7 @@ const shapeMap: { [key: string]: string } = {
 
 const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
   const navigate = useNavigate();
+  const { pageUri } = useParams();
 
   const [regData, setRegData] = useState<RegDataProps>(() => {
     const savedData = sessionStorage.getItem("regData");
@@ -35,20 +36,20 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
       ? JSON.parse(savedData)
       : {
           shape: "",
-          background_color: "",
-          background_image: "",
+          backgroundColor: "",
+          backgroundImage: "",
           font: "",
-          font_color: "",
+          fontColor: "",
           content: "",
           nickname: "",
         };
   });
 
   useEffect(() => {
-    console.log("데이터", regData);
+    console.log("롤링데이터", regData);
     sessionStorage.setItem("regData", JSON.stringify(regData));
-    if (regData.background_image) {
-      sessionStorage.setItem("selectedFileUrl", regData.background_image);
+    if (regData.backgroundImage) {
+      sessionStorage.setItem("selectedFileUrl", regData.backgroundImage);
     }
   }, [regData]);
 
@@ -81,8 +82,8 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
   const handleSelectColor = (color: string) => {
     setRegData((prevData) => ({
       ...prevData,
-      background_color: color,
-      background_image: "",
+      backgroundColor: color,
+      backgroundImage: "",
     }));
     setSelectedFile(null);
     sessionStorage.removeItem("selectedFileUrl");
@@ -97,8 +98,8 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
 
       setRegData((prevData) => ({
         ...prevData,
-        background_image: fileURL,
-        background_color: "",
+        backgroundImage: fileURL,
+        backgroundColor: "",
       }));
       setBackgroundType("img");
       sessionStorage.setItem("selectedFileUrl", fileURL);
@@ -112,13 +113,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
 
   const handleSubmit = () => {
     onUpdateData(regData);
-    navigate("/celebrate/rolling-write", {
-      state: {
-        shape: `${regData.shape}`,
-        background_image: `${regData.background_image}`,
-        background_color: `${regData.background_color}`,
-      },
-    });
+    navigate(`/celebrate/rolling/${pageUri}/write`);
   };
 
   return (
@@ -126,7 +121,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
       <r.Header>
         <r.Icon
           onClick={() => {
-            navigate(-1);
+            window.history.back();
           }}
         />
         <span>배경 선택하기</span>

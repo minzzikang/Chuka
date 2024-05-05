@@ -4,7 +4,7 @@ import * as b from "./Banner.styeld";
 import TestImg from "/img/img_main_banner.png";
 import { IoMdSettings } from "react-icons/io";
 import { fetchEventInfo } from "@/apis/event";
-import { useLocation } from "react-router-dom";
+
 
 interface EventInfo {
   title: string;
@@ -13,19 +13,22 @@ interface EventInfo {
   bannerThumbnailUrl: string;
   userId: string;
   createTime: string;
+  nickname: string;
 }
 
-const Banner = () => {
-  const { state } = useLocation();
+interface BannerProps {
+  eventId: string;
+}
 
+
+const Banner = ({ eventId} : BannerProps ) => {
   const [values, setValues] = useState<EventInfo | null>(null);
 
   useEffect(() => {
-    if (state?.eventId) {
       const fetchInfo = async () => {
         try {
-          const eventInfo = await fetchEventInfo(state.eventId);
-          console.log("state id", state.eventId);
+          const eventInfo = await fetchEventInfo(eventId);
+          console.log("id", eventId);
           console.log("이벤트get요청", eventInfo);
           setValues(eventInfo);
         } catch (err) {
@@ -33,8 +36,7 @@ const Banner = () => {
         }
       };
       fetchInfo();
-    }
-  }, [state?.eventId]);
+  }, [eventId]);
 
   if (!values) {
     return <p>Loading...</p>;
@@ -62,9 +64,9 @@ const Banner = () => {
           {values.title}
           {/* <IoMdSettings onClick={() => navigate("/celebrate")} /> */}
         </b.Title>
-        <b.Name>{}</b.Name>
         <b.Dday>{`D-${dDay}`}</b.Dday>
         <b.EventDay>{values.date}</b.EventDay>
+        <b.Name>생성자 : {values.nickname}</b.Name>
       </b.Wrap>
     </>
   );

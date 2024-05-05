@@ -4,8 +4,6 @@ import { useState, useEffect } from "react";
 import { useParams, useLocation } from "react-router-dom";
 
 const RollingBackgroundSelectPage = () => {
-  const location = useLocation();
-
   const [regData, setRegData] = useState({
     shape: "",
     background_color: "",
@@ -14,7 +12,7 @@ const RollingBackgroundSelectPage = () => {
 
   useEffect(() => {
     console.log(regData);
-  }, [regData, location.state]);
+  }, [regData]);
 
   const handleData = (data: any) => {
     setRegData(data);
