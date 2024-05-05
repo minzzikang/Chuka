@@ -53,7 +53,7 @@ const index = () => {
     <>
       <F.Container>
         <Header children="펀딩 등록하기" />
-        <F.Img src={DefaultFunding} />
+        <F.Img src={DefaultFunding} onClick={() => (console.log(location))} />
         <F.Wrap>
           <F.Inner>
             <F.Label htmlFor="introduce">"한 줄 펀딩 소개"</F.Label>
