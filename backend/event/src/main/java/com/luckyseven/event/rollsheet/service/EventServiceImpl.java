@@ -169,6 +169,7 @@ public class EventServiceImpl implements EventService {
 
         // 펀딩이 모금된 상태이면 삭제 불가
         Response response = fundingFeignClient.deleteFundingByEventId(eventId);
+        log.info("response: {}", response);
         if (response.status() != HttpStatus.SC_OK) {
             if (response.body() != null) {
                 log.info("response body: {}", response.body());
