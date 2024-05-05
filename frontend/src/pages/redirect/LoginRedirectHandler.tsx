@@ -19,7 +19,11 @@ const LoginRedirectHandler = () => {
 
   const getToken = (code: string) => {
     axios
-      .post("/domain/auth/login/kakao", code)
+      // LOCAL Proxy 로그인
+      // .post("/domain/auth/login/kakao", code)
+      
+      // 서버 로그인
+      .post("https://chuka.kr/api/v1/auth/login/kakao", code)
       .then((res) => {
         const accessToken = res.headers["authorization"];
         const refreshToken = res.headers["refresh-token"];

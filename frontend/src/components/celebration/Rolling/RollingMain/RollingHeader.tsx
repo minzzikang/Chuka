@@ -20,9 +20,6 @@ const RollingHeader = ({ eventId }: HeaderProps) => {
   };
 
 
-
-
-
   return (
     <>
       <r.Container>
