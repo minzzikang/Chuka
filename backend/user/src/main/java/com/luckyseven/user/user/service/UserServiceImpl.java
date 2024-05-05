@@ -64,8 +64,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String userId) {
-        // TODO: 알림 삭제, 펀딩 삭제, 롤링페이퍼 삭제, 회원 삭제
+        // TODO: 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
         User user = userRepository.findByUserId(userId);
+
+
 
         userRepository.delete(user);
 

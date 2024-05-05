@@ -40,8 +40,8 @@ export const Icon = styled(IoIosArrowBack)`
   cursor: pointer;
 `;
 
-export const MessageBox = styled.textarea<{ font: string }>`
-  background-color: ${colors.white};
+export const MessageBox = styled.textarea<{ font: string; backColor: string }>`
+  background-color: ${(props) => props.backColor};
   margin: 20px;
   border-radius: 1em;
   padding: 10px;

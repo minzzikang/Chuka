@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-import { fetchUserInfo } from "@/apis/auth";
-import { useRecoilState } from "recoil";
+import { useRecoilValue } from "recoil";
 import { userState } from "@/stores/user";
 import * as h from "./HomePage.styled";
 import Navbar from "@common/navbar";
@@ -11,17 +10,8 @@ import HomeEventList from "@components/home/HomeEventList";
 import HomeReview from "@components/home/HomeReview";
 
 const HomePage = () => {
-  const [user, setUser] = useRecoilState(userState);
-
-  useEffect(() => {
-    fetchUserInfo()
-      .then((data: any) => {
-        setUser({ ...user, ...data });
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
+  const user = useRecoilValue(userState);
+  console.log("user", user);
 
   return (
     <>

@@ -48,7 +48,7 @@ def receive_message():
             info = extract_shopping_info(data.get('productUrl'), selectors)
             info['fundingId'] = data.get('fundingId')
             
-            if all(value for value in [info.get('productUrl'), info.get('productPrice'), info.get('productName')]):
+            if all(value for value in [info.get('productImageUrl'), info.get('productPrice'), info.get('productName')]):
                 info.update({"status": 200, "message": "성공"})
             else:
                 info = {"status": 400, "message": "상품 상세페이지를 다시 확인해주세요"}
@@ -56,6 +56,7 @@ def receive_message():
         except Exception as e:
             info = {"status": 400, "message": str(e)}
         info['fundingId'] = data.get('fundingId')
+        info['userId'] = data.get('userId')
         print(info)
         send_message(info)
         
