@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -10,15 +9,17 @@ export const Container = styled.div`
 `;
 
 export const MessageBox = styled.div<{
-  bgColor?: string;
-  bgImage?: string;
-  fontColor?: string;
-  fontFamily?: string;
+  $bgColor?: string;
+  $bgImage?: string;
+  $fontColor?: string;
+  $font?: string;
 }>`
-  background-color: ${({ bgColor }) => bgColor || colors.white};
-  background-image: ${({ bgImage }) => (bgImage ? `url(${bgImage})` : "none")};
-  color: ${({ fontColor }) => fontColor || colors.black};
-  font-family: ${({ fontFamily }) => fontFamily || "Pretendard"};
+  background-color: ${(props) =>
+    props.$bgImage ? "transparent" : props.$bgColor || "transparent"};
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+  color: ${(props) => props.$fontColor || colors.black};
+  font-family: ${(props) => props.$font || "Pretendard"};
   margin: 20px;
   border-radius: 1em;
   padding: 15px;
@@ -26,6 +27,8 @@ export const MessageBox = styled.div<{
   height: 300px;
   font-size: 1em;
   position: relative;
+  background-size: cover;
+  background-position: center;
 `;
 
 export const Nickname = styled.p`

@@ -8,37 +8,57 @@ import { fetchRollSheets } from "@/apis/roll";
 interface MessageProps {
   nickname: string;
   content: string;
+  backgroundImageThumbnailUrl?: string;
+  backgroundColor?: string;
+  font: string;
+  fontColor: string;
+  shape: string;
+  rollSheetId: string;
 }
 
 const RollingDetailPage = () => {
-  const { pageUri } = useParams();
-  const navigate = useNavigate();
-  const eventId = localStorage.getItem("eventId") as string;
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
 
   const [values, setValues] = useState<MessageProps[]>([]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const RollList = await fetchRollSheets(eventId);
-        console.log("롤리스트", RollList);
-        setValues(RollList);
-      } catch (err) {
-        console.error(err);
+    const fetchRolls = async () => {
+      if (typeof eventId === "string") {
+        try {
+          const RollList = await fetchRollSheets(eventId);
+          console.log("롤리스트", RollList);
+
+          if (RollList.length > 0) {
+            setValues(RollList);
+          }
+          console.log("values", values);
+        } catch (err) {
+          console.error(err);
+        }
       }
     };
-    fetchData();
-  }, []);
+    fetchRolls();
+  }, [eventId]);
+
+  useEffect(() => {
+    console.log("Updated values:", values);
+  }, [values]);
 
   return (
     <>
       <Header children="작성된 메시지" />
-      {values.map((message, index) => (
+      {values.map((message) => (
         <MessageCard
-          key={index}
-          eventId={eventId}
+          key={message.rollSheetId}
           nickname={message.nickname}
           content={message.content}
+          bgImage={message.backgroundImageThumbnailUrl}
+          bgColor={message.backgroundColor}
+          font={message.font}
+          fontColor={message.fontColor}
         />
       ))}
       <Navbar current={"celebration"} />

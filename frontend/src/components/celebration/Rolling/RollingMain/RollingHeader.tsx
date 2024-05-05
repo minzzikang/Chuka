@@ -4,18 +4,16 @@ import AddIcon from "/icon/icon_add_message.png";
 import { useNavigate, useParams } from "react-router-dom";
 import * as r from "./RollingHeader.styled";
 
-interface HeaderProps {
-  eventId: string;
-}
 
-const RollingHeader = ({ eventId }: HeaderProps) => {
-  const { pageUri } = useParams();
+
+const RollingHeader = () => {
+  const { eventId, pageUri } = useParams<{ pageUri: string; eventId: string }>();
 
   const navigate = useNavigate();
 
   const handleAdd = () => {
     console.log(pageUri);
-    navigate(`/celebrate/rolling/${pageUri}/select`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/select`);
   };
 
   const handleShare = () => {};
