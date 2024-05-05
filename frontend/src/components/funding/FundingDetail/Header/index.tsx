@@ -1,13 +1,15 @@
-import { useEffect } from "react";
 import * as H from "./FundingHeader.styled";
 import { ShareKakao } from "@/services/kakaoShare";
 
+
 const index = () => {
-  
+  const handleBack = () => {
+    window.history.back();
+  };
 
   return (
     <H.Container>
-      <H.Logo src="/img/img_logo.png" />
+      <H.Icon onClick={handleBack} />
       <H.Text onClick={ShareKakao}>공유하기</H.Text>
     </H.Container>
   );

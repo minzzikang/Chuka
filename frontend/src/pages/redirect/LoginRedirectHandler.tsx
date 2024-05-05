@@ -1,19 +1,15 @@
 import axios from "axios";
 import { useEffect } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
-import { BASE_URL } from "@/utils/requestMethods";
+import { useNavigate } from "react-router-dom";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
-import { fetchUserInfo, loginSuccess } from "@/apis/auth";
+import { fetchUserInfo } from "@/apis/auth";
 
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
-  const location = useLocation();
   const navigate = useNavigate();
   const code = new URLSearchParams(window.location.search).get("code");
-
-  // const prevUrl = location.state.from;
-
+  const prevUrl = sessionStorage.getItem("prevUrl");
 
   useEffect(() => {
     if (code) {
@@ -22,7 +18,6 @@ const LoginRedirectHandler = () => {
   }, [code]);
 
   const getToken = (code: string) => {
-    // console.log('데이터야',prevUrl);
     axios
       .post("/domain/auth/login/kakao", code)
       .then((res) => {
@@ -32,38 +27,34 @@ const LoginRedirectHandler = () => {
         localStorage.setItem("refresh_token", refreshToken);
 
         fetchUserInfo().then((res) => setUserState(res.data));
-        navigate("/");
 
-        // navigate(-1)
+        if (accessToken) {
+          if (prevUrl) {
+            try {
+              // URL 파싱
+              const parsedUrl = new URL(prevUrl);
+              const path = parsedUrl.pathname;
 
-        // if (accessToken) {
-
-        //   switch (prevUrl) {
-        //     // 이벤트 등록시 - 메인페이지
-        //     case "/":
-        //       navigate("/celebrate");
-        //       break;
-      
-        //     // 펀딩 등록시 - 롤링페이퍼 drawer바
-        //     case "/celebrate":
-        //       navigate("/celebrate/funding");
-        //       break;
-      
-        //     // 펀딩 참여시 - 디테일 페이지
-        //     case ``:
-        //       navigate("/celebrate/payment");
-        //       break;
-      
-        //     // 알림 조회 시 || 마이페이지 조회시 || navbar로 이벤트 등록시
-        //     default:
-        //       navigate(prevUrl);
-        //       break;
-        //   }
-        // } else {
-        //   // navigate("/login", {state: {from: {prevUrl}}});
-        //   navigate('/')
-      
-        // }
+              switch (path) {
+                // 메인페이지에서 이벤트 등록시
+                case "/":
+                  navigate(`/celebrate`);
+                  break;
+                // 펀딩 drawer 열람시 || 알림 조회시 || 마이페이지 조회시 || navbar로 이벤트 등록시
+                default:
+                  navigate(`${path}`);
+                  break;
+              }
+            } catch (error) {
+              console.error("Invalid URL:", prevUrl);
+              navigate("/");
+            }
+          } else {
+            navigate("/");
+          }
+        } else {
+          navigate("/login");
+        }
       })
       .catch((err) => console.error(err));
   };
@@ -74,5 +65,4 @@ const LoginRedirectHandler = () => {
     </>
   );
 };
-
 export default LoginRedirectHandler;

@@ -24,7 +24,7 @@ export const navbarList = [
       label: '알림',
       width: 24,
       height: 24,
-      url: '/alarm',
+      url: `/alarm`,
     },
     {
       name: 'mypage',
