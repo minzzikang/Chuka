@@ -56,6 +56,7 @@ export default defineConfig({
     // watch: {
     //   usePolling: true,
     // },
+
     // CORS -> 프록시 설정
     proxy:{
       "/domain":{

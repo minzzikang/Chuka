@@ -9,6 +9,7 @@ import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
 import HomeReview from "@components/home/HomeReview";
 
+
 const HomePage = () => {
   const user = useRecoilValue(userState);
   console.log("user", user);
@@ -22,11 +23,7 @@ const HomePage = () => {
         <HomeEventList />
         <HomeReview />
       </h.Wrap>
-      <img
-        src="/img/img_main_banner.png"
-        alt=""
-        style={{ width: "100%", position: "fixed", bottom: "60px" }}
-      />
+      <h.Img src="/img/img_main_banner.png" alt="" />
       <Navbar current={"home"} />
     </>
   );
