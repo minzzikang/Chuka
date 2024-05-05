@@ -1,6 +1,6 @@
 import Navbar from "@common/navbar";
 import Header from "@common/header";
-import MessageCard from "@/components/celebration/Rolling/RollingDetail/MessageCard";
+import DetailCard from "@/components/celebration/Rolling/RollingDetail";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchRollSheets } from "@/apis/roll";
@@ -51,7 +51,7 @@ const RollingDetailPage = () => {
     <>
       <Header children="작성된 메시지" />
       {values.map((message) => (
-        <MessageCard
+        <DetailCard
           key={message.rollSheetId}
           nickname={message.nickname}
           content={message.content}

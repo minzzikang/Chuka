@@ -1,5 +1,4 @@
-import * as m from "./MessageCard.styled";
-import { useEffect, useState } from "react";
+import * as m from "./RollingDetail.styled";
 
 interface MessageCardProps {
   nickname: string;
@@ -10,7 +9,7 @@ interface MessageCardProps {
   fontColor?: string;
 }
 
-const MessageCard = ({
+const index = ({
   nickname,
   content,
   bgImage,
@@ -35,4 +34,4 @@ const MessageCard = ({
   );
 };
 
-export default MessageCard;
+export default index;
