@@ -1,6 +1,4 @@
-import GoLogin from "@/common/goLogin/goLogin";
 import * as h from "@components/home/HomeReg/HomeReg.styled";
-import { access } from "fs";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const index = () => {
