@@ -33,7 +33,7 @@ const HomeRouter = () => {
       <Route path="/celebrate/rolling/:pageUri/select" element={<RollingBackgroundSelectPage />} />
       <Route path="/celebrate/rolling/:pageUri/write" element={<RollingWritePage />} />
       <Route path="/celebrate/rolling/:pageUri/preview" element={<RollingPreviewPage />} />
-      <Route path="/celebrate/rolling/detail" element={<RollingDetailPage />} />
+      <Route path="/celebrate/rolling/:pageUri/detail" element={<RollingDetailPage />} />
       <Route path="/celebrate/funding" element={<FundingRegPage />} />
       <Route path="/celebrate/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />

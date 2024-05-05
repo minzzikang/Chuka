@@ -29,7 +29,7 @@ export const Wrap = styled.div`
   flex-direction: column;
   margin-top: 0.3em;
   margin-bottom: 0.5em;
-  width: 90%;
+  width: 81%;
 `;
 
 export const Input = styled.input`

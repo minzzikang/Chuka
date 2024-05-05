@@ -105,13 +105,28 @@ export const MessageBox = styled.div<{
   color: ${({ fontColor }) => fontColor || colors.black};
   font-family: ${({ fontFamily }) => fontFamily || "Pretendard"};
   margin: 20px;
-  border-radius: ${({ shape }) => (shape === "circle" ? "50%" : "1em")};
-  padding: 10px;
-  font-size: 1em;
+  border-radius: ${({ shape }) => (shape === "CIRCLE" ? "50%" : "1em")};
+  padding: ${({ shape }) => (shape === "CIRCLE" ? "20px" : "10px")};
+  font-size: 1.1em;
   background-size: cover;
   background-position: center;
   width: 90%;
   height: 400px;
+  overflow: auto;
+  position: relative;
+`;
+
+export const InsideText = styled.div`
+  position: absolute;
+  text-align: center;
+  top: 50%;
+  left: 50%;
+  width: 80%;
+  height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  transform: translate(-50%, -50%);
 `;
 
 export const Button = styled.button`

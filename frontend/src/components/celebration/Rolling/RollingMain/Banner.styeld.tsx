@@ -20,7 +20,7 @@ export const Title = styled.p`
 
 export const Name = styled.p`
   position: absolute;
-  top: 50px;
+  top: 90px;
   left: 10px;
   font-size: 16px;
   color: ${colors.black};
