@@ -11,13 +11,13 @@ import RollingMainPage from "@pages/celebration/rolling/RollingMainPage";
 import RollingBackgroundSelectPage from "@pages/celebration/rolling/RollingBackgroundSelectPage";
 import PaymentDone from "@components/payment/PaymentDone";
 
-import ReviewPage from '@components/home/ReviewPage'
+import ReviewPage from "@components/home/ReviewPage";
 
 import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@pages/celebration/rolling/RollingPreviewPage";
 import RollingDetailPage from "@pages/celebration/rolling/RollingDetailPage";
-import LoginRedirectHandler from "@pages/redirect/LoginRedirectHandler";
+import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
 
@@ -27,7 +27,7 @@ const HomeRouter = () => {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
-      
+
       <Route path="/celebrate" element={<CelebrationPage />} />
       <Route path="/celebrate/rolling" element={<RollingMainPage />} />
       <Route
@@ -47,9 +47,9 @@ const HomeRouter = () => {
       <Route path="/alarm" element={<AlarmPage />} />
 
       <Route path="/mypage" element={<MyPage />} />
-      
+
       <Route path="/review" element={<ReviewPage />} />
-      
+
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
 

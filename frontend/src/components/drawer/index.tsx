@@ -13,6 +13,7 @@ type DrawerType = {
 const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
   const navigate = useNavigate();
 
+
   return (
     <d.Container>
       <d.Drawer isOpen={isOpen}>
@@ -26,7 +27,7 @@ const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
         </d.Title>
         <br />
         <p>진행 중인 펀딩이 없습니다.</p>
-        <d.Card onClick={() => navigate("/celebrate/payment")}>
+        <d.Card onClick={() => navigate("/detail")}>
         <d.Img src={Test}/>
         </d.Card>
         <d.Button onClick={() => navigate("/celebrate/funding")}>

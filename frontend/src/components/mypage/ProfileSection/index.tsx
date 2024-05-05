@@ -1,4 +1,5 @@
 import { colors } from "@/styles/theme";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 const Container = styled.div`
@@ -36,9 +37,16 @@ const Description = styled.div`
 
 const index = () => {
   const isUser = false;
+  const accessToken = localStorage.getItem('access_token')
+  const navigate = useNavigate()
+  const handleLogin = () => {
+    if (!accessToken) {
+      navigate('/login')
+    }
+  }
 
   return (
-    <Container>
+    <Container onClick={handleLogin}>
       <Profile
         src={
           isUser ? "/img/img_main_paper.png" : "/img/img_default_profile.png"
