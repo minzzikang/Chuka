@@ -174,10 +174,20 @@ public class EventServiceImpl implements EventService {
             if (response.body() != null) {
                 log.info("response body: {}", response.body());
             }
-            throw new UnsupportedOperationException("funding has been raised");
+
+            switch (response.status()) {
+                case HttpStatus.SC_FORBIDDEN ->
+                        throw new UnsupportedOperationException("funding has been raised");
+                case HttpStatus.SC_NOT_FOUND ->
+                        throw new UnsupportedOperationException("funding NOT FOUND");
+                default ->
+                        throw new UnsupportedOperationException("delete funding error");
+            }
         }
 
-        fileService.deleteBannerImageOnAmazonS3(eventId);
+        if (event.getBanner() != null) {
+            fileService.deleteBannerImageOnAmazonS3(eventId);
+        }
         eventRepository.delete(event);
     }
 
