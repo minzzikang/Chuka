@@ -165,9 +165,10 @@ public class FundingServiceImpl implements FundingService {
     public void deleteFundingsByEventId(int eventId) throws IllegalStateException, EntityNotFoundException {
         List<Funding> fundingList = fundingRepository.findAllByEventId(eventId);
 
-        //레코드 없음 -> 404 응답
         if(fundingList.isEmpty()) {
-            throw new EntityNotFoundException();
+            //레코드 없음 -> 404 응답
+            //throw new EntityNotFoundException();
+            return;
         }
 
         for(Funding funding : fundingList) {

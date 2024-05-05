@@ -211,12 +211,14 @@ public class EventController {
             eventService.deleteEvent(eventId);
 
         } catch (NoSuchElementException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이벤트"));
         } catch (UnsupportedOperationException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "삭제 불가능한 이벤트"));
         } catch (Exception e) {
             log.error(e.getMessage());
-            return ResponseEntity.status(400).body(BaseResponseBody.of(400, ""));
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "에러"));
         }
 
         return ResponseEntity.status(200).body(BaseResponseBody.of(200, "이벤트 삭제"));
