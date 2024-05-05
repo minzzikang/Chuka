@@ -61,6 +61,7 @@ public class SecurityConfig {
                                                 "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8081",
                                                 "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
                                                 "http://k10c107.p.ssafy.io:8083",
+                                                "http://k10c107.p.ssafy.io:8084",
                                                 "http://k10c107.p.ssafy.io:8085"
                                         )
                                 );
