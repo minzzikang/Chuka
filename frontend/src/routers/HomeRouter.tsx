@@ -17,7 +17,7 @@ import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import RollingPreviewPage from "@pages/celebration/rolling/RollingPreviewPage";
 import RollingDetailPage from "@pages/celebration/rolling/RollingDetailPage";
-import LoginRedirectHandler from "@pages/redirect/LoginRedirectHandler";
+import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
 

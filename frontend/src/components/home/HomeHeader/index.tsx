@@ -16,7 +16,7 @@ const Img = styled.img`
 const index = () => {
     return (
         <Container>
-            <Img src="/img/img_logo.png" alt="" />
+            <Img src="/img/img_logo.png" alt=""/>
         </Container>
     );
 };
