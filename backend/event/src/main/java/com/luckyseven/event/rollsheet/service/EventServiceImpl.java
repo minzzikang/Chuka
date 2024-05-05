@@ -12,8 +12,11 @@ import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
+import com.luckyseven.event.util.feign.FundingFeignClient;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,8 @@ public class EventServiceImpl implements EventService {
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
+
+    private final FundingFeignClient fundingFeignClient;
 
     private final int BANNER_WIDTH = 1080;
     private final int BANNER_HEIGHT = 220;
@@ -156,21 +161,24 @@ public class EventServiceImpl implements EventService {
 
         // 롤링페이퍼 1개 이상 작성되면 삭제 불가
         int count = rollSheetRepository.countByEventId(eventId);
-        log.info("count: {}", count);
-
-        // TODO: 펀딩이 모금된 상태이면 삭제 불가
-//        Response response = fundingFeignClient.deleteFunding(34, event.getUserId());
-//        log.info("funding response: {}", response);
-//        log.info("funding response: {}", response.status());
-//        log.info("funding response: {}", response.body());
 
         if (count > 0) {
-            throw new UnsupportedOperationException();
+            log.info("number of rolling papers: {}", count);
+            throw new UnsupportedOperationException("rolling paper already written");
         }
 
-        // 삭제
-//        fileService.deleteBannerImageOnAmazonS3(eventId);
-//        eventRepository.delete(event);
+        // 펀딩이 모금된 상태이면 삭제 불가
+        Response response = fundingFeignClient.deleteFundingByEventId(eventId);
+        log.info("response: {}", response);
+        if (response.status() != HttpStatus.SC_OK) {
+            if (response.body() != null) {
+                log.info("response body: {}", response.body());
+            }
+            throw new UnsupportedOperationException("funding has been raised");
+        }
+
+        fileService.deleteBannerImageOnAmazonS3(eventId);
+        eventRepository.delete(event);
     }
 
     @Override
