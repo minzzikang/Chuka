@@ -20,3 +20,9 @@ export const Wrap = styled.div`
   height: 100%;
   gap: 30px;
 `;
+
+
+export const Img = styled.img`
+  position: fixed;
+  bottom: 60px;
+`;
