@@ -200,11 +200,14 @@ public class FundingController {
 
     public ResponseEntity<?> deleteFundingsByEventId(@PathVariable("eventId") final int eventId) {
         try {
+            log.info("start delete funding");
             fundingService.deleteFundingsByEventId(eventId);
             return ResponseEntity.status(HttpStatus.OK).body("다수의 펀딩 정보가 삭제되었습니다.");
         } catch (IllegalStateException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.valueOf(403)).body("펀딩 정보를 삭제할 수 없습니다. (펀딩에 참여한 유저 있음)");
         } catch (EntityNotFoundException e) {
+            log.error(e.getMessage());
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("펀딩 정보를 funding 테이블에서 찾을 수 없습니다.");
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
