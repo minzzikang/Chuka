@@ -19,3 +19,5 @@ WORKDIR /backend/funding
 COPY --from=builder /backend/funding/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar","app.jar" ]
 VOLUME /tmp
+
+ENV TZ Asia/Seoul
