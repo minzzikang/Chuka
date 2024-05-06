@@ -4,14 +4,17 @@ import Drawer from "@components/drawer";
 import RModal from '@common/responsiveModal'
 import FundingModal from './FundingModal'
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router";
+import { useParams } from "react-router-dom";
 import { fetchEventInfo } from "@/apis/event";
 import * as b from "./Board.styled";
 
-interface BoardProps {
-  eventId: string;
-}
-
-const Board = ({ eventId }: BoardProps) => {
+const Board = () => {
+  const navigate = useNavigate();
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
 
   const [values, setValues] = useState<{ theme: string }>();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -33,12 +36,16 @@ const Board = ({ eventId }: BoardProps) => {
 
   useEffect(() => {
     const fetchInfo = async () => {
-      try {
-        const eventInfo = await fetchEventInfo(eventId);
-        setValues(eventInfo);
-        sessionStorage.setItem("eventId", eventId);
-      } catch (err) {
-        console.error(err);
+      if (typeof eventId === "string") {
+        try {
+          const eventInfo = await fetchEventInfo(eventId);
+          console.log("이벤트get요청", eventInfo);
+          setValues(eventInfo);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("eventId 이상");
       }
     };
     fetchInfo();

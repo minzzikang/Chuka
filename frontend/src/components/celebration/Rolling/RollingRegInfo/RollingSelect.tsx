@@ -28,7 +28,10 @@ const shapeMap: { [key: string]: string } = {
 
 const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
   const navigate = useNavigate();
-  const { pageUri } = useParams();
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
 
   const [regData, setRegData] = useState<RegDataProps>(() => {
     const savedData = sessionStorage.getItem("regData");
@@ -113,7 +116,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
 
   const handleSubmit = () => {
     onUpdateData(regData);
-    navigate(`/celebrate/rolling/${pageUri}/write`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
   };
 
   return (
@@ -121,7 +124,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
       <r.Header>
         <r.Icon
           onClick={() => {
-            window.history.back();
+            navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
           }}
         />
         <span>배경 선택하기</span>
