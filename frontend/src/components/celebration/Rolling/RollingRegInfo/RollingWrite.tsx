@@ -1,7 +1,7 @@
 import { colors } from "@styles/theme";
 import * as r from "./RollingWrite.styled";
 import { useState, useEffect } from "react";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 interface RegDataProps {
   shape: string;
@@ -104,7 +104,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
         <r.MessageBox
           id="content"
           font={selectedFont}
-          backColor={regData.backgroundColor}
+          $backColor={regData.backgroundColor}
           placeholder="내용을 작성해주세요."
           style={{ color: regData.fontColor }}
           value={regData.content}
@@ -121,7 +121,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
             <r.ColorButton
               key={color}
               color={color}
-              isSelected={color === selectedColor}
+              $isSelected={color === selectedColor}
               onClick={() => {
                 {
                   handleSelectColor(color);
@@ -132,20 +132,20 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
         </r.Wrap>
         <r.Wrap>
           <r.PretendButton
-            isSelected={selectedFont === "Pretendard"}
-            onClick={() => handleSelectFont("Pretendard")}
+            $isSelected={selectedFont === "PRETENDARD"}
+            onClick={() => handleSelectFont("PRETENDARD")}
           >
             기본체
           </r.PretendButton>
           <r.GoocneaeumButton
-            isSelected={selectedFont === "Goocneaeum"}
-            onClick={() => handleSelectFont("Goocneaeum")}
+            $isSelected={selectedFont === "GOOCNEAEUM"}
+            onClick={() => handleSelectFont("GOOCNEAEUM")}
           >
             꽃내음체
           </r.GoocneaeumButton>
           <r.TreegardenButton
-            isSelected={selectedFont === "Treegarden"}
-            onClick={() => handleSelectFont("Treegarden")}
+            $isSelected={selectedFont === "TREEGARDEN"}
+            onClick={() => handleSelectFont("TREEGARDEN")}
           >
             나무정원체
           </r.TreegardenButton>

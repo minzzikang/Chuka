@@ -50,8 +50,8 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
 
   const handleCancle = () => {
-    setIsModalOpen(false);
     sessionStorage.removeItem("regData");
+    setIsModalOpen(false);
     navigate("/");
   };
 
@@ -73,6 +73,7 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
       try {
         const res = await createRollMsg(formData, eventId);
         console.log("메시지 정보", res);
+        sessionStorage.removeItem("regData");
         navigate(`/celebrate/rolling/${eventId}/${pageUri}/detail`);
       } catch (err) {
         console.error(err);
@@ -82,14 +83,14 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
     }
   };
 
-  const handleBack = () => {
-    navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
-  };
-
   return (
     <>
       <r.Header>
-        <r.Icon onClick={handleBack} />
+        <r.Icon
+          onClick={() =>
+            navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`)
+          }
+        />
         <span>미리보기</span>
         <button onClick={() => setIsModalOpen(true)}>취소</button>
       </r.Header>

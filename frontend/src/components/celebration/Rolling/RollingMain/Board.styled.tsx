@@ -5,6 +5,7 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  z-index: 200;
   width: 30px;
   height: 24vh;
   background-color: ${colors.mainPink};
@@ -31,7 +32,7 @@ export const P = styled.p`
 `;
 
 export const Container = styled.div`
-position: relative;
+  position: relative;
   flex-grow: 1;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -45,10 +46,52 @@ position: relative;
   }
 `;
 
-export const RollingTheme = styled.img`
+export const RollingTheme = styled.div`
   width: 100%;
-  height: auto;
+  height: 100vh;
   min-height: 77vh;
   opacity: 0.7;
   position: relative;
+  min-height: 100vh;
+  background-image: url(${props => props.src});
+  background-repeat: repeat-y;
+  background-size: cover;
+`;
+
+export const CardWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  display: grid;
+  align-content: start;
+  row-gap: 30px;
+  column-gap: 5px;
+  grid-template-columns: calc(50%) calc(50%);
+  padding: 10px;
+  min-height: 100vh;
+`;
+
+export const Card = styled.div<{
+  $bgColor?: string;
+  $font: string;
+  $fontColor: string;
+  $bgImage?: string;
+  $shape: string;
+}>`
+  display: flex;
+  width: 150px;
+  height: 150px;
+  margin: 10px;
+  z-index: 200;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => props.$fontColor || colors.black};
+  font-family: ${(props) => props.$font || "Pretendard"};
+  background-color: ${(props) =>
+    props.$bgImage ? "transparent" : props.$bgColor || colors.white};
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+  background-size: cover;
+  background-position: center;
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;

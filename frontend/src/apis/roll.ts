@@ -16,9 +16,18 @@ export const createRollMsg = async (formdata: any, eventId: string) => {
 };
 
 // 롤링페이퍼 리스트 조회
-export const fetchRollSheets = async (eventId: string) => {
+export const fetchRollSheets = async (
+  eventId: string,
+  page: number,
+  size: number
+) => {
   try {
-    const response = await axios.get(`/domain/events/${eventId}/roll-sheets`);
+    const response = await axios.get(`/domain/events/${eventId}/roll-sheets`, {
+      params: {
+        page,
+        size,
+      },
+    });
     console.log("리스트 정보", response.data);
     return response.data;
   } catch (err) {
