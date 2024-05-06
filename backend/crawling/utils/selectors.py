@@ -19,32 +19,32 @@ def get_selectors(url):
             "name": "_22kNQuEXmb _copyable",
             "name_tag": "h3",
         }
-    # 쿠팡은 셀레니움으로 변경 이후 크롤링이 안됨
-    elif "m.coupang.com" in url:
-        return {
-            "image": "li.on > img",
-            "image_method": "select_one",
-            "price": "title",
-            "price_tag": "dt",
-            "price_method": "find",
-            "name": "prod-price__original-price",
-            "name_tag": "span",
-        }
-    elif "www.coupang.com" in url:
-        return {
-            "image": "prod-image__detail",
-            "image_method": "find",
-            "price": "origin-price",
-            "price_tag": "span",
-            "price_method": "find",
-            "name": "prod-buy-header__title",
-            "name_tag": "h2",
-        }
+    # 쿠팡은 셀레니움으로 변경 이후 GUI환경에서만 가능
+    # elif "m.coupang.com" in url:
+    #     return {
+    #         "image": "li.on > img",
+    #         "image_method": "select_one",
+    #         "price": "title",
+    #         "price_tag": "dt",
+    #         "price_method": "find",
+    #         "name": "prod-price__original-price",
+    #         "name_tag": "span",
+    #     }
+    # elif "www.coupang.com" in url:
+    #     return {
+    #         "image": "prod-image__detail",
+    #         "image_method": "find",
+    #         "price": "origin-price",
+    #         "price_tag": "span",
+    #         "price_method": "find",
+    #         "name": "prod-buy-header__title",
+    #         "name_tag": "h2",
+    #     }
     elif "11st.co.kr" in url:
         return {
             "image": "div.img_full > img",
             "image_method": "select_one",
-            "price": "dd.price_regular > del",
+            "price": "dd.price > strong > span.value",
             "price_method": "select_one",
             "name": "title",
             "name_tag": "h1",

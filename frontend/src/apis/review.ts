@@ -1,7 +1,5 @@
-import { authRequest } from "@/utils/requestMethods";
 import axios from "axios";
 
-const accessToken = localStorage.getItem("access_token");
 
 // 리뷰 작성
 
