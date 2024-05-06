@@ -21,11 +21,7 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string) => {
   return axios
-    .get(`/domain/events/${eventId}`, {
-      headers: {
-        Authorization: `${localStorage.getItem("access_token")}`,
-      },
-    })
+    .get(`/domain/events/${eventId}`)
     .then((res) => {
       console.log("이벤트 정보", res.data);
       return res.data;

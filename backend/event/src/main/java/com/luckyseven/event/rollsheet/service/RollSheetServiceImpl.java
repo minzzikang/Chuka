@@ -15,12 +15,14 @@ import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
@@ -81,12 +83,15 @@ public class RollSheetServiceImpl implements RollSheetService {
     }
 
     @Override
-    public List<RollSheetDto> getRollSheetListWithEventId(int eventId) {
+    public List<RollSheetDto> getRollSheetListWithEventId(int eventId, int page, int size) {
         if (eventRepository.findByEventId(eventId) == null) {
             throw new NoSuchElementException();
         }
 
-        List<RollSheetDto> results = rollSheetRepository.findByEventId(eventId).stream()
+        Sort sort = Sort.by(Sort.Direction.DESC, "createTime");
+        Pageable pageable = PageRequest.of(page, size, sort);
+
+        List<RollSheetDto> results = rollSheetRepository.findByEventId(eventId, pageable).stream()
                 .map(rollSheet -> {
                     RollSheetDto tmp = RollSheetDto.of(rollSheet);
                     if (rollSheet.getBackgroundImage() != null) {
