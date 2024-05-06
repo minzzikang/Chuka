@@ -33,6 +33,7 @@ const Board = () => {
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rolls, setRolls] = useState<MessageProps[]>([]);
   const [currentPage, setCurrentPage] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem("access_token");
@@ -46,6 +47,30 @@ const Board = () => {
     }
   };
 
+  // 무한 스크롤 데이터 불러오기
+  const loadMore = async () => {
+    if (!loading) {
+      setLoading(true);
+      if (typeof eventId === "string") {
+        try {
+          const newRollList = await fetchRollSheets(
+            eventId,
+            currentPage + 1,
+            10
+          );
+          if (newRollList && newRollList.length > 0) {
+            setRolls([...rolls, ...newRollList]);
+            setCurrentPage(currentPage + 1);
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setLoading(false);
+        }
+      }
+    }
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       if (typeof eventId === "string") {
@@ -56,16 +81,12 @@ const Board = () => {
           console.error(err);
         }
         try {
-          const RollList = await fetchRollSheets(
-            eventId,
-            currentPage,
-            6,
-          );
+          const RollList = await fetchRollSheets(eventId, currentPage, 10);
           console.log("롤리스트", RollList);
 
           if (RollList && RollList.length > 0) {
             setRolls(RollList);
-            
+            setCurrentPage(currentPage + 1);
           }
           console.log("values", rolls);
         } catch (err) {
@@ -81,6 +102,18 @@ const Board = () => {
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
+    const handleScroll = () => {
+      if (
+        window.innerHeight + document.documentElement.scrollTop ===
+        document.documentElement.offsetHeight
+      ) {
+        loadMore();
+      }
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
   }, [rolls]);
 
   const Theme = values
@@ -93,20 +126,22 @@ const Board = () => {
     <>
       <b.Container>
         {!rolls && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
-        {rolls.map((roll) => (
-          <b.MessageCard
-            key={roll.rollSheetId}
-            $bgColor={roll.backgroundColor}
-            $font={roll.font}
-            $fontColor={roll.fontColor}
-            $bgImage={roll.backgroundImageThumbnailUrl}
-            $shape={roll.shape}
-            onClick={() => navigate(`/`)}
-          >
-            {roll.content}
-            {roll.nickname}
-          </b.MessageCard>
-        ))}
+        <b.CardWrap>
+          {rolls.map((roll) => (
+            <b.Card
+              key={roll.rollSheetId}
+              $bgColor={roll.backgroundColor}
+              $font={roll.font}
+              $fontColor={roll.fontColor}
+              $bgImage={roll.backgroundImageThumbnailUrl}
+              $shape={roll.shape}
+              onClick={() => navigate(`/`)}
+            >
+              <p>{roll.content}</p>
+              <p>From. {roll.nickname}</p>
+            </b.Card>
+          ))}
+        </b.CardWrap>
         <b.RollingTheme src={Theme} alt="theme" />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
