@@ -84,7 +84,6 @@ const RollingMainPage = () => {
 
   return (
     <>
-      <button style={{width:'200px', height:'200px', backgroundColor:'black'}} onClick={() => console.log(eventInfoData)}></button>
       <Container>
         <RollingHeader />
         <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />

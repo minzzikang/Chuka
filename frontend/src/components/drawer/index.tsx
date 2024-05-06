@@ -7,19 +7,18 @@ import Test from "/img/img_main_paper.png"
 type DrawerType = {
   isOpen: boolean;
   onClose: () => void;
-  // eventId: number;
+
 };
 
 
 const Index: React.FC<DrawerType> = ({ isOpen, onClose}) => {
   const navigate = useNavigate();
-  const eventId = useParams()
-
+  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
 
   return (
     <d.Container>
       <d.Drawer isOpen={isOpen}>
-        <d.Title onClick={() => console.log(eventId)}>
+        <d.Title>
           펀딩 리스트
           <d.Icon
             src={"/icon/icon_close_black.png"}
