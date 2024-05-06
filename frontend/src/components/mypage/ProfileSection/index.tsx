@@ -1,65 +1,40 @@
-import { colors } from "@/styles/theme";
+import * as p from "./ProfileSection.styled";
 import { useNavigate } from "react-router-dom";
-import styled from "styled-components";
-
-const Container = styled.div`
-  display: flex;
-  align-items: center;
-  width: 90%;
-  margin: 0 auto;
-`;
-
-const Profile = styled.img`
-  width: 60px;
-  height: 60px;
-  margin-right: 20px;
-  border-radius: 100%;
-`;
-
-const InfoWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Name = styled.div`
-  display: flex;
-  align-items: center;
-  font-weight: 600;
-  font-size: 1.2em;
-`;
-
-const Description = styled.div`
-  font-weight: 400;
-  font-size: 1em;
-  color: ${colors.gray};
-`;
+import { useRecoilValue } from "recoil";
+import { userState } from "@stores/user";
 
 const index = () => {
-  const isUser = false;
-  const accessToken = localStorage.getItem('access_token')
-  const navigate = useNavigate()
+  const userInfo = useRecoilValue(userState);
+  const accessToken = localStorage.getItem("access_token");
+  const navigate = useNavigate();
+
   const handleLogin = () => {
     if (!accessToken) {
-      navigate('/login')
+      navigate("/login");
     }
-  }
+  };
 
   return (
-    <Container onClick={handleLogin}>
-      <Profile
+    <p.Container onClick={handleLogin}>
+      <p.Profile
         src={
-          isUser ? "/img/img_main_paper.png" : "/img/img_default_profile.png"
+          userInfo
+            ? `${userInfo.profile_image}` || "/img/img_default_profile.png"
+            : "/img/img_default_profile.png"
         }
       />
-      <InfoWrap>
-        <Name>{isUser ? "유저이름" : "로그인 필요"}</Name>
+      <p.InfoWrap>
+        <p.Name>{userInfo ? userInfo.nickname : "로그인 필요"}</p.Name>
 
-        {isUser ? undefined : (
-          <Description>원활한 서비스 이용을 위해 로그인을 해주세요</Description>
+        {userInfo ? (
+          <p.Description>오늘도 추카와 함께 축하해요</p.Description>
+        ) : (
+          <p.Description>
+            원활한 서비스 이용을 위해 로그인을 해주세요
+          </p.Description>
         )}
-      </InfoWrap>
-    </Container>
+      </p.InfoWrap>
+    </p.Container>
   );
 };
 

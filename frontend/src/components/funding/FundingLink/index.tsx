@@ -1,25 +1,43 @@
-import { useState } from "react";
-import present from "/img/img_present_funding.png";
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { fetchEventInfo } from "@/apis/event";
 // import RegCard from "@/common/regCard";
 import * as F from "@/components/funding/FundingLink/FundingLink.styled";
 import Header from "@common/header";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const index = () => {
-  const [productLink, setProductLink] = useState("");
   const navigate = useNavigate();
+  const [productLink, setProductLink] = useState("");
+  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
 
   const handleClick = () => {
-    navigate("/celebrate/funding-info/", { state: { productLink } });
+    navigate(`/celebrate/rolling/${eventId}/funding-info`, { state: { productLink } });
   };
 
-  const location = useLocation()
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      if (typeof eventId === "string") {
+        try {
+          const eventInfo = await fetchEventInfo(eventId);
+          console.log("이벤트get요청", eventInfo);
+          // setRegData(eventInfo);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("eventId fetch error");
+      }
+    };
+    fetchInfo();
+  }, [eventId]);
 
   return (
     <>
       <Header children="펀딩 등록하기" />
       <F.Container>
-        <F.Img src={present} alt="" onClick={() => (console.log(location))} />
+        <F.Img src={"/img/img_present_funding.png"} alt="" />
         <F.Wrap>
           <F.Label htmlFor="product-link">
             받고 싶은 선물을 구매할 수 있는 링크를 입력해주세요.
