@@ -1,6 +1,5 @@
 import CorkBoard from "/img/img_rolling_theme_cork.jpg";
 import BlackBoard from "/img/img_rolling_theme_board.jpg";
-import MessageCard from "@components/celebration/Rolling/RollingMain/MessageCard";
 import Drawer from "@components/drawer";
 import RModal from "@common/responsiveModal";
 import FundingModal from "./FundingModal";
@@ -33,6 +32,7 @@ const Board = () => {
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rolls, setRolls] = useState<MessageProps[]>([]);
+  const [currentPage, setCurrentPage] = useState(0);
 
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem("access_token");
@@ -56,11 +56,16 @@ const Board = () => {
           console.error(err);
         }
         try {
-          const RollList = await fetchRollSheets(eventId);
+          const RollList = await fetchRollSheets(
+            eventId,
+            currentPage,
+            6,
+          );
           console.log("롤리스트", RollList);
 
           if (RollList && RollList.length > 0) {
             setRolls(RollList);
+            
           }
           console.log("values", rolls);
         } catch (err) {
@@ -72,7 +77,7 @@ const Board = () => {
     };
 
     fetchData();
-  }, [eventId]);
+  }, [eventId, currentPage]);
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
@@ -87,18 +92,20 @@ const Board = () => {
   return (
     <>
       <b.Container>
-        <b.P>롤링페이퍼를 작성해주세요.</b.P>
+        {!rolls && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         {rolls.map((roll) => (
-          <MessageCard
+          <b.MessageCard
             key={roll.rollSheetId}
             $bgColor={roll.backgroundColor}
             $font={roll.font}
             $fontColor={roll.fontColor}
-            nickname={roll.nickname}
-            content={roll.content}
             $bgImage={roll.backgroundImageThumbnailUrl}
             $shape={roll.shape}
-          />
+            onClick={() => navigate(`/`)}
+          >
+            {roll.content}
+            {roll.nickname}
+          </b.MessageCard>
         ))}
         <b.RollingTheme src={Theme} alt="theme" />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
