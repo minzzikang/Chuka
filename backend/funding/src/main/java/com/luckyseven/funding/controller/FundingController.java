@@ -105,7 +105,7 @@ public class FundingController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
-    public ResponseEntity<?> joinFunding(@PathVariable("fundingId") final int fundingId, @RequestBody final FundingJoinReq dto, @RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<?> joinFunding(@PathVariable("fundingId") final int fundingId, @RequestBody final FundingJoinReq dto, @RequestHeader(name = "loggedInUser", required = false) String userId) {
         try {
             final int sponsorId = sponsorService.joinFunding(fundingId, dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(sponsorId);
@@ -125,7 +125,7 @@ public class FundingController {
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
-    public ResponseEntity<?> getmyFundings(@RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<?> getmyFundings(@RequestHeader(name = "loggedInUser", required = false) String userId) {
         try {
             return ResponseEntity.status(HttpStatus.OK).body(fundingService.getMyFunding(userId));
         } catch (Exception e) {
