@@ -12,7 +12,6 @@ import { fetchEventInfo } from "@/apis/event";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 62px);
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};
   @media only screen and (min-width: 430px) {
@@ -74,7 +73,7 @@ const RollingMainPage = () => {
         <Banner />
         <Board />
       </Container>
-      <Navbar current="celebration" />
+        <Navbar current="celebration" />
     </>
   );
 };
