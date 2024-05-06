@@ -4,7 +4,7 @@ import Navbar from "@common/navbar";
 import styled from "styled-components";
 import { sizes } from "@styles/theme";
 import Board from "@/components/celebration/Rolling/RollingMain/Board";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 
 export const Container = styled.div`
   display: flex;
@@ -22,16 +22,13 @@ export const Container = styled.div`
 `;
 
 const RollingMainPage = () => {
-  const { state } = useLocation();
-  const eventId = state?.eventId;
 
-  
   return (
     <>
       <Container>
-        <RollingHeader eventId={eventId} />
-        <Banner eventId={eventId} />
-        <Board eventId={eventId} />
+        <RollingHeader />
+        <Banner />
+        <Board />
       </Container>
       <Navbar current="celebration" />
     </>
