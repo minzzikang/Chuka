@@ -29,7 +29,7 @@ export const loginSuccess = async (res: { accessToken: string }) => {
   setTimeout(() => refresh(), JWT_EXPIRY_TIME - 5000);
 };
 
-// 회원 정보 조회
+// 회원 정보 조회(내정보)
 export const fetchUserInfo = () => {
   const accessToken = localStorage.getItem("access_token");
   console.log("로컬 토큰", accessToken);
@@ -45,6 +45,7 @@ export const fetchUserInfo = () => {
     })
     .catch((err) => console.error(err));
 };
+
 
 // FCM 기기 토큰 전송
 export const sendFCMToken = async (token: string) => {
