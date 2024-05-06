@@ -8,6 +8,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 40px;
 `;
 
 export const Wrap = styled.div`
