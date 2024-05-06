@@ -39,6 +39,7 @@ const Board = () => {
 
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
+    console.log('여기에요 전 !!!!!!!!!!',values);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {
@@ -52,6 +53,7 @@ const Board = () => {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           setValues(eventInfo);
+          console.log('여기야 !!!!!!!!!!!!', eventInfo);
         } catch (err) {
           console.error(err);
         }
@@ -110,7 +112,8 @@ const Board = () => {
         <b.RollingTheme src={Theme} alt="theme" />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
-      <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
+      <Drawer isOpen={isDrawerOpen} eventId={values?.eventId} onClose={() => setDrawerOpen(false)} />
+      
       {isModalOpen && (
         <RModal
           name={"선물 펀딩 서비스 이용 동의"}

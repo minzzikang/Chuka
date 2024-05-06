@@ -1,7 +1,18 @@
+import { RegDataType } from "@/components/funding/FundingRegInfo";
 import axios from "axios";
+import { authRequest } from "@/utils/requestMethods";
+import { error } from "console";
 
+const url = `domain`;
+// const url = `https://chuka.kr/api/v1`
 
-// 리뷰 작성
+export const createFunding = async (params: RegDataType) => {
+  authRequest.post(`${url}/fundings`, params)
+  .then((res) => {
+    return res.data;
+  })
+  .catch((error) => console.error(error))
+};
 
 export const createReview = async (params: object): Promise<any> => {
   axios
@@ -14,7 +25,7 @@ export const createReview = async (params: object): Promise<any> => {
 
 export const fetchReview = async (): Promise<any> => {
   try {
-    // Proxy LOCAL 연결 
+    // Proxy LOCAL 연결
     const response = await axios.get("/domain/reviews");
 
     // 배포 서버 연결

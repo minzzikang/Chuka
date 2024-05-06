@@ -1,13 +1,16 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchEventInfo } from "@/apis/event";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
-import { useLocation } from "react-router-dom";
 import * as F from "@components/funding/FundingRegInfo/FundingRegInfo.styled";
 import RModal from "@common/responsiveModal";
 import AddressInput from "@/components/addressInput";
 import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 
+
 export type RegDataType = {
+  eventId: number;
   product_link: string;
   introduce: string;
   option: string;
@@ -23,8 +26,10 @@ export type RegDataType = {
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
+  const { eventId } = useParams<{ eventId: string }>();
 
   const [regData, setRegData] = useState<RegDataType>({
+    eventId: -1,
     product_link: productLink,
     introduce: "",
     option: "",
@@ -36,6 +41,23 @@ const index = () => {
     address: "",
     address_detail: "",
   });
+
+  useEffect(() => {
+    const fetchInfo = async () => {
+      if (typeof eventId === "string") {
+        try {
+          const eventInfo = await fetchEventInfo(eventId);
+          console.log("이벤트get요청", eventInfo);
+          // setRegData(eventInfo);
+        } catch (err) {
+          console.error(err);
+        }
+      } else {
+        console.error("eventId fetch error");
+      }
+    };
+    fetchInfo();
+  }, [eventId]);
 
   const [isAddressOpen, setIsAddressOpen] = useState<boolean>(false);
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
@@ -102,7 +124,7 @@ const index = () => {
             <F.Input
               id="end_date"
               value={regData.end_date}
-              placeholder="펀딩 종료 일자를 입력해주세요(ex 20250518)"
+              placeholder="펀딩 종료 일자를 입력해주세요(ex 20240518)"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
