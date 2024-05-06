@@ -5,8 +5,6 @@ import RModal from "@common/responsiveModal";
 import FundingModal from "./FundingModal";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router";
-import { useParams } from "react-router-dom";
-import { fetchEventInfo } from "@/apis/event";
 import { fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
 
@@ -21,14 +19,20 @@ interface MessageProps {
   rollSheetId: string;
 }
 
-const Board = () => {
-  const navigate = useNavigate();
-  const { eventId, pageUri } = useParams<{
-    pageUri: string;
-    eventId: string;
-  }>();
+interface BoardProps {
+  eventId: number;
+  theme: string;
+}
 
-  const [values, setValues] = useState<{ theme: string }>();
+const Board = (props: BoardProps) => {
+  const { eventId, theme } = props;
+  const [values, setValues] = useState<BoardProps>({
+    eventId: eventId,
+    theme: theme,
+  });
+
+  const navigate = useNavigate();
+
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rolls, setRolls] = useState<MessageProps[]>([]);
@@ -51,37 +55,35 @@ const Board = () => {
   const loadMore = async () => {
     if (!loading) {
       setLoading(true);
-      if (typeof eventId === "string") {
-        try {
-          const newRollList = await fetchRollSheets(
-            eventId,
-            currentPage + 1,
-            10
-          );
-          if (newRollList && newRollList.length > 0) {
-            setRolls([...rolls, ...newRollList]);
-            setCurrentPage(currentPage + 1);
-          }
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
+      try {
+        const newRollList = await fetchRollSheets(
+          eventId.toString(),
+          currentPage + 1,
+          6
+        );
+        if (newRollList && newRollList.length > 0) {
+          setRolls((prevRolls) => [...prevRolls, ...newRollList]);
+          setCurrentPage((prevPage) => prevPage + 1);
         }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
   };
 
   useEffect(() => {
     const fetchData = async () => {
-      if (typeof eventId === "string") {
+      if (typeof eventId === "number") {
+        setLoading(true);
+
         try {
-          const eventInfo = await fetchEventInfo(eventId);
-          setValues(eventInfo);
-        } catch (err) {
-          console.error(err);
-        }
-        try {
-          const RollList = await fetchRollSheets(eventId, currentPage, 10);
+          const RollList = await fetchRollSheets(
+            eventId.toString(),
+            currentPage,
+            6
+          );
           console.log("롤리스트", RollList);
 
           if (RollList && RollList.length > 0) {
@@ -91,9 +93,9 @@ const Board = () => {
           console.log("values", rolls);
         } catch (err) {
           console.error(err);
+        } finally {
+          setLoading(false);
         }
-      } else {
-        console.error("eventId 이상");
       }
     };
 
@@ -102,19 +104,25 @@ const Board = () => {
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
+  }, [rolls])
+
+
     const handleScroll = () => {
       if (
-        window.innerHeight + document.documentElement.scrollTop ===
-        document.documentElement.offsetHeight
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 100
       ) {
         loadMore();
       }
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [rolls]);
+
+    useEffect(() => {
+
+      window.addEventListener("scroll", handleScroll);
+      return () => {
+        window.removeEventListener("scroll", handleScroll);
+      };
+    }, [])
 
   const Theme = values
     ? values.theme === "CORK_BOARD"
