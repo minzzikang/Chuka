@@ -9,7 +9,6 @@ import { useParams } from "react-router-dom";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 62px);
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};
   @media only screen and (min-width: 430px) {
@@ -22,7 +21,6 @@ export const Container = styled.div`
 `;
 
 const RollingMainPage = () => {
-
   return (
     <>
       <Container>
@@ -30,7 +28,7 @@ const RollingMainPage = () => {
         <Banner />
         <Board />
       </Container>
-      <Navbar current="celebration" />
+        <Navbar current="celebration" />
     </>
   );
 };
