@@ -7,6 +7,7 @@ import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -34,7 +35,10 @@ public class RollSheetController {
     @Operation(summary = "롤링페이퍼 등록", description = "롤링페이퍼를 등록(생성)한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "403", description = "권한 없음"),
+            @ApiResponse(responseCode = "413", description = "용량 초과"),
+            @ApiResponse(responseCode = "415", description = "확장자 불일치"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> createRollSheet(
@@ -81,10 +85,14 @@ public class RollSheetController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<?> getRollSheets(@PathVariable("eventId") int eventId) {
+    public ResponseEntity<?> getRollSheets(
+            @PathVariable("eventId") int eventId,
+            @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
+            @Parameter(description = "페이지당 항목 수") @RequestParam int size
+    ) {
 
         try {
-            List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId);
+            List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId, page, size);
 
             return ResponseEntity.status(200).body(results);
         } catch (NoSuchElementException e) {
