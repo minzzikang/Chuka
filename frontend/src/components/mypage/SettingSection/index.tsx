@@ -1,5 +1,7 @@
 import styled from "styled-components";
 import SettingItem from "./SettingItem";
+import { useRecoilValue } from "recoil";
+import { userState } from "@stores/user";
 
 
 export const Container = styled.div`
@@ -10,8 +12,7 @@ export const Container = styled.div`
 `;
 
 const index = () => {
-  // const userInfo = useRecoilValue(userState)
-  const userInfo = true;
+  const userInfo = useRecoilValue(userState);
 
   return (
     <Container>
