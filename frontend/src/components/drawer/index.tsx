@@ -1,18 +1,19 @@
 import React from "react";
 import { IoMdAdd } from "react-icons/io";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as d from "./Drawer.styled";
 import Test from "/img/img_main_paper.png"
 
 type DrawerType = {
   isOpen: boolean;
   onClose: () => void;
+
 };
 
 
-const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
+const Index: React.FC<DrawerType> = ({ isOpen, onClose}) => {
   const navigate = useNavigate();
-
+  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
 
   return (
     <d.Container>
@@ -30,7 +31,7 @@ const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
         <d.Card onClick={() => navigate("/detail")}>
         <d.Img src={Test}/>
         </d.Card>
-        <d.Button onClick={() => navigate("/celebrate/funding")}>
+        <d.Button onClick={() => navigate(`/celebrate/rolling/${eventId}/fundings`)}>
           <IoMdAdd />
           펀딩 추가
         </d.Button>
