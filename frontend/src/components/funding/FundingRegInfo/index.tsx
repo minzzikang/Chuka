@@ -1,59 +1,71 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { useLocation, useParams } from "react-router-dom";
+import { fetchEventInfo } from "@/apis/event";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
-import { useLocation } from "react-router-dom";
 import * as F from "@components/funding/FundingRegInfo/FundingRegInfo.styled";
 import RModal from "@common/responsiveModal";
 import AddressInput from "@/components/addressInput";
 import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
+import { createFunding } from "@/apis/funding";
+
 
 export type RegDataType = {
-  product_link: string;
+  eventId:  number;
+  productLink: string;
   introduce: string;
   option: string;
-  goal_Amount: string | number;
-  end_date: string;
-  receiver_name: string;
-  receiver_phone: string;
-  postal_code: string;
+  goalAmount: string | number;
+  endDate: string;
+  receiverName: string;
+  receiverPhone: string;
+  postalCode: string;
   address: string;
-  address_detail: string;
+  addressDetail: string;
 };
 
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
+  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
 
   const [regData, setRegData] = useState<RegDataType>({
-    product_link: productLink,
+    eventId: Number(eventId),
+    productLink: productLink,
     introduce: "",
     option: "",
-    goal_Amount: "",
-    end_date: "",
-    receiver_name: "",
-    receiver_phone: "",
-    postal_code: "",
+    goalAmount: "",
+    endDate: "",
+    receiverName: "",
+    receiverPhone: "",
+    postalCode: "",
     address: "",
-    address_detail: "",
+    addressDetail: "",
   });
+
 
   const [isAddressOpen, setIsAddressOpen] = useState<boolean>(false);
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
   const onRegister = async () => {
+
     console.log(regData);
+    try {
+      const response = await createFunding(regData)
+      console.log("찐찐찐찐찐찐찐찐찐찐찐찐",response);
+      // setIsRegOpen(true);
+    } catch (err) {
+      console.error(err)
+    }
 
-    // 목표금액 number로 바꾸기
 
-    // 새로운 모달 띄우기
-    setIsRegOpen(true);
   };
 
   return (
     <>
       <F.Container>
         <Header children="펀딩 등록하기" />
-        <F.Img src={DefaultFunding} onClick={() => (console.log(location))} />
+        <F.Img src={DefaultFunding}  />
         <F.Wrap>
           <F.Inner>
             <F.Label htmlFor="introduce">"한 줄 펀딩 소개"</F.Label>
@@ -87,12 +99,12 @@ const index = () => {
             <F.Label htmlFor="goal_Amount">"펀딩 목표 금액"</F.Label>
             <F.Input
               id="goal_Amount"
-              value={regData.goal_Amount}
+              value={regData.goalAmount}
               placeholder="금액을 입력해주세요(5000원 이상)"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  goal_Amount: Number(e.target.value),
+                  goalAmount: Number(e.target.value),
                 }))
               }
             />
@@ -101,12 +113,12 @@ const index = () => {
             <F.Label htmlFor="end_date">"펀딩 종료 일자"</F.Label>
             <F.Input
               id="end_date"
-              value={regData.end_date}
-              placeholder="펀딩 종료 일자를 입력해주세요(ex 20250518)"
+              value={regData.endDate}
+              placeholder="펀딩 종료 일자를 입력해주세요(ex 2024-05-18)"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  end_date: e.target.value,
+                  endDate: (e.target.value).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"),
                 }))
               }
               maxLength={8}
@@ -116,12 +128,12 @@ const index = () => {
             <F.Label htmlFor="receiver_name">"수령인 이름"</F.Label>
             <F.Input
               id="receiver_name"
-              value={regData.receiver_name}
+              value={regData.receiverName}
               placeholder="이름 입력"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  receiver_name: e.target.value,
+                  receiverName: e.target.value,
                 }))
               }
             />
@@ -130,12 +142,12 @@ const index = () => {
             <F.Label htmlFor="receiver_phone">"수령인 연락처"</F.Label>
             <F.Input
               id="receiver_phone"
-              value={regData.receiver_phone}
+              value={regData.receiverPhone}
               placeholder="휴대폰 번호 입력(ex 01043286612)"
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  receiver_phone: e.target.value,
+                  receiverPhone: e.target.value,
                 }))
               }
             />
@@ -145,7 +157,7 @@ const index = () => {
           <div style={{ display: "flex", gap: "10px" }}>
             <F.SmallInput
               id="address"
-              value={regData.postal_code}
+              value={regData.postalCode}
               placeholder="우편번호"
             />
             <F.SmallBtn onClick={() => setIsAddressOpen(true)}>
@@ -160,12 +172,12 @@ const index = () => {
           />
           <F.Input
             id="address"
-            value={regData.address_detail}
+            value={regData.addressDetail}
             placeholder="상세 주소를 입력해주세요"
             onChange={(e) =>
               setRegData((prevData) => ({
                 ...prevData,
-                address_detail: e.target.value,
+                addressDetail: e.target.value,
               }))
             }
           />

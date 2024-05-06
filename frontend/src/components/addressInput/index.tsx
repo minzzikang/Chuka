@@ -20,7 +20,7 @@ const index = (props: AddressType) => {
   const onCompletePost = (data: any) => {
     setValue((prevData) => ({
       ...prevData,
-      postal_code: data.zonecode,
+      postalCode: data.zonecode,
       address: data.roadAddress
     })) 
     setIsAddressOpen(false)
