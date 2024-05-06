@@ -22,8 +22,8 @@ const ColorCard: React.FC<ColorCardProps> = ({ onSelectColor }) => {
       {colorList.map((color) => (
         <c.Card
           key={color}
-          color={color}
-          isSelected={color === selectedColor}
+          $color={color}
+          $isSelected={color === selectedColor}
           onClick={() => {
             setSelectedColor(color);
             onSelectColor(color);
