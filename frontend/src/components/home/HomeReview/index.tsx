@@ -14,7 +14,6 @@ const index = () => {
     const fetchData = async () => {
       try {
        const data = await fetchReview()
-       console.log('데이터야 !!:', data);
        setReviewData(data)
       } catch (error) {
         console.error("Error fetching data:", error);
