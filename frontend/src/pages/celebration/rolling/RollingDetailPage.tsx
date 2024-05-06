@@ -1,6 +1,6 @@
 import Navbar from "@common/navbar";
 import Header from "@common/header";
-import MessageCard from "@/components/celebration/Rolling/RollingDetail/MessageCard";
+import DetailCard from "@/components/celebration/Rolling/RollingDetail";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchRollSheets } from "@/apis/roll";
@@ -8,11 +8,11 @@ import { fetchRollSheets } from "@/apis/roll";
 interface MessageProps {
   nickname: string;
   content: string;
-  backgroundImageThumbnailUrl?: string;
-  backgroundColor?: string;
-  font: string;
-  fontColor: string;
-  shape: string;
+  $backgroundImageThumbnailUrl?: string;
+  $backgroundColor?: string;
+  $font: string;
+  $fontColor: string;
+  $shape: string;
   rollSheetId: string;
 }
 
@@ -51,14 +51,14 @@ const RollingDetailPage = () => {
     <>
       <Header children="작성된 메시지" />
       {values.map((message) => (
-        <MessageCard
+        <DetailCard
           key={message.rollSheetId}
           nickname={message.nickname}
           content={message.content}
-          bgImage={message.backgroundImageThumbnailUrl}
-          bgColor={message.backgroundColor}
-          font={message.font}
-          fontColor={message.fontColor}
+          $bgImage={message.$backgroundImageThumbnailUrl}
+          $bgColor={message.$backgroundColor}
+          $font={message.$font}
+          $fontColor={message.$fontColor}
         />
       ))}
       <Navbar current={"celebration"} />

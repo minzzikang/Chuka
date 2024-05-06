@@ -31,7 +31,7 @@ export const P = styled.p`
 `;
 
 export const Container = styled.div`
-position: relative;
+  position: relative;
   flex-grow: 1;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -51,4 +51,30 @@ export const RollingTheme = styled.img`
   min-height: 77vh;
   opacity: 0.7;
   position: relative;
+`;
+
+export const MessageCard = styled.div<{
+  $bgColor?: string;
+  $font: string;
+  $fontColor: string;
+  $bgImage?: string;
+  $shape: string;
+}>`
+  position: absolute;
+  display: flex;
+  width: 150px;
+  height: 150px;
+  z-index: 200;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: ${(props) => props.$fontColor || colors.black};
+  font-family: ${(props) => props.$font || "Pretendard"};
+  background-color: ${(props) =>
+    props.$bgImage ? "transparent" : props.$bgColor || colors.white};
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+  background-size: cover;
+  background-position: center;
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
