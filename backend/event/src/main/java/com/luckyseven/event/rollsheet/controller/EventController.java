@@ -154,8 +154,11 @@ public class EventController {
     @Operation(summary = "이벤트 정보 수정", description = "이벤트 정보를 수정한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
             @ApiResponse(responseCode = "403", description = "권한 없음"),
-            @ApiResponse(responseCode = "500", description = "서버 오류"),
+            @ApiResponse(responseCode = "413", description = "용량 초과"),
+            @ApiResponse(responseCode = "415", description = "확장자 불일치"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> editEvent(
             @PathVariable("eventId") int eventId, @ModelAttribute EditEventDto eventDto, @RequestHeader("loggedInUser") String userId
