@@ -26,7 +26,7 @@ public class ConsumerService {
     private final FundingRepository fundingRepository;
 
     @Transactional
-    @RabbitListener(queues = PRODUCT_QUEUE)
+    //@RabbitListener(queues = PRODUCT_QUEUE)
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
         Funding funding = fundingRepository.findById(productRes.getFundingId())
                 .orElseThrow(NoSuchElementException::new);
