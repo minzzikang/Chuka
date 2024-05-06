@@ -45,3 +45,18 @@ export const fetchUserInfo = () => {
     })
     .catch((err) => console.error(err));
 };
+
+// FCM 기기 토큰 전송
+export const sendFCMToken = async (token: string) => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.post(`/domain/users/fcm-token`, token, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

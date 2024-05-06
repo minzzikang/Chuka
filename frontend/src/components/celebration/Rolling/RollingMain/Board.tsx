@@ -142,7 +142,7 @@ const Board = () => {
             </b.Card>
           ))}
         </b.CardWrap>
-        <b.RollingTheme src={Theme} alt="theme" />
+        <b.RollingTheme $src={Theme} />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
       <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
