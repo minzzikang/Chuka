@@ -32,7 +32,6 @@ const Board = (props: BoardProps) => {
   });
 
   const navigate = useNavigate();
-
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [rolls, setRolls] = useState<MessageProps[]>([]);
@@ -44,6 +43,8 @@ const Board = (props: BoardProps) => {
 
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
+    console.log("여기에요 전 !!!!!!!!!!", values)
+    console.log(values.eventId);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {
@@ -55,9 +56,10 @@ const Board = (props: BoardProps) => {
   const loadMore = async () => {
     if (!loading) {
       setLoading(true);
+      if (typeof values.eventId.toString() === "string") {
       try {
         const newRollList = await fetchRollSheets(
-          eventId.toString(),
+          values.eventId.toString(),
           currentPage,
           6
         );
@@ -70,7 +72,7 @@ const Board = (props: BoardProps) => {
       } finally {
         setLoading(false);
       }
-    }
+    }}
   };
 
   const handleScroll = () => {
@@ -89,7 +91,7 @@ const Board = (props: BoardProps) => {
 
         try {
           const RollList = await fetchRollSheets(
-            eventId.toString(),
+            values.eventId.toString(),
             currentPage,
             6
           );
@@ -107,7 +109,6 @@ const Board = (props: BoardProps) => {
         }
       }
     };
-
     fetchData();
 
     window.addEventListener("scroll", handleScroll);
@@ -149,7 +150,13 @@ const Board = (props: BoardProps) => {
         <b.RollingTheme $src={Theme} />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
-      <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
+
+      <Drawer
+        isOpen={isDrawerOpen}
+        // eventId={values?.eventId}
+        onClose={() => setDrawerOpen(false)}
+      />
+
       {isModalOpen && (
         <RModal
           name={"선물 펀딩 서비스 이용 동의"}

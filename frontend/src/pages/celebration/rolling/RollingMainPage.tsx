@@ -37,58 +37,53 @@ interface EventInfo {
 }
 
 const RollingMainPage = () => {
+
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
 
-  const [eventInfoData, setEventInfoData] = useState<EventInfo>({
-    userId: "",
-    nickname: "",
+  const [ eventInfoData, setEventInfoData ] = useState<EventInfo>({
+    userId: '',
+    nickname: '',
     eventId: 0,
-    pageUrl: "",
-    type: "",
-    theme: "",
-    title: "",
-    date: "",
-    createTime: "",
-    bannerUrl: "",
-    bannerThumbnailUrl: "",
-  });
-
+    pageUrl:'',
+    type:'',
+    theme:'',
+    title:'',
+    date:'',
+    createTime: '',
+    bannerUrl: '',
+    bannerThumbnailUrl: '',
+  })
+  
   useEffect(() => {
     const fetchInfo = async () => {
-      if (eventId) {
+      if (typeof eventId === "string") {
         try {
-          const eventInfo = await fetchEventInfo(eventId.toString());
-          console.log("이벤트get요청 : ", eventInfo);
-          setEventInfoData(eventInfo);
+          const eventInfo = await fetchEventInfo(eventId);
+          console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
+          setEventInfoData(() => (eventInfo));
         } catch (err) {
           console.error(err);
         }
       } else {
-        console.log("이벤트id 에러");
+        console.error("eventId 이상");
       }
-    };
-    fetchInfo();
-  }, [eventId]);
+    }
+    fetchInfo()
+  }, [eventId])
 
   useEffect(() => {
     // eventInfo가 변경될 때마다 실행되는 코드
-    console.log("eventInfo가 변경되었습니다:", eventInfoData);
+    console.log('eventInfo가 변경되었습니다:', eventInfoData);
   }, [eventInfoData]);
 
   return (
     <>
       <Container>
         <RollingHeader />
-        <Banner
-          bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
-          title={eventInfoData.title}
-          date={eventInfoData.date}
-          createTime={eventInfoData.createTime}
-          nickname={eventInfoData.nickname}
-        />
+        <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
         <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
       <Navbar current="celebration" />
