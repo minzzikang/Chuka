@@ -6,9 +6,6 @@ app_views = Blueprint('app_views', __name__, url_prefix='/api/v1')
 
 @app_views.route('/crawling/hello', methods=['GET'])
 def hello():
-    info = {'productImageUrl': 'https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/pd/v2/2/4/9/7/6/6/KCDQE/6736249766_B.jpg', 'productPrice': 1698400, 'productName': '갤럭시 자급제 SM-S928N', 'fundingId': 28, 'status': 200, 'message': '성공', 'userId': '3460091535'}
-    print(info)
-    send_message(info)
     return jsonify({"message": "HELLO!! This is Crawling Server"})
 
 @app_views.route('/crawling/rabbit/<param>', methods=['GET'])
