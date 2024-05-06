@@ -13,21 +13,45 @@ interface BannerInfo {
   nickname?: string;
 }
 
-const Banner = (props: BannerInfo) => {
-  const { bannerThumbnailUrl, title, date, createTime, nickname } = props;
+const Banner = (props:BannerInfo) => {
+
+  const {bannerThumbnailUrl, title, date, createTime, nickname} = props
+
+  // const { eventId, pageUri } = useParams<{
+  //   pageUri: string;
+  //   eventId: string;
+  // }>();
+  // const [values, setValues] = useState<EventInfo | null>(null);
+
+  // useEffect(() => {
+  //   const fetchInfo = async () => {
+  //     if (typeof eventId === "string") {
+  //       try {
+  //         const eventInfo = await fetchEventInfo(eventId);
+  //         // console.log("이벤트get요청", eventInfo);
+  //         setValues(eventInfo);
+  //       } catch (err) {
+  //         console.error(err);
+  //       }
+  //     } else {
+  //       console.error("eventId 이상");
+  //     }
+  //   };
+  //   fetchInfo();
+  // }, [eventId]);
 
   if (!bannerThumbnailUrl) {
     return <p>Loading...</p>;
   }
 
-  const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : TestImg;
+  const bannerImg = bannerThumbnailUrl
+    ? bannerThumbnailUrl
+    : TestImg;
 
-  const calculateDay = (
-    eventDate: string | undefined,
-    creationTime: string | undefined
-  ) => {
+  const calculateDay = (eventDate: string | undefined, creationTime: string | undefined) => {
+    //  예외처리
     if (!eventDate || !creationTime) {
-      return 0;
+      return 0; 
     }
 
     const eventDateObj = new Date(eventDate);

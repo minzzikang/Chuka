@@ -1,4 +1,4 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useParams } from "react-router-dom";
 import LoginPage from "@pages/login/LoginPage";
 import HomePage from "@pages/home/HomePage";
 import CelebrationPage from "@pages/celebration/CelebrationPage";
@@ -49,9 +49,12 @@ const HomeRouter = () => {
         path="/celebrate/rolling/:eventId/:pageUri/detail"
         element={<RollingDetailPage />}
       />
-      <Route path="/celebrate/funding" element={<FundingRegPage />} />
-      <Route path="/celebrate/funding-info" element={<FundingRegInfoPage />} />
+
+      <Route path="/celebrate/rolling/:eventId/fundings" element={<FundingRegPage />} />
+      <Route path="/celebrate/rolling/:eventId/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
+
+
       <Route path="/alarm" element={<AlarmPage />} />
 
       <Route path="/mypage" element={<MyPage />} />

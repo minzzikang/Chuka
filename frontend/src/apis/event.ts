@@ -18,9 +18,19 @@ export const createEventReg = async (formdata: any) => {
 };
 
 // 이벤트 단건 정보 조회
-export const fetchEventInfo = async (eventId: string) => {
-  return axios.get(`/domain/events/${eventId}`).then((res) => {
-    // console.log("이벤트 정보", res.data);
-    return res.data;
-  });
+export const fetchEventInfo = async (eventId: string): Promise<any> => {
+  try {
+    const response = await axios.get(`/domain/events/${eventId}`)
+    console.log("이벤트 정보 : ",response.data);
+    return response.data
+
+  } catch (err) { 
+    console.error(err);
+    throw err
+  }
+
+  // return axios.get(`/domain/events/${eventId}`).then((res) => {
+  //   console.log("이벤트 정보", res.data);
+  //   return res.data;
+  // });
 };
