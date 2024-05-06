@@ -7,10 +7,11 @@ import Test from "/img/img_main_paper.png"
 type DrawerType = {
   isOpen: boolean;
   onClose: () => void;
+  eventId: number;
 };
 
 
-const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
+const Index: React.FC<DrawerType> = ({ isOpen, onClose, eventId }) => {
   const navigate = useNavigate();
 
 
@@ -30,7 +31,7 @@ const Index: React.FC<DrawerType> = ({ isOpen, onClose }) => {
         <d.Card onClick={() => navigate("/detail")}>
         <d.Img src={Test}/>
         </d.Card>
-        <d.Button onClick={() => navigate("/celebrate/funding")}>
+        <d.Button onClick={() => navigate("/celebrate/rolling/:eventId/fundings")}>
           <IoMdAdd />
           펀딩 추가
         </d.Button>
