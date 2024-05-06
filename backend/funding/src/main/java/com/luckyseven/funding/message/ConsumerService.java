@@ -26,20 +26,29 @@ public class ConsumerService {
     private final FundingRepository fundingRepository;
 
     @Transactional
-    //@RabbitListener(queues = PRODUCT_QUEUE)
+    @RabbitListener(queues = PRODUCT_QUEUE)
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
+        log.info(productRes.toString());
         Funding funding = fundingRepository.findById(productRes.getFundingId())
                 .orElseThrow(NoSuchElementException::new);
-        log.info("크롤링 서버로 부터 받은 userId 정보: "+productRes.getUserId());
-        if(productRes.getStatus() != 200){
-                funding.failCrawling(FundingStatus.REJECT);
-                //여기서 알림 서버에 거절되었다는걸 보내는 것을 작성해야함
-                return;
-        }
 
-        String productImageUrl = productRes.getProductImageUrl();
-        log.info(productImageUrl);
-        funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
-        //여기서 알림 서버에 승인되었다는걸 보내는 것을 작성해야함
+        switch (productRes.getStatus()){
+            case 200:
+                String productImageUrl = productRes.getProductImageUrl();
+                funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
+                break;
+            case 400://상품 상세페이지를 다시 확인해주세요
+                funding.failCrawling(FundingStatus.REJECT);
+                break;
+            case 401://지원하지 않는 쇼핑몰
+                funding.failCrawling(FundingStatus.REJECT);
+                break;
+            case 500://크롤링 서버 에러
+                funding.failCrawling(FundingStatus.REJECT);
+                break;
+            default:
+                funding.failCrawling(FundingStatus.REJECT);
+
+        }
     }
 }

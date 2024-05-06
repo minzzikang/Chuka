@@ -17,7 +17,6 @@ def fetch_html_with_selenium(url):
     chrome_options.add_argument("--headless")
     chrome_options.add_argument("--no-sandbox")
     chrome_options.add_argument("--disable-dev-shm-usage")
-
     with webdriver.Chrome(options=chrome_options) as driver:
         driver.get(url)
         html_source = driver.page_source
