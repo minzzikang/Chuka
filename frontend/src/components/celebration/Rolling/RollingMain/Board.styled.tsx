@@ -53,17 +53,28 @@ export const RollingTheme = styled.img`
   position: relative;
 `;
 
-export const MessageCard = styled.div<{
+export const CardWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  display: grid;
+  align-content: start;
+  row-gap: 30px;
+  grid-template-columns: calc(50%) calc(50%);
+  padding: 10px 30px;
+  min-height: 100vh;
+`;
+
+export const Card = styled.div<{
   $bgColor?: string;
   $font: string;
   $fontColor: string;
   $bgImage?: string;
   $shape: string;
 }>`
-  position: absolute;
   display: flex;
   width: 150px;
   height: 150px;
+  margin: 10px;
   z-index: 200;
   flex-direction: column;
   justify-content: center;
