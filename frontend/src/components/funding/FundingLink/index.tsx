@@ -7,14 +7,14 @@ import Header from "@common/header";
 import { useNavigate } from "react-router-dom";
 
 const index = () => {
-  const [productLink, setProductLink] = useState("");
   const navigate = useNavigate();
+  const [productLink, setProductLink] = useState("");
+  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
 
   const handleClick = () => {
-    navigate("/celebrate/:eventId/funding-info/", { state: { productLink } });
+    navigate(`/celebrate/rolling/${eventId}/funding-info`, { state: { productLink } });
   };
 
-  const { eventId } = useParams<{ eventId: string }>();
 
   useEffect(() => {
     const fetchInfo = async () => {

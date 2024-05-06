@@ -1,17 +1,25 @@
 import { RegDataType } from "@/components/funding/FundingRegInfo";
 import axios from "axios";
-import { authRequest } from "@/utils/requestMethods";
-import { error } from "console";
 
 const url = `domain`;
 // const url = `https://chuka.kr/api/v1`
 
 export const createFunding = async (params: RegDataType) => {
-  authRequest.post(`${url}/fundings`, params)
-  .then((res) => {
-    return res.data;
-  })
-  .catch((error) => console.error(error))
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.post(`/domain/fundings`, params, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+    })
+    // console.log("전전전전전전전전전",response.data);
+    return response.data
+  } catch (err) {
+    console.error(err)
+    throw err
+  } 
+    
 };
 
 export const createReview = async (params: object): Promise<any> => {
