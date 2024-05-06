@@ -46,7 +46,7 @@ export const Container = styled.div`
   }
 `;
 
-export const RollingTheme = styled.div`
+export const RollingTheme = styled.div<{src:string}>`
   width: 100%;
   height: 100vh;
   min-height: 77vh;

@@ -25,53 +25,70 @@ export const Container = styled.div`
 
 
 interface EventInfo {
+  userId: string;
+  nickname: string;
+  eventId: number;
+  pageUrl: string;
+  type:string;
+  theme:string;
   title: string;
   date: string;
+  createTime: string;
   bannerUrl: string;
   bannerThumbnailUrl: string;
-  userId: string;
-  createTime: string;
-  nickname: string;
 }
 
 
 const RollingMainPage = () => {
 
-  // const [ eventInfo, setEventInfo ] = useState<EventInfo>({
-
-
-  // })
-
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
-  const [values, setValues] = useState<EventInfo | null>(null);
 
+  const [ eventInfoData, setEventInfoData ] = useState<EventInfo>({
+    userId: '',
+    nickname: '',
+    eventId: 0,
+    pageUrl:'',
+    type:'',
+    theme:'',
+    title:'',
+    date:'',
+    createTime: '',
+    bannerUrl: '',
+    bannerThumbnailUrl: '',
+  })
+  
   useEffect(() => {
     const fetchInfo = async () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          console.log("이벤트get요청", eventInfo);
-          setValues(eventInfo);
+          console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
+          setEventInfoData(() => (eventInfo));
         } catch (err) {
           console.error(err);
         }
       } else {
         console.error("eventId 이상");
       }
-    };
-    fetchInfo();
-  }, [eventId]);
+    }
+    fetchInfo()
+  }, [eventId])
 
+  useEffect(() => {
+    // eventInfo가 변경될 때마다 실행되는 코드
+    console.log('eventInfo가 변경되었습니다:', eventInfoData);
+  }, [eventInfoData]);
 
   return (
     <>
+      <button style={{width:'200px', height:'200px', backgroundColor:'black'}} onClick={() => console.log(eventInfoData)}></button>
       <Container>
         <RollingHeader />
-        <Banner />
-        <Board />
+        <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
+        <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
         <Navbar current="celebration" />
     </>
