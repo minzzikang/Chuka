@@ -41,7 +41,7 @@ def receive_message():
         info = extract_shopping_info(data.get('productUrl'), selectors)
         info = {'fundingId': data.get('fundingId'), 'userId': data.get('userId')}
         if selectors is None:
-            info.update({"status": 400, "message": "지원하지 않는 쇼핑몰입니다"})
+            info.update({"status": 401, "message": "Unsupported shopping site"})
             print(info)
             send_message(info)
             return
@@ -49,12 +49,12 @@ def receive_message():
         try:
 
             if all(value for value in [info.get('productImageUrl'), info.get('productPrice'), info.get('productName')]):
-                info.update({"status": 200, "message": "성공"})
+                info.update({"status": 200, "message": ""})
             else:
-                info.update({"status": 400, "message": "상품 상세페이지를 다시 확인해주세요"})
+                info.update({"status": 400, "message": "Please check the product details page again."})
             
         except Exception as e:
-            info = {"status": 400, "message": str(e)}
+            info = {"status": 500, "message": str(e)}
         print(info)
         send_message(info)
         
