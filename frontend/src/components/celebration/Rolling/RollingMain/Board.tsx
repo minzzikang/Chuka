@@ -58,11 +58,11 @@ const Board = (props: BoardProps) => {
       try {
         const newRollList = await fetchRollSheets(
           eventId.toString(),
-          currentPage + 1,
+          currentPage,
           6
         );
         if (newRollList && newRollList.length > 0) {
-          setRolls((prevRolls) => [...prevRolls, ...newRollList]);
+          setRolls([...rolls, ...newRollList]);
           setCurrentPage((prevPage) => prevPage + 1);
         }
       } catch (err) {
@@ -70,6 +70,15 @@ const Board = (props: BoardProps) => {
       } finally {
         setLoading(false);
       }
+    }
+  };
+
+  const handleScroll = () => {
+    if (
+      window.innerHeight + window.scrollY >=
+      document.body.offsetHeight - 400
+    ) {
+      loadMore();
     }
   };
 
@@ -100,29 +109,16 @@ const Board = (props: BoardProps) => {
     };
 
     fetchData();
+
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll); //cleanup
+    };
   }, [eventId, currentPage]);
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
-  }, [rolls])
-
-
-    const handleScroll = () => {
-      if (
-        window.innerHeight + window.scrollY >=
-        document.body.offsetHeight - 100
-      ) {
-        loadMore();
-      }
-    };
-
-    useEffect(() => {
-
-      window.addEventListener("scroll", handleScroll);
-      return () => {
-        window.removeEventListener("scroll", handleScroll);
-      };
-    }, [])
+  }, [rolls]);
 
   const Theme = values
     ? values.theme === "CORK_BOARD"
