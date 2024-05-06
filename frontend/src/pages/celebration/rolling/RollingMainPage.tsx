@@ -8,7 +8,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchEventInfo } from "@/apis/event";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -23,21 +22,19 @@ export const Container = styled.div`
   position: relative;
 `;
 
-
 interface EventInfo {
   userId: string;
   nickname: string;
   eventId: number;
   pageUrl: string;
-  type:string;
-  theme:string;
+  type: string;
+  theme: string;
   title: string;
   date: string;
   createTime: string;
   bannerUrl: string;
   bannerThumbnailUrl: string;
 }
-
 
 const RollingMainPage = () => {
 
@@ -89,7 +86,7 @@ const RollingMainPage = () => {
         <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
         <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
-        <Navbar current="celebration" />
+      <Navbar current="celebration" />
     </>
   );
 };
