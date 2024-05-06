@@ -8,11 +8,11 @@ import { fetchRollSheets } from "@/apis/roll";
 interface MessageProps {
   nickname: string;
   content: string;
-  backgroundImageThumbnailUrl?: string;
-  backgroundColor?: string;
-  font: string;
-  fontColor: string;
-  shape: string;
+  $backgroundImageThumbnailUrl?: string;
+  $backgroundColor?: string;
+  $font: string;
+  $fontColor: string;
+  $shape: string;
   rollSheetId: string;
 }
 
@@ -55,10 +55,10 @@ const RollingDetailPage = () => {
           key={message.rollSheetId}
           nickname={message.nickname}
           content={message.content}
-          bgImage={message.backgroundImageThumbnailUrl}
-          bgColor={message.backgroundColor}
-          font={message.font}
-          fontColor={message.fontColor}
+          $bgImage={message.$backgroundImageThumbnailUrl}
+          $bgColor={message.$backgroundColor}
+          $font={message.$font}
+          $fontColor={message.$fontColor}
         />
       ))}
       <Navbar current={"celebration"} />

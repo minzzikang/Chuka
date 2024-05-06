@@ -13,9 +13,7 @@ const RollingPreviewPage = () => {
     nickname: "",
   });
 
-  useEffect(() => {
-    // api 연결 로직 추가 예정
-  }, [regData]);
+  useEffect(() => {}, [regData]);
 
   const handleData = (data: any) => {
     setRegData(data);
