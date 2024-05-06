@@ -29,7 +29,7 @@ public class Funding {
     @Column
     private int eventId;
 
-    @Column
+    @Column(columnDefinition = "TEXT")
     private String productLink;
 
     @Column

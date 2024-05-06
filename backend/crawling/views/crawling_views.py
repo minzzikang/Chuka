@@ -23,14 +23,15 @@ def extract_image():
     selectors = get_selectors(url)
     
     if selectors is None:
-        return jsonify({"message": "지원하지 않는 쇼핑몰입니다."}), 400
+        return jsonify({"message": "지원하지 않는 쇼핑몰입니다."}), 401
     
     info = extract_shopping_info(url, selectors)
 
     if "error" in info:
-        return jsonify(info), 400
+        return jsonify(info), 500
     else:
-        if info.get("product_url") and info.get("product_price") and info.get("product_name"):
+        if info.get("productImageUrl") and info.get("productName") and info.get("productPrice"):
             return jsonify(info)
         else:
-            return jsonify({"message": "구매 상세 페이지를 정확히 입력해주세요."}), 400
+            info["message"] = "구매 상세 페이지를 정확히 입력해주세요."
+            return jsonify(info), 400
