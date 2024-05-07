@@ -41,8 +41,8 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                     authHeader = exchange.getRequest().getHeaders().get(HttpHeaders.AUTHORIZATION).get(0);
                 }
 
-                System.out.println("AuthenticationUserOrNotFilter--> header: " + exchange.getRequest().getHeaders());
-                System.out.println("authHeader: " + authHeader);
+                log.info("AuthenticationUserOrNotFilter--> header: {}", exchange.getRequest().getHeaders());
+
                 // header contains token
                 if (authHeader != null && authHeader.startsWith("Bearer ")) {
                     authHeader = authHeader.substring(7);

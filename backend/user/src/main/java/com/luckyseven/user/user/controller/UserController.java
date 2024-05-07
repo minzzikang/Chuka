@@ -13,10 +13,12 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.dao.OptimisticLockingFailureException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.util.List;
 
 @Slf4j
@@ -54,10 +56,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<?> deleteMyId(@RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<?> deleteMyId(@RequestHeader("loggedInUser") String userId, @RequestHeader("Authentication") String token) {
         try {
-            // TODO : SINYEONG
-            userService.deleteUser(userId);
+            userService.deleteUser(userId, token);
 
             return ResponseEntity.status(200).body(null);
         } catch (Exception e) {
@@ -106,7 +107,11 @@ public class UserController {
             userService.saveFcmToken(userId, fcmToken.getFcmToken());
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "fcm token 저장 성공"));
-        } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
+        } catch (SQLIntegrityConstraintViolationException e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(409).body(BaseResponseBody.of(HttpStatus.CONFLICT.value(), "fcm token 중복"));
+        }catch (IllegalArgumentException | OptimisticLockingFailureException e) {
             log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));

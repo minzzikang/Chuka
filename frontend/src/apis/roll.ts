@@ -1,13 +1,18 @@
 import axios from "axios";
+import { BASE_URL, authRequest } from "@utils/requestMethods";
 
 // 롤링페이퍼 등록
 export const createRollMsg = async (formdata: any, eventId: string) => {
   try {
-    const response = await axios.post(`/domain/events/${eventId}`, formdata, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-      },
-    });
+    const response = await axios.post(
+      `${BASE_URL}/events/${eventId}`,
+      formdata,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      }
+    );
     console.log("롤링페이퍼 등록", response.data);
     return response.data;
   } catch (err) {
@@ -22,12 +27,15 @@ export const fetchRollSheets = async (
   size: number
 ) => {
   try {
-    const response = await axios.get(`/domain/events/${eventId}/roll-sheets`, {
-      params: {
-        page,
-        size,
-      },
-    });
+    const response = await axios.get(
+      `${BASE_URL}/events/${eventId}/roll-sheets`,
+      {
+        params: {
+          page,
+          size,
+        },
+      }
+    );
     console.log("리스트 정보", response.data);
     return response.data;
   } catch (err) {
