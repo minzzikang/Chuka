@@ -51,6 +51,7 @@ export const sendFCMToken = async (fcmToken: string) => {
     const response = await axios.post(`${BASE_URL}/users/fcm-token`, fcmToken, {
       headers: {
         Authorization: `${accessToken}`,
+        'Content-Type': 'application/json',
       },
     });
     return response.data;
