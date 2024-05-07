@@ -14,11 +14,12 @@ const Wrap = styled.div`
   gap: 5px;
 `;
 
-const Button = styled.div<PaginationBtnType>`
+const PagiBtn = styled.div<PaginationBtnType>`
   width: 30px;
   height: 30px;
-  border: 1px solid ${(props) => props.$active ? colors.mainPink : colors.darkGray };
-  color: ${(props) => props.$active ? colors.mainPink : colors.darkGray };
+  border: 1px solid
+    ${(props) => (props.$active ? colors.mainPink : colors.darkGray)};
+  color: ${(props) => (props.$active ? colors.mainPink : colors.darkGray)};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -39,7 +40,7 @@ export type PaginationType = {
 export type PaginationBtnType = {
   children: number;
   key: number;
-  $active:boolean;
+  $active: boolean;
   onClick: () => void;
   "aria-current": "page" | null;
 };
@@ -80,28 +81,32 @@ const index = (props: PaginationType) => {
         onClick={() => setPage(page - limit)}
         aria-disabled={page === 1}
       /> */}
-      <Icon
-        src="/icon/icon_arrow_left_gray.png"
-        onClick={() => setPage(page - 1)}
-        aria-disabled={page === 1}
-      />
+      <button disabled={page === 1}>
+        <Icon
+          src="/icon/icon_arrow_left_gray.png"
+          onClick={() => setPage(page - 1)}
+        />
+      </button>
       <Wrap>
         {currentPageItems?.map((idx) => (
-          <Button
+          <PagiBtn
             $active={idx + 1 === page}
             key={idx + 1}
             onClick={() => setPage(idx + 1)}
             aria-current={page === idx + 1 ? "page" : null}
           >
             {idx + 1}
-          </Button>
+          </PagiBtn>
         ))}
       </Wrap>
-      <Icon
-        src="/icon/icon_arrow_right_gray.png"
-        onClick={() => setPage(page + 1)}
-        aria-disabled={page === totalPage}
-      />
+
+      <button disabled={page === totalPage}>
+        <Icon
+          src="/icon/icon_arrow_right_gray.png"
+          onClick={() => setPage(page + 1)}
+          aria-disabled={page === totalPage}
+        />
+      </button>
       {/* <Icon
         src="/icon/icon_arrow_doubbleright_gray.png"
         onClick={() => setPage(page + limit)}

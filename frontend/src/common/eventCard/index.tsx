@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
+import { useNavigate } from "react-router";
 
 
 const Container = styled.div<{ $thumbNailUrl: string }>`
@@ -21,7 +22,7 @@ const Wrap = styled.div`
   width: 100%;
   height: 44px;
   margin-top: 10px;
-  background-color: ${colors.mainPink};
+  /* background-color: ${colors.mainPink}; */
   display: flex;
   position: absolute;
   top: 50%;
@@ -31,7 +32,7 @@ const WrapOverlay = styled.div`
   display: flex;
   width: 100%;
   height: 44px;
-  opacity: 0.7;
+  /* opacity: 0.7; */
   gap: 5px;
   /* justify-content: center; */
   align-items: center;
@@ -58,19 +59,29 @@ export type EventCardType = {
     createTime:string
     date: string
     thumbNailUrl: string
+    eventUrl: string
 }
 
+export const formattingTitle = (title:string) => {
+    if (title.length > 7) {
+        return `${title.slice(0,7)}...`
+    } 
+    return title
+  }
+
 const index = (props: EventCardType) => {
-  const {title, createTime, date, thumbNailUrl} = props
+const navigate = useNavigate()
+  const {title, createTime, date, thumbNailUrl, eventUrl} = props
 
   const formatCreateTime = createTime.split("T")[0]
+  const formatTitle = formattingTitle(title)
 
   return (
-    <Container $thumbNailUrl={thumbNailUrl}>
+    <Container $thumbNailUrl={thumbNailUrl} onClick={() => navigate(`${eventUrl}`)} >
       <Wrap>
         <WrapOverlay>
           <DescWrap>
-            <Title>{title}</Title>
+            <Title>{formatTitle}</Title>
             <Date>
               {formatCreateTime} ~ {date}
             </Date>
