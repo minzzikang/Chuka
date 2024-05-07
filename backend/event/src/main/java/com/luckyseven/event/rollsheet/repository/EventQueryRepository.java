@@ -1,6 +1,9 @@
 package com.luckyseven.event.rollsheet.repository;
 
+import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
+import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.QEvent;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -11,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import static com.luckyseven.event.rollsheet.entity.QEvent.event;
@@ -158,4 +162,42 @@ public class EventQueryRepository {
         return results;
     }
 
+    public List<DdayReceiveDto> findAllByCurdate() {
+        System.out.println("d?????????????????");
+        LocalDate currentDate = LocalDate.now();
+        System.out.println("currentDate ==> " + currentDate);
+
+
+        List<Event> eventIdList = jpaQueryFactory
+                .select(Projections.bean(Event.class,
+                        event.eventId,
+                        event.userId))
+                .from(event)
+                .where(event.date.eq(currentDate))
+                .fetch();
+//    log.info("======data =============> {}",data);
+        List<DdayReceiveDto> result = new ArrayList<>();
+
+        for (Event curEvent : eventIdList) {
+            DdayReceiveDto ddayReceiveDto = new DdayReceiveDto();
+            Integer curEventId = curEvent.getEventId();
+            ddayReceiveDto.setCreater(curEvent.getUserId());
+            ddayReceiveDto.setEventId(curEventId);
+
+
+            // 이벤트에 참여한 사람불러오기
+
+            List<String> joinMembers = jpaQueryFactory
+                    .select(joinEvent.joinEventPK.userId)
+                    .from(joinEvent).leftJoin(event).on(joinEvent.joinEventPK.event.eq(event))
+                    .where(event.eventId.eq(curEventId))
+                    .fetch();
+            ddayReceiveDto.setJoinMembers(joinMembers);
+            result.add(ddayReceiveDto);
+        }
+        for (DdayReceiveDto ddayReceiveDto : result) {
+            log.info("ddayReceiveDto.toString() => {}",ddayReceiveDto.toString());
+        }
+        return result;
+    }
 }
