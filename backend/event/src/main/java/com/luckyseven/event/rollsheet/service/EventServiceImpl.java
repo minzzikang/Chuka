@@ -4,7 +4,9 @@ import com.github.f4b6a3.ulid.UlidCreator;
 import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
+import com.luckyseven.event.message.ProducerService;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
+import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
@@ -17,10 +19,14 @@ import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -32,6 +38,7 @@ import java.util.NoSuchElementException;
 public class EventServiceImpl implements EventService {
 
     private final FileService fileService;
+    private final ProducerService producerService;
 
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
@@ -205,4 +212,27 @@ public class EventServiceImpl implements EventService {
         return Math.toIntExact(eventRepository.count());
     }
 
+    /**
+     * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
+     * 알림 서버에 보낸다.
+     * @throws IOException
+     */
+    @Async
+    @Scheduled(cron = "0 0 9 * * ?")
+    @Override
+    public void sendDdayalarm() throws IOException {
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+
+    }
+
+    @Override
+    public ResponseEntity<?> sendDdayalarmTest() {
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+        producerService.sendNotificationMessage(userIdList);
+
+        log.info(" ** userIdList : {}",userIdList);
+        return ResponseEntity.ok().body(userIdList);
+    }
 }
