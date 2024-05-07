@@ -38,68 +38,73 @@ interface EventInfo {
 }
 
 const RollingMainPage = () => {
-
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
 
-  const [ eventInfoData, setEventInfoData ] = useState<EventInfo>({
-    userId: '',
-    nickname: '',
+  const [eventInfoData, setEventInfoData] = useState<EventInfo>({
+    userId: "",
+    nickname: "",
     eventId: 0,
-    pageUrl:'',
-    type:'',
-    theme:'',
-    title:'',
-    date:'',
-    createTime: '',
-    bannerUrl: '',
-    bannerThumbnailUrl: '',
-  })
-  
+    pageUrl: "",
+    type: "",
+    theme: "",
+    title: "",
+    date: "",
+    createTime: "",
+    bannerUrl: "",
+    bannerThumbnailUrl: "",
+  });
+
   useEffect(() => {
     const fetchEvent = async () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
-          setEventInfoData(() => (eventInfo));
+          setEventInfoData(() => eventInfo);
         } catch (err) {
           console.error(err);
         }
       } else {
         console.error("eventId 이상");
       }
-    }
-    fetchEvent()
+    };
+    fetchEvent();
 
     const fetchFunding = async () => {
       if (typeof eventId == "string") {
         try {
-          const fundingInfo = await fetchFundings(eventId)
-          console.log('펀딩 목록 조회 후후후후', fundingInfo);
+          const fundingInfo = await fetchFundings(eventId);
+          console.log("펀딩 목록 조회 후후후후", fundingInfo);
         } catch (err) {
           console.error(err);
-          throw err
+          throw err;
         }
       } else {
         console.error("eventId 이상");
       }
-    }
-    fetchFunding()
-  }, [eventId])
+    };
+    fetchFunding();
+  }, [eventId]);
 
-  // useEffect(() => {
-  //   // eventInfo가 변경될 때마다 실행되는 코드
-  //   console.log('eventInfo가 변경되었습니다:', eventInfoData);
-  // }, [eventInfoData]);
 
   return (
     <>
       <Container>
-        <RollingHeader bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} nickname={eventInfoData.nickname} />
-        <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
+        <RollingHeader
+          bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
+          title={eventInfoData.title}
+          nickname={eventInfoData.nickname}
+        />
+        <Banner
+          bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
+          title={eventInfoData.title}
+          date={eventInfoData.date}
+          createTime={eventInfoData.createTime}
+          nickname={eventInfoData.nickname}
+        />
         <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
       <Navbar current="celebration" />
