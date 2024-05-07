@@ -34,7 +34,7 @@ const index = () => {
       }
     };
     fetchEventList();
-  }, [eventData]);
+  },[]);
 
   return (
     <h.Container>
