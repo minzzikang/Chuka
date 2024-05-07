@@ -30,15 +30,6 @@ const HomePage = () => {
       }
     }
     fetchEventCount()
-
-    // const fetchEventList = async () => {
-    //   try {
-    //     const response = await 
-    //   } catch (err) {
-    //     console.log(err)
-    //   }
-
-    // }
   })
 
   return (
