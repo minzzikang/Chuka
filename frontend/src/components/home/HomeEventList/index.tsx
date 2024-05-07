@@ -19,28 +19,25 @@ export const PagiWrap = styled.div`
 `;
 
 const index = () => {
-  const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
-
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
-  const [eventData, setEventData] = useState([]);
+  const [recentEventData, setRecentEventData] = useState([]);
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
   };
 
   useEffect(() => {
-    const fetchEventList = async () => {
+    const fetchRecentEventList = async () => {
       try {
         const response = await fetchList(true, page, 3);
         console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
-
-        setEventData(response);
+        setRecentEventData(response);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchEventList();
+    fetchRecentEventList();
   }, [page]);
 
   return (
@@ -57,14 +54,29 @@ const index = () => {
           onClick={() => onClickFilter(1)}
           $active={activeIdx === 1}
         >
-          조회수순
+          참여순
         </h.FilterText>
       </h.FilterWrap>
-      <DataWrap>
-        {eventData && eventData.map((item, index) => <EventCard key={index} title={item.title} createTime={item.createTime} date={item.date} thumbNailUrl={item.bannerThumbnailUrl} />)}
-      </DataWrap>
+      {activeIdx === 0 && (
+        <DataWrap>
+          {recentEventData &&
+            recentEventData.map((item, index) => (
+              <EventCard
+                key={index}
+                title={item.title}
+                createTime={item.createTime}
+                date={item.date}
+                thumbNailUrl={item.bannerThumbnailUrl}
+                eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
+
+              // http://localhost:5000/celebrate/rolling/1/01HWC09NK9Y5GA5F53WYNPST1C
+              />
+            ))}
+        </DataWrap>
+      )}
+
       <PagiWrap>
-        <Pagination totalPage={54} limit={5} page={page} setPage={setPage} />
+        <Pagination totalPage={20} limit={5} page={page} setPage={setPage} />
       </PagiWrap>
     </h.Container>
   );
