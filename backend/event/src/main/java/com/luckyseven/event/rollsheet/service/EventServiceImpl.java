@@ -27,7 +27,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -248,7 +250,12 @@ public class EventServiceImpl implements EventService {
     public ResponseEntity<?> sendDdayalarmTest() {
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
 
-        producerService.sendNotificationMessage(userIdList);
+        Map<String,Object> dataSet = new HashMap<>();
+        dataSet.put("topic","DDAY_ALARM");
+        dataSet.put("data",userIdList);
+
+
+        producerService.sendNotificationMessage(dataSet);
 
         log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
