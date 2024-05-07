@@ -9,6 +9,9 @@ import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
 import com.luckyseven.user.util.feign.NotificationFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.util.rabbitMQ.ProducerService;
+import com.luckyseven.user.util.rabbitMQ.req.NotificationReq;
+import com.luckyseven.user.util.rabbitMQ.req.Topic;
 import com.luckyseven.user.util.redis.RedisService;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +44,8 @@ public class UserServiceImpl implements UserService {
 
     private final NotificationFeignClient notificationFeignClient;
 
+    private final ProducerService producerService;
+
     @Value("${kakao.api.admin.key}")
     private String adminKey;
 
@@ -72,7 +77,8 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
 
         // 알림 삭제
-
+        NotificationReq req = new NotificationReq(userId, Topic.DELETE_USER);
+        producerService.sendNotificationMessage(req);
 
         userRepository.delete(user);
 

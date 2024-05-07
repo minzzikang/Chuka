@@ -9,15 +9,19 @@ export const Container = styled.div`
 `;
 
 export const MessageBox = styled.div<{
-  $bgColor?: string;
-  $bgImage?: string;
-  $fontColor?: string;
-  $font?: string;
+  $backgroundColor?: string;
+  $backgroundImageThumbnailUrl?: string;
+  $fontColor: string;
+  $font: string;
 }>`
   background-color: ${(props) =>
-    props.$bgImage ? "transparent" : props.$bgColor || "transparent"};
+    props.$backgroundImageThumbnailUrl
+      ? "transparent"
+      : props.$backgroundColor || colors.skybluePaper};
   background-image: ${(props) =>
-    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+    props.$backgroundImageThumbnailUrl
+      ? `url(${props.$backgroundImageThumbnailUrl})`
+      : "none"};
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
   margin: 20px;

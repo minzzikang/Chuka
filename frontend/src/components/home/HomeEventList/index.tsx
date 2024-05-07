@@ -19,6 +19,7 @@ const index = () => {
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
+  const [eventData, setEventData] = useState([]);
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
@@ -29,8 +30,8 @@ const index = () => {
       try {
         const response = await fetchList(true, 1, 3);
         console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
-        
-
+      
+        setEventData(response);
       } catch (err) {
         console.log(err);
       }

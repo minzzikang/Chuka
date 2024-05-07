@@ -92,17 +92,17 @@ export const Icon = styled(IoIosArrowBack)`
 `;
 
 export const MessageBox = styled.div<{
-  bgColor?: string;
-  bgImage?: string;
-  fontColor?: string;
-  fontFamily?: string;
-  shape?: string;
+  $bgColor: string;
+  $bgImage: string;
+  $fontColor: string;
+  fontFamily: string;
+  $shape: string;
 }>`
   display: flex;
   justify-content: center;
-  background-color: ${({ bgColor }) => bgColor || colors.white};
-  background-image: ${({ bgImage }) => (bgImage ? `url(${bgImage})` : "none")};
-  color: ${({ fontColor }) => fontColor || colors.black};
+  background-color: ${(props) => props.$bgColor || colors.white};
+  background-image: ${(props) => (props.$bgImage ? `url(${bgImage})` : "none")};
+  color: ${(props) => props.$fontColor || colors.black};
   font-family: ${({ fontFamily }) => fontFamily || "Pretendard"};
   margin: 20px;
   border-radius: ${({ shape }) => (shape === "CIRCLE" ? "50%" : "1em")};
