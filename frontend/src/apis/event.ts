@@ -1,7 +1,7 @@
 import { BASE_URL, authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
-const url = `https://chuka.kr/api/v1`
+const url = `https://chuka.kr/api/v1`;
 
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
@@ -33,24 +33,30 @@ export const fetchEventInfo = async (eventId: string): Promise<any> => {
 // 이벤트, 축하메시지 갯수 조회
 export const fetchCount = async () => {
   try {
-    const response = await axios.get(`${BASE_URL}/events/count`)
-    return response.data
-  } catch (err) { 
-    console.error(err);
-    throw err
-  }
-}
-
-// 이벤트 목록 조회
-export const fetchList = async () => {
-  try {
-    const response = await axios.get(`${BASE_URL}/events`)
-    return response.data
+    const response = await axios.get(`${BASE_URL}/events/count`);
+    return response.data;
   } catch (err) {
     console.error(err);
-    throw err
+    throw err;
   }
-}
+};
+
+// 이벤트 목록 조회
+export const fetchList = async (asc: boolean, page: number, size: number) => {
+  try {
+    const response = await axios.get(`/domain/events`, {
+      params: {
+        asc,
+        page,
+        size,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
 // 내 이벤트 조회
 export const fetchMyEventList = async (
   page: number,

@@ -7,10 +7,10 @@ const Container = styled.div<{ $thumbNail: boolean }>`
     props.$thumbNail
       ? `url('/img/img_loopy.jpg')`
       : "url('/img/img_chuka_info.png')"};
-  /* background-size: contain; */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  /* background-size: contain; */
   width: 100%;
   height: 150px;
   border-radius: 30px;
