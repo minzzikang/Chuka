@@ -54,10 +54,9 @@ public class UserController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 사용자"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<?> deleteMyId(@RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<?> deleteMyId(@RequestHeader("loggedInUser") String userId, @RequestHeader("Authentication") String token) {
         try {
-            // TODO : SINYEONG
-            userService.deleteUser(userId);
+            userService.deleteUser(userId, token);
 
             return ResponseEntity.status(200).body(null);
         } catch (Exception e) {
