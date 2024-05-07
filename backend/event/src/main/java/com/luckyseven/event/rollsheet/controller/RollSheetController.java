@@ -3,8 +3,10 @@ package com.luckyseven.event.rollsheet.controller;
 import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
+import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
+import com.luckyseven.event.rollsheet.dto.RollSheetListRes;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -94,12 +96,16 @@ public class RollSheetController {
         try {
             List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId, page, size);
 
-            return ResponseEntity.status(200).body(results);
+            RollSheetListRes res = new RollSheetListRes();
+            res.setTotalCnt(rollSheetService.countRollSheetByEventId(eventId));
+            res.setRollSheetList(results);
+
+            return ResponseEntity.status(200).body(res);
         } catch (NoSuchElementException e) {
-            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이벤트입니다."));
         } catch (Exception e) {
             log.error("롤링페이퍼 목록 조회: {}", e.getMessage());
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "롤링페이퍼 목록 조회에 실패하였습니다."));
         }
     }
 

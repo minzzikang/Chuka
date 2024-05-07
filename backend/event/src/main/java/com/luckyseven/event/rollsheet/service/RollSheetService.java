@@ -20,4 +20,5 @@ public interface RollSheetService {
     void deleteAllByEventId(int eventId);
 
     int countRollSheet();
+    int countRollSheetByEventId(int eventId);
 }

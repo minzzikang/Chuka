@@ -12,6 +12,7 @@ import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import com.luckyseven.event.util.feign.FundingFeignClient;
@@ -41,6 +42,7 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
+    private final JoinEventRepository joinEventRepository;
     private final RollSheetRepository rollSheetRepository;
 
     private final FundingFeignClient fundingFeignClient;
@@ -228,6 +230,21 @@ public class EventServiceImpl implements EventService {
     @Override
     public int countEvent() {
         return Math.toIntExact(eventRepository.count());
+    }
+
+    @Override
+    public int countPublicEvent() {
+        return eventRepository.countByVisibility(true);
+    }
+
+    @Override
+    public int countMyEvent(String userId) {
+        return eventRepository.countByUserId(userId);
+    }
+
+    @Override
+    public int countParticipantEvent(String userId) {
+        return joinEventRepository.countByUserId(userId);
     }
 
     /**
