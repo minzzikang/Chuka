@@ -25,4 +25,5 @@ export const Wrap = styled.div`
 export const Img = styled.img`
   position: fixed;
   bottom: 60px;
+  width: 412px;
 `;
