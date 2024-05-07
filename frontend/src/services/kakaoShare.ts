@@ -4,20 +4,29 @@ const KAKAO_JS_API_KEY = import.meta.env.VITE_KAKAO_JS_API_KEY;
 window.Kakao.init(KAKAO_JS_API_KEY);
 window.Kakao.isInitialized();
 
-export const ShareKakao = () => {
+type ShareKakaoType = {
+  eventUrl:string 
+  bannerThumbnailUrl: string
+  title:string
+  nickname:string
+}
+
+export const ShareKakao = (props:ShareKakaoType) => {
+  const {eventUrl, bannerThumbnailUrl, title, nickname} = props
+
   if (window.Kakao) {
     const kakao = window.Kakao;
 
     kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: "재옹 생일파티", // 이벤트 제목
-        description: "아메리카노, 빵, 케익", // 펀딩 소개 문구
+        title: title, // 이벤트 제목
+        description: `${nickname}님이 올린 기념일을 축하해주세요 !`, // 이벤트 소개 문구
         imageUrl:
-        "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
+          bannerThumbnailUrl ? `${bannerThumbnailUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
         link: {
-          mobileWebUrl: "https://developers.kakao.com", // 이벤트 URL
-          webUrl: "https://developers.kakao.com", // 이벤트 URL
+          mobileWebUrl: `${eventUrl}`, // 이벤트 URL
+          webUrl: `${eventUrl}`, // 이벤트 URL
         },
       },
       itemContent: {
@@ -64,8 +73,8 @@ export const ShareKakao = () => {
         {
           title: "이벤트 바로가기",
           link: {
-            mobileWebUrl: "https://chuka.kr", // 이벤트 링크
-            webUrl: "https://chuka.kr", // 
+            mobileWebUrl: `${eventUrl}`, // 이벤트 링크
+            webUrl: `${eventUrl}`, //  
           },
         },
       ],

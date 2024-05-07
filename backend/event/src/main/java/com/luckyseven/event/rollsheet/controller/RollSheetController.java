@@ -68,10 +68,10 @@ public class RollSheetController {
             //415
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            log.error(e.getMessage());
+            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("롤링페이퍼 등록: {}", e.getMessage());
         }
 
         return ResponseEntity.status(400).body(null);
@@ -96,9 +96,9 @@ public class RollSheetController {
 
             return ResponseEntity.status(200).body(results);
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
         } catch (Exception e) {
+            log.error("롤링페이퍼 목록 조회: {}", e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
@@ -118,9 +118,9 @@ public class RollSheetController {
 
             return ResponseEntity.status(200).body(result);
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
         } catch (Exception e) {
+            log.error("롤링페이퍼 단건 조회: {}", e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }

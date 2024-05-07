@@ -16,23 +16,6 @@ const index = () => {
   };
 
 
-  useEffect(() => {
-    const fetchInfo = async () => {
-      if (typeof eventId === "string") {
-        try {
-          const eventInfo = await fetchEventInfo(eventId);
-          console.log("이벤트get요청", eventInfo);
-          // setRegData(eventInfo);
-        } catch (err) {
-          console.error(err);
-        }
-      } else {
-        console.error("eventId fetch error");
-      }
-    };
-    fetchInfo();
-  }, [eventId]);
-
   return (
     <>
       <Header children="펀딩 등록하기" />
@@ -46,7 +29,7 @@ const index = () => {
             id="product-link"
             placeholder="상품 구매 링크 입력"
             value={productLink}
-            onChange={(e) => setProductLink(e.target.value)}
+            onChange={(e) => setProductLink(e.target.value.trim())}
           />
           <F.Button onClick={handleClick}>다음</F.Button>
 

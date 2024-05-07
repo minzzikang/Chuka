@@ -7,6 +7,7 @@ import Board from "@/components/celebration/Rolling/RollingMain/Board";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchEventInfo } from "@/apis/event";
+import { fetchFundings } from "@/apis/funding";
 
 export const Container = styled.div`
   display: flex;
@@ -58,7 +59,7 @@ const RollingMainPage = () => {
   })
   
   useEffect(() => {
-    const fetchInfo = async () => {
+    const fetchEvent = async () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
@@ -71,18 +72,33 @@ const RollingMainPage = () => {
         console.error("eventId 이상");
       }
     }
-    fetchInfo()
+    fetchEvent()
+
+    const fetchFunding = async () => {
+      if (typeof eventId == "string") {
+        try {
+          const fundingInfo = await fetchFundings(eventId)
+          console.log('펀딩 목록 조회 후후후후', fundingInfo);
+        } catch (err) {
+          console.error(err);
+          throw err
+        }
+      } else {
+        console.error("eventId 이상");
+      }
+    }
+    fetchFunding()
   }, [eventId])
 
-  useEffect(() => {
-    // eventInfo가 변경될 때마다 실행되는 코드
-    console.log('eventInfo가 변경되었습니다:', eventInfoData);
-  }, [eventInfoData]);
+  // useEffect(() => {
+  //   // eventInfo가 변경될 때마다 실행되는 코드
+  //   console.log('eventInfo가 변경되었습니다:', eventInfoData);
+  // }, [eventInfoData]);
 
   return (
     <>
       <Container>
-        <RollingHeader />
+        <RollingHeader bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} nickname={eventInfoData.nickname} />
         <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
         <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
