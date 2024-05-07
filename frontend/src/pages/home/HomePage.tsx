@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/stores/user";
 import * as h from "./HomePage.styled";
@@ -8,17 +8,44 @@ import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
 import HomeReview from "@components/home/HomeReview";
+import { fetchCount } from "@/apis/event";
 
 
 const HomePage = () => {
   const user = useRecoilValue(userState);
   console.log("user", user);
 
+  const [ eventCount, setEventCount] = useState({
+    eventCnt: 0 || null,
+    msgCnt: 0 || null,
+  })
+
+  useEffect(() => {
+    const fetchEventCount = async () => {
+      try {
+        const response = await fetchCount()
+        setEventCount(response)
+      } catch (err) {
+        console.log(err)
+      }
+    }
+    fetchEventCount()
+
+    // const fetchEventList = async () => {
+    //   try {
+    //     const response = await 
+    //   } catch (err) {
+    //     console.log(err)
+    //   }
+
+    // }
+  })
+
   return (
     <>
       <h.Wrap>
         <HomeHeader />
-        <HomeIntro />
+        <HomeIntro eventCnt={eventCount.eventCnt} msgCnt={eventCount.msgCnt}/>
         <HomeEventReg />
         <HomeEventList />
         <HomeReview />
