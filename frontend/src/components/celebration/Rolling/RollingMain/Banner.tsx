@@ -6,39 +6,18 @@ import { IoMdSettings } from "react-icons/io";
 import { fetchEventInfo } from "@/apis/event";
 
 interface BannerInfo {
-  bannerThumbnailUrl?: string;
-  title?: string;
-  date?: string;
-  createTime?: string;
-  nickname?: string;
+  bannerThumbnailUrl: string;
+  title: string;
+  date: string;
+  createTime: string;
+  nickname: string;
 }
 
 const Banner = (props:BannerInfo) => {
 
   const {bannerThumbnailUrl, title, date, createTime, nickname} = props
 
-  // const { eventId, pageUri } = useParams<{
-  //   pageUri: string;
-  //   eventId: string;
-  // }>();
-  // const [values, setValues] = useState<EventInfo | null>(null);
 
-  // useEffect(() => {
-  //   const fetchInfo = async () => {
-  //     if (typeof eventId === "string") {
-  //       try {
-  //         const eventInfo = await fetchEventInfo(eventId);
-  //         // console.log("이벤트get요청", eventInfo);
-  //         setValues(eventInfo);
-  //       } catch (err) {
-  //         console.error(err);
-  //       }
-  //     } else {
-  //       console.error("eventId 이상");
-  //     }
-  //   };
-  //   fetchInfo();
-  // }, [eventId]);
 
   if (!bannerThumbnailUrl) {
     return <p>Loading...</p>;
