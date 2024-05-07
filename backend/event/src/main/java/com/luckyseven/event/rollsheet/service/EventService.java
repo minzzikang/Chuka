@@ -19,7 +19,8 @@ public interface EventService {
     EventDto getEvent(int eventId);
 
     List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
-    List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
+    @Deprecated List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
+    List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize);
     List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize);
 
     EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException;

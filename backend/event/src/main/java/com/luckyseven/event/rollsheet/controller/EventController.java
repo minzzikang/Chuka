@@ -9,9 +9,12 @@ import com.luckyseven.event.rollsheet.dto.CountEventDto;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
+import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import com.luckyseven.event.util.jwt.JWTUtil;
+import com.querydsl.core.Tuple;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -93,12 +96,14 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<?> getEvents(
-            @Parameter(description = "정렬조건: asc=true: 오래된순 asc=false: 최신순", example = "true") @RequestParam(required = false) boolean asc,
+            @Parameter(description = "정렬기준: asc=오래된순 desc=최신순", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
+            @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "date") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
+        log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
         try{
-            List<EventDto> events = eventService.getPublicEvents(asc, page, size);
+            List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
 
             return ResponseEntity.status(200).body(events);
         } catch (Exception e) {
@@ -256,6 +261,5 @@ public class EventController {
         }
 
     }
-
 
 }
