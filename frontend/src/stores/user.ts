@@ -8,10 +8,10 @@ const { persistAtom } = recoilPersist({
 });
 
 const defaultUser = {
-    user_id: '',
-    join_date: '',
+    userId: '',
+    joinDate: '',
     nickname: '',
-    profile_image: '',
+    profileImage: '',
     role: ''
 }
 
