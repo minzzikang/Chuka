@@ -4,6 +4,8 @@ import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
+const url = `/domain`
+
 // 리프레시 토큰 요청
 export const refresh = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
@@ -32,7 +34,7 @@ export const loginSuccess = async (res: { accessToken: string }) => {
 export const fetchUserInfo = () => {
   const accessToken = localStorage.getItem("access_token");
   return axios
-    .get(`${BASE_URL}/users/me`, {
+    .get(`${url}/users/me`, {
       headers: {
         Authorization: `${accessToken}`,
       },
@@ -49,7 +51,7 @@ export const sendFCMToken = async (fcmToken: string) => {
   const accessToken = localStorage.getItem("access_token");
   console.log(`accessToken ==> ${accessToken}, fcmToken ==> ${fcmToken}`)
   try {
-    const response = await axios.post(`${BASE_URL}/users/fcm-token`, {fcmToken}, {
+    const response = await axios.post(`${url}/users/fcm-token`, {fcmToken}, {
       headers: {
         Authorization: `${accessToken}`,
         // 'Content-Type': 'application/json',
@@ -64,7 +66,7 @@ export const sendFCMToken = async (fcmToken: string) => {
 // 로그아웃
 export const logout = async () => {
   const accessToken = localStorage.getItem("access_token");
-  await axios.post(`${BASE_URL}/users/logout`, {
+  await axios.post(`${url}/users/logout`, {
     headers: {
       Authorization: `${accessToken}`,
     },

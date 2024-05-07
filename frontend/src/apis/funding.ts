@@ -9,27 +9,41 @@ const url = `/domain`;
 export const createFunding = async (params: RegDataType) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`${BASE_URL}/fundings`, params, {
+    const response = await axios.post(`${url}/fundings`, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${accessToken}`,
       },
-    })
-    return response.data
+    });
+    return response.data;
   } catch (err) {
-    console.error(err)
-    throw err
-  } 
+    console.error(err);
+    throw err;
+  }
 };
 
 // 이벤트에 해당하는 펀딩 목록 조회
-export const fetchFundings = async (eventId:string) => {
+export const fetchFundings = async (eventId: string) => {
   try {
-    const response = await axios.get(`${BASE_URL}/fundings/events/${eventId}`)
-    return response.data
+    const response = await axios.get(`${url}/fundings/events/${eventId}`);
+    return response.data;
   } catch (err) {
     console.error(err);
-    throw err
+    throw err;
   }
-}
+};
 
+// 나의 펀딩 조회
+export const fetchMyFundings = async () => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.get(`${url}/fundings/me`, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
