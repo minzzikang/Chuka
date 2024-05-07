@@ -11,20 +11,22 @@ export const Container = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 600;
 `;
 
 export const Input = styled.input`
   width: 100%;
-  height: 36px;
+  height: 40px;
   border-radius: 10px;
   padding-left: 10px;
+  font-size: 1em;
 `;
 
-export const BtnWrap = styled.div`
+export const Wrap = styled.div`
   display: flex;
-  gap: 15px;
+  flex-direction: column;
+  gap: 7px;
 `;
 
 export const Button = styled.button<{ $active: boolean }>`
@@ -32,7 +34,7 @@ export const Button = styled.button<{ $active: boolean }>`
   height: 32px;
   background-color: #fff;
   border-radius: 6px;
-  border: 1px solid
+  border: 2px solid
     ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
   color: ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
   font-size: 1em;

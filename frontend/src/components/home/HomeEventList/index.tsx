@@ -31,8 +31,8 @@ const index = () => {
         console.log(err);
       }
     };
-    fetchEventList()
-  });
+    fetchEventList();
+  },[]);
 
   return (
     <h.Container>
