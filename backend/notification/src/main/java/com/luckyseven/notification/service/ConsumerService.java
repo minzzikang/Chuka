@@ -1,5 +1,8 @@
 package com.luckyseven.notification.service;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DdayReceiveDto;
 import com.luckyseven.notification.util.rabbitMQ.req.NotificationReq;
 import com.luckyseven.notification.util.rabbitMQ.req.Topic;
@@ -41,27 +44,30 @@ public class ConsumerService {
 
     @Transactional
     @RabbitListener(queues = EVENT_TO_NOTIFICATION_QUEUE)
-    public void receiveEventMessage(Map<String ,Object> req) {
-        log.info("receiveEventMessage: {}", req.toString());
-        Object o = new Object();
+    public void receiveEventMessage(BaseMessageDto dataSet) {
+        log.info("receiveEventMessage: {}", dataSet.toString());
 
         try {
+            for (Object datum : (List)dataSet.getData()) {
+                System.out.println("datum =>>> "+datum);
+                System.out.println("datum Class =>>> "+datum.getClass());
+                ObjectMapper om = new ObjectMapper();
+                String json = om.writeValueAsString(datum);
+                System.out.println("json = " + json);
+                Map<String, Object> map = om.readValue(json, new TypeReference<Map<String, Object>>() {});
 
-            if (req.get("topic").equals(Topic.DDAY_ALARM)) {
-                log.info("DdayAlarm, data =>> {}", (List<DdayReceiveDto>) req.get("data"));
+                List<String> joinMembers = (List<String>) map.get("joinMembers");
+                String creater = (String) map.get("creater");
+                Integer eventId = (Integer) map.get("eventId");
+                DdayReceiveDto ddayReceiveDto = new DdayReceiveDto(joinMembers, creater, eventId);
+                System.out.println("ddayReceiveDto = " + ddayReceiveDto);
+            }
+            if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
+                log.info("DdayAlarm, data =>> {}", dataSet.getData());
             }
 
-            List<DdayReceiveDto> data = (List<DdayReceiveDto>) req.get("data");
-            log.info("data ===> {}",data);
-            for (DdayReceiveDto datum : data) {
-                log.info("datum.getEventId() ==> {}",datum.getEventId());
-            }
 
 
-//            for (DdayReceiveDto ddayReceiveDto : req) {
-//
-//                log.info("ddayReceiveDto.toString() :{} ",ddayReceiveDto.toString());
-//            }
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
