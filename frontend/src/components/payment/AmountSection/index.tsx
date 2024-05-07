@@ -42,7 +42,7 @@ const index = (props: AmountSectionType) => {
           setAmount(Number(e.target.value))
         }
       />
-      <A.BtnWrap>
+      <A.Wrap>
         {cashList.map((cash, index) => (
           <PayBox
             key={index}
@@ -56,9 +56,6 @@ const index = (props: AmountSectionType) => {
             />
         ))}
 
-
-
-
         {/* <A.Button onClick={onClickCash} $active={targetCash === cashList[0]}>
           {cashList[0].toLocaleString()}
         </A.Button>
@@ -71,7 +68,7 @@ const index = (props: AmountSectionType) => {
         <A.Button onClick={onClickCash} $active={targetCash === cashList[3]}>
           {cashList[3].toLocaleString()}
         </A.Button> */}
-      </A.BtnWrap>
+      </A.Wrap>
     </A.Container>
   );
 };

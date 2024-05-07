@@ -23,16 +23,16 @@ const index = () => {
   };
 
   useEffect(() => {
-    // const fetchEventList = async () => {
-    //   try {
-    //     const response = await fetchList();
-    //     console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
-    //   } catch (err) {
-    //     console.log(err);
-    //   }
-    // };
-    // fetchEventList();
-  });
+    const fetchEventList = async () => {
+      try {
+        const response = await fetchList();
+        console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchEventList();
+  },[]);
 
   return (
     <h.Container>

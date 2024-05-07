@@ -23,7 +23,7 @@ export const Input = styled.input`
   font-size: 1em;
 `;
 
-export const BtnWrap = styled.div`
+export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -34,7 +34,7 @@ export const Button = styled.button<{ $active: boolean }>`
   height: 32px;
   background-color: #fff;
   border-radius: 6px;
-  border: 1px solid
+  border: 2px solid
     ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
   color: ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
   font-size: 1em;
