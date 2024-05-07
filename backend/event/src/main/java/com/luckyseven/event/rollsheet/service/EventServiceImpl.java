@@ -5,11 +5,13 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.message.ProducerService;
+import com.luckyseven.event.message.dto.BaseMessageDto;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
@@ -246,7 +248,10 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public int countParticipantEvent(String userId) {
-        return joinEventRepository.countByUserId(userId);
+//        return joinEventRepository.countByUserId(userId);
+        JoinEventPk joinEventPk = new JoinEventPk();
+        joinEventPk.setUserId(userId);
+        return joinEventRepository.countByJoinEventPKUserId(joinEventPk);
     }
 
     /**
@@ -267,12 +272,15 @@ public class EventServiceImpl implements EventService {
     public ResponseEntity<?> sendDdayalarmTest() {
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
 
-        Map<String,Object> dataSet = new HashMap<>();
-        dataSet.put("topic","DDAY_ALARM");
-        dataSet.put("data",userIdList);
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(userIdList);
+        baseMessageDto.setTopic("DDAY_ALARM");
+//        Map<String,Object> dataSet = new HashMap<>();
+//        dataSet.put("topic","DDAY_ALARM");
+//        dataSet.put("data",userIdList);
 
 
-        producerService.sendNotificationMessage(dataSet);
+        producerService.sendNotificationMessage(baseMessageDto);
 
         log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);

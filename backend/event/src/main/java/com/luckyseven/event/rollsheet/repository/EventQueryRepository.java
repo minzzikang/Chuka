@@ -268,9 +268,9 @@ public class EventQueryRepository {
             ddayReceiveDto.setJoinMembers(joinMembers);
             result.add(ddayReceiveDto);
         }
-        for (DdayReceiveDto ddayReceiveDto : result) {
-            log.info("ddayReceiveDto.toString() => {}", ddayReceiveDto.toString());
-        }
+//        for (DdayReceiveDto ddayReceiveDto : result) {
+//            log.info("ddayReceiveDto.toString() => {}", ddayReceiveDto.toString());
+//        }
         return result;
     }
 }
