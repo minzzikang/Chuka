@@ -13,7 +13,7 @@ import { handleAllowNotification } from "@/services/notificationPermission";
 
 const HomePage = () => {
   const user = useRecoilValue(userState);
-  // console.log("user", user);
+  console.log("user", user);
 
   const [eventCount, setEventCount] = useState({
     eventCnt: 0 || null,
