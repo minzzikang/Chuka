@@ -48,10 +48,10 @@ export const fetchUserInfo = () => {
 
 
 // FCM 기기 토큰 전송
-export const sendFCMToken = async (token: string) => {
+export const sendFCMToken = async (fcmToken: string) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`https://chuka.kr/api/v1/users/fcm-token`, token, {
+    const response = await axios.post(`https://chuka.kr/api/v1/users/fcm-token`, fcmToken, {
       headers: {
         Authorization: `${accessToken}`,
       },
