@@ -51,7 +51,7 @@ export const fetchUserInfo = () => {
 export const sendFCMToken = async (token: string) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`/domain/users/fcm-token`, token, {
+    const response = await axios.post(`https://chuka.kr/api/v1/users/fcm-token`, token, {
       headers: {
         Authorization: `${accessToken}`,
       },
