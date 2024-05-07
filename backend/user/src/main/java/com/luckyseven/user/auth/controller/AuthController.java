@@ -4,6 +4,9 @@ import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
 import com.luckyseven.user.user.service.UserService;
 import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.util.rabbitMQ.ProducerService;
+import com.luckyseven.user.util.rabbitMQ.req.NotificationReq;
+import com.luckyseven.user.util.rabbitMQ.req.Topic;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -132,6 +135,14 @@ public class AuthController {
         return ResponseEntity.status(200).body(newAccessToken);
     }
 
+    private final  ProducerService producerService;
+    @GetMapping("/mqTest")
+    public ResponseEntity mqTest() {
+        NotificationReq req = new NotificationReq("3452659543", Topic.DELETE_USER);
+        producerService.sendNotificationMessage(req);
+
+        return ResponseEntity.status(200).body(null);
+    }
 
 }
 

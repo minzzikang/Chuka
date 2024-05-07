@@ -60,15 +60,15 @@ export default (mode: string) => {
       // },
   
       // CORS -> 프록시 설정
-      proxy:{
-        "/domain":{
-          target:"https://chuka.kr/api/v1",
-          changeOrigin:true,
-          // "domain" -> "https://chuka.kr/api/v1"로 치환 : CORs 에러 회피
-          rewrite: (path) => path.replace(/^\/domain/, ""),
-          // secure:false,
-        }
-      },
+      // proxy:{
+      //   "/domain":{
+      //     target:"https://chuka.kr/api/v1",
+      //     changeOrigin:true,
+      //     // "domain" -> "https://chuka.kr/api/v1"로 치환 : CORs 에러 회피
+      //     rewrite: (path) => path.replace(/^\/domain/, ""),
+      //     // secure:false,
+      //   }
+      // },
       host: true,
       strictPort: true,
       port: 5000,
