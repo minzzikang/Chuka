@@ -1,11 +1,11 @@
-import { authRequest } from "@utils/requestMethods";
+import { BASE_URL, authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`/domain/events`, formdata, {
+    const response = await axios.post(`/${BASE_URL}/events`, formdata, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `${accessToken}`,
@@ -20,7 +20,7 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
-    const response = await axios.get(`/domain/events/${eventId}`);
+    const response = await axios.get(`/${BASE_URL}/events/${eventId}`);
     console.log("이벤트 정보 : ", response.data);
     return response.data;
   } catch (err) {
@@ -41,7 +41,7 @@ export const fetchMyEventList = async (
   participant: boolean
 ) => {
   try {
-    const response = await axios.get(`/domain/events/me`, {
+    const response = await axios.get(`/${BASE_URL}/events/me`, {
       params: {
         page,
         size,
