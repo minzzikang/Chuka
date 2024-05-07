@@ -1,4 +1,4 @@
-import EventBanner from "@common/eventBanner";
+import EventCard from "@common/eventCard";
 import { useEffect, useState } from "react";
 import * as h from "@components/home/HomeEventList/HomeEventList.styled";
 import { fetchList } from "@/apis/event";
@@ -8,11 +8,11 @@ const index = () => {
   const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
   const data = [
     // 이벤트 카드로 대체해 ! -> 캐러셀로 만들자 !
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
+    <EventCard />,
+    <EventCard />,
+    <EventCard />,
+    <EventCard />,
+    <EventCard />,
   ];
 
   const visibleData = isSeeMore ? data.slice(0, 3) : data;
@@ -60,7 +60,7 @@ const index = () => {
 
     </div>
 
-      {data && visibleData.map((item, index) => <EventBanner key={index} />)}
+      {data && visibleData.map((item, index) => <EventCard key={index} />)}
 
       {isSeeMore ? (
         <h.SeeMoreBtn
