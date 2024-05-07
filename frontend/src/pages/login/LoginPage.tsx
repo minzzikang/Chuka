@@ -7,7 +7,6 @@ const LoginPage = () => {
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const REDIRECT_URI2 = import.meta.env.VITE_REDIRECT_URI2;
 
-
   const handleClick = () => {
     // 배포 URL
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
@@ -15,11 +14,10 @@ const LoginPage = () => {
     // 로컬 URL
     const LOCAL_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
 
-    // window.location.href = kakaoURL;
-    window.location.href = LOCAL_URL;
+    window.location.href = kakaoURL;
+    // window.location.href = LOCAL_URL;
 
   };
-
 
   return (
     <l.Container>

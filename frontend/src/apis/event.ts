@@ -1,11 +1,13 @@
 import { BASE_URL, authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
+const url = `https://chuka.kr/api/v1`
+
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`/${BASE_URL}/events`, formdata, {
+    const response = await axios.post(`${BASE_URL}/events`, formdata, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `${accessToken}`,
@@ -20,20 +22,35 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
-    const response = await axios.get(`/${BASE_URL}/events/${eventId}`);
-    console.log("이벤트 정보 : ", response.data);
+    const response = await axios.get(`${BASE_URL}/events/${eventId}`);
     return response.data;
   } catch (err) {
     console.error(err);
     throw err;
   }
-
-  // return axios.get(`/domain/events/${eventId}`).then((res) => {
-  //   console.log("이벤트 정보", res.data);
-  //   return res.data;
-  // });
 };
 
+// 이벤트, 축하메시지 갯수 조회
+export const fetchCount = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/events/count`)
+    return response.data
+  } catch (err) { 
+    console.error(err);
+    throw err
+  }
+}
+
+// 이벤트 목록 조회
+export const fetchList = async () => {
+  try {
+    const response = await axios.get(`${BASE_URL}/events`)
+    return response.data
+  } catch (err) {
+    console.error(err);
+    throw err
+  }
+}
 // 내 이벤트 조회
 export const fetchMyEventList = async (
   page: number,
@@ -41,7 +58,7 @@ export const fetchMyEventList = async (
   participant: boolean
 ) => {
   try {
-    const response = await axios.get(`/${BASE_URL}/events/me`, {
+    const response = await axios.get(`${BASE_URL}/events/me`, {
       params: {
         page,
         size,
