@@ -4,6 +4,7 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
+import com.luckyseven.event.message.ProducerService;
 import com.luckyseven.event.rollsheet.dto.CountEventDto;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
@@ -38,6 +39,12 @@ public class EventController {
 
     private final EventService eventService;
     private final RollSheetService rollSheetService;
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        return eventService.sendDdayalarmTest();
+//        return ResponseEntity.ok().body("보냄");
+    }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger에서 Authorization token 설정 必")
@@ -249,4 +256,6 @@ public class EventController {
         }
 
     }
+
+
 }

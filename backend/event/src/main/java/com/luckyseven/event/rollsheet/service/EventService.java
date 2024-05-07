@@ -7,6 +7,7 @@ import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -26,5 +27,8 @@ public interface EventService {
     boolean isMyEvent(int eventId, String userId);
 
     int countEvent();
+
+    void sendDdayalarm() throws IOException;
+    ResponseEntity<?> sendDdayalarmTest() ;
 
 }
