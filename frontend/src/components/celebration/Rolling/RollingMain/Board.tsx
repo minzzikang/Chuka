@@ -1,5 +1,3 @@
-import CorkBoard from "/img/img_rolling_theme_cork.jpg";
-import BlackBoard from "/img/img_rolling_theme_board.jpg";
 import Drawer from "@components/drawer";
 import RModal from "@common/responsiveModal";
 import FundingModal from "./FundingModal";
@@ -43,7 +41,7 @@ const Board = (props: BoardProps) => {
 
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
-    console.log("여기에요 전 !!!!!!!!!!", values)
+    console.log("여기에요 전 !!!!!!!!!!", values);
     console.log(values.eventId);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
@@ -57,22 +55,23 @@ const Board = (props: BoardProps) => {
     if (!loading) {
       setLoading(true);
       if (typeof values.eventId.toString() === "string") {
-      try {
-        const newRollList = await fetchRollSheets(
-          values.eventId.toString(),
-          currentPage,
-          6
-        );
-        if (newRollList && newRollList.length > 0) {
-          setRolls([...rolls, ...newRollList]);
-          setCurrentPage((prevPage) => prevPage + 1);
+        try {
+          const newRollList = await fetchRollSheets(
+            values.eventId.toString(),
+            currentPage,
+            6
+          );
+          if (newRollList && newRollList.length > 0) {
+            setRolls([...rolls, ...newRollList]);
+            setCurrentPage((prevPage) => prevPage + 1);
+          }
+        } catch (err) {
+          console.error(err);
+        } finally {
+          setLoading(false);
         }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
       }
-    }}
+    }
   };
 
   const handleScroll = () => {
@@ -113,19 +112,13 @@ const Board = (props: BoardProps) => {
 
     window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScroll); //cleanup
+      window.removeEventListener("scroll", handleScroll);
     };
   }, [eventId, currentPage]);
 
-  useEffect(() => {
-    console.log("Updated rolls:", rolls);
-  }, [rolls]);
-
-  const Theme = values
-    ? values.theme === "CORK_BOARD"
-      ? CorkBoard
-      : BlackBoard
-    : CorkBoard;
+  // useEffect(() => {
+  //   console.log("Updated rolls:", rolls);
+  // }, [rolls]);
 
   return (
     <>
@@ -147,13 +140,12 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        <b.RollingTheme $src={Theme} />
+        <b.RollingTheme $theme={theme} />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
 
       <Drawer
         isOpen={isDrawerOpen}
-        // eventId={values?.eventId}
         onClose={() => setDrawerOpen(false)}
       />
 
