@@ -13,7 +13,7 @@ const index = (props:AmountSectionType) => {
   return (
     <F.Container>
       <F.Text>최종 결제금액</F.Text>
-      <F.Text>{amount}원</F.Text>
+      <F.Text>{amount.toLocaleString()}원</F.Text>
     </F.Container>
   );
 };
