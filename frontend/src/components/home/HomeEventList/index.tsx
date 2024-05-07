@@ -2,6 +2,7 @@ import EventBanner from "@common/eventBanner";
 import { useEffect, useState } from "react";
 import * as h from "@components/home/HomeEventList/HomeEventList.styled";
 import { fetchList } from "@/apis/event";
+import Pagination from "@common/pagination";
 
 const index = () => {
   const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
@@ -17,6 +18,7 @@ const index = () => {
   const visibleData = isSeeMore ? data.slice(0, 3) : data;
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [page, setPage] = useState(1);
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
@@ -25,14 +27,16 @@ const index = () => {
   useEffect(() => {
     const fetchEventList = async () => {
       try {
-        const response = await fetchList();
+        const response = await fetchList(true, 1, 3);
         console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
+        
+
       } catch (err) {
         console.log(err);
       }
     };
     fetchEventList();
-  },[]);
+  }, []);
 
   return (
     <h.Container>
@@ -51,6 +55,10 @@ const index = () => {
           조회수순
         </h.FilterText>
       </h.FilterWrap>
+    <div style={{display:'flex', justifyContent: 'center', alignItems:'center'}}> 
+      <Pagination totalPage={54} limit={5} page={page} setPage={setPage} />
+
+    </div>
 
       {data && visibleData.map((item, index) => <EventBanner key={index} />)}
 
