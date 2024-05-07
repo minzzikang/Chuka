@@ -15,6 +15,7 @@ public interface FundingService {
     FundingDetailRes getFunding(int fundingId);
     List<FundingRes> getMyFunding(String userId);
     @Deprecated Funding modifyFunding(final int fundingId, final FundingCreateReq dto, String userId) throws EntityNotFoundException, IllegalAccessException;
+    void stopFundings(int fundingId, String userId) throws NotLoggedInUserException, EntityNotFoundException;
     void deleteFundings(int fundingId, String userId) throws NotLoggedInUserException, IllegalStateException, EntityNotFoundException;
     void deleteFundingsByEventId(int eventId) throws IllegalStateException, EntityNotFoundException;
 }
