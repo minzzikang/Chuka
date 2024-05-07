@@ -25,7 +25,7 @@ const index = () => {
         const data = await fetchReview();
         setReviewData(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching Review data:", error);
         throw error;
       }
     };
