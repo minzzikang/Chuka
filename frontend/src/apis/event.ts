@@ -1,5 +1,7 @@
 import axios from "axios";
 
+const url = `https://chuka.kr/api/v1`
+
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
   const accessToken = localStorage.getItem("access_token");
@@ -10,6 +12,8 @@ export const createEventReg = async (formdata: any) => {
         Authorization: `${accessToken}`,
       },
     });
+
+
     return response.data;
   } catch (err) {
     console.error(err);
@@ -28,13 +32,23 @@ export const fetchEventInfo = async (eventId: string): Promise<any> => {
   }
 };
 
-
 // 이벤트, 축하메시지 갯수 조회
 export const fetchCount = async () => {
   try {
     const response = await axios.get(`/domain/events/count`)
     return response.data
   } catch (err) { 
+    console.error(err);
+    throw err
+  }
+}
+
+// 
+export const fetchList = async () => {
+  try {
+    const response = await axios.get(`/domain/events`)
+    return response.data
+  } catch (err) {
     console.error(err);
     throw err
   }
