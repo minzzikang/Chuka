@@ -52,8 +52,8 @@ const index = () => {
     console.log(regData);
     try {
       const response = await createFunding(regData)
-      console.log("찐찐찐찐찐찐찐찐찐찐찐찐",response);
-      // setIsRegOpen(true);
+      console.log("찐찐찐찐찐찐찐찐찐찐찐찐", response);
+      setIsRegOpen(true);
     } catch (err) {
       console.error(err)
     }
@@ -121,7 +121,7 @@ const index = () => {
                   endDate: (e.target.value).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"),
                 }))
               }
-              maxLength={8}
+              maxLength={10}
             />
           </F.Inner>
           <F.Inner>
