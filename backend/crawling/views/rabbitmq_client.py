@@ -39,7 +39,7 @@ def receive_message():
         print(" [x] Received", data.get('productUrl'))
         selectors = get_selectors(data.get('productUrl'))
         info = extract_shopping_info(data.get('productUrl'), selectors)
-        info = {'fundingId': data.get('fundingId'), 'userId': data.get('userId')}
+        info.update({'fundingId': data.get('fundingId'), 'userId': data.get('userId')})
         if selectors is None:
             info.update({"status": 401, "message": "Unsupported shopping site"})
             print(info)
@@ -48,7 +48,7 @@ def receive_message():
         
         try:
 
-            if all(value for value in [info.get('productImageUrl'), info.get('productPrice'), info.get('productName')]):
+            if info.get("productImageUrl") and info.get("productName") and info.get("productPrice"):
                 info.update({"status": 200, "message": ""})
             else:
                 info.update({"status": 400, "message": "Please check the product details page again."})
