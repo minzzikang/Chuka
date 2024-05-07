@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 const PaymentPage = () => {
   const navigate = useNavigate();
   const [payData, setPayData] = useState({
-    amount: 0,
+    amount: "",
     nickname: "",
     comment: "",
   });

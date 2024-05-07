@@ -4,7 +4,9 @@ import com.github.f4b6a3.ulid.UlidCreator;
 import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
+import com.luckyseven.event.message.ProducerService;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
+import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
@@ -17,6 +19,9 @@ import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,6 +37,7 @@ import java.util.NoSuchElementException;
 public class EventServiceImpl implements EventService {
 
     private final FileService fileService;
+    private final ProducerService producerService;
 
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
@@ -93,7 +99,26 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
-        List<EventDto> events = eventQueryRepository.getPublicEvents(isAsc, page, pageSize);
+        List<EventDto> events = eventQueryRepository.getPublicEventsByCreateTime(isAsc, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    @Override
+    public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
+        List<EventDto> events;
+        if (sort.equals("participants")) {
+            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+        } else {
+            events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
+        }
+
         for (EventDto eventDto : events) {
             if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
                 eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
@@ -205,4 +230,27 @@ public class EventServiceImpl implements EventService {
         return Math.toIntExact(eventRepository.count());
     }
 
+    /**
+     * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
+     * 알림 서버에 보낸다.
+     * @throws IOException
+     */
+    @Async
+    @Scheduled(cron = "0 0 9 * * ?")
+    @Override
+    public void sendDdayalarm() throws IOException {
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+
+    }
+
+    @Override
+    public ResponseEntity<?> sendDdayalarmTest() {
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+        producerService.sendNotificationMessage(userIdList);
+
+        log.info(" ** userIdList : {}",userIdList);
+        return ResponseEntity.ok().body(userIdList);
+    }
 }
