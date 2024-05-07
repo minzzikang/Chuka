@@ -21,7 +21,6 @@ export const createEventReg = async (formdata: any) => {
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
     const response = await axios.get(`/domain/events/${eventId}`)
-    console.log("이벤트 정보 : ",response.data);
     return response.data
 
   } catch (err) { 
