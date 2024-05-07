@@ -20,16 +20,36 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
-    const response = await axios.get(`/domain/events/${eventId}`)
-    return response.data
-
-  } catch (err) { 
+    const response = await axios.get(`/domain/events/${eventId}`);
+    console.log("이벤트 정보 : ", response.data);
+    return response.data;
+  } catch (err) {
     console.error(err);
-    throw err
+    throw err;
   }
 
   // return axios.get(`/domain/events/${eventId}`).then((res) => {
   //   console.log("이벤트 정보", res.data);
   //   return res.data;
   // });
+};
+
+// 내 이벤트 조회
+export const fetchMyEventList = async (
+  page: number,
+  size: number,
+  participant: boolean
+) => {
+  try {
+    const response = await axios.get(`/domain/events/me`, {
+      params: {
+        page,
+        size,
+        participant,
+      },
+    });
+    console.log("내 이벤트", response.data);
+  } catch (err) {
+    console.error(err);
+  }
 };
