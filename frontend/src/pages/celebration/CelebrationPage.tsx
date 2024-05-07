@@ -1,7 +1,7 @@
 import Navbar from "@common/navbar";
 import Header from "@common/header";
 import Celebration from "@components/celebration";
-import RModal from '@common/responsiveModal'
+import RModal from '@common/homeResModal'
 import CelebrationModal from './CelebrationModal'
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
