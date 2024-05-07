@@ -28,6 +28,9 @@ public interface EventService {
     boolean isMyEvent(int eventId, String userId);
 
     int countEvent();
+    int countPublicEvent();
+    int countMyEvent(String userId);
+    int countParticipantEvent(String userId);
 
     void sendDdayalarm() throws IOException;
     ResponseEntity<?> sendDdayalarmTest() ;
