@@ -46,14 +46,17 @@ export const Container = styled.div`
   }
 `;
 
-export const RollingTheme = styled.div<{ $src: string }>`
+export const RollingTheme = styled.div<{ $theme: string }>`
   width: 100%;
   height: 100vh;
   min-height: 77vh;
   opacity: 0.7;
   position: relative;
   min-height: 100vh;
-  background-image: url(${(props) => props.$src});
+  background-image: ${(props) =>
+    props.$theme === "CORK_BOARD"
+      ? `url("/img/img_rolling_theme_cork.jpg")`
+      : `url("/img/img_rolling_theme_board.jpg")`};
   background-repeat: repeat-y;
   background-size: cover;
 `;
@@ -81,7 +84,7 @@ export const Card = styled.div<{
   width: 150px;
   height: 150px;
   margin: 10px;
-  z-index: 200;
+  z-index: 250;
   flex-direction: column;
   justify-content: center;
   align-items: center;
