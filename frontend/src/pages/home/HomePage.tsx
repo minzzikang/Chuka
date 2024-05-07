@@ -13,24 +13,25 @@ import { handleAllowNotification } from "@/services/notificationPermission";
 
 const HomePage = () => {
   const user = useRecoilValue(userState);
-  console.log("user", user);
+  // console.log("user", user);
 
-  const [ eventCount, setEventCount] = useState({
+  const [eventCount, setEventCount] = useState({
     eventCnt: 0 || null,
     msgCnt: 0 || null,
-  })
+  });
 
   useEffect(() => {
     const fetchEventCount = async () => {
       try {
-        const response = await fetchCount()
-        setEventCount(response)
+        const response = await fetchCount();
+        setEventCount(response);
       } catch (err) {
-        console.log(err)
+        console.log(err);
       }
-    }
-    fetchEventCount()
-  })
+    };
+    fetchEventCount();
+  }, []);
+
   useEffect(() => {
     const notificationTimeout = setTimeout(() => {
       handleAllowNotification();
@@ -43,7 +44,7 @@ const HomePage = () => {
     <>
       <h.Wrap>
         <HomeHeader />
-        <HomeIntro eventCnt={eventCount.eventCnt} msgCnt={eventCount.msgCnt}/>
+        <HomeIntro eventCnt={eventCount.eventCnt} msgCnt={eventCount.msgCnt} />
         <HomeEventReg />
         <HomeEventList />
         <HomeReview />

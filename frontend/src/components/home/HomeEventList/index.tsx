@@ -17,6 +17,7 @@ const index = () => {
   const visibleData = isSeeMore ? data.slice(0, 3) : data;
 
   const [activeIdx, setActiveIdx] = useState<number>(0);
+  const [eventData, setEventData] = useState([]);
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
@@ -27,12 +28,13 @@ const index = () => {
       try {
         const response = await fetchList();
         console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
+        setEventData(response);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchEventList()
-  });
+    fetchEventList();
+  },[]);
 
   return (
     <h.Container>
