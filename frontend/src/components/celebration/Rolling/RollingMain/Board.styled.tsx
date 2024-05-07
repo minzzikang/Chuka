@@ -84,7 +84,7 @@ export const Card = styled.div<{
   width: 150px;
   height: 150px;
   margin: 10px;
-  z-index: 200;
+  z-index: 250;
   flex-direction: column;
   justify-content: center;
   align-items: center;

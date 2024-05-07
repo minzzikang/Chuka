@@ -38,7 +38,6 @@ export const fetchRollSheets = async (
         },
       }
     );
-    console.log("리스트 정보", response.data);
     return response.data;
   } catch (err) {
     console.error(err);
