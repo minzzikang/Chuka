@@ -21,10 +21,12 @@ interface RollingPreviewProps {
 
 const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
   const user = useRecoilValue(userState);
-  const { eventId, pageUri } = useParams<{
-    pageUri: string;
-    eventId: string;
+
+  const { eventId = "", pageUri = "" } = useParams<{
+    pageUri?: string;
+    eventId?: string;
   }>();
+
   const navigate = useNavigate();
 
   const [regData, setRegData] = useState<RegDataProps>(() => {
@@ -69,17 +71,17 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
       formData.append("backgroundImage", regData.backgroundImage);
     }
 
-    if (typeof eventId === "string") {
-      try {
-        const res = await createRollMsg(formData, eventId);
-        console.log("메시지 정보", res);
-        sessionStorage.removeItem("regData");
-        navigate(`/celebrate/rolling/${eventId}/${pageUri}/detail`);
-      } catch (err) {
-        console.error(err);
-      }
-    } else {
-      console.error("eventId 이상");
+    try {
+      const res = await createRollMsg(formData, eventId);
+      // console.log("메시지 정보", res);
+      sessionStorage.removeItem("regData");
+      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}/detail`, {
+        state: {
+          stateEventId: res.eventId,
+        },
+      });
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -96,11 +98,11 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
       </r.Header>
       <r.Container>
         <r.MessageBox
-          bgColor={regData.backgroundColor}
-          bgImage={regData.backgroundImage}
-          fontColor={regData.fontColor}
+          $bgColor={regData.backgroundColor}
+          $bgImage={regData.backgroundImage}
+          $fontColor={regData.fontColor}
           fontFamily={regData.font}
-          shape={regData.shape}
+          $shape={regData.shape}
         >
           <r.InsideText>{regData.content}</r.InsideText>
         </r.MessageBox>

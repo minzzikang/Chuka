@@ -59,7 +59,7 @@ const Board = (props: BoardProps) => {
   const loadMore = async () => {
     if (
       !loading &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 400
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
       setLoading(true);
       try {
