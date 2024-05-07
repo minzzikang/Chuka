@@ -19,17 +19,21 @@ export const Container = styled.div<{ $active: boolean }>`
   border-radius: 6px;
   border: 1px solid
     ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
-  color: ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
+  color: ${colors.inputGray};
   display: flex;
   padding-left: 10px;
   align-items: center;
   gap: 10px;
+  justify-content: space-between;
+  position: relative;
 `;
 
 export const PayBoxWrap = styled.div`
   display: flex;
   flex-direction: column;
   gap: 7px;
+position: absolute;
+left: 23%;
 `;
 
 export const Cost = styled.div`
