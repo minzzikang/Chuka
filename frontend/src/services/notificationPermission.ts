@@ -3,13 +3,21 @@ import { app } from "@/services/initFirebase";
 import { sendFCMToken } from "@/apis/auth";
 
 export const handleAllowNotification = async () => {
+  // console.log("토큰 받아보자..")
   try {
     const permission = await Notification.requestPermission();
+    console.log("permission =>",permission)
 
     if (permission === "granted") {
+      // console.log("===============import.meta.env.VITE_VAPID_KEY================>>",import.meta.env.VITE_VAPID_KEY)
+
+      
       const token = await getToken(getMessaging(app), {
-        vapidKey: import.meta.env.VITE_VAPID_KEY,
+        vapidKey: "BE5_b5CoL_nOSuLlhrjTyPTIurMdPkjPG9ZqTL59m5hRL63FhnImiEip2GFTIvEl0YEjwNkPquUB7TqFVqoRevM",
       });
+
+      console.log("===============token================>>",token)
+
 
       if (token) {
         sendFCMToken(token);
