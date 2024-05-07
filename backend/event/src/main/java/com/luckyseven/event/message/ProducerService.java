@@ -1,5 +1,6 @@
 package com.luckyseven.event.message;
 
+import com.luckyseven.event.message.dto.BaseMessageDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +26,7 @@ public class ProducerService {
 
     @Value("${rabbitmq.event_to_notification.exchange}")
     private String EVENT_TO_NOTIFICATION_EXCHANGE;
-    public void sendNotificationMessage(Map<String ,Object> dataSet) {
+    public void sendNotificationMessage(BaseMessageDto dataSet) {
         rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", dataSet);
     }
 
