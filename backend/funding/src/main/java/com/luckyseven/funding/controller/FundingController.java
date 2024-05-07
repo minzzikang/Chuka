@@ -43,6 +43,7 @@ public class FundingController {
             //log.debug(dto.toString());
             final int fundingId = fundingService.createFunding(dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(fundingId);
+
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
