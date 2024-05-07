@@ -9,5 +9,7 @@ public interface EventRepository extends JpaRepository<Event, Integer> {
 
     Event findByEventId(int eventId);
     List<Event> findByUserId(String userId);
+    int countByVisibility(boolean visibility);
+    int countByUserId(String userId);
 
 }

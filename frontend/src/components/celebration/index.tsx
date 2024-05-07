@@ -21,10 +21,10 @@ const Index = () => {
 
   const navigate = useNavigate();
   const [regData, setRegData] = useState<CelebrationProps>({
-    type: "birthday", // 이벤트 종류
+    type: "BIRTHDAY", // 이벤트 종류
     title: "",
     date: "",
-    theme: "cork_board", // 롤링페이퍼 배경
+    theme: "CORK_BOARD", // 롤링페이퍼 배경
     visibility: true, // 노출 여부
   });
 

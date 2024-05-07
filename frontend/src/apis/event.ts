@@ -2,12 +2,13 @@ import { BASE_URL, authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
 const url = `https://chuka.kr/api/v1`;
+const local = "/domain";
 
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`${BASE_URL}/events`, formdata, {
+    const response = await axios.post(`${local}/events`, formdata, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `${accessToken}`,
@@ -22,7 +23,7 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
-    const response = await axios.get(`${BASE_URL}/events/${eventId}`);
+    const response = await axios.get(`${local}/events/${eventId}`);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -42,18 +43,13 @@ export const fetchCount = async () => {
 };
 
 // 이벤트 목록 조회
-export const fetchList = async (asc: boolean, page: number, size: number) => {
+export const fetchList = async () => {
   try {
-    const response = await axios.get(`/domain/events`, {
-      params: {
-        asc,
-        page,
-        size,
-      },
-    });
+    const response = await axios.get(`${local}/events`);
     return response.data;
   } catch (err) {
     console.error(err);
+    console.log("이벤트 목록 조회 실패");
     throw err;
   }
 };
@@ -64,7 +60,7 @@ export const fetchMyEventList = async (
   participant: boolean
 ) => {
   try {
-    const response = await axios.get(`${BASE_URL}/events/me`, {
+    const response = await axios.get(`${local}/events/me`, {
       params: {
         page,
         size,
