@@ -21,7 +21,7 @@ const LoginRedirectHandler = () => {
     axios
       // Proxy LOCAL 로그인
       // .post("/domain/auth/login/kakao", code)
-      
+
       // 배포 서버 로그인
       .post("https://chuka.kr/api/v1/auth/login/kakao", code)
       .then((res) => {
