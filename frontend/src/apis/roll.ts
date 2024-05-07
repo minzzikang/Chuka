@@ -1,11 +1,13 @@
 import axios from "axios";
 import { BASE_URL, authRequest } from "@utils/requestMethods";
 
+const url = '/domain'
+
 // 롤링페이퍼 등록
 export const createRollMsg = async (formdata: any, eventId: string) => {
   try {
     const response = await axios.post(
-      `${BASE_URL}/events/${eventId}`,
+      `${url}/events/${eventId}`,
       formdata,
       {
         headers: {
@@ -28,7 +30,7 @@ export const fetchRollSheets = async (
 ) => {
   try {
     const response = await axios.get(
-      `${BASE_URL}/events/${eventId}/roll-sheets`,
+      `${url}/events/${eventId}/roll-sheets`,
       {
         params: {
           page,
