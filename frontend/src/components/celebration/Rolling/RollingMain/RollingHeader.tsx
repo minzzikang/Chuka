@@ -5,11 +5,13 @@ import { ShareKakao } from "@/services/kakaoShare";
 import { useNavigate, useParams } from "react-router-dom";
 import * as r from "./RollingHeader.styled";
 
+interface HeaderProps {
+  eventId: number;
+  pageUri: string;
+}
 
-
-const RollingHeader = () => {
-  const { eventId, pageUri } = useParams<{ pageUri: string; eventId: string }>();
-
+const RollingHeader = (props: HeaderProps) => {
+  const { eventId, pageUri } = props;
   const navigate = useNavigate();
 
   const handleAdd = () => {
@@ -17,11 +19,10 @@ const RollingHeader = () => {
     navigate(`/celebrate/rolling/${eventId}/${pageUri}/select`);
   };
 
-
   return (
     <>
       <r.Container>
-        <r.Img src={Logo} alt="logo" onClick={() => (navigate('/')) } />
+        <r.Img src={Logo} alt="logo" onClick={() => navigate("/")} />
         <r.IconWrap>
           <r.BtnWrap onClick={ShareKakao}>
             <r.Icon src={ShareIcon} alt="share" />

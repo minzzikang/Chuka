@@ -63,7 +63,7 @@ const RollingMainPage = () => {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
-          setEventInfoData(() => (eventInfo));
+          setEventInfoData(eventInfo);
         } catch (err) {
           console.error(err);
         }
@@ -82,7 +82,7 @@ const RollingMainPage = () => {
   return (
     <>
       <Container>
-        <RollingHeader />
+        <RollingHeader eventId={eventInfoData.eventId} pageUri={eventInfoData.pageUrl}/>
         <Banner bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl} title={eventInfoData.title} date={eventInfoData.date} createTime={eventInfoData.createTime} nickname={eventInfoData.nickname} />
         <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
       </Container>
