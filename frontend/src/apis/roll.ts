@@ -5,7 +5,7 @@ import { BASE_URL, authRequest } from "@utils/requestMethods";
 export const createRollMsg = async (formdata: any, eventId: string) => {
   try {
     const response = await axios.post(
-      `/${BASE_URL}/events/${eventId}`,
+      `${BASE_URL}/events/${eventId}`,
       formdata,
       {
         headers: {
@@ -28,7 +28,7 @@ export const fetchRollSheets = async (
 ) => {
   try {
     const response = await axios.get(
-      `/${BASE_URL}/events/${eventId}/roll-sheets`,
+      `${BASE_URL}/events/${eventId}/roll-sheets`,
       {
         params: {
           page,
