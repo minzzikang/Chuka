@@ -1,4 +1,3 @@
-import { authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
 // 이벤트 등록
@@ -27,9 +26,16 @@ export const fetchEventInfo = async (eventId: string): Promise<any> => {
     console.error(err);
     throw err
   }
-
-  // return axios.get(`/domain/events/${eventId}`).then((res) => {
-  //   console.log("이벤트 정보", res.data);
-  //   return res.data;
-  // });
 };
+
+
+// 이벤트, 축하메시지 갯수 조회
+export const fetchCount = async () => {
+  try {
+    const response = await axios.get(`/domain/events/count`)
+    return response.data
+  } catch (err) { 
+    console.error(err);
+    throw err
+  }
+}
