@@ -49,18 +49,13 @@ public class ConsumerService {
 
         try {
             for (Object datum : (List)dataSet.getData()) {
-                System.out.println("datum =>>> "+datum);
-                System.out.println("datum Class =>>> "+datum.getClass());
                 ObjectMapper om = new ObjectMapper();
                 String json = om.writeValueAsString(datum);
-                System.out.println("json = " + json);
-                Map<String, Object> map = om.readValue(json, new TypeReference<Map<String, Object>>() {});
+                DdayReceiveDto data = om.readValue(json, new TypeReference<DdayReceiveDto>() {});
 
-                List<String> joinMembers = (List<String>) map.get("joinMembers");
-                String creater = (String) map.get("creater");
-                Integer eventId = (Integer) map.get("eventId");
-                DdayReceiveDto ddayReceiveDto = new DdayReceiveDto(joinMembers, creater, eventId);
-                System.out.println("ddayReceiveDto = " + ddayReceiveDto);
+//                System.out.println("data = " + data);
+//                System.out.println("data Id = " + data.getEventId());
+//                System.out.println("data Members = " + data.getJoinMembers());
             }
             if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
                 log.info("DdayAlarm, data =>> {}", dataSet.getData());
