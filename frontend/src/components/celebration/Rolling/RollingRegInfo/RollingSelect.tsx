@@ -38,8 +38,8 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
     return savedData
       ? JSON.parse(savedData)
       : {
-          shape: "",
-          backgroundColor: "",
+          shape: "RECTANGLE",
+          backgroundColor: "#c7ffff",
           backgroundImage: "",
           font: "",
           fontColor: "",
@@ -136,7 +136,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
           {shapeList.map((shape) => (
             <r.ShapeButton
               key={shape}
-              isActive={regData.shape === shapeMap[shape]}
+              $isActive={regData.shape === shapeMap[shape]}
               onClick={() => onClickShape(shape)}
             >
               {shape === "사각형" ? (
@@ -155,7 +155,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
               setIsRegOpen(true);
               setBackgroundType("color");
             }}
-            isActive={backgroundType === "color"}
+            $isActive={backgroundType === "color"}
           >
             색상 선택
           </r.BackgroundButton>
@@ -169,7 +169,7 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
             accept="image/*"
           />
           <r.BackgroundButton
-            isActive={backgroundType === "img"}
+            $isActive={backgroundType === "img"}
             onClick={triggerFileInput}
           >
             <IoMdAdd /> 사진 업로드
@@ -184,6 +184,15 @@ const RollingSelect = ({ onUpdateData }: RollingSelectProps) => {
         </r.Wrap>
         {selectedFile && backgroundType === "img" && (
           <r.ImagePreview src={selectedFile} alt="Preview" />
+        )}
+        {regData.backgroundColor && (
+          <div
+            style={{
+              width: "50px",
+              height: "50px",
+              backgroundColor: regData.backgroundColor,
+            }}
+          ></div>
         )}
       </r.Container>
     </>
