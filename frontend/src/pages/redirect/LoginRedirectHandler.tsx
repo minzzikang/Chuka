@@ -4,7 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
 import { fetchUserInfo } from "@/apis/auth";
-
+import { handleAllowNotification } from "@/services/notificationPermission";
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
   const navigate = useNavigate();
@@ -31,7 +31,9 @@ const LoginRedirectHandler = () => {
         localStorage.setItem("refresh_token", refreshToken);
 
         fetchUserInfo().then((res) => setUserState(res));
-
+        //  여기서
+        handleAllowNotification();
+        //
         if (accessToken) {
           if (prevUrl) {
             try {

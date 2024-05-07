@@ -8,11 +8,19 @@ import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
 import HomeReview from "@components/home/HomeReview";
-
+import { handleAllowNotification } from "@/services/notificationPermission";
 
 const HomePage = () => {
   const user = useRecoilValue(userState);
   console.log("user", user);
+
+  useEffect(() => {
+    const notificationTimeout = setTimeout(() => {
+      handleAllowNotification();
+    }, 3000); // 10초 후에 실행
+
+    return () => clearTimeout(notificationTimeout);
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때 한 번만 실행되도록 함
 
   return (
     <>
