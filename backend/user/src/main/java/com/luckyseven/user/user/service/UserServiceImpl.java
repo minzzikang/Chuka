@@ -7,8 +7,10 @@ import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
+import com.luckyseven.user.util.feign.NotificationFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
 import com.luckyseven.user.util.redis.RedisService;
+import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -37,6 +39,8 @@ public class UserServiceImpl implements UserService {
     private final FcmTokenRepository fcmTokenRepository;
     private final UserQueryRepository userQueryRepository;
 
+    private final NotificationFeignClient notificationFeignClient;
+
     @Value("${kakao.api.admin.key}")
     private String adminKey;
 
@@ -63,13 +67,18 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String userId) {
-        // TODO: 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
+    public void deleteUser(String userId, String accessToken) {
+        // 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
         User user = userRepository.findByUserId(userId);
 
+        // 알림 삭제
 
 
         userRepository.delete(user);
+
+        // jwt token 삭제
+        redisService.saveLogoutToken(accessToken);
+        redisService.delete(userId);
 
         // 카카오 연결 끊기
         unlink(userId);

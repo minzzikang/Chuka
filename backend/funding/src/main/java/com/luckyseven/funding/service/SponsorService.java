@@ -6,5 +6,5 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 
 public interface SponsorService {
-    int joinFunding(int fundingId, FundingJoinReq dto, String userId);
+    int joinFunding(int fundingId, FundingJoinReq dto, String userId) throws IllegalStateException;
 }

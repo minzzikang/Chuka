@@ -112,7 +112,7 @@ public class EventController {
             @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
-            @Parameter(description = "participant", example = "true") @RequestParam boolean participant,
+            @Parameter(description = "participant", example = "true") @RequestParam(required = false) boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
         List<EventDto> results;

@@ -142,6 +142,23 @@ public class FundingServiceImpl implements FundingService {
     }
 
     @Override
+    public void stopFundings(int fundingId, String userId) throws NotLoggedInUserException, EntityNotFoundException {
+        //레코드 없음 -> 404 응답
+        Funding funding = fundingRepository.findById(fundingId).orElseThrow(() -> new EntityNotFoundException()); //람다 표현식 필요
+
+        //작성자와 수정을 시도하려는 사람의 ID 불일치 -> 401 응답
+        if(!userId.equals(funding.getUserId())) {
+            log.info("펀딩 정보 삭제 권한 없음 (로그인 유저 불일치)");
+            throw new NotLoggedInUserException();
+        }
+
+        if(!funding.getSponsorList().isEmpty()) {
+            funding.setStatus(FundingStatus.STOP);
+            fundingRepository.save(funding);
+        }
+    }
+
+    @Override
     public void deleteFundings(int fundingId, String userId) throws NotLoggedInUserException, IllegalStateException, EntityNotFoundException {
         //레코드 없음 -> 404 응답
         Funding funding = fundingRepository.findById(fundingId).orElseThrow(() -> new EntityNotFoundException()); //람다 표현식 필요
