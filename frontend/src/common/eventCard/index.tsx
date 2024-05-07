@@ -2,17 +2,17 @@ import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
 
-const Container = styled.div<{ $thumbNail: boolean }>`
+const Container = styled.div<{ $thumbNailUrl: string }>`
   background-image: ${(props) =>
-    props.$thumbNail
-      ? `url('/img/img_loopy.jpg')`
-      : "url('/img/img_chuka_info.png')"};
+    props.$thumbNailUrl
+      ? `url('${props.$thumbNailUrl}')`
+      : "url('/icon/apple-touch-icon.png')"};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   /* background-size: contain; */
-  width: 100%;
-  height: 150px;
+  width: 120px;
+  height: 120px;
   border-radius: 30px;
   position: relative;
 `;
@@ -37,39 +37,43 @@ const WrapOverlay = styled.div`
   align-items: center;
 `;
 
-const Img = styled.img`
-  width: 31.5px;
-  height: 34.5px;
-`;
-
 const DescWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  gap: 4px;
   /* align-items: center; */
 `;
 const Title = styled.div`
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 700;
 `;
 
-const Text = styled.div`
-  font-size: 0.9em;
+const Date = styled.div`
+  font-size: 0.5em;
 `
 
-const index = () => {
-  const thumbNail = true;
+export type EventCardType = {
+    title:string
+    createTime:string
+    date: string
+    thumbNailUrl: string
+}
+
+const index = (props: EventCardType) => {
+  const {title, createTime, date, thumbNailUrl} = props
+
+  const formatCreateTime = createTime.split("T")[0]
 
   return (
-    <Container $thumbNail={thumbNail}>
+    <Container $thumbNailUrl={thumbNailUrl}>
       <Wrap>
         <WrapOverlay>
-          <Img src="/img/img_default_profile.png" />
           <DescWrap>
-            <Title>{"이벤트 제목"}</Title>
-            <Text>
-              {"2024-05-07"} ~ {"2024-05-20"}
-            </Text>
+            <Title>{title}</Title>
+            <Date>
+              {formatCreateTime} ~ {date}
+            </Date>
           </DescWrap>
         </WrapOverlay>
       </Wrap>
