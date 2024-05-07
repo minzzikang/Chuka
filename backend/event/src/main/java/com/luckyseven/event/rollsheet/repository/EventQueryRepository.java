@@ -3,7 +3,6 @@ package com.luckyseven.event.rollsheet.repository;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
-import com.luckyseven.event.rollsheet.entity.QEvent;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -71,7 +70,7 @@ public class EventQueryRepository {
         return result;
     }
 
-    public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
+    public List<EventDto> getPublicEventsByCreateTime(boolean isAsc, int page, int pageSize) {
         OrderSpecifier<String> orderSpecifier;
         if (isAsc) {
             orderSpecifier = createTimeOrderSpecifierAsc;
@@ -101,6 +100,80 @@ public class EventQueryRepository {
                 .fetch();
 
         return results;
+    }
+
+    public List<EventDto> getPublicEventsByCreateTime(String order, int page, int pageSize) {
+        OrderSpecifier<String> orderSpecifier;
+        if (order.equals("asc")) {
+            orderSpecifier = createTimeOrderSpecifierAsc;
+        } else {
+            orderSpecifier = createTimeOrderSpecifierDesc;
+        }
+
+        List<EventDto> results = jpaQueryFactory.select(
+                        Projections.bean(EventDto.class,
+                                event.eventId,
+                                event.userId,
+                                event.nickname,
+                                event.pageUri,
+                                event.type,
+                                event.title,
+                                event.date,
+                                event.banner,
+                                event.bannerThumbnail,
+                                event.theme,
+                                event.visibility,
+                                event.createTime))
+                .from(event)
+                .where(event.visibility.eq(true))
+                .orderBy(orderSpecifier)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+
+        return results;
+    }
+
+    public List<EventDto> getPublicEventsByParticipants(String sort, int page, int pageSize) {
+
+        OrderSpecifier<Long> asc = joinEvent.joinEventPK.event.eventId.count().asc();
+        OrderSpecifier<Long> desc = joinEvent.joinEventPK.event.eventId.count().desc();
+
+        OrderSpecifier<Long> order;
+        if (sort.equals("asc")) {
+            order = asc;
+        } else {
+            order = desc;
+        }
+
+        return jpaQueryFactory
+                .select(
+                        Projections.bean(
+                                EventDto.class,
+                                event.eventId,
+                                event.userId,
+                                event.nickname,
+                                event.pageUri,
+                                event.type,
+                                event.title,
+                                event.date,
+                                event.banner,
+                                event.bannerThumbnail,
+                                event.theme,
+                                event.visibility,
+                                event.createTime
+                        )
+                )
+                .from(event)
+                .leftJoin(joinEvent)
+                .on(event.eventId.eq(joinEvent.joinEventPK.event.eventId))
+                .where(event.visibility.eq(true))
+                .groupBy(event.eventId)
+                .orderBy(order)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+
     }
 
     public List<EventDto> getPublicEventsOrderByDate(boolean isAsc, int page, int pageSize) {
@@ -196,7 +269,7 @@ public class EventQueryRepository {
             result.add(ddayReceiveDto);
         }
         for (DdayReceiveDto ddayReceiveDto : result) {
-            log.info("ddayReceiveDto.toString() => {}",ddayReceiveDto.toString());
+            log.info("ddayReceiveDto.toString() => {}", ddayReceiveDto.toString());
         }
         return result;
     }

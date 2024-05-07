@@ -26,7 +26,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -100,7 +99,26 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize) {
-        List<EventDto> events = eventQueryRepository.getPublicEvents(isAsc, page, pageSize);
+        List<EventDto> events = eventQueryRepository.getPublicEventsByCreateTime(isAsc, page, pageSize);
+        for (EventDto eventDto : events) {
+            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+            }
+        }
+
+        return events;
+    }
+
+    @Override
+    public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
+        List<EventDto> events;
+        if (sort.equals("participants")) {
+            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+        } else {
+            events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
+        }
+
         for (EventDto eventDto : events) {
             if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
                 eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
