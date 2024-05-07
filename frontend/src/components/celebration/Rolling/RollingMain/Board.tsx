@@ -24,10 +24,10 @@ interface BoardProps {
 
 const Board = (props: BoardProps) => {
   const { eventId, theme } = props;
-  const [values, setValues] = useState<BoardProps>({
-    eventId: eventId,
-    theme: theme,
-  });
+  // const [values, setValues] = useState<BoardProps>({
+  //   eventId: eventId,
+  //   theme: theme,
+  // });
 
   const navigate = useNavigate();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
@@ -41,8 +41,7 @@ const Board = (props: BoardProps) => {
 
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
-    console.log("여기에요 전 !!!!!!!!!!", values);
-    console.log(values.eventId);
+    console.log("이벤트아이디~~", eventId);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {
@@ -54,24 +53,25 @@ const Board = (props: BoardProps) => {
   const loadMore = async () => {
     if (!loading) {
       setLoading(true);
-      if (typeof values.eventId.toString() === "string") {
-        try {
-          const newRollList = await fetchRollSheets(
-            values.eventId.toString(),
-            currentPage,
-            6
-          );
-          if (newRollList && newRollList.length > 0) {
-            setRolls([...rolls, ...newRollList]);
-            setCurrentPage((prevPage) => prevPage + 1);
-          }
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
+      // if (typeof values.eventId.toString() === "string") {
+      try {
+        const newRollList = await fetchRollSheets(
+          // values.eventId.toString(),
+          eventId.toString(),
+          currentPage,
+          6
+        );
+        if (newRollList && newRollList.length > 0) {
+          setRolls([...rolls, ...newRollList]);
+          setCurrentPage((prevPage) => prevPage + 1);
         }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
     }
+    // }
   };
 
   const handleScroll = () => {
@@ -85,28 +85,30 @@ const Board = (props: BoardProps) => {
 
   useEffect(() => {
     const fetchData = async () => {
-      if (typeof eventId === "number") {
-        setLoading(true);
+      // if (typeof eventId === "number") {
+      setLoading(true);
 
-        try {
-          const RollList = await fetchRollSheets(
-            values.eventId.toString(),
-            currentPage,
-            6
-          );
-          console.log("롤리스트", RollList);
+      try {
+        const RollList = await fetchRollSheets(
+          // values.eventId.toString(),
+          eventId.toString(),
+          currentPage,
+          6
+        );
+        console.log("롤리스트", RollList);
 
-          if (RollList && RollList.length > 0) {
-            setRolls(RollList);
-            setCurrentPage(currentPage + 1);
-          }
-          console.log("values", rolls);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
+        if (RollList && RollList.length > 0) {
+          setRolls(RollList);
+          console.log("rolls:", rolls);
+          setCurrentPage(currentPage + 1);
+          console.log("curPage: ", currentPage);
         }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
       }
+      // }
     };
     fetchData();
 
@@ -144,10 +146,7 @@ const Board = (props: BoardProps) => {
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
 
-      <Drawer
-        isOpen={isDrawerOpen}
-        onClose={() => setDrawerOpen(false)}
-      />
+      <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
 
       {isModalOpen && (
         <RModal
