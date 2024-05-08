@@ -1,5 +1,6 @@
 package com.luckyseven.user.user.service;
 
+import com.luckyseven.user.message.dto.BaseMessageDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.FcmToken;
@@ -9,11 +10,9 @@ import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
 import com.luckyseven.user.util.feign.NotificationFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
-import com.luckyseven.user.util.rabbitMQ.ProducerService;
-import com.luckyseven.user.util.rabbitMQ.req.NotificationReq;
-import com.luckyseven.user.util.rabbitMQ.req.Topic;
+import com.luckyseven.user.message.ProducerService;
+import com.luckyseven.user.message.dto.Topic;
 import com.luckyseven.user.util.redis.RedisService;
-import feign.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -77,8 +76,10 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByUserId(userId);
 
         // 알림 삭제
-        NotificationReq req = new NotificationReq(userId, Topic.DELETE_USER);
-        producerService.sendNotificationMessage(req);
+        BaseMessageDto dataSet = new BaseMessageDto();
+        dataSet.setTopic(Topic.DELETE_USER);
+        dataSet.setData(userId);
+        producerService.sendNotificationMessage(dataSet);
 
         userRepository.delete(user);
 

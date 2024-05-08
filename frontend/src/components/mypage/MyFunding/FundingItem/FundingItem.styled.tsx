@@ -30,6 +30,7 @@ width: 100%;
 export const RowWrap = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 `
 
 export const InfoWrap = styled.div`
@@ -65,6 +66,7 @@ export const GoalAmount = styled.div`
   height: 12px;
   background-color: #f2f4f6;
   border-radius: 6px;
+  margin-top: 10px;
 `;
 
 export const CurrentAmount = styled.div<{ $percent: number }>`

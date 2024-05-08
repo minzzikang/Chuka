@@ -1,4 +1,4 @@
-package com.luckyseven.notification.util.rabbitMQ.req;
+package com.luckyseven.notification.message.dto;
 
 public enum Topic {
 
