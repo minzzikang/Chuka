@@ -1,40 +1,44 @@
-import EventBanner from "@common/eventBanner";
+import EventCard from "@common/eventCard";
 import { useEffect, useState } from "react";
 import * as h from "@components/home/HomeEventList/HomeEventList.styled";
 import { fetchList } from "@/apis/event";
+import Pagination from "@common/pagination";
+import styled from "styled-components";
+
+export const DataWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const PagiWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 const index = () => {
-  const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
-  const data = [
-    // 이벤트 카드로 대체해 ! -> 캐러셀로 만들자 !
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
-    <EventBanner />,
-  ];
-
-  const visibleData = isSeeMore ? data.slice(0, 3) : data;
-
   const [activeIdx, setActiveIdx] = useState<number>(0);
-  const [eventData, setEventData] = useState([]);
+  const [page, setPage] = useState(1);
+  const [recentEventData, setRecentEventData] = useState([]);
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
   };
 
   useEffect(() => {
-    const fetchEventList = async () => {
+    const fetchRecentEventList = async () => {
       try {
-        const response = await fetchList();
+        const response = await fetchList(true, page, 3);
         console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
-        setEventData(response);
+        setRecentEventData(response);
       } catch (err) {
         console.log(err);
       }
     };
-    fetchEventList();
-  },[]);
+    fetchRecentEventList();
+  }, [page]);
 
   return (
     <h.Container>
@@ -50,29 +54,30 @@ const index = () => {
           onClick={() => onClickFilter(1)}
           $active={activeIdx === 1}
         >
-          조회수순
+          참여순
         </h.FilterText>
       </h.FilterWrap>
+      {activeIdx === 0 && (
+        <DataWrap>
+          {recentEventData &&
+            recentEventData.map((item, index) => (
+              <EventCard
+                key={index}
+                title={item.title}
+                createTime={item.createTime}
+                date={item.date}
+                thumbNailUrl={item.bannerThumbnailUrl}
+                eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
 
-      {data && visibleData.map((item, index) => <EventBanner key={index} />)}
-
-      {isSeeMore ? (
-        <h.SeeMoreBtn
-          onClick={() => {
-            setIsSeeMore(false);
-          }}
-        >
-          더 많은 ㅊㅋ 보기
-        </h.SeeMoreBtn>
-      ) : (
-        <h.SeeMoreBtn
-          onClick={() => {
-            setIsSeeMore(true);
-          }}
-        >
-          접기
-        </h.SeeMoreBtn>
+              // http://localhost:5000/celebrate/rolling/1/01HWC09NK9Y5GA5F53WYNPST1C
+              />
+            ))}
+        </DataWrap>
       )}
+
+      <PagiWrap>
+        <Pagination totalPage={20} limit={5} page={page} setPage={setPage} />
+      </PagiWrap>
     </h.Container>
   );
 };

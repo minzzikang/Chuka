@@ -25,8 +25,8 @@ export const ShareKakao = (props:ShareKakaoType) => {
         imageUrl:
           bannerThumbnailUrl ? `${bannerThumbnailUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
         link: {
-          mobileWebUrl: `${eventUrl}`, // 이벤트 URL
-          webUrl: `${eventUrl}`, // 이벤트 URL
+          mobileWebUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 URL
+          webUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 URL
         },
       },
       itemContent: {
@@ -73,8 +73,8 @@ export const ShareKakao = (props:ShareKakaoType) => {
         {
           title: "이벤트 바로가기",
           link: {
-            mobileWebUrl: `${eventUrl}`, // 이벤트 링크
-            webUrl: `${eventUrl}`, //  
+            mobileWebUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 링크
+            webUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr' //  
           },
         },
       ],
