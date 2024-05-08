@@ -6,6 +6,6 @@ import lombok.ToString;
 @Data
 @ToString
 public class BaseMessageDto {
-    private String topic;
+    private Topic topic;
     private Object data;
 }

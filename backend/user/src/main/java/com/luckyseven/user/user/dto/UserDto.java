@@ -3,15 +3,9 @@ package com.luckyseven.user.user.dto;
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.entity.Roles;
 import com.luckyseven.user.user.entity.User;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
-import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.ColumnDefault;
 
 import java.time.LocalDateTime;
 

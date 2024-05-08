@@ -26,7 +26,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConsumerService {
 
-    //    private final String NOTIFICATION_QUEUE = "notification.queue";
     private final String USER_TO_NOTIFICATION_QUEUE = "user_to_notification.queue";
     private final String EVENT_TO_NOTIFICATION_QUEUE = "event_to_notification.queue";
 
@@ -89,6 +88,8 @@ public class ConsumerService {
                     String json = om.writeValueAsString(responseBody);
                     DeduplicatedUsersIdDto data = om.readValue(json, new TypeReference<DeduplicatedUsersIdDto>() {
                     });
+
+
 
 
 

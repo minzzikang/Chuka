@@ -169,7 +169,7 @@ public class UserController {
     })
     public ResponseEntity<?> logout(
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
-    ) throws IOException {
+    ) {
         try {
             String accessToken = authorization.substring("Bearer ".length());
             userService.logout(accessToken);

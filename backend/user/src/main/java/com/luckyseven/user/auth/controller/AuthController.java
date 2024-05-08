@@ -143,9 +143,7 @@ public class AuthController {
 
     private final  ProducerService producerService;
     @GetMapping("/mqTest")
-    public ResponseEntity mqTest() {
-//        NotificationReq req = new NotificationReq("3452659543", Topic.DELETE_USER);
-//        producerService.sendNotificationMessage(req);
+    public ResponseEntity<?> mqTest() {
 
         BaseMessageDto dataSet = new BaseMessageDto();
         dataSet.setTopic(Topic.DELETE_USER);

@@ -18,7 +18,7 @@ public class UserQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    QFcmToken fcmToken = QFcmToken.fcmToken1;
+    final QFcmToken fcmToken = QFcmToken.fcmToken1;
 
     public List<String> getFcmTokenWithUserId(String userId) {
         List<String> result = jpaQueryFactory

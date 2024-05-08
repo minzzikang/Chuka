@@ -134,6 +134,43 @@ public class EventQueryRepository {
         return results;
     }
 
+    public List<EventDto> getPublicEventsByRollingPaperCounts(String sort, int page, int pageSize) {
+        OrderSpecifier<Integer> asc = event.rollingPaperCnt.asc();
+        OrderSpecifier<Integer> desc = event.rollingPaperCnt.desc();
+
+        OrderSpecifier<Integer> order;
+        if (sort.equals("asc")) {
+            order = asc;
+        } else {
+            order = desc;
+        }
+
+        return jpaQueryFactory
+                .select(
+                        Projections.bean(
+                                EventDto.class,
+                                event.eventId,
+                                event.userId,
+                                event.nickname,
+                                event.pageUri,
+                                event.type,
+                                event.title,
+                                event.date,
+                                event.banner,
+                                event.bannerThumbnail,
+                                event.theme,
+                                event.visibility,
+                                event.createTime
+                        )
+                )
+                .from(event)
+                .where(event.visibility.eq(true))
+                .orderBy(order)
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+    }
+
     public List<EventDto> getPublicEventsByParticipants(String sort, int page, int pageSize) {
 
         OrderSpecifier<Long> asc = joinEvent.joinEventPK.event.eventId.count().asc();

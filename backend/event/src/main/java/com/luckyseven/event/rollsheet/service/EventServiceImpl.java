@@ -6,6 +6,7 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.message.ProducerService;
 import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
@@ -118,7 +119,8 @@ public class EventServiceImpl implements EventService {
     public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
         List<EventDto> events;
         if (sort.equals("participants")) {
-            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+            // 롤링페이퍼 개수
+            events = eventQueryRepository.getPublicEventsByRollingPaperCounts(sort, page, pageSize);
         } else {
             events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
         }
@@ -132,6 +134,24 @@ public class EventServiceImpl implements EventService {
 
         return events;
     }
+//    @Override @Deprecated
+//    public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
+//        List<EventDto> events;
+//        if (sort.equals("participants")) {
+//            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+//        } else {
+//            events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
+//        }
+//
+//        for (EventDto eventDto : events) {
+//            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+//                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+//                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+//            }
+//        }
+//
+//        return events;
+//    }
 
     /**
      * 내가 참여한 기록이 있는 이벤트 조회
@@ -238,10 +258,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public int countParticipantEvent(String userId) {
-//        return joinEventRepository.countByUserId(userId);
-        JoinEventPk joinEventPk = new JoinEventPk();
-        joinEventPk.setUserId(userId);
-        return joinEventRepository.countByJoinEventPKUserId(joinEventPk);
+        return joinEventRepository.countByJoinEventPKUserId(userId);
     }
 
     /**
@@ -264,10 +281,7 @@ public class EventServiceImpl implements EventService {
 
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
-        baseMessageDto.setTopic("DDAY_ALARM");
-//        Map<String,Object> dataSet = new HashMap<>();
-//        dataSet.put("topic","DDAY_ALARM");
-//        dataSet.put("data",userIdList);
+        baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
 
         producerService.sendNotificationMessage(baseMessageDto);
