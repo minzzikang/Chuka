@@ -1,4 +1,4 @@
-package com.luckyseven.notification.util.rabbitMQ.req;
+package com.luckyseven.notification.message.dto;
 
 
 import io.swagger.v3.oas.annotations.media.Schema;

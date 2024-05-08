@@ -1,11 +1,12 @@
-package com.luckyseven.notification.service;
+package com.luckyseven.notification.message;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DdayReceiveDto;
-import com.luckyseven.notification.util.rabbitMQ.req.NotificationReq;
-import com.luckyseven.notification.util.rabbitMQ.req.Topic;
+import com.luckyseven.notification.service.NotificationService;
+import com.luckyseven.notification.message.dto.NotificationReq;
+import com.luckyseven.notification.message.dto.Topic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -13,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
