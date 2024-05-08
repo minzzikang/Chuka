@@ -45,11 +45,11 @@ export const fetchCount = async () => {
 };
 
 // 이벤트 목록 조회
-export const fetchList = async (asc: boolean, page: number, size: number) => {
+export const fetchList = async (sort: string, page: number, size: number) => {
   try {
     const response = await axios.get(`/domain/events`, {
       params: {
-        asc,
+        sort,
         page,
         size,
       },
