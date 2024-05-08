@@ -2,39 +2,96 @@ import * as f from "./FundingItem.styled";
 import { useNavigate } from "react-router-dom";
 import Trash from "/icon/icon_trash.png";
 import Badge from "@components/badge";
+import { useEffect, useState } from "react";
+import { fetchFunding } from "@/apis/funding";
 
 type FundingType = {
-  percent: number;
+  eventTitle: string;
+  status: string;
+  goalAmount: number;
+  remainAmount: number;
+  dday: number;
+  sponsors: [];
 };
 
-const index = (props: FundingType) => {
-  const { percent } = props;
+interface FundingProps {
+  fundingId: number;
+  introduce: string;
+  fundingResult: string;
+  productImage: string;
+  startDate: string;
+  endDate: string;
+}
+
+const index = (props: FundingProps) => {
+  const {
+    fundingId,
+    introduce,
+    fundingResult,
+    productImage,
+    startDate,
+    endDate,
+  } = props;
+
   const navigate = useNavigate();
+  const [image, setImage] = useState();
+  const [values, setValues] = useState<FundingType>();
+
+  // const Dday = startDate - endDate;
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const Funding = await fetchFunding(fundingId);
+        console.log("펀딩 데이터", Funding);
+        setValues(Funding);
+      } catch (err) {
+        console.error(err);
+      }
+    };
+    fetchData();
+  }, [fundingId]);
+
+  const formatAmount = values?.goalAmount
+    .toString()
+    .replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ",");
+
+  const calculateGoal = () => {
+    if (!values) return 0;
+    const percent = ((values.goalAmount - values.remainAmount) / values.goalAmount) * 100;
+    return percent.toFixed(0);
+  };
 
   return (
-    <f.Container onClick={() => {}}>
-      <f.Img src="/img/img_default_funding.png" alt="picture" />
+    <f.Container onClick={() => navigate(`/`)}>
+      <f.Img
+        src={productImage || "/img/img_default_funding.png"}
+        alt="picture"
+      />
       <f.Wrap>
         <f.RowWrap>
           <f.InfoWrap>
-            <p>이벤트 제목</p>
-            <f.Date>날짜</f.Date>
+            <p>{introduce}</p>
+            <f.Date>
+              {startDate} ~ {endDate}
+            </f.Date>
           </f.InfoWrap>
           <f.IconWrap>
-            <Badge />
+            <Badge 
+            result={fundingResult}
+            />
             <img src={Trash} alt="delete" onClick={() => {}} />
           </f.IconWrap>
         </f.RowWrap>
         <f.MoneyInfoWrap>
           <f.RowWrap>
-            <p>모금액 {400000} 원</p>
+            <p>모금액 {formatAmount} 원</p>
             <div>
-              <f.HighLight>37%</f.HighLight>
-              <span>{"D-20"}</span>
+              <f.HighLight>{calculateGoal()}%</f.HighLight>
+              <span>D-{values?.dday}</span>
             </div>
           </f.RowWrap>
           <f.GoalAmount>
-            <f.CurrentAmount $percent={percent} />
+            <f.CurrentAmount $percent={+calculateGoal()} />
           </f.GoalAmount>
         </f.MoneyInfoWrap>
       </f.Wrap>
