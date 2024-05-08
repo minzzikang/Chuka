@@ -18,17 +18,19 @@ public class RabbitConfig {
     private String USER_EXCHANGE;
     @Value("${rabbitmq.notification.exchange}")
     private String NOTIFICATION_EXCHANGE;
+
     @Value("${rabbitmq.user.queue}")
     private String USER_QUEUE;
     @Value("${rabbitmq.notification.queue}")
     private String NOTIFICATION_QUEUE;
+
 
     @Bean
     public Queue userQueue() {
         return new Queue(USER_QUEUE, false);
     }
     @Bean
-    Queue notificationQueue() {
+    public Queue notificationQueue() {
         return new Queue(NOTIFICATION_QUEUE, false);
     }
 
@@ -37,7 +39,7 @@ public class RabbitConfig {
         return new TopicExchange(USER_EXCHANGE);
     }
     @Bean
-    TopicExchange notificationExchange() {
+    public TopicExchange notificationExchange() {
         return new TopicExchange(NOTIFICATION_EXCHANGE);
     }
 
@@ -51,9 +53,10 @@ public class RabbitConfig {
         return BindingBuilder.bind(userQueue).to(userExchange).with("");
     }
     @Bean
-    Binding bindingNotification(@Qualifier("notificationQueue") Queue notificationQueue, @Qualifier("notificationExchange") TopicExchange notificationExchange) {
+    public Binding bindingNotification(@Qualifier("notificationQueue") Queue notificationQueue, @Qualifier("notificationExchange") TopicExchange notificationExchange) {
         return BindingBuilder.bind(notificationQueue).to(notificationExchange).with("");
     }
+
 
     /**
      * Byte 배열 메세지를 JSON으로 간주하여 변환하는 역할
