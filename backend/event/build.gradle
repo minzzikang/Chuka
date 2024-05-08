@@ -27,7 +27,7 @@ ext {
 def generated = 'src/main/generated'
 
 // querydsl QClass 파일 생성 위치를 지정
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
@@ -99,6 +99,10 @@ dependencies {
 
 	// mq
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
+
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
 
 }
 
