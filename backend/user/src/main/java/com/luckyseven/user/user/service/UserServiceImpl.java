@@ -1,5 +1,7 @@
 package com.luckyseven.user.user.service;
 
+import com.luckyseven.user.message.dto.BaseMessageDto;
+import com.luckyseven.user.user.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.FcmToken;
@@ -7,7 +9,10 @@ import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
+import com.luckyseven.user.util.feign.NotificationFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.message.ProducerService;
+import com.luckyseven.user.message.dto.Topic;
 import com.luckyseven.user.util.redis.RedisService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -37,6 +42,10 @@ public class UserServiceImpl implements UserService {
     private final FcmTokenRepository fcmTokenRepository;
     private final UserQueryRepository userQueryRepository;
 
+    private final NotificationFeignClient notificationFeignClient;
+
+    private final ProducerService producerService;
+
     @Value("${kakao.api.admin.key}")
     private String adminKey;
 
@@ -63,13 +72,21 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void deleteUser(String userId) {
-        // TODO: 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
+    public void deleteUser(String userId, String accessToken) {
+        // 알림 삭제, 회원 삭제 + FCM TOKEN 삭제
         User user = userRepository.findByUserId(userId);
 
-
+        // 알림 삭제
+        BaseMessageDto dataSet = new BaseMessageDto();
+        dataSet.setTopic(Topic.DELETE_USER);
+        dataSet.setData(userId);
+        producerService.sendNotificationMessage(dataSet);
 
         userRepository.delete(user);
+
+        // jwt token 삭제
+        redisService.saveLogoutToken(accessToken);
+        redisService.delete(userId);
 
         // 카카오 연결 끊기
         unlink(userId);
@@ -98,6 +115,12 @@ public class UserServiceImpl implements UserService {
 
         // accessToken blackList 처리
         redisService.saveLogoutToken(accessToken);
+    }
+
+    @Override
+    public DeduplicatedUsersIdDto findAllUsersFcmToken(DeduplicatedUsersIdDto deduplicatedUsersIdDto) {
+        deduplicatedUsersIdDto = userQueryRepository.findAllUsersFcmToken(deduplicatedUsersIdDto);
+        return deduplicatedUsersIdDto;
     }
 
     private String unlink(String userId) {

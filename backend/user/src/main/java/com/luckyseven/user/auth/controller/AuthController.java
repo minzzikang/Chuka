@@ -2,8 +2,11 @@ package com.luckyseven.user.auth.controller;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
+import com.luckyseven.user.message.dto.BaseMessageDto;
 import com.luckyseven.user.user.service.UserService;
 import com.luckyseven.user.util.jwt.JWTUtil;
+import com.luckyseven.user.message.ProducerService;
+import com.luckyseven.user.message.dto.Topic;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -12,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -92,6 +96,8 @@ public class AuthController {
     @Operation(summary = "AccessToken 재발급", description = "RefreshToken으로 AccessToken을 재발급한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "401", description = "토큰 인증 실패"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> reissueRefreshToken(
@@ -103,6 +109,9 @@ public class AuthController {
             log.info("refreshToken: {}", refreshToken);
 
             String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+            if (newAccessToken == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token type 불일치");
+            }
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("Authorization", "Bearer " + newAccessToken);
@@ -113,7 +122,7 @@ public class AuthController {
         } catch (Exception e) {
             log.error(e.getMessage());
 
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body("access-token 발급 실패");
         }
     }
 
@@ -132,6 +141,17 @@ public class AuthController {
         return ResponseEntity.status(200).body(newAccessToken);
     }
 
+    private final  ProducerService producerService;
+    @GetMapping("/mqTest")
+    public ResponseEntity<?> mqTest() {
+
+        BaseMessageDto dataSet = new BaseMessageDto();
+        dataSet.setTopic(Topic.DELETE_USER);
+        dataSet.setData("12345678");
+        producerService.sendNotificationMessage(dataSet);
+
+        return ResponseEntity.status(200).body(null);
+    }
 
 }
 

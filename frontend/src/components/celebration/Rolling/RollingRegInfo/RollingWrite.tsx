@@ -1,58 +1,118 @@
 import { colors } from "@styles/theme";
+import ColorSelectModal from "./ColorSelectModal";
+import Recg from "/img/img_recgPaper.png";
+import Circle from "/img/img_circlePaper.png";
 import * as r from "./RollingWrite.styled";
-import { useState, useEffect } from "react";
+import { IoMdAdd } from "react-icons/io";
+import { useState, useRef, ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/stores/user";
+import { createRollMsg } from "@/apis/roll";
 
 interface RegDataProps {
   shape: string;
   backgroundColor: string;
-  backgroundImage: string;
+  backgroundImage: File | null;
   font: string;
   fontColor: string;
   content: string;
   nickname: string;
 }
 
-interface RollingWriteProps {
-  onUpdateData: (data: RegDataProps) => void;
-}
+const shapeMap: { [key: string]: string } = {
+  사각형: "RECTANGLE",
+  원형: "CIRCLE",
+};
 
-const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
-  const { eventId, pageUri } = useParams<{
-    pageUri: string;
-    eventId: string;
-  }>();
+const RollingWrite = () => {
+  const user = useRecoilValue(userState);
   const navigate = useNavigate();
 
-  const [regData, setRegData] = useState<RegDataProps>(() => {
-    const savedData = sessionStorage.getItem("regData");
-    return savedData
-      ? JSON.parse(savedData)
-      : {
-          shape: "",
-          backgroundColor: "",
-          backgroundImage: "",
-          font: "",
-          fontColor: "",
-          content: "",
-          nickname: "",
-        };
+  const { eventId = "", pageUri = "" } = useParams<{
+    pageUri?: string;
+    eventId?: string;
+  }>();
+
+  const [regData, setRegData] = useState<RegDataProps>({
+    shape: "RECTANGLE",
+    backgroundColor: "",
+    backgroundImage: null,
+    content: "",
+    font: "PRETENDARD",
+    fontColor: "#00000",
+    nickname: user.nickname || "",
   });
 
-  useEffect(() => {
-    console.log("롤링데이터", regData);
-    sessionStorage.setItem("regData", JSON.stringify(regData));
-    if (regData.backgroundImage) {
-      sessionStorage.setItem("selectedFileUrl", regData.backgroundImage);
-    }
-  }, [regData]);
+  const [backgroundType, setBackgroundType] = useState<string>("");
+  const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
+  const [selectedFile, setSelectedFile] = useState<string>("");
+  const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
 
-  useEffect(() => {
-    const savedData = sessionStorage.getItem("regData");
-    if (savedData) {
-      setRegData(JSON.parse(savedData));
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const shapeList: string[] = ["사각형", "원형"];
+
+  const onClickShape = (shape: string) => {
+    const englishShape = shapeMap[shape];
+
+    setRegData((prevData) => ({
+      ...prevData,
+      shape: englishShape,
+    }));
+  };
+
+  const handleSelectColor = (color: string) => {
+    setRegData((prevData) => ({
+      ...prevData,
+      backgroundColor: color,
+      backgroundImage: null,
+    }));
+    setSelectedFile("");
+  };
+
+  const handleFileInput = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files ? e.target.files[0] : null;
+
+    if (file) {
+      const fileURL = URL.createObjectURL(file);
+      setSelectedFile(fileURL); // blob url (string)
+
+      setRegData((prevData) => ({
+        ...prevData,
+        backgroundImage: file,
+        backgroundColor: "",
+      }));
+      setBackgroundType("img");
     }
-  }, []);
+  };
+
+  const triggerFileInput = () => {
+    fileInputRef.current?.click();
+    setBackgroundType("img");
+  };
+
+  const handleSubmit = async () => {
+    setSaveModalOpen(false);
+
+    const formData = new FormData();
+
+    formData.append("shape", regData.shape);
+    formData.append("backgroundColor", regData.backgroundColor);
+    formData.append("content", regData.content);
+    formData.append("font", regData.font);
+    formData.append("nickname", regData.nickname);
+    if (regData.backgroundImage) {
+      formData.append("backgroundImage", regData.backgroundImage);
+    }
+
+    try {
+      const res = await createRollMsg(formData, eventId);
+      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}`);
+    } catch (err) {
+      console.error(err);
+    }
+  };
 
   const [selectedColor, setSelectedColor] = useState<string>("black");
   const [selectedFont, setSelectedFont] = useState<string>("Pretendard");
@@ -68,7 +128,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     colors.redFont,
   ];
 
-  const handleSelectColor = (color: string) => {
+  const handleSelectFontColor = (color: string) => {
     setSelectedColor(color);
     setRegData((prevData: any) => ({
       ...prevData,
@@ -84,13 +144,9 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
     }));
   };
 
-  const handleSubmit = () => {
-    onUpdateData(regData);
-    navigate(`/celebrate/rolling/${eventId}/${pageUri}/preview`);
-  };
-
   const handleBack = () => {
-    navigate(`/celebrate/rolling/${eventId}/${pageUri}/select`);
+    alert("작성한 내용이 저장되지 않습니다. 이 페이지를 떠나겠습니까?");
+    window.history.back();
   };
 
   return (
@@ -98,15 +154,17 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
       <r.Header>
         <r.Icon onClick={handleBack} />
         <span>메시지 작성하기</span>
-        <button onClick={handleSubmit}>다음</button>
       </r.Header>
       <r.Container>
         <r.MessageBox
           id="content"
           font={selectedFont}
           $backColor={regData.backgroundColor}
+          $backImage={selectedFile}
           placeholder="내용을 작성해주세요."
           style={{ color: regData.fontColor }}
+          $shape={regData.shape}
+          $type={backgroundType}
           value={regData.content}
           maxLength={300}
           onChange={(e) => {
@@ -117,6 +175,20 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
           }}
         />
         <r.Wrap>
+          <span>From:</span>
+          <r.WriterInfo
+            value={regData.nickname}
+            placeholder={user.nickname}
+            maxLength={15}
+            onChange={(e) =>
+              setRegData((prevData) => ({
+                ...prevData,
+                nickname: e.target.value,
+              }))
+            }
+          />
+        </r.Wrap>
+        <r.Wrap>
           {colorList.map((color) => (
             <r.ColorButton
               key={color}
@@ -124,7 +196,7 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
               $isSelected={color === selectedColor}
               onClick={() => {
                 {
-                  handleSelectColor(color);
+                  handleSelectFontColor(color);
                 }
               }}
             />
@@ -150,6 +222,73 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
             나무정원체
           </r.TreegardenButton>
         </r.Wrap>
+        <r.Wrap>
+          {shapeList.map((shape) => (
+            <r.ShapeButton
+              key={shape}
+              $isActive={regData.shape === shapeMap[shape]}
+              onClick={() => onClickShape(shape)}
+            >
+              {shape === "사각형" ? (
+                <r.Img src={Recg} alt={shape} />
+              ) : (
+                <r.Img src={Circle} alt={shape} />
+              )}
+              {shape}
+            </r.ShapeButton>
+          ))}
+        </r.Wrap>
+        <r.Wrap>
+          <r.BackgroundButton
+            onClick={() => {
+              setIsRegOpen(true);
+              setBackgroundType("color");
+            }}
+            $isActive={backgroundType === "color"}
+          >
+            배경색 선택
+          </r.BackgroundButton>
+          <input
+            type="file"
+            style={{ display: "none" }}
+            ref={fileInputRef}
+            name="img"
+            id="img"
+            onChange={handleFileInput}
+            accept="image/*"
+          />
+          <r.BackgroundButton
+            $isActive={backgroundType === "img"}
+            onClick={triggerFileInput}
+          >
+            <IoMdAdd /> 배경 사진 업로드
+          </r.BackgroundButton>
+          {isRegOpen && (
+            <ColorSelectModal
+              name="배경색 선택"
+              onClose={() => setIsRegOpen(false)}
+              onSelectColor={handleSelectColor}
+            />
+          )}
+        </r.Wrap>
+        <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
+        {saveModalOpen && (
+          <>
+            <r.BlackBox onClick={() => setSaveModalOpen(false)} />
+            <r.ModalContainer>
+              <r.P>한 번 작성한 메시지는 삭제나 수정이 불가능합니다.</r.P>
+              <r.P>정말 저장하시겠습니까?</r.P>
+              <r.Button onClick={handleSubmit}>저장하기</r.Button>
+              <r.Backdrop>
+                <img
+                  src={"/icon/icon_close_black.png"}
+                  alt="close"
+                  onClick={() => setSaveModalOpen(false)}
+                />
+              </r.Backdrop>
+            </r.ModalContainer>
+          </>
+        )}
       </r.Container>
     </>
   );

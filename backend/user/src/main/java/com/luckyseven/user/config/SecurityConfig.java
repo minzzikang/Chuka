@@ -50,31 +50,28 @@ public class SecurityConfig {
 
         http
                 .cors((cors) -> cors
-                        .configurationSource(new CorsConfigurationSource() {
-                            @Override
-                            public CorsConfiguration getCorsConfiguration(HttpServletRequest request) {
-                                CorsConfiguration configuration = new CorsConfiguration();
-                                configuration.setAllowedOrigins(
-                                        List.of(
-                                                "http://localhost:8080",
-                                                "http://localhost:5000",
-                                                "https://chuka.kr",
-                                                "http://k10c107.p.ssafy.io:8080",
-                                                "http://k10c107.p.ssafy.io:5000",
-                                                "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
-                                                "http://k10c107.p.ssafy.io:8083",
-                                                "http://k10c107.p.ssafy.io:8084"
-                                        )
-                                );
-                                configuration.setAllowedMethods(Collections.singletonList("*"));
-                                configuration.setAllowCredentials(true);
-                                configuration.setAllowedHeaders(Collections.singletonList("*"));
-                                configuration.setMaxAge(3600L);
-                                configuration.setExposedHeaders(List.of("Set-Cookie", "Authorization", "Refresh-Token"));
+                        .configurationSource(request -> {
+                            CorsConfiguration configuration = new CorsConfiguration();
+                            configuration.setAllowedOrigins(
+                                    List.of(
+                                            "http://localhost:8080",
+                                            "http://localhost:5000",
+                                            "https://chuka.kr",
+                                            "http://k10c107.p.ssafy.io:8080",
+                                            "http://k10c107.p.ssafy.io:5000",
+                                            "http://ec2-43-203-200-59.ap-northeast-2.compute.amazonaws.com:8082",
+                                            "http://k10c107.p.ssafy.io:8083",
+                                            "http://k10c107.p.ssafy.io:8084"
+                                    )
+                            );
+                            configuration.setAllowedMethods(Collections.singletonList("*"));
+                            configuration.setAllowCredentials(true);
+                            configuration.setAllowedHeaders(Collections.singletonList("*"));
+                            configuration.setMaxAge(3600L);
+                            configuration.setExposedHeaders(List.of("Set-Cookie", "Authorization", "Refresh-Token"));
 
-                                return configuration;
+                            return configuration;
 
-                            }
                         }));
         http
                 .csrf((auth) -> auth.disable());
@@ -91,6 +88,7 @@ public class SecurityConfig {
                 .authorizeHttpRequests((auth) -> auth
 //                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/users/**", "/api/v1/auth/**", "/api/v1/test").permitAll()
 //                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated());

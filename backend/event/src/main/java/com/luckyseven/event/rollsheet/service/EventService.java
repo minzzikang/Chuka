@@ -6,8 +6,7 @@ import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
-import com.luckyseven.event.rollsheet.entity.Event;
-import org.springframework.web.multipart.MultipartFile;
+import org.springframework.http.ResponseEntity;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,7 +17,8 @@ public interface EventService {
     EventDto getEvent(int eventId);
 
     List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
-    List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
+    @Deprecated List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
+    List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize);
     List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize);
 
     EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException;
@@ -26,5 +26,11 @@ public interface EventService {
     boolean isMyEvent(int eventId, String userId);
 
     int countEvent();
+    int countPublicEvent();
+    int countMyEvent(String userId);
+    int countParticipantEvent(String userId);
+
+    void sendDdayalarm() throws IOException;
+    ResponseEntity<?> sendDdayalarmTest() ;
 
 }

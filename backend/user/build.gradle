@@ -29,7 +29,7 @@ ext {
 def generated = 'src/main/generated'
 
 // querydsl QClass 파일 생성 위치를 지정
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
 	options.getGeneratedSourceOutputDirectory().set(file(generated))
 }
 
@@ -51,11 +51,19 @@ dependencies {
 	implementation 'org.springframework.cloud:spring-cloud-starter-config'
 	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.security:spring-security-test'
+
+	// rabbitMQ
+	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
 	// assertj
 	testImplementation group: 'org.assertj', name: 'assertj-core', version: '3.25.3'

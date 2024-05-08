@@ -43,6 +43,7 @@ public class FundingController {
             //log.debug(dto.toString());
             final int fundingId = fundingService.createFunding(dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(fundingId);
+
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -102,6 +103,7 @@ public class FundingController {
             description = "실제 api를 요청할 때는 <strong>loggedInUser</strong>가 아니라 헤더에 토큰을 담아보내주세요. <strong>loggedInUser</strong>는 백엔드 게이트웨이에서 토큰을 바꿔서 보낼 예정입니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "403", description = "펀딩에 참여할 수 없음 (펀딩 중지 상태)"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
@@ -109,6 +111,8 @@ public class FundingController {
         try {
             final int sponsorId = sponsorService.joinFunding(fundingId, dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(sponsorId);
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(403)).body("펀딩에 참여할 수 없습니다. (펀딩 중지 상태)");
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -179,6 +183,31 @@ public class FundingController {
             return ResponseEntity.status(HttpStatus.valueOf(401)).body("펀딩 정보를 삭제할 권한이 없습니다. (로그인 유저 불일치)");
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.valueOf(403)).body("펀딩 정보를 삭제할 수 없습니다. (펀딩에 참여한 유저 있음)");
+        } catch (EntityNotFoundException e) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("펀딩 정보를 funding 테이블에서 찾을 수 없습니다.");
+        } catch (Exception e) {
+            log.info("[ERROR] : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+        }
+    }
+
+    @PatchMapping("/{fundingId}")
+    @Operation(
+            summary = "펀딩 중지",
+            description = "실제 api를 요청할 때는 <strong>loggedInUser</strong>가 아니라 헤더에 토큰을 담아보내주세요. <strong>loggedInUser</strong>는 백엔드 게이트웨이에서 토큰을 바꿔서 보낼 예정입니다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "401", description = "펀딩 정보 중지 권한 없음 (로그인 유저 불일치)"),
+            @ApiResponse(responseCode = "404", description = "펀딩 정보 찾을 수 없음"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+
+    public ResponseEntity<?> stopFundings(@PathVariable("fundingId") final int fundingId, @RequestHeader("loggedInUser") String userId) {
+        try {
+            fundingService.stopFundings(fundingId, userId);
+            return ResponseEntity.status(HttpStatus.OK).body("펀딩이 중지되었습니다.");
+        } catch (NotLoggedInUserException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(401)).body("펀딩 정보를 중지할 권한이 없습니다. (로그인 유저 불일치)");
         } catch (EntityNotFoundException e) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("펀딩 정보를 funding 테이블에서 찾을 수 없습니다.");
         } catch (Exception e) {

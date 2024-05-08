@@ -73,7 +73,7 @@ public class RollSheetServiceImpl implements RollSheetService {
         }
 
         // joinEvent 등록
-        if (userId != null && !userId.equals("")) {
+        if (userId != null && !userId.isEmpty() && !event.getUserId().equals(userId)) {
             JoinEvent joinEvent = new JoinEvent();
             joinEvent.setJoinEventPK(new JoinEventPk(event, userId));
             joinEventRepository.save(joinEvent);
@@ -143,5 +143,10 @@ public class RollSheetServiceImpl implements RollSheetService {
     @Override
     public int countRollSheet() {
         return Math.toIntExact(rollSheetRepository.count());
+    }
+
+    @Override
+    public int countRollSheetByEventId(int eventId) {
+        return rollSheetRepository.countByEventId(eventId);
     }
 }
