@@ -48,17 +48,19 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
     sessionStorage.setItem("regData", JSON.stringify(regData));
   }, [regData]);
 
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [cancelModalOpen, setCancelModalOpen] = useState<boolean>(false);
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
+  
 
   const handleCancle = () => {
     sessionStorage.removeItem("regData");
-    setIsModalOpen(false);
+    setCancelModalOpen(false);
     navigate("/");
   };
 
   const handleSubmit = async () => {
     setSaveModalOpen(false);
+    console.log('ssssssssssssssssssssssssssssss',regData.backgroundImage);
 
     const formData = new FormData();
 
@@ -71,11 +73,13 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
       formData.append("backgroundImage", regData.backgroundImage);
     }
 
+    console.log(formData);
+
     try {
       const res = await createRollMsg(formData, eventId);
       // console.log("메시지 정보", res);
       sessionStorage.removeItem("regData");
-      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}/detail`, {
+      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}`, {
         state: {
           stateEventId: res.eventId,
         },
@@ -94,7 +98,7 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
           }
         />
         <span>미리보기</span>
-        <button onClick={() => setIsModalOpen(true)}>취소</button>
+        <button onClick={() => setCancelModalOpen(true)}>취소</button>
       </r.Header>
       <r.Container>
         <r.MessageBox
@@ -121,9 +125,9 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
           />
         </r.Wrap>
         <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
-        {isModalOpen && (
+        {cancelModalOpen && (
           <>
-            <r.BlackBox onClick={() => setIsModalOpen(false)} />
+            <r.BlackBox onClick={() => setCancelModalOpen(false)} />
             <r.ModalContainer>
               <r.P>지금까지 작성된 메시지는 저장되지 않습니다.</r.P>
               <r.P>정말 취소하시겠습니까?</r.P>
@@ -132,7 +136,7 @@ const RollingPreview = ({ onUpdateData }: RollingPreviewProps) => {
                 <img
                   src={"/icon/icon_close_black.png"}
                   alt="close"
-                  onClick={() => setIsModalOpen(false)}
+                  onClick={() => setCancelModalOpen(false)}
                 />
               </r.Backdrop>
             </r.ModalContainer>

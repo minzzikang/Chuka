@@ -1,6 +1,7 @@
 package com.luckyseven.user.user.controller;
 
 import com.luckyseven.user.common.response.BaseResponseBody;
+import com.luckyseven.user.user.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.user.user.dto.FcmTokenDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
@@ -19,6 +20,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
 import java.sql.SQLIntegrityConstraintViolationException;
+import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -131,6 +133,28 @@ public class UserController {
             List<String> results = userService.getUserFcmToken(userId);
 
             return ResponseEntity.status(200).body(results);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @PostMapping("/notifications/fcm-token")
+    @Operation(summary = "D-day 알림에 필요한 fcm token 조회", description = "인자로 받은 회원들의 fcm token을 반환한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "10001", description = "예상치 못한 오류"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<DeduplicatedUsersIdDto> findAllUsersFcmToken(@RequestBody DeduplicatedUsersIdDto deduplicatedUsersIdDto) {
+        log.info("********* users/fcm-token 요청~~~!!!");
+        try {
+//            DeduplicatedUsersIdDto result = new DeduplicatedUsersIdDto();
+
+            deduplicatedUsersIdDto = userService.findAllUsersFcmToken(deduplicatedUsersIdDto);
+
+            return ResponseEntity.status(200).body(deduplicatedUsersIdDto);
+
         } catch (Exception e) {
             log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
