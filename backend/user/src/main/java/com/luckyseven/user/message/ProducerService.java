@@ -1,7 +1,7 @@
-package com.luckyseven.user.util.rabbitMQ;
+package com.luckyseven.user.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luckyseven.user.util.rabbitMQ.req.NotificationReq;
+import com.luckyseven.user.message.dto.BaseMessageDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -16,11 +16,11 @@ public class ProducerService {
     private final RabbitTemplate rabbitTemplate;
     private final ObjectMapper objectMapper;
 
-    @Value("${rabbitmq.notification.exchange}")
-    private String NOTIFICATION_EXCHANGE;
+    @Value("${rabbitmq.user_to_notification.exchange}")
+    private String USER_TO_NOTIFICATION_EXCHANGE;
 
-    public void sendNotificationMessage(NotificationReq req) {
-        rabbitTemplate.convertAndSend(NOTIFICATION_EXCHANGE, "", req);
+    public void sendNotificationMessage(BaseMessageDto dataSet) {
+        rabbitTemplate.convertAndSend(USER_TO_NOTIFICATION_EXCHANGE, "", dataSet);
     }
 
 }
