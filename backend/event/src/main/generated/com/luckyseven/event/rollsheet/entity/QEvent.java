@@ -33,6 +33,8 @@ public class QEvent extends EntityPathBase<Event> {
 
     public final StringPath pageUri = createString("pageUri");
 
+    public final NumberPath<Integer> rollingPaperCnt = createNumber("rollingPaperCnt", Integer.class);
+
     public final EnumPath<Theme> theme = createEnum("theme", Theme.class);
 
     public final StringPath title = createString("title");

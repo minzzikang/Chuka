@@ -49,6 +49,9 @@ public class RollSheetServiceImpl implements RollSheetService {
             throw new NoSuchElementException();
         }
 
+        event.setRollingPaperCnt(event.getRollingPaperCnt()+1);
+        eventRepository.save(event);
+
         RollSheet rollSheet = new RollSheet();
         rollSheet.setEventId(eventId);
         rollSheet.setUserId(userId);
