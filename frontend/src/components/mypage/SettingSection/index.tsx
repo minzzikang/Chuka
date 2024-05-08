@@ -3,6 +3,7 @@ import SettingItem from "./SettingItem";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { defaultUser, userState } from "@stores/user";
 import { logout } from "@/apis/auth";
+import { useNavigate } from "react-router";
 
 export const Container = styled.div`
   display: flex;
@@ -14,6 +15,7 @@ export const Container = styled.div`
 const index = () => {
   const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
+  const navigate = useNavigate()
 
   const handleLogout = async () => {
     try {
@@ -24,6 +26,9 @@ const index = () => {
 
       setUserInfo(defaultUser);
       localStorage.removeItem("currentUser");
+      alert('로그아웃 되었습니다')
+      navigate('/')
+      
     } catch (err) {
       console.error("로그아웃 실패", err);
     }

@@ -91,6 +91,14 @@ export const Icon = styled(IoIosArrowBack)`
   cursor: pointer;
 `;
 
+// background-image: ${(props) =>
+//   props.$thumbNailUrl
+//     ? `url('${props.$thumbNailUrl}')`
+//     : "url('/icon/apple-touch-icon.png')"};
+// background-size: cover;
+// background-position: center;
+// background-repeat: no-repeat;
+
 export const MessageBox = styled.div<{
   $bgColor: string;
   $bgImage: string;
@@ -101,12 +109,12 @@ export const MessageBox = styled.div<{
   display: flex;
   justify-content: center;
   background-color: ${(props) => props.$bgColor || colors.white};
-  background-image: ${(props) => (props.$bgImage ? `url(${bgImage})` : "none")};
+  background-image: ${(props) => (props.$bgImage ? `url('${ props.$bgImage }')` : "none")};
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${({ fontFamily }) => fontFamily || "Pretendard"};
   margin: 20px;
-  border-radius: ${({ shape }) => (shape === "CIRCLE" ? "50%" : "1em")};
-  padding: ${({ shape }) => (shape === "CIRCLE" ? "20px" : "10px")};
+  border-radius: ${({ $shape }) => ( $shape === "CIRCLE" ? "50%" : "1em")};
+  padding: ${({ $shape }) => ( $shape === "CIRCLE" ? "20px" : "10px")};
   font-size: 1.1em;
   background-size: cover;
   background-position: center;
