@@ -2,7 +2,6 @@ package com.luckyseven.user.auth.dto;
 
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
-import com.luckyseven.user.user.dto.UserDto;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.Setter;
@@ -20,12 +19,6 @@ public class KakaoUserDto {
     private Properties properties;
     private KakaoAcount kakaoAcount;
 
-//    public static KakaoUserDto of(UserDto userDto) {
-//        KakaoUserDto kakaoUserDto = new KakaoUserDto();
-//        kakaoUserDto.setId(userDto.getUserId());
-//        kakaoUserDto.setConnectedAt(userDto.getJoinDate());
-//    }
-
     @Setter
     @Getter
     @ToString
@@ -42,7 +35,7 @@ public class KakaoUserDto {
     @ToString
     @RequiredArgsConstructor
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public class KakaoAcount {
+    public static class KakaoAcount {
         private Boolean profileNicknameNeedsAgrement;
         private Boolean profileImageNeedsAgreement;
         private Profile profile;
@@ -53,7 +46,7 @@ public class KakaoUserDto {
     @ToString
     @RequiredArgsConstructor
     @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-    public class Profile {
+    public static class Profile {
         private String nickname;
         private Boolean isDefaultNickname;
     }
