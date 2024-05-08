@@ -24,32 +24,4 @@ public class MongoConfig {
         return new MongoTemplate(mongoClient, "rollingpaper");
     }
 
-//    @Bean
-//    public MongoDatabaseFactory mongoDatabaseFactory() {
-//        return new SimpleMongoClientDatabaseFactory(connectionString);
-//    }
-
-//    @Bean
-//    public MongoTemplate mongoTemplate() {
-//        return new MongoTemplate(mongoDatabaseFactory());
-//    }
-
-//    @Bean
-//    public MongoDatabaseFactory mongoDBFactory() {
-//        return new SimpleMongoClientDatabaseFactory(connectionString);
-//    }
-//
-//    @Bean
-//    public MongoMappingContext mongoMappingContext() {
-//        return new MongoMappingContext();
-//    }
-//
-//    @Bean
-//    public MongoTemplate mongoTemplate() {
-//        DbRefResolver dbRefResolver = new DefaultDbRefResolver(mongoDBFactory());
-//        MappingMongoConverter mongoConverter = new MappingMongoConverter(dbRefResolver, mongoMappingContext());
-//        mongoConverter.setTypeMapper(new DefaultMongoTypeMapper());
-//
-//        return new MongoTemplate(mongoDBFactory(), mongoConverter);
-//    }
 }
