@@ -34,10 +34,6 @@ public class FileUtil {
 
     public boolean isLargerThan20MB(MultipartFile receiptImage) {
         //배너 이미지 20MB 초과 업로드 불가
-        if (receiptImage.getSize() > 2 * Math.pow(10, 7)) {
-            return true;
-        }
-
-        return false;
+        return receiptImage.getSize() > 2 * Math.pow(10, 7);
     }
 }
