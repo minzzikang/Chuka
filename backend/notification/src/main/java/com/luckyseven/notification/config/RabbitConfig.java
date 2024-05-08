@@ -18,18 +18,26 @@ public class RabbitConfig {
     private String USER_EXCHANGE;
     @Value("${rabbitmq.notification.exchange}")
     private String NOTIFICATION_EXCHANGE;
+    @Value("${rabbitmq.notification_to_user.exchange}")
+    private String NOTIFICATIONTOUSER_EXCHANGE;
     @Value("${rabbitmq.user.queue}")
     private String USER_QUEUE;
     @Value("${rabbitmq.notification.queue}")
     private String NOTIFICATION_QUEUE;
+    @Value("${rabbitmq.notification_to_user.queue}")
+    private String NOTIFICATIONTOUSER_QUEUE;
 
     @Bean
     public Queue userQueue() {
         return new Queue(USER_QUEUE, false);
     }
     @Bean
-    Queue notificationQueue() {
+    public Queue notificationQueue() {
         return new Queue(NOTIFICATION_QUEUE, false);
+    }
+    @Bean
+    public Queue notificationToUserQueue() {
+        return new Queue(NOTIFICATIONTOUSER_QUEUE, false);
     }
 
     @Bean
@@ -37,8 +45,12 @@ public class RabbitConfig {
         return new TopicExchange(USER_EXCHANGE);
     }
     @Bean
-    TopicExchange notificationExchange() {
+    public TopicExchange notificationExchange() {
         return new TopicExchange(NOTIFICATION_EXCHANGE);
+    }
+    @Bean
+    public TopicExchange notificationToUserExchange() {
+        return new TopicExchange(NOTIFICATIONTOUSER_EXCHANGE);
     }
 
     /**
@@ -51,8 +63,13 @@ public class RabbitConfig {
         return BindingBuilder.bind(userQueue).to(userExchange).with("");
     }
     @Bean
-    Binding bindingNotification(@Qualifier("notificationQueue") Queue notificationQueue, @Qualifier("notificationExchange") TopicExchange notificationExchange) {
+    public Binding bindingNotification(@Qualifier("notificationQueue") Queue notificationQueue, @Qualifier("notificationExchange") TopicExchange notificationExchange) {
         return BindingBuilder.bind(notificationQueue).to(notificationExchange).with("");
+    }
+
+    @Bean
+    public Binding bindingNotificationToUser(@Qualifier("notificationToUserQueue") Queue notificationToUserQueue, @Qualifier("notificationToUserExchange") TopicExchange notificationToUserExchange) {
+        return BindingBuilder.bind(notificationToUserQueue).to(notificationToUserExchange).with("");
     }
 
     /**
