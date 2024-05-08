@@ -100,6 +100,10 @@ dependencies {
 	// mq
 	implementation 'org.springframework.boot:spring-boot-starter-amqp'
 
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-core'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
 }
 
 dependencyManagement {

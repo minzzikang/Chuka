@@ -42,8 +42,8 @@ const WhiteBtn = styled.button`
   margin-bottom: 10px;
 `
 
-const FundingModal = (props: {setIsModalOpen:Dispatch<SetStateAction<boolean>>}) => {
-  const {setIsModalOpen} = props
+const FundingModal = (props: {setFundingModalOpen:Dispatch<SetStateAction<boolean>>}) => {
+  const {setFundingModalOpen} = props
   
   const navigate = useNavigate();
   const prevUrl = window.location.href;
@@ -65,7 +65,7 @@ const FundingModal = (props: {setIsModalOpen:Dispatch<SetStateAction<boolean>>})
       <Wrap>
         <div>선물 펀딩 확인을 위해서는 로그인이 필요합니다.</div>
         <BtnWrap>
-          <WhiteBtn onClick={() => setIsModalOpen(false)}> 취소 </WhiteBtn>
+          <WhiteBtn onClick={() => setFundingModalOpen(false)}> 취소 </WhiteBtn>
           <PinkBtn onClick={goFundingPage}> 로그인 하기 </PinkBtn>
         </BtnWrap>
       </Wrap>
