@@ -3,17 +3,12 @@ package com.luckyseven.event.rollsheet.dto;
 import com.luckyseven.event.rollsheet.entity.EventType;
 import com.luckyseven.event.rollsheet.entity.Theme;
 import io.swagger.v3.oas.annotations.media.Schema;
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
-import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 
 @Getter
 @Setter
