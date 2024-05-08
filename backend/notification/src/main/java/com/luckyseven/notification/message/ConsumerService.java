@@ -20,20 +20,21 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ConsumerService {
 
-    private final String NOTIFICATION_QUEUE = "notification.queue";
+//    private final String NOTIFICATION_QUEUE = "notification.queue";
+    private final String USER_TO_NOTIFICATION_QUEUE = "user_to_notification.queue";
     private final String EVENT_TO_NOTIFICATION_QUEUE = "event_to_notification.queue";
 
     private final NotificationService notificationService;
 
     @Transactional
-    @RabbitListener(queues = NOTIFICATION_QUEUE)
-    public void receiveUserMessage(NotificationReq req) {
+    @RabbitListener(queues = USER_TO_NOTIFICATION_QUEUE)
+    public void receiveUserMessage(BaseMessageDto req) {
         log.info("receiveUserMessage: {}", req);
         try {
             switch (req.getTopic()) {
                 case DELETE_USER -> {
-                    log.info("DELETE_USER");
-                    notificationService.deleteAllByUserId(req.getUserId());
+                    log.info("DELETE_USER: {}", req.getData().toString());
+                    notificationService.deleteAllByUserId(req.getData().toString());
                 }
             }
         } catch (Exception e) {
