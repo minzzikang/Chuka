@@ -94,7 +94,7 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<EventListRes> getEvents(
-            @Parameter(description = "정렬기준: asc=오래된순 desc=최신순", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
+            @Parameter(description = "정렬기준: asc, desc", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
             @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "date") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
