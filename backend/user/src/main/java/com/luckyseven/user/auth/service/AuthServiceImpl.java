@@ -17,7 +17,6 @@ import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestClient;
 
-import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.HashMap;
@@ -183,11 +182,11 @@ public class AuthServiceImpl implements AuthService {
 
         if (jWTUtil.getType(refreshToken).equals("RTK")
                 && redisService.getValues(id).equals(refreshToken)) {
-                User user = userRepository.findByUserId(id);
+            User user = userRepository.findByUserId(id);
 
-                // refreshToken 재발급
-                // issueRefreshToken(UserDto.of(user));
-                return issueAccessToken(UserDto.of(user));
+            // refreshToken 재발급
+            // issueRefreshToken(UserDto.of(user));
+            return issueAccessToken(UserDto.of(user));
         }
 
         return null;

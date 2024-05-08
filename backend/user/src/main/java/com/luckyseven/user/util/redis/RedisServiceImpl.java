@@ -2,12 +2,14 @@ package com.luckyseven.user.util.redis;
 
 import java.time.Duration;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+@Slf4j
 @Service
 @Transactional
 @RequiredArgsConstructor
@@ -22,8 +24,7 @@ public class RedisServiceImpl implements RedisService {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
-
+            log.error("RedisService-save(): {}", e.getMessage());
             return false;
         }
     }
@@ -35,7 +36,7 @@ public class RedisServiceImpl implements RedisService {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisService-saveRefreshToken(): {}", e.getMessage());
 
             return false;
         }
@@ -48,7 +49,7 @@ public class RedisServiceImpl implements RedisService {
 
             return true;
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisService-saveLogoutToken(): {}", e.getMessage());
 
             return false;
         }
@@ -67,7 +68,7 @@ public class RedisServiceImpl implements RedisService {
         try {
             redisTemplate.delete(key);
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("RedisService-delete(): {}", e.getMessage());
 
             return false;
         }
