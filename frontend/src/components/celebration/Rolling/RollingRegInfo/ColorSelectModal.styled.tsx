@@ -24,12 +24,13 @@ export const Container = styled.div`
   display: flex;
   position: fixed;
   flex-direction: column;
+  justify-content: center;
   align-items: center;
-  border-radius: 1em;
+  border-radius: 5px;
   background-color: ${colors.white};
   width: 100%;
   height: auto;
-  bottom: 0;
+  bottom: 60px;
   z-index: 200;
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};
@@ -72,6 +73,8 @@ export const Backdrop = styled.div`
 export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
   width: 100%;
   z-index: 500;
 `;
