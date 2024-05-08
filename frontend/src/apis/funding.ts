@@ -47,3 +47,13 @@ export const fetchMyFundings = async () => {
     console.error(err);
   }
 };
+
+// 펀딩 단건 조회
+export const fetchFunding = async (fundingId: number) => {
+  try {
+    const response = await axios.get(`${url}/fundings/${fundingId}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
