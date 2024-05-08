@@ -30,9 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -137,11 +135,6 @@ public class EventServiceImpl implements EventService {
 
     /**
      * 내가 참여한 기록이 있는 이벤트 조회
-     *
-     * @param userId
-     * @param page
-     * @param pageSize
-     * @return
      */
     @Override
     public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize) {
@@ -225,10 +218,7 @@ public class EventServiceImpl implements EventService {
     @Override
     public boolean isMyEvent(int eventId, String userId) {
         Event event = eventRepository.findByEventId(eventId);
-        if (event.getUserId().equals(userId)) {
-            return true;
-        }
-        return false;
+        return event.getUserId().equals(userId);
     }
 
     @Override

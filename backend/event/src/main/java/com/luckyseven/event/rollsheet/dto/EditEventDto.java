@@ -1,7 +1,5 @@
 package com.luckyseven.event.rollsheet.dto;
 
-import com.luckyseven.event.rollsheet.entity.EventType;
-import com.luckyseven.event.rollsheet.entity.Theme;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
 import lombok.Setter;

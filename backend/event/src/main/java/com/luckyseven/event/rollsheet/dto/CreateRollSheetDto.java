@@ -8,8 +8,6 @@ import lombok.Setter;
 import lombok.ToString;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.time.LocalDateTime;
-
 @Getter
 @Setter
 @ToString
@@ -30,7 +28,7 @@ public class CreateRollSheetDto {
 
     @Schema(description = "폰트색상")
     private String fontColor;
-    
+
     @Schema(description = "닉네임")
     private String nickname;
 
