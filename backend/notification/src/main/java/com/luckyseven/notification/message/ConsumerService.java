@@ -1,8 +1,12 @@
-package com.luckyseven.notification.service;
+package com.luckyseven.notification.message;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DdayReceiveDto;
-import com.luckyseven.notification.util.rabbitMQ.req.NotificationReq;
-import com.luckyseven.notification.util.rabbitMQ.req.Topic;
+import com.luckyseven.notification.service.NotificationService;
+import com.luckyseven.notification.message.dto.NotificationReq;
+import com.luckyseven.notification.message.dto.Topic;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
@@ -10,7 +14,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Slf4j
 @Service
@@ -41,27 +44,25 @@ public class ConsumerService {
 
     @Transactional
     @RabbitListener(queues = EVENT_TO_NOTIFICATION_QUEUE)
-    public void receiveEventMessage(Map<String ,Object> req) {
-        log.info("receiveEventMessage: {}", req.toString());
-        Object o = new Object();
+    public void receiveEventMessage(BaseMessageDto dataSet) {
+        log.info("receiveEventMessage: {}", dataSet.toString());
 
         try {
+            for (Object datum : (List)dataSet.getData()) {
+                ObjectMapper om = new ObjectMapper();
+                String json = om.writeValueAsString(datum);
+                DdayReceiveDto data = om.readValue(json, new TypeReference<DdayReceiveDto>() {});
 
-            if (req.get("topic").equals(Topic.DDAY_ALARM)) {
-                log.info("DdayAlarm, data =>> {}", (List<DdayReceiveDto>) req.get("data"));
+//                System.out.println("data = " + data);
+//                System.out.println("data Id = " + data.getEventId());
+//                System.out.println("data Members = " + data.getJoinMembers());
+            }
+            if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
+                log.info("DdayAlarm, data =>> {}", dataSet.getData());
             }
 
-            List<DdayReceiveDto> data = (List<DdayReceiveDto>) req.get("data");
-            log.info("data ===> {}",data);
-            for (DdayReceiveDto datum : data) {
-                log.info("datum.getEventId() ==> {}",datum.getEventId());
-            }
 
 
-//            for (DdayReceiveDto ddayReceiveDto : req) {
-//
-//                log.info("ddayReceiveDto.toString() :{} ",ddayReceiveDto.toString());
-//            }
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
