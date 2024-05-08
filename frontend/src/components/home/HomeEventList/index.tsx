@@ -20,19 +20,6 @@ interface EventItem {
 }
 
 
-export const DataWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 5px;
-`;
-
-export const PagiWrap = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const index = () => {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
@@ -53,7 +40,7 @@ const index = () => {
     // 최근 날짜
     const fetchRecentEventList = async () => {
       try {
-        const response = await fetchList("creatTime", page, 3);
+        const response = await fetchList("creatTime", page-1, 3);
         console.log("최신순 @@@@", response);
         setRecentEventData(response);
       } catch (err) {
@@ -65,7 +52,7 @@ const index = () => {
     // 참여자수
     const fetchPartiEventList = async () => {
       try {
-        const response = await fetchList("participants", page, 3);
+        const response = await fetchList("participants", page-1, 3);
         console.log("참여순 @@@@@", response);
         setParticipantsEventData(response);
       } catch (err) {
@@ -93,7 +80,7 @@ const index = () => {
         </h.FilterText>
       </h.FilterWrap>
       {activeIdx === 0 ? (
-        <DataWrap>
+        <h.DataWrap>
           {recentEventData &&
             recentEventData.eventList.map((item, index) => (
               <EventCard
@@ -105,9 +92,9 @@ const index = () => {
                 eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
               />
             ))}
-        </DataWrap>
+        </h.DataWrap>
       ) : (
-        <DataWrap>
+        <h.DataWrap>
           {participantsEventData &&
             participantsEventData.eventList.map((item, index) => (
               <EventCard
@@ -119,16 +106,16 @@ const index = () => {
                 eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
               />
             ))}
-        </DataWrap>
+        </h.DataWrap>
       )}
-      <PagiWrap>
+      <h.PagiWrap>
         <Pagination
           totalPage={Math.ceil(participantsEventData.totalCnt / 3)}
           limit={5}
           page={page}
           setPage={setPage}
         />
-      </PagiWrap>
+      </h.PagiWrap>
     </h.Container>
   );
 };

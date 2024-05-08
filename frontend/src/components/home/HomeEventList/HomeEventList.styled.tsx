@@ -34,3 +34,17 @@ export const SeeMoreBtn = styled.button`
   border-radius: 5px;
   color: ${colors.mainPink};
 `;
+
+
+export const DataWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+`;
+
+export const PagiWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
