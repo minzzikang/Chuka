@@ -144,4 +144,9 @@ public class RollSheetServiceImpl implements RollSheetService {
     public int countRollSheet() {
         return Math.toIntExact(rollSheetRepository.count());
     }
+
+    @Override
+    public int countRollSheetByEventId(int eventId) {
+        return rollSheetRepository.countByEventId(eventId);
+    }
 }

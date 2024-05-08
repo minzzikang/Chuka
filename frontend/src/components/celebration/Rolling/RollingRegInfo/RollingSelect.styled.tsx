@@ -45,7 +45,7 @@ export const Icon = styled(IoIosArrowBack)`
   cursor: pointer;
 `;
 
-export const ShapeButton = styled.button<{ isActive: boolean }>`
+export const ShapeButton = styled.button<{ $isActive: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -54,9 +54,9 @@ export const ShapeButton = styled.button<{ isActive: boolean }>`
   height: 150px;
   padding: 5px;
   border: 2px solid;
-  border-color: ${({ isActive }) =>
-    isActive ? colors.mainPink : colors.inputGray};
-  color: ${({ isActive }) => (isActive ? colors.mainPink : colors.gray)};
+  border-color: ${(props) =>
+    props.$isActive ? colors.mainPink : colors.inputGray};
+  color: ${(props) => (props.$isActive ? colors.mainPink : colors.gray)};
   background-color: ${colors.white};
 `;
 
@@ -66,16 +66,16 @@ export const Img = styled.img`
   margin-bottom: 5px;
 `;
 
-export const BackgroundButton = styled.button<{ isActive: boolean }>`
+export const BackgroundButton = styled.button<{ $isActive: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   width: 150px;
   height: 60px;
   border: 2px solid;
-  border-color: ${({ isActive }) =>
-    isActive ? colors.mainPink : colors.inputGray};
-  color: ${({ isActive }) => (isActive ? colors.mainPink : colors.gray)};
+  border-color: ${(props) =>
+    props.$isActive ? colors.mainPink : colors.inputGray};
+  color: ${(props) => (props.$isActive ? colors.mainPink : colors.gray)};
   background-color: ${colors.white};
 `;
 

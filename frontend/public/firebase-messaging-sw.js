@@ -17,9 +17,9 @@ self.addEventListener("activate", function (e) {
 });
 
 // fetch event
-// self.addEventListener("fetch", (e) => {
-//   console.log('[Service Worker] fetched resource ' + e.request.url);
-// });
+self.addEventListener("fetch", (e) => {
+  console.log('[Service Worker] fetched resource ' + e.request.url);
+});
 
 //
 self.addEventListener("push", function (e) {

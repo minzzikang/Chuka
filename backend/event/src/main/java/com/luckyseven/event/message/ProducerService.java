@@ -1,5 +1,6 @@
 package com.luckyseven.event.message;
 
+import com.luckyseven.event.message.dto.BaseMessageDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -8,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * 현재 서버가 요청을 보내는 코드는 여기에 작성해주세요
@@ -22,10 +24,10 @@ public class ProducerService {
     private final RabbitTemplate rabbitTemplate;
 //    private final ObjectMapper objectMapper;
 
-    @Value("${rabbitmq.notification-Dday.exchange}")
-    private String NOTIFICATION_DDAY_EXCHANGE;
-    public void sendNotificationMessage(List<DdayReceiveDto> dto) {
-        rabbitTemplate.convertAndSend(NOTIFICATION_DDAY_EXCHANGE, "", dto);
+    @Value("${rabbitmq.event_to_notification.exchange}")
+    private String EVENT_TO_NOTIFICATION_EXCHANGE;
+    public void sendNotificationMessage(BaseMessageDto dataSet) {
+        rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", dataSet);
     }
 
 }

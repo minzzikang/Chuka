@@ -5,10 +5,7 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.message.ProducerService;
-import com.luckyseven.event.rollsheet.dto.CountEventDto;
-import com.luckyseven.event.rollsheet.dto.CreateEventDto;
-import com.luckyseven.event.rollsheet.dto.EditEventDto;
-import com.luckyseven.event.rollsheet.dto.EventDto;
+import com.luckyseven.event.rollsheet.dto.*;
 import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.service.EventService;
@@ -25,6 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -95,8 +93,8 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity<?> getEvents(
-            @Parameter(description = "정렬기준: asc=오래된순 desc=최신순", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
+    public ResponseEntity<EventListRes> getEvents(
+            @Parameter(description = "정렬기준: asc, desc", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
             @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "date") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
@@ -104,8 +102,11 @@ public class EventController {
         log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
         try{
             List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
+            EventListRes res = new EventListRes();
+            res.setEventList(events);
+            res.setTotalCnt(eventService.countPublicEvent());
 
-            return ResponseEntity.status(200).body(events);
+            return ResponseEntity.status(200).body(res);
         } catch (Exception e) {
             log.error("[ERROR!] 이벤트 조회 오류 발생");
             log.error(e.getMessage());
@@ -120,21 +121,33 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity<?> getMyEvents(
+    public ResponseEntity<EventListRes> getMyEvents(
             @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
             @Parameter(description = "participant", example = "true") @RequestParam(required = false) boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
-        List<EventDto> results;
-        if (!participant) {
-            results = eventService.getMyEvents(userId, page, size, upcoming);
-        } else {
-            results = eventService.getEventsUserParticipatedIn(userId, page, size);
-        }
+        try{
+            EventListRes res = new EventListRes();
 
-        return ResponseEntity.status(200).body(results);
+            List<EventDto> results;
+            if (!participant) {
+                results = eventService.getMyEvents(userId, page, size, upcoming);
+                res.setTotalCnt(eventService.countMyEvent(userId));
+            } else {
+                results = eventService.getEventsUserParticipatedIn(userId, page, size);
+                res.setTotalCnt(eventService.countParticipantEvent(userId));
+            }
+
+            res.setEventList(results);
+
+            return ResponseEntity.status(200).body(res);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @GetMapping("/{eventId}")
