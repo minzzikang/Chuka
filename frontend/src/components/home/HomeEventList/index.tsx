@@ -21,7 +21,8 @@ export const PagiWrap = styled.div`
 const index = () => {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
-  const [recentEventData, setRecentEventData] = useState([]);
+  const [recentEventData, setRecentEventData] = useState({});
+  const [participantsEventData, setParticipantsEventData] = useState({});
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
@@ -30,14 +31,25 @@ const index = () => {
   useEffect(() => {
     const fetchRecentEventList = async () => {
       try {
-        const response = await fetchList(true, page, 3);
-        console.log("이벤트 리스트 @@@@@@@@@@@@@@", response);
+        const response = await fetchList("creatTime", page, 3);
+        console.log("최신순 @@@@", response);
         setRecentEventData(response);
       } catch (err) {
         console.log(err);
       }
     };
     fetchRecentEventList();
+
+    const fetchPartiEventList = async () => {
+      try {
+        const response = await fetchList("participants", page, 3);
+        console.log("참여순 @@@@@", response);
+        setParticipantsEventData(response);
+      } catch (err) {
+        console.log(err);
+      }
+    };
+    fetchPartiEventList();
   }, [page]);
 
   return (
@@ -57,10 +69,10 @@ const index = () => {
           참여순
         </h.FilterText>
       </h.FilterWrap>
-      {activeIdx === 0 && (
+      {activeIdx === 0 ? (
         <DataWrap>
           {recentEventData &&
-            recentEventData.map((item, index) => (
+            recentEventData[eventList].map((item, index) => (
               <EventCard
                 key={index}
                 title={item.title}
@@ -68,15 +80,31 @@ const index = () => {
                 date={item.date}
                 thumbNailUrl={item.bannerThumbnailUrl}
                 eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
-
-              // http://localhost:5000/celebrate/rolling/1/01HWC09NK9Y5GA5F53WYNPST1C
+              />
+            ))}
+        </DataWrap>
+      ) : (
+        <DataWrap>
+          {participantsEventData &&
+            participantsEventData[eventList].map((item, index) => (
+              <EventCard
+                key={index}
+                title={item.title}
+                createTime={item.createTime}
+                date={item.date}
+                thumbNailUrl={item.bannerThumbnailUrl}
+                eventUrl={`/celebrate/rolling/${item.eventId}/${item.pageUri}`}
               />
             ))}
         </DataWrap>
       )}
-
       <PagiWrap>
-        <Pagination totalPage={20} limit={5} page={page} setPage={setPage} />
+        <Pagination
+          totalPage={participantsEventData[totalCnt]}
+          limit={5}
+          page={page}
+          setPage={setPage}
+        />
       </PagiWrap>
     </h.Container>
   );

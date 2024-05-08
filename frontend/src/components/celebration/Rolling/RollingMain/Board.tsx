@@ -1,5 +1,5 @@
 import Drawer from "@components/drawer";
-import RModal from "@common/responsiveModal";
+import RModal from "@common/homeResModal";
 import FundingModal from "./FundingModal";
 import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router";
