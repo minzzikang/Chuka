@@ -1,14 +1,18 @@
-import CorkBoard from "/img/img_rolling_theme_cork.jpg";
-import BlackBoard from "/img/img_rolling_theme_board.jpg";
 import Drawer from "@components/drawer";
-import RModal from "@common/responsiveModal";
+import RModal from "@common/homeResModal";
 import FundingModal from "./FundingModal";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
-import { fetchRollSheets } from "@/apis/roll";
+import { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
+import Modal from "@common/modal";
 
-interface MessageProps {
+interface RollingData {
+  rollSheetList: RollingItem[];
+  totalCnt: number;
+}
+
+interface RollingItem {
   nickname: string;
   content: string;
   backgroundImageThumbnailUrl?: string;
@@ -25,114 +29,149 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-  const { eventId, theme } = props;
-  const [values, setValues] = useState<BoardProps>({
-    eventId: eventId,
-    theme: theme,
-  });
+  const params = useParams<{ eventId?: string }>();
 
-  const navigate = useNavigate();
+  const { eventId, theme } = props;
+
+  const finalEventId =
+    eventId === 0 ? params.eventId ?? "default" : eventId.toString();
+
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [rolls, setRolls] = useState<MessageProps[]>([]);
+  const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
+  const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
+  const [rolls, setRolls] = useState<RollingData>({
+    rollSheetList: [],
+    totalCnt: 0,
+  });
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
+  const currentPageRef = useRef(currentPage);
+
+  useEffect(() => {
+    currentPageRef.current = currentPage;
+  }, [currentPage]);
 
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem("access_token");
 
-  const goFunding = () => {
-    sessionStorage.setItem("prevUrl", prevUrl);
-    console.log("여기에요 전 !!!!!!!!!!", values)
-    console.log(values.eventId);
-    if (accessToken) {
-      setDrawerOpen(!isDrawerOpen);
-    } else {
-      setIsModalOpen(true);
+  const [selectedRoll, setSelectedRoll] = useState<RollingItem>({
+    nickname: '',
+    content: '',
+    backgroundImageThumbnailUrl: '',
+    backgroundColor: '',
+    font: '',
+    fontColor: '',
+    shape: '',
+    rollSheetId: '',
+  });
+
+  const handleCardClick = async (rollId: string) => {
+    try {
+      const response = await fetchRoll(rollId)
+      setSelectedRoll(response);
+      setRollingModalOpen(true);
+    } catch (err) {
+      console.error(err);
+      alert('롤링페이퍼 상세조회에 실패했습니다.')
     }
   };
 
-  // 무한 스크롤 데이터 불러오기
-  const loadMore = async () => {
-    if (!loading) {
+  const goFunding = () => {
+    sessionStorage.setItem("prevUrl", prevUrl);
+    console.log(rolls);
+    if (accessToken) {
+      setDrawerOpen(!isDrawerOpen);
+    } else {
+      setFundingModalOpen(true);
+    }
+  };
+
+  // 롤링페이퍼 리스트 불러오고 저장
+  useEffect(() => {
+    const fetchData = async () => {
       setLoading(true);
-      if (typeof values.eventId.toString() === "string") {
       try {
-        const newRollList = await fetchRollSheets(
-          values.eventId.toString(),
-          currentPage,
-          6
-        );
-        if (newRollList && newRollList.length > 0) {
-          setRolls([...rolls, ...newRollList]);
-          setCurrentPage((prevPage) => prevPage + 1);
+        const RollList = await fetchRollSheets(finalEventId, currentPage, 6);
+        console.log("롤리스트", RollList);
+
+        if (RollList) {
+          setRolls(RollList);
+          setCurrentPage(currentPage + 1);
+          console.log("curPage: ", currentPage);
         }
       } catch (err) {
         console.error(err);
       } finally {
         setLoading(false);
       }
-    }}
-  };
+      // }
+    };
+    fetchData();
 
-  const handleScroll = () => {
+    // window.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
+  }, [finalEventId]);
+
+  // 무한 스크롤 데이터 불러오기
+  const loadMore = async () => {
     if (
-      window.innerHeight + window.scrollY >=
-      document.body.offsetHeight - 400
+      !loading &&
+      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
     ) {
-      loadMore();
+      setLoading(true);
+      try {
+        const newRollList = await fetchRollSheets(
+          // values.eventId.toString(),
+          finalEventId,
+          currentPage,
+          6
+        );
+        if (newRollList && newRollList.length > 0) {
+          setRolls((prevRolls) => ({
+            rollSheetList: [...prevRolls.rollSheetList, ...newRollList],
+            totalCnt: prevRolls.totalCnt + newRollList.length,
+          }));
+          setCurrentPage(currentPage + 1);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
     }
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      if (typeof eventId === "number") {
-        setLoading(true);
-
-        try {
-          const RollList = await fetchRollSheets(
-            values.eventId.toString(),
-            currentPage,
-            6
-          );
-          console.log("롤리스트", RollList);
-
-          if (RollList && RollList.length > 0) {
-            setRolls(RollList);
-            setCurrentPage(currentPage + 1);
-          }
-          console.log("values", rolls);
-        } catch (err) {
-          console.error(err);
-        } finally {
-          setLoading(false);
-        }
-      }
+    const handleScroll = () => {
+      loadMore();
     };
-    fetchData();
 
     window.addEventListener("scroll", handleScroll);
+    // loadMore();
+
     return () => {
-      window.removeEventListener("scroll", handleScroll); //cleanup
+      window.removeEventListener("scroll", handleScroll);
     };
-  }, [eventId, currentPage]);
+  }, []);
+
+  useEffect(() => {
+    loadMore(); // 초기 데이터 로드
+  }, []);
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
   }, [rolls]);
 
-  const Theme = values
-    ? values.theme === "CORK_BOARD"
-      ? CorkBoard
-      : BlackBoard
-    : CorkBoard;
-
   return (
     <>
       <b.Container>
-        {!rolls && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
+        {rolls.rollSheetList.length === 0 && (
+          <b.P>롤링페이퍼를 작성해주세요.</b.P>
+        )}
         <b.CardWrap>
-          {rolls.map((roll) => (
+          {rolls.rollSheetList.map((roll) => (
             <b.Card
               key={roll.rollSheetId}
               $bgColor={roll.backgroundColor}
@@ -140,29 +179,39 @@ const Board = (props: BoardProps) => {
               $fontColor={roll.fontColor}
               $bgImage={roll.backgroundImageThumbnailUrl}
               $shape={roll.shape}
-              onClick={() => navigate(`/`)}
+              onClick={() => handleCardClick(roll.rollSheetId)}
             >
               <p>{roll.content}</p>
               <p>From. {roll.nickname}</p>
             </b.Card>
           ))}
         </b.CardWrap>
-        <b.RollingTheme $src={Theme} />
+        <b.RollingTheme $theme={theme} />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
       </b.Container>
 
-      <Drawer
-        isOpen={isDrawerOpen}
-        // eventId={values?.eventId}
-        onClose={() => setDrawerOpen(false)}
-      />
+      <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
 
-      {isModalOpen && (
+      {rollingModalOpen && selectedRoll && (
+        <Modal name={selectedRoll.nickname} onClose={() => setRollingModalOpen(false)}>
+            <b.CardDetail
+              $bgColor={selectedRoll.backgroundColor}
+              $font={selectedRoll.font}
+              $fontColor={selectedRoll.fontColor}
+              $bgImage={selectedRoll.backgroundImageThumbnailUrl}
+              $shape={selectedRoll.shape}
+            >
+              {selectedRoll.content}
+            </b.CardDetail>
+        </Modal>
+      )}
+
+      {fundingModalOpen && (
         <RModal
           name={"선물 펀딩 서비스 이용 동의"}
-          onClose={() => setIsModalOpen(false)}
+          onClose={() => setFundingModalOpen(false)}
         >
-          <FundingModal setIsModalOpen={setIsModalOpen} />
+          <FundingModal setFundingModalOpen={setFundingModalOpen} />
         </RModal>
       )}
     </>

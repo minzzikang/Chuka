@@ -4,10 +4,7 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
-import com.luckyseven.event.rollsheet.dto.CountEventDto;
-import com.luckyseven.event.rollsheet.dto.CreateEventDto;
-import com.luckyseven.event.rollsheet.dto.EditEventDto;
-import com.luckyseven.event.rollsheet.dto.EventDto;
+import com.luckyseven.event.rollsheet.dto.*;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import com.luckyseven.event.util.jwt.JWTUtil;
@@ -39,8 +36,14 @@ public class EventController {
     private final EventService eventService;
     private final RollSheetService rollSheetService;
 
+    @GetMapping("/test")
+    public ResponseEntity<?> test(){
+        return eventService.sendDdayalarmTest();
+//        return ResponseEntity.ok().body("보냄");
+    }
+
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger에서 Authorization token 설정 必")
+    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger 에서 Authorization token 설정 必")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "400", description = "비어있는 파일"),
@@ -54,7 +57,7 @@ public class EventController {
             @RequestHeader("loggedInUser") String userId,
             @RequestHeader("Authorization") String authorization
     ) {
-        EventDto event = null;
+        EventDto event;
 
         try {
             String nickname = jwtUtil.getNickname(authorization.substring("Bearer ".length()));
@@ -85,15 +88,20 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity<?> getEvents(
-            @Parameter(description = "정렬조건: asc=true: 오래된순 asc=false: 최신순", example = "true") @RequestParam(required = false) boolean asc,
+    public ResponseEntity<EventListRes> getEvents(
+            @Parameter(description = "정렬기준: asc, desc", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
+            @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "createTime") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
+        log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
         try{
-            List<EventDto> events = eventService.getPublicEvents(asc, page, size);
+            List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
+            EventListRes res = new EventListRes();
+            res.setEventList(events);
+            res.setTotalCnt(eventService.countPublicEvent());
 
-            return ResponseEntity.status(200).body(events);
+            return ResponseEntity.status(200).body(res);
         } catch (Exception e) {
             log.error("[ERROR!] 이벤트 조회 오류 발생");
             log.error(e.getMessage());
@@ -108,21 +116,33 @@ public class EventController {
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity<?> getMyEvents(
-            @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
+    public ResponseEntity<EventListRes> getMyEvents(
+            @Parameter(description = "sort", example = "upcoming || participant") @RequestParam(required = false, defaultValue = "") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
-            @Parameter(description = "participant", example = "true") @RequestParam boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
-        List<EventDto> results;
-        if (!participant) {
-            results = eventService.getMyEvents(userId, page, size, upcoming);
-        } else {
-            results = eventService.getEventsUserParticipatedIn(userId, page, size);
-        }
+        try{
+            EventListRes res = new EventListRes();
 
-        return ResponseEntity.status(200).body(results);
+            List<EventDto> results;
+            if (sort.equals("participant")) {
+                results = eventService.getEventsUserParticipatedIn(userId, page, size);
+                res.setTotalCnt(eventService.countParticipantEvent(userId));
+            } else {
+                boolean upcoming = sort.equals("upcoming");
+                results = eventService.getMyEvents(userId, page, size, upcoming);
+                res.setTotalCnt(eventService.countMyEvent(userId));
+            }
+
+            res.setEventList(results);
+
+            return ResponseEntity.status(200).body(res);
+        } catch (Exception e) {
+            log.error(e.getMessage());
+
+            return ResponseEntity.status(400).body(null);
+        }
     }
 
     @GetMapping("/{eventId}")
@@ -167,7 +187,7 @@ public class EventController {
             return ResponseEntity.status(403).body(null);
         }
 
-        EventDto event = null;
+        EventDto event;
         try {
             event = eventService.editEvent(eventDto, eventId, userId);
         } catch (EmptyFileException e) {
@@ -176,10 +196,7 @@ public class EventController {
         } catch (BigFileException e) {
             //413
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("업로드한 파일의 용량이 20MB 이상입니다.");
-        } catch (NotValidExtensionException e) {
-            //415
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
-        } catch (IOException e) {
+        } catch (NotValidExtensionException | IOException e) {
             //415
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (Exception e) {
@@ -199,7 +216,7 @@ public class EventController {
             @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
-    public ResponseEntity deleteEvent(@PathVariable("eventId") int eventId, @RequestHeader("loggedInUser") String userId) {
+    public ResponseEntity<BaseResponseBody> deleteEvent(@PathVariable("eventId") int eventId, @RequestHeader("loggedInUser") String userId) {
 
         try {
             if (!eventService.isMyEvent(eventId, userId)) {
@@ -249,4 +266,5 @@ public class EventController {
         }
 
     }
+
 }

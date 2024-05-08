@@ -5,18 +5,27 @@ import { fetchReview } from "@/apis/review";
 
 const index = () => {
   const navigate = useNavigate();
-  const nameData = ['익명의 고릴라', '익명의 사자', '익명의 호랑이', '익명의 고양이', '익명의 강아지', '익명의 다람쥐', '익명의 래서팬더', '익명의 곰']
+  const nameData = [
+    "익명의 고릴라",
+    "익명의 사자",
+    "익명의 호랑이",
+    "익명의 고양이",
+    "익명의 강아지",
+    "익명의 다람쥐",
+    "익명의 래서팬더",
+    "익명의 곰",
+  ];
 
   const [reviewData, setReviewData] = useState([]);
-  const [randomName, setRandomName] = useState('')
+  const [randomName, setRandomName] = useState("");
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-       const data = await fetchReview()
-       setReviewData(data)
+        const data = await fetchReview();
+        setReviewData(data);
       } catch (error) {
-        console.error("Error fetching data:", error);
+        console.error("Error fetching Review data:", error);
         throw error;
       }
     };
@@ -24,9 +33,9 @@ const index = () => {
   }, [setReviewData]);
 
   const getRandomName = () => {
-    const randomIndex = Math.floor(Math.random() * nameData.length)
-    return nameData[randomIndex]
-  }
+    const randomIndex = Math.floor(Math.random() * nameData.length);
+    return nameData[randomIndex];
+  };
 
   useEffect(() => {
     setRandomName(getRandomName());
@@ -44,14 +53,14 @@ const index = () => {
           const randomNameIndex = index % nameData.length; // 사용자 인덱스에 맞게 이름 인덱스 계산
           const randomName = nameData[randomNameIndex]; // 해당 인덱스에 해당하는 이름 선택
           return (
-          <h.ReviewBoxContainer id={index} key={index}>
-            <h.ReviewWrap>
-              <h.Name>{randomName}</h.Name>
-              <h.Comment>{item.content}</h.Comment>
-            </h.ReviewWrap>
-          </h.ReviewBoxContainer>
-          )
-})}
+            <h.ReviewBoxContainer id={index} key={index}>
+              <h.ReviewWrap>
+                <h.Name>{randomName}</h.Name>
+                <h.Comment>{item.content}</h.Comment>
+              </h.ReviewWrap>
+            </h.ReviewBoxContainer>
+          );
+        })}
       <h.Button onClick={() => navigate("/review")}>
         사용 후기 등록하러가기
       </h.Button>

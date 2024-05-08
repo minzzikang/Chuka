@@ -52,12 +52,6 @@ public class JWTUtil {
                 .get("nickname", String.class);
     }
 
-    /**
-     * default : String -> Enum<Roles>으로 변경함.
-     *
-     * @param token
-     * @return
-     */
     public Roles getRole(String token) {
         return Jwts.parser()
                 .verifyWith(secretKey)

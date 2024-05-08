@@ -7,10 +7,12 @@ const index = ({ name, children, onClose }: ModalType) => {
       <m.Container>
         <m.BlackBox onClick={onClose} />
         <m.Wrap>
-          <m.ModalName>{name}</m.ModalName>
+          <m.ModalName>From {name}</m.ModalName>
+          <div style={{width:'100vw', height:'100vw', display:'flex', justifyContent:'center', alignItems:'center'}}>
           {children}
+          </div>
           <m.Backdrop>
-            <img src="/icon/icon_close.png" alt="close" onClick={onClose} />
+            <img src="/icon/icon_close_black.png" alt="close" onClick={onClose} />
           </m.Backdrop>
         </m.Wrap>
       </m.Container>

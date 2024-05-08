@@ -1,46 +1,59 @@
+import { BASE_URL, authRequest } from "@utils/requestMethods";
 import { RegDataType } from "@/components/funding/FundingRegInfo";
 import axios from "axios";
 
-const url = `domain`;
+const url = `/domain`;
 // const url = `https://chuka.kr/api/v1`
 
+// 펀딩 생성
 export const createFunding = async (params: RegDataType) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`/domain/fundings`, params, {
+    const response = await axios.post(`${url}/fundings`, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${accessToken}`,
       },
-    })
-    // console.log("전전전전전전전전전",response.data);
-    return response.data
-  } catch (err) {
-    console.error(err)
-    throw err
-  } 
-    
-};
-
-export const createReview = async (params: object): Promise<any> => {
-  axios
-    .post("/domain/reviews", params)
-    .then((res) => {
-      return res.data;
-    })
-    .catch((error) => console.error(error));
-};
-
-export const fetchReview = async (): Promise<any> => {
-  try {
-    // Proxy LOCAL 연결
-    const response = await axios.get("/domain/reviews");
-
-    // 배포 서버 연결
-    // const response = await axios.get("https://chuka.kr/api/v1/reviews");
+    });
     return response.data;
-  } catch (error) {
-    console.error(error);
-    throw error;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// 이벤트에 해당하는 펀딩 목록 조회
+export const fetchFundings = async (eventId: string) => {
+  try {
+    const response = await axios.get(`${url}/fundings/events/${eventId}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
+
+// 나의 펀딩 조회
+export const fetchMyFundings = async () => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.get(`${url}/fundings/me`, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// 펀딩 단건 조회
+export const fetchFunding = async (fundingId: number) => {
+  try {
+    const response = await axios.get(`${url}/fundings/${fundingId}`);
+    return response.data;
+  } catch (err) {
+    console.error(err);
   }
 };

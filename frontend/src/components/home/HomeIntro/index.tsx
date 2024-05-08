@@ -5,7 +5,17 @@ import { useEffect } from 'react';
 import useCountNum from '@/utils/useCountUp';
 
 
-const index = () => {
+type HomeIntroType = {
+  eventCnt:number | null
+  msgCnt:number | null
+}
+
+const index = (props: HomeIntroType) => {
+  const {eventCnt, msgCnt} = props
+
+  const copyEventCnt = Number(eventCnt)
+  const copyMsgCnt = Number(msgCnt)
+
   const defaultOptions = {
     loop: true,
     autoplay: true,
@@ -44,7 +54,7 @@ const index = () => {
               options={defaultOptions}
               width={62.15}
               height={75}
-              speed={0.1}
+              speed={0.5}
             />
           </div>
           <h.Promotion src="/img/img_promotion.png" />
@@ -54,11 +64,11 @@ const index = () => {
         <h.ChukaInfoWrap>
           <h.TextWrap>
             <h.Text>누적 축하 이벤트</h.Text>
-            <h.Text>{useCountNum(51,0,3000)} 개</h.Text>
+            <h.Text>{useCountNum(copyEventCnt,0,1000)} 개</h.Text>
           </h.TextWrap>
           <h.TextWrap>
             <h.Text>누적 축하 메시지</h.Text>
-            <h.Text>{useCountNum(586,10,3000)} 개</h.Text>
+            <h.Text>{useCountNum(copyMsgCnt,0,1000)} 개</h.Text>
           </h.TextWrap>
         </h.ChukaInfoWrap>
       </h.InfoWrap>

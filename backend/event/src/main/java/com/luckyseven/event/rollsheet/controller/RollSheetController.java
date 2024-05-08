@@ -3,8 +3,10 @@ package com.luckyseven.event.rollsheet.controller;
 import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
+import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
+import com.luckyseven.event.rollsheet.dto.RollSheetListRes;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -61,17 +63,14 @@ public class RollSheetController {
         } catch (BigFileException e) {
             //413
             return ResponseEntity.status(HttpStatus.PAYLOAD_TOO_LARGE).body("업로드한 파일의 용량이 20MB 이상입니다.");
-        } catch (NotValidExtensionException e) {
-            //415
-            return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
-        } catch (IOException e) {
+        } catch (NotValidExtensionException | IOException e) {
             //415
             return ResponseEntity.status(HttpStatus.UNSUPPORTED_MEDIA_TYPE).body("지원하는 확장자가 아닙니다. 지원하는 이미지 형식: jpg, png, jpeg, gif, webp");
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            log.error(e.getMessage());
+            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
         } catch (Exception e) {
-            e.printStackTrace();
+            log.error("롤링페이퍼 등록: {}", e.getMessage());
         }
 
         return ResponseEntity.status(400).body(null);
@@ -94,12 +93,16 @@ public class RollSheetController {
         try {
             List<RollSheetDto> results = rollSheetService.getRollSheetListWithEventId(eventId, page, size);
 
-            return ResponseEntity.status(200).body(results);
+            RollSheetListRes res = new RollSheetListRes();
+            res.setTotalCnt(rollSheetService.countRollSheetByEventId(eventId));
+            res.setRollSheetList(results);
+
+            return ResponseEntity.status(200).body(res);
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 이벤트입니다."));
         } catch (Exception e) {
-            return ResponseEntity.status(400).body(null);
+            log.error("롤링페이퍼 목록 조회: {}", e.getMessage());
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "롤링페이퍼 목록 조회에 실패하였습니다."));
         }
     }
 
@@ -118,9 +121,9 @@ public class RollSheetController {
 
             return ResponseEntity.status(200).body(result);
         } catch (NoSuchElementException e) {
-            log.error("존재하지 않는 이벤트");
-            return ResponseEntity.status(404).body(null);
+            return ResponseEntity.status(404).body("존재하지 않는 이벤트입니다.");
         } catch (Exception e) {
+            log.error("롤링페이퍼 단건 조회: {}", e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
