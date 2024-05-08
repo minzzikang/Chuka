@@ -64,9 +64,10 @@ export const sendFCMToken = async (fcmToken: string) => {
 // 로그아웃
 export const logout = async () => {
   const accessToken = localStorage.getItem("access_token");
-  await axios.post(`${BASE_URL}/users/logout`, {
+  const response = await axios.post(`/domain/users/logout`, {}, {
     headers: {
       Authorization: `${accessToken}`,
     },
   });
+  return response
 };

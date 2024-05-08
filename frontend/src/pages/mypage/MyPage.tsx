@@ -7,13 +7,13 @@ import Header from '@common/header'
 const MyPage = () => {
 
     return (
-        <div>
+        <>
             <Header children='마이페이지' />
             <div style={{marginBottom:'50px'}}></div>
             <ProfileSection />
             <SettingSection />
             <Navbar current='mypage'/>
-        </div>
+        </>
     );
 };
 
