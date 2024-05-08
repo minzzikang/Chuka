@@ -6,6 +6,7 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.message.ProducerService;
 import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
@@ -264,10 +265,7 @@ public class EventServiceImpl implements EventService {
 
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
-        baseMessageDto.setTopic("DDAY_ALARM");
-//        Map<String,Object> dataSet = new HashMap<>();
-//        dataSet.put("topic","DDAY_ALARM");
-//        dataSet.put("data",userIdList);
+        baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
 
         producerService.sendNotificationMessage(baseMessageDto);

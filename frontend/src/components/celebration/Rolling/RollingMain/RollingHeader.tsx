@@ -24,7 +24,7 @@ const RollingHeader = (props: RollingHeader) => {
 
   const handleAdd = () => {
     console.log(pageUri);
-    navigate(`/celebrate/rolling/${eventId}/${pageUri}/select`);
+    navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
   };
 
 
