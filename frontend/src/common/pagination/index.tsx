@@ -17,12 +17,14 @@ const Wrap = styled.div`
 const PagiBtn = styled.div<PaginationBtnType>`
   width: 30px;
   height: 30px;
-  border: 1px solid
-    ${(props) => (props.$active ? colors.mainPink : colors.darkGray)};
-  color: ${(props) => (props.$active ? colors.mainPink : colors.darkGray)};
+  /* border: 1px solid
+    ${(props) => (props.$active ? colors.mainPink : colors.black)}; */
+  color: ${(props) => (props.$active ? colors.white : colors.black)};
+  background-color: ${(props) => (props.$active ? colors.mainPink : 'none')};
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 10px;
 `;
 
 const Icon = styled.img`

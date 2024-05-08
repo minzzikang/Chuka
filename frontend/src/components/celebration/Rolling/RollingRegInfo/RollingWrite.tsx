@@ -175,8 +175,10 @@ const RollingWrite = () => {
           }}
         />
         <r.Wrap>
-          <span>From:</span>
+          <div style={{display:'flex', flexDirection:'column', width:'95%', gap:'5px'}}>
+          <label htmlFor="nickname" >From:</label>
           <r.WriterInfo
+            id="nickname"
             value={regData.nickname}
             placeholder={user.nickname}
             maxLength={15}
@@ -187,6 +189,7 @@ const RollingWrite = () => {
               }))
             }
           />
+          </div>
         </r.Wrap>
         <r.Wrap>
           {colorList.map((color) => (
