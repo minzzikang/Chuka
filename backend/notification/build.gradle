@@ -27,6 +27,8 @@ ext {
 
 dependencies {
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+
 	// FCM
 	// https://mvnrepository.com/artifact/com.google.firebase/firebase-admin
 	implementation group: 'com.google.firebase', name: 'firebase-admin', version: '8.1.0'
