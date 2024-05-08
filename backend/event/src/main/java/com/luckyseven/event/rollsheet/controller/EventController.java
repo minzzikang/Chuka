@@ -95,7 +95,7 @@ public class EventController {
     })
     public ResponseEntity<EventListRes> getEvents(
             @Parameter(description = "정렬기준: asc, desc", example = "asc || desc") @RequestParam(required = false, defaultValue = "desc") String order,
-            @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "date") String sort,
+            @Parameter(description = "정렬조건: participants=참가자순, createTime=날짜순", example = "participants || createTime") @RequestParam(required = false, defaultValue = "createTime") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
@@ -122,22 +122,22 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<EventListRes> getMyEvents(
-            @Parameter(description = "upcoming", example = "true") @RequestParam(required = false) boolean upcoming,
+            @Parameter(description = "sort", example = "upcoming || participant") @RequestParam(required = false, defaultValue = "") String sort,
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
-            @Parameter(description = "participant", example = "true") @RequestParam(required = false) boolean participant,
             @RequestHeader("loggedInUser") String userId
     ) {
         try{
             EventListRes res = new EventListRes();
 
             List<EventDto> results;
-            if (!participant) {
-                results = eventService.getMyEvents(userId, page, size, upcoming);
-                res.setTotalCnt(eventService.countMyEvent(userId));
-            } else {
+            if (sort.equals("participant")) {
                 results = eventService.getEventsUserParticipatedIn(userId, page, size);
                 res.setTotalCnt(eventService.countParticipantEvent(userId));
+            } else {
+                boolean upcoming = sort.equals("upcoming") ? true: false;
+                results = eventService.getMyEvents(userId, page, size, upcoming);
+                res.setTotalCnt(eventService.countMyEvent(userId));
             }
 
             res.setEventList(results);
