@@ -26,10 +26,10 @@ public class EventQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    OrderSpecifier<String> createTimeOrderSpecifierDesc = Expressions.stringPath("event.createTime").desc();
-    OrderSpecifier<String> createTimeOrderSpecifierAsc = Expressions.stringPath("event.createTime").asc();
-    OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
-    OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
+    final OrderSpecifier<String> createTimeOrderSpecifierDesc = Expressions.stringPath("event.createTime").desc();
+    final OrderSpecifier<String> createTimeOrderSpecifierAsc = Expressions.stringPath("event.createTime").asc();
+    final OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
+    final OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
 
     /**
      * 내가 생성한 이벤트 조회
@@ -37,7 +37,7 @@ public class EventQueryRepository {
      * @param userId   유저 아이디
      * @param page     볼 페이지
      * @param pageSize 페이지당 항목 수
-     * @return
+     * @return 생성한 이벤트 목록
      */
     public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming) {
         JPAQuery<EventDto> query = jpaQueryFactory.select(
