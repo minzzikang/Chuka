@@ -11,4 +11,6 @@ public class FundingJoinReq {
     private String nickname;
     private String comment;
     private Integer amount;
+    private String pgId;
+    private String transactionId;
 }
