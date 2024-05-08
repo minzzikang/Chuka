@@ -5,9 +5,9 @@ export const BlackBox = styled.div`
   position: fixed;
   left: 0;
   top: 0;
-  z-index: 100;
+  z-index: 300;
   width: 100vw;
-  height: 100vh;
+  height: 100%;
   background-color: #000;
   opacity: 0.3;
 `
@@ -16,7 +16,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;
@@ -25,13 +25,15 @@ export const Container = styled.div`
 
 export const Wrap = styled.div`
   position: relative;
-  z-index: 101;
+  z-index: 301;
   display: flex;
   flex-direction: column;
+  /* justify-content: center;
+  align-items: center; */
   background-color: #fff;
   border-radius: 12px;
-  width: 70%;
-  height: 80%;
+  /* width: 95vw;
+  height: 100vw; */
   overflow-y: scroll;
   &::-webkit-scrollbar {
     display: none; /* 크롬, 사파리, 오페라, 엣지 */
@@ -45,8 +47,10 @@ export const Wrap = styled.div`
 export const ModalName = styled.div`
   display: flex;
   justify-content: center;
+  align-items: center;
   padding-block: 1em;
-  border-bottom: 2px solid ${colors.black};
+  height: 40px;
+  font-size: 1.5em;
   font-weight: 600;
 `
 
