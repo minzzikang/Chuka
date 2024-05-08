@@ -7,7 +7,14 @@ import { useParams } from "react-router-dom";
 import { fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
 
-interface MessageProps {
+
+interface RollingData {
+  rollSheetList: RollingItem[]
+  totalCnt: number
+}
+
+
+interface RollingItem {
   nickname: string;
   content: string;
   backgroundImageThumbnailUrl?: string;
@@ -34,7 +41,10 @@ const Board = (props: BoardProps) => {
   const navigate = useNavigate();
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-  const [rolls, setRolls] = useState<MessageProps[]>([]);
+  const [rolls, setRolls] = useState<RollingData>({
+    rollSheetList:[],
+    totalCnt:0
+  });
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
   const currentPageRef = useRef(currentPage);
@@ -48,12 +58,47 @@ const Board = (props: BoardProps) => {
 
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
+    console.log(rolls);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {
       setIsModalOpen(true);
     }
   };
+
+  // 롤링페이퍼 리스트 불러오고 저장
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true)
+      try {
+        const RollList = await fetchRollSheets(
+          finalEventId,
+          currentPage,
+          6
+        );
+        console.log("롤리스트", RollList);
+        
+
+        if (RollList) {
+          setRolls(RollList);
+          setCurrentPage(currentPage + 1);
+          console.log("curPage: ", currentPage);
+        }
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+      // }
+    };
+    fetchData();
+
+    // window.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   window.removeEventListener("scroll", handleScroll);
+    // };
+  }, [finalEventId]);
+
 
   // 무한 스크롤 데이터 불러오기
   const loadMore = async () => {
@@ -70,7 +115,10 @@ const Board = (props: BoardProps) => {
           6
         );
         if (newRollList && newRollList.length > 0) {
-          setRolls((prevRolls) => [...prevRolls, ...newRollList]);
+          setRolls((prevRolls) => ({
+            rollSheetList: [...prevRolls.rollSheetList, ...newRollList],
+            totalCnt: prevRolls.totalCnt + newRollList.length,
+          }));
           setCurrentPage(currentPage + 1);
         }
       } catch (err) {
@@ -98,39 +146,6 @@ const Board = (props: BoardProps) => {
     loadMore(); // 초기 데이터 로드
   }, []);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      // if (typeof eventId === "number") {
-      setLoading(true);
-
-      try {
-        const RollList = await fetchRollSheets(
-          // values.eventId.toString(),
-          finalEventId,
-          currentPage,
-          6
-        );
-        console.log("롤리스트", RollList);
-
-        if (RollList && RollList.length > 0) {
-          setRolls(RollList);
-          setCurrentPage(currentPage + 1);
-          console.log("curPage: ", currentPage);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-      // }
-    };
-    fetchData();
-
-    // window.addEventListener("scroll", handleScroll);
-    // return () => {
-    //   window.removeEventListener("scroll", handleScroll);
-    // };
-  }, [finalEventId]);
 
   useEffect(() => {
     console.log("Updated rolls:", rolls);
@@ -139,9 +154,9 @@ const Board = (props: BoardProps) => {
   return (
     <>
       <b.Container>
-        {rolls.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
+        {rolls.rollSheetList.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         <b.CardWrap>
-          {rolls.map((roll) => (
+          {rolls.rollSheetList.map((roll) => (
             <b.Card
               key={roll.rollSheetId}
               $bgColor={roll.backgroundColor}

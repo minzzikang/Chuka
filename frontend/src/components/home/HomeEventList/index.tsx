@@ -5,6 +5,21 @@ import { fetchList } from "@/apis/event";
 import Pagination from "@common/pagination";
 import styled from "styled-components";
 
+interface EventData {
+  eventList: EventItem[];
+  totalCnt: number;
+}
+
+interface EventItem {
+  eventId: number;
+  pageUri: string;
+  title: string;
+  createTime: string;
+  date: string;
+  bannerThumbnailUrl: string
+}
+
+
 export const DataWrap = styled.div`
   display: flex;
   justify-content: center;
@@ -21,14 +36,21 @@ export const PagiWrap = styled.div`
 const index = () => {
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
-  const [recentEventData, setRecentEventData] = useState({});
-  const [participantsEventData, setParticipantsEventData] = useState({});
+  const [recentEventData, setRecentEventData] = useState<EventData>({
+    eventList: [],
+    totalCnt: 0
+  });
+  const [participantsEventData, setParticipantsEventData] = useState<EventData>({
+    eventList: [],
+    totalCnt: 0
+  });
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
   };
 
   useEffect(() => {
+    // 최근 날짜
     const fetchRecentEventList = async () => {
       try {
         const response = await fetchList("creatTime", page, 3);
@@ -40,6 +62,7 @@ const index = () => {
     };
     fetchRecentEventList();
 
+    // 참여자수
     const fetchPartiEventList = async () => {
       try {
         const response = await fetchList("participants", page, 3);
@@ -72,7 +95,7 @@ const index = () => {
       {activeIdx === 0 ? (
         <DataWrap>
           {recentEventData &&
-            recentEventData[eventList].map((item, index) => (
+            recentEventData.eventList.map((item, index) => (
               <EventCard
                 key={index}
                 title={item.title}
@@ -86,7 +109,7 @@ const index = () => {
       ) : (
         <DataWrap>
           {participantsEventData &&
-            participantsEventData[eventList].map((item, index) => (
+            participantsEventData.eventList.map((item, index) => (
               <EventCard
                 key={index}
                 title={item.title}
@@ -100,7 +123,7 @@ const index = () => {
       )}
       <PagiWrap>
         <Pagination
-          totalPage={participantsEventData[totalCnt]}
+          totalPage={Math.ceil(participantsEventData.totalCnt / 3)}
           limit={5}
           page={page}
           setPage={setPage}
