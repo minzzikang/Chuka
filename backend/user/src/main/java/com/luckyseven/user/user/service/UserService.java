@@ -1,5 +1,6 @@
 package com.luckyseven.user.user.service;
 
+import com.luckyseven.user.user.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 
@@ -19,4 +20,5 @@ public interface UserService {
 
     void logout(String accessToken);
 
+    DeduplicatedUsersIdDto findAllUsersFcmToken(DeduplicatedUsersIdDto deduplicatedUsersIdDto);
 }

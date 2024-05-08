@@ -7,7 +7,7 @@ const url = '/domain'
 export const createRollMsg = async (formdata: any, eventId: string) => {
   try {
     const response = await axios.post(
-      `${url}/events/${eventId}`,
+      `/domain/events/${eventId}`,
       formdata,
       {
         headers: {
@@ -43,3 +43,14 @@ export const fetchRollSheets = async (
     console.error(err);
   }
 };
+
+// 롤링페이퍼 단건 조회
+
+export const fetchRoll = async (rollSheetId:string) => {
+  try {
+    const response = await axios.get(`/domain/events/roll-sheets/${rollSheetId}`)
+    return response.data
+  } catch (err) {
+    console.error(err)
+  }
+}
