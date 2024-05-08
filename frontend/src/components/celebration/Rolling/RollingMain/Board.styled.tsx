@@ -5,13 +5,14 @@ export const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
+  font-size: 1.2em;
   z-index: 200;
   width: 30px;
-  height: 24vh;
+  height: 250px;
   background-color: ${colors.mainPink};
   color: ${colors.white};
-  position: absolute;
-  bottom: 5em;
+  position: fixed;
+  bottom: 30%;
   right: 0;
   transition: right 0.3s ease-in-out;
   writing-mode: vertical-lr;
@@ -37,6 +38,8 @@ export const Container = styled.div`
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  width: 100%;
+  height: 100%;
   &::-webkit-scrollbar {
     display: none;
     width: 0;
@@ -48,8 +51,8 @@ export const Container = styled.div`
 
 export const RollingTheme = styled.div<{ $theme: string }>`
   width: 100%;
-  height: 100vh;
-  min-height: 77vh;
+  height: 100%;
+
   opacity: 0.7;
   position: relative;
   min-height: 100vh;
@@ -88,6 +91,34 @@ export const Card = styled.div<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  color: ${(props) => props.$fontColor || colors.black};
+  font-family: ${(props) => props.$font || "Pretendard"};
+  background-color: ${(props) =>
+    props.$bgImage ? "transparent" : props.$bgColor || colors.white};
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+  background-size: cover;
+  background-position: center;
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+`;
+
+
+export const CardDetail = styled.div<{
+  $bgColor?: string;
+  $font: string;
+  $fontColor: string;
+  $bgImage?: string;
+  $shape: string;
+}>`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 100%;
+  margin: 10px;
+  z-index: 250;
+  font-size: 1.5em;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
   background-color: ${(props) =>

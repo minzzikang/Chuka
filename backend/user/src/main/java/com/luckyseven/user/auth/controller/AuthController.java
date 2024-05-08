@@ -15,6 +15,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.HttpClientErrorException;
@@ -95,6 +96,8 @@ public class AuthController {
     @Operation(summary = "AccessToken 재발급", description = "RefreshToken으로 AccessToken을 재발급한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "401", description = "토큰 인증 실패"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
     public ResponseEntity<?> reissueRefreshToken(
@@ -106,6 +109,9 @@ public class AuthController {
             log.info("refreshToken: {}", refreshToken);
 
             String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+            if (newAccessToken == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token type 불일치");
+            }
 
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("Authorization", "Bearer " + newAccessToken);
@@ -116,7 +122,7 @@ public class AuthController {
         } catch (Exception e) {
             log.error(e.getMessage());
 
-            return ResponseEntity.status(400).body(null);
+            return ResponseEntity.status(400).body("access-token 발급 실패");
         }
     }
 
