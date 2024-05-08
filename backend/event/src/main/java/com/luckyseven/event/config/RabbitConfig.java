@@ -14,20 +14,21 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 public class RabbitConfig {
-    @Value("${rabbitmq.notification-Dday.exchange}")
-    private String NOTIFICATION_DDAY_EXCHANGE;
-    @Value("${rabbitmq.notification-Dday.queue}")
-    private String NOTIFICATION_DDAY_QUEUE;
+
+    @Value("${rabbitmq.event_to_notification.exchange}")
+    private String EVENT_TO_NOTIFICATION_EXCHANGE;
+    @Value("${rabbitmq.event_to_notification.queue}")
+    private String EVENT_TO_NOTIFICATION_QUEUE;
 
     @Bean
-    public Queue notificationDdayQueue() {
-        return new Queue(NOTIFICATION_DDAY_QUEUE, false);
+    public Queue eventToNotificationQueue() {
+        return new Queue(EVENT_TO_NOTIFICATION_QUEUE, false);
     }
 
 
     @Bean
-    public TopicExchange notificationDdayExchange() {
-        return new TopicExchange(NOTIFICATION_DDAY_EXCHANGE);
+    public TopicExchange eventToNotificationExchange() {
+        return new TopicExchange(EVENT_TO_NOTIFICATION_EXCHANGE);
     }
 
 
@@ -37,8 +38,8 @@ public class RabbitConfig {
      * 원래는 routingKey를 설정하는데 저희 상황에서 필요한지 모르겠어서 뺐습니다 -지연
      */
     @Bean
-    public Binding bindingNotification(@Qualifier("notificationDdayQueue") Queue notificationDdayQueue,@Qualifier("notificationDdayExchange")  TopicExchange notificationDdayExchange) {
-        return BindingBuilder.bind(notificationDdayQueue).to(notificationDdayExchange).with("");
+    public Binding bindingNotification(@Qualifier("eventToNotificationQueue") Queue eventToNotificationQueue,@Qualifier("eventToNotificationExchange")  TopicExchange eventToNotificationExchange) {
+        return BindingBuilder.bind(eventToNotificationQueue).to(eventToNotificationExchange).with("");
     }
 
     /**

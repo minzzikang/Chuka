@@ -32,8 +32,8 @@ const RollingWrite = ({ onUpdateData }: RollingWriteProps) => {
           shape: "",
           backgroundColor: "",
           backgroundImage: "",
-          font: "",
-          fontColor: "",
+          font: "PRETENDARD",
+          fontColor: "#000",
           content: "",
           nickname: "",
         };

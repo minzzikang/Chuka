@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JoinEventRepository extends JpaRepository<JoinEvent, JoinEventPk> {
 
+    int countByJoinEventPKUserId(JoinEventPk joinEventPk);
+    
 }

@@ -5,13 +5,16 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.message.ProducerService;
+import com.luckyseven.event.message.dto.BaseMessageDto;
 import com.luckyseven.event.rollsheet.dto.CreateEventDto;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
+import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
 import com.luckyseven.event.util.feign.FundingFeignClient;
@@ -27,7 +30,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.NoSuchElementException;
 
 @Slf4j
@@ -41,6 +46,7 @@ public class EventServiceImpl implements EventService {
 
     private final EventRepository eventRepository;
     private final EventQueryRepository eventQueryRepository;
+    private final JoinEventRepository joinEventRepository;
     private final RollSheetRepository rollSheetRepository;
 
     private final FundingFeignClient fundingFeignClient;
@@ -230,6 +236,24 @@ public class EventServiceImpl implements EventService {
         return Math.toIntExact(eventRepository.count());
     }
 
+    @Override
+    public int countPublicEvent() {
+        return eventRepository.countByVisibility(true);
+    }
+
+    @Override
+    public int countMyEvent(String userId) {
+        return eventRepository.countByUserId(userId);
+    }
+
+    @Override
+    public int countParticipantEvent(String userId) {
+//        return joinEventRepository.countByUserId(userId);
+        JoinEventPk joinEventPk = new JoinEventPk();
+        joinEventPk.setUserId(userId);
+        return joinEventRepository.countByJoinEventPKUserId(joinEventPk);
+    }
+
     /**
      * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
      * 알림 서버에 보낸다.
@@ -248,7 +272,15 @@ public class EventServiceImpl implements EventService {
     public ResponseEntity<?> sendDdayalarmTest() {
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
 
-        producerService.sendNotificationMessage(userIdList);
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(userIdList);
+        baseMessageDto.setTopic("DDAY_ALARM");
+//        Map<String,Object> dataSet = new HashMap<>();
+//        dataSet.put("topic","DDAY_ALARM");
+//        dataSet.put("data",userIdList);
+
+
+        producerService.sendNotificationMessage(baseMessageDto);
 
         log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
