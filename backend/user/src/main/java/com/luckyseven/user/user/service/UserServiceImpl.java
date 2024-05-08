@@ -1,6 +1,7 @@
 package com.luckyseven.user.user.service;
 
 import com.luckyseven.user.message.dto.BaseMessageDto;
+import com.luckyseven.user.user.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.user.user.dto.MyInfoDto;
 import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.FcmToken;
@@ -114,6 +115,12 @@ public class UserServiceImpl implements UserService {
 
         // accessToken blackList 처리
         redisService.saveLogoutToken(accessToken);
+    }
+
+    @Override
+    public DeduplicatedUsersIdDto findAllUsersFcmToken(DeduplicatedUsersIdDto deduplicatedUsersIdDto) {
+        deduplicatedUsersIdDto = userQueryRepository.findAllUsersFcmToken(deduplicatedUsersIdDto);
+        return deduplicatedUsersIdDto;
     }
 
     private String unlink(String userId) {
