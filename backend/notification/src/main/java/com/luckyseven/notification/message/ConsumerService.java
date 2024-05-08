@@ -92,6 +92,8 @@ public class ConsumerService {
 
 
 
+
+
                 } finally {
                     // 사용이 끝난 InputStream은 닫아주어야 한다.
                     inputStream.close();
