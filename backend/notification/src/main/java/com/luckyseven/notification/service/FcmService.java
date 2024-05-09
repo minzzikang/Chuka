@@ -10,6 +10,6 @@ import java.util.Map;
 public interface FcmService {
 
     @Async
-    void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable) throws IOException;
+    void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable, Map<Integer, String> eventPageUriMap) throws IOException;
 
 }

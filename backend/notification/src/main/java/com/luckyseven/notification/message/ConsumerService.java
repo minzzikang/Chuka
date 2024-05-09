@@ -58,6 +58,9 @@ public class ConsumerService {
     @RabbitListener(queues = EVENT_TO_NOTIFICATION_QUEUE)
     public void receiveEventMessage(BaseMessageDto dataSet) {
         log.info("** EVENT_TO_NOTIFICATION_QUEUE **");
+        log.info("받는 데이터 => {}",dataSet);
+        log.info("받는 데이터 => {}",dataSet.getData());
+        log.info("받는 데이터 => {}",dataSet.toString());
 
         InputStream inputStream = null;
         try {
@@ -65,6 +68,7 @@ public class ConsumerService {
             if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
                 String json = null;
                 Map<Integer, List<String>> fcmTargetDataSet = new HashMap<>();
+                Map<Integer, String> eventPageUriMap = new HashMap<>();
 
                 DeduplicatedUsersIdDto DUDdto = new DeduplicatedUsersIdDto();
                 ObjectMapper om = new ObjectMapper();
@@ -79,6 +83,9 @@ public class ConsumerService {
                     HashMap<String, List<String>> deduplicatedUserIdList = DUDdto.getHashMapData();
 
                     Integer curEventId = data.getEventId();
+                    String curPageUri = data.getPageUri();
+                    eventPageUriMap.put(curEventId,curPageUri);
+
                     List<String> curMembers = new ArrayList<>();
 
                     deduplicatedUserIdList.put(data.getCreater(), null);
@@ -90,7 +97,7 @@ public class ConsumerService {
                     fcmTargetDataSet.put(curEventId,curMembers);
 
                 }
-//                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
+                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
                 // 보냄~~~~~
                 Response response = userFeignClient.findAllUsersFcmToken(DUDdto);
 
@@ -110,7 +117,7 @@ public class ConsumerService {
 
 //                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
 
-                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable);
+                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable,eventPageUriMap);
 
 
                 // 여기까지 fcmToken board를 받아왔다.

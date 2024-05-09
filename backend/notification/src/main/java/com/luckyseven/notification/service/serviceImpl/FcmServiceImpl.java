@@ -23,8 +23,10 @@ public class FcmServiceImpl implements FcmService {
 
     @Async
     @Override
-    public void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTableDto) throws IOException {
+    public void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTableDto, Map<Integer, String> eventPageUriMap) throws IOException {
         String content = NotificationResponseDescription.EVENT_OPEN;
+
+        System.out.println("eventPageUriMap ==> "+eventPageUriMap);
 
         HashMap<String, List<String>> lookupTable = lookupTableDto.getHashMapData();
 
@@ -45,6 +47,7 @@ public class FcmServiceImpl implements FcmService {
                 if (eventMemberTokens == null || eventMemberTokens.size() == 0) continue;
                 for (String eventMemberToken : eventMemberTokens) {
                     fcmMessageDto.setTargetToken(eventMemberToken);
+                    // fcm발생.
                     fcmSender.sendMessageTo(fcmMessageDto);
                 }
             }
