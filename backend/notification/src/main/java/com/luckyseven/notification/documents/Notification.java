@@ -20,6 +20,7 @@ public class Notification {
     private String creationDateTime;
     private String pageUri;
     private Integer eventId;
+    private Integer fundingId;
     private NotificationType type;
 
     public Notification() {
