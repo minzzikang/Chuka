@@ -8,6 +8,7 @@ import lombok.Setter;
 import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -45,4 +46,16 @@ public class UserDto {
         return userDto;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        UserDto userDto = (UserDto) o;
+        return Objects.equals(userId, userDto.userId) && Objects.equals(nickname, userDto.nickname) && Objects.equals(profileImage, userDto.profileImage) && Objects.equals(joinDate, userDto.joinDate) && role == userDto.role;
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userId, nickname, profileImage, joinDate, role);
+    }
 }
