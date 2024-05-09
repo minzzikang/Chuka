@@ -1,5 +1,10 @@
 import styled from "styled-components";
 import SettingItem from "./SettingItem";
+import { IoIosLock } from "react-icons/io";
+import { GiPartyHat } from "react-icons/gi";
+import { SlPresent } from "react-icons/sl";
+import { LuLogIn, LuLogOut } from "react-icons/lu";
+import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useSetRecoilState, useRecoilValue } from "recoil";
 import { defaultUser, userState } from "@stores/user";
 import { logout } from "@/apis/auth";
@@ -15,7 +20,7 @@ export const Container = styled.div`
 const index = () => {
   const userInfo = useRecoilValue(userState);
   const setUserInfo = useSetRecoilState(userState);
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const handleLogout = async () => {
     try {
@@ -26,9 +31,8 @@ const index = () => {
 
       setUserInfo(defaultUser);
       localStorage.removeItem("currentUser");
-      alert('로그아웃 되었습니다')
-      navigate('/')
-      
+      alert("로그아웃 되었습니다");
+      navigate("/");
     } catch (err) {
       console.error("로그아웃 실패", err);
     }
@@ -39,54 +43,42 @@ const index = () => {
       <SettingItem
         title="계정"
         // text={userInfo.memberNo !== -1 ? userInfo.email : ''}
-        imgSrc="/icon/icon_mypage1.png"
-        width={12.1}
-        height={14.3}
+        icon={<IoIosLock />}
       />
 
       {userInfo ? (
         <SettingItem
           title="나의 ㅊㅋ"
           url="/mypage/celebrate"
-          imgSrc="/icon/icon_mypage2.png"
-          width={12.56}
-          height={16}
+          icon={<GiPartyHat />}
         />
       ) : undefined}
       {userInfo ? (
         <SettingItem
           title="나의 펀딩"
           url="/mypage/funding"
-          imgSrc="/icon/icon_mypage3.png"
-          width={15}
-          height={15}
+          icon={<SlPresent />}
         />
       ) : undefined}
 
       {userInfo ? (
         <SettingItem
           title="로그아웃"
-          imgSrc="/icon/icon_mypage4.png"
-          width={15}
-          height={15}
+          icon={<LuLogOut />}
           onClick={handleLogout}
         />
       ) : (
         <SettingItem
           title="로그인"
           // url="/mypage/funding"
-          imgSrc="/icon/icon_mypage4-1.png"
-          width={15}
-          height={15}
+          icon={<LuLogIn />}
         />
       )}
 
       <SettingItem
         title="회원탈퇴"
         // url="/mypage/funding"
-        imgSrc="/icon/icon_mypage5.png"
-        width={18}
-        height={15}
+        icon={<IoIosCloseCircleOutline />}
       />
     </Container>
   );
