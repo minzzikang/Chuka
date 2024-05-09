@@ -23,7 +23,7 @@ const MyCelebratePage = () => {
   useEffect(() => {
     const fetchRegEvents = async () => {
       try {
-        const response = await fetchMyEventList("", regPage, 3);
+        const response = await fetchMyEventList('', regPage, 3);
         setRegisteredEvents(response);
         // console.log("참여한이벤트: ", registeredEvents);
       } catch (err) {
