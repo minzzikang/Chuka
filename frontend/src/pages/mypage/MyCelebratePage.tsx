@@ -8,7 +8,6 @@ import { useEffect, useState } from "react";
 import { EventDataType } from "@/types/rollingType";
 
 const MyCelebratePage = () => {
-  const [activeIdx, setActiveIdx] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(0);
   const [registeredEvents, setRegisteredEvents] = useState<EventDataType>({
     totalCnt: 0,
@@ -19,10 +18,7 @@ const MyCelebratePage = () => {
     eventList: [],
   });
 
-  const onClickFilter = (index: number) => {
-    setActiveIdx(index);
-  };
-
+  
   useEffect(() => {
     const fetchRegEvents = async () => {
       try {

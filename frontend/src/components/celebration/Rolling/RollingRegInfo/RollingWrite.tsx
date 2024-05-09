@@ -1,14 +1,15 @@
 import { colors } from "@styles/theme";
-import ColorSelectModal from "./ColorSelectModal";
 import Recg from "/img/img_recgPaper.png";
 import Circle from "/img/img_circlePaper.png";
+import ColorCard from "./ColorCard";
 import * as r from "./RollingWrite.styled";
-import { IoMdAdd } from "react-icons/io";
 import { useState, useRef, ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/stores/user";
 import { createRollMsg } from "@/apis/roll";
+import { LuPaintbrush } from "react-icons/lu";
+import { TiScissors } from "react-icons/ti";
 
 interface RegDataProps {
   shape: string;
@@ -45,7 +46,6 @@ const RollingWrite = () => {
   });
 
   const [backgroundType, setBackgroundType] = useState<string>("");
-  const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
   const [selectedFile, setSelectedFile] = useState<string>("");
   const [saveModalOpen, setSaveModalOpen] = useState<boolean>(false);
 
@@ -76,7 +76,7 @@ const RollingWrite = () => {
 
     if (file) {
       const fileURL = URL.createObjectURL(file);
-      setSelectedFile(fileURL); // blob url (string)
+      setSelectedFile(fileURL); // 이미지 url
 
       setRegData((prevData) => ({
         ...prevData,
@@ -89,7 +89,6 @@ const RollingWrite = () => {
 
   const triggerFileInput = () => {
     fileInputRef.current?.click();
-    setBackgroundType("img");
   };
 
   const handleSubmit = async () => {
@@ -149,6 +148,9 @@ const RollingWrite = () => {
     window.history.back();
   };
 
+  const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
+  const [isShapeModalOpen, setIsShapeModalOpen] = useState(false);
+
   return (
     <>
       <r.Header>
@@ -156,6 +158,19 @@ const RollingWrite = () => {
         <span>메시지 작성하기</span>
       </r.Header>
       <r.Container>
+        <r.SelectWrap>
+          <div
+            style={{ marginRight: "15px" }}
+            onClick={() => setIsSelectModalOpen(true)}
+          >
+            <LuPaintbrush />
+            <span>배경 선택</span>
+          </div>
+          <div onClick={() => setIsShapeModalOpen(true)}>
+            <TiScissors />
+            <span>종이 모양 선택</span>
+          </div>
+        </r.SelectWrap>
         <r.MessageBox
           id="content"
           font={selectedFont}
@@ -174,8 +189,8 @@ const RollingWrite = () => {
             }));
           }}
         />
+        <r.Label>작성자</r.Label>
         <r.Wrap>
-          <span>From:</span>
           <r.WriterInfo
             value={regData.nickname}
             placeholder={user.nickname}
@@ -188,6 +203,7 @@ const RollingWrite = () => {
             }
           />
         </r.Wrap>
+        <r.Label>글씨색</r.Label>
         <r.Wrap>
           {colorList.map((color) => (
             <r.ColorButton
@@ -202,6 +218,7 @@ const RollingWrite = () => {
             />
           ))}
         </r.Wrap>
+        <r.Label>글씨체</r.Label>
         <r.Wrap>
           <r.PretendButton
             $isSelected={selectedFont === "PRETENDARD"}
@@ -238,39 +255,56 @@ const RollingWrite = () => {
             </r.ShapeButton>
           ))}
         </r.Wrap>
-        <r.Wrap>
-          <r.BackgroundButton
-            onClick={() => {
-              setIsRegOpen(true);
-              setBackgroundType("color");
-            }}
-            $isActive={backgroundType === "color"}
-          >
-            배경색 선택
-          </r.BackgroundButton>
-          <input
-            type="file"
-            style={{ display: "none" }}
-            ref={fileInputRef}
-            name="img"
-            id="img"
-            onChange={handleFileInput}
-            accept="image/*"
-          />
-          <r.BackgroundButton
-            $isActive={backgroundType === "img"}
-            onClick={triggerFileInput}
-          >
-            <IoMdAdd /> 배경 사진 업로드
-          </r.BackgroundButton>
-          {isRegOpen && (
-            <ColorSelectModal
-              name="배경색 선택"
-              onClose={() => setIsRegOpen(false)}
-              onSelectColor={handleSelectColor}
-            />
-          )}
-        </r.Wrap>
+        <input
+          type="file"
+          style={{ display: "none" }}
+          ref={fileInputRef}
+          name="img"
+          id="img"
+          onChange={handleFileInput}
+          accept="image/*"
+        />
+        {isSelectModalOpen && (
+          <>
+            <r.BlackBox onClick={() => setIsSelectModalOpen(false)} />
+            <r.ModalContainer>
+              <r.P>배경 종류를 선택해주세요</r.P>
+              <div style={{ display: "flex" }}>
+                <button onClick={() => setBackgroundType("color")}>색깔</button>
+                <button
+                  onClick={() => {
+                    setBackgroundType("img");
+                    triggerFileInput();
+                  }}
+                >
+                  사진
+                </button>
+              </div>
+              {backgroundType === "color" && (
+                <ColorCard
+                  onColorSelect={(color: string) => {
+                    handleSelectColor(color);
+                    setIsSelectModalOpen(false);
+                  }}
+                />
+              )}
+              {backgroundType === "img" && selectedFile && (
+                <img
+                  src={selectedFile}
+                  alt="미리보기"
+                  style={{ width: "30%", height: "auto" }}
+                ></img>
+              )}
+              <r.Backdrop>
+                <img
+                  src={"/icon/icon_close_black.png"}
+                  alt="close"
+                  onClick={() => setIsSelectModalOpen(false)}
+                />
+              </r.Backdrop>
+            </r.ModalContainer>
+          </>
+        )}
         <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
         {saveModalOpen && (
           <>
