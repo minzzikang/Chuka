@@ -11,11 +11,11 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.persistence.EntityNotFoundException;
-import jakarta.ws.rs.NotAuthorizedException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.AuthorizationServiceException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -103,7 +103,10 @@ public class FundingController {
             description = "실제 api를 요청할 때는 <strong>loggedInUser</strong>가 아니라 헤더에 토큰을 담아보내주세요. <strong>loggedInUser</strong>는 백엔드 게이트웨이에서 토큰을 바꿔서 보낼 예정입니다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "해당하는 결제 내역이 없습니다 or 해당하는 펀딩이 없습니다 or 이미 결제된 건입니다. or 결제 오류입니다. or 정상적이지 않은 결제입니다."),
+            @ApiResponse(responseCode = "401", description = "PG사 인증 오류입니다."),
             @ApiResponse(responseCode = "403", description = "펀딩에 참여할 수 없음 (펀딩 중지 상태)"),
+            @ApiResponse(responseCode = "424", description = "PG사 서버 에러 or PG사에 잘못된 파라미터로 요청" ),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
@@ -113,6 +116,10 @@ public class FundingController {
             return ResponseEntity.status(HttpStatus.OK).body(sponsorId);
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.valueOf(403)).body("펀딩에 참여할 수 없습니다. (펀딩 중지 상태)");
+        } catch (IllegalCallerException |NoSuchElementException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(400)).body(e.getMessage());
+        } catch (AuthorizationServiceException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(401)).body(e.getMessage());
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -243,4 +250,20 @@ public class FundingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
         }
     }
+
+    @PostMapping("/test")
+    @Operation(
+            summary = "테스트",
+            description = "결제 검증용")
+    public ResponseEntity<?> test(@RequestBody final FundingJoinReq dto, @RequestHeader(name = "loggedInUser", required = false) String userId) {
+        try {
+            final String transactionId = sponsorService.test(dto);
+            return ResponseEntity.status(HttpStatus.OK).body(transactionId);
+        } catch (Exception e) {
+            log.info("[ERROR] : {}", e.getMessage());
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(e.getMessage());
+        }
+    }
+
 }
