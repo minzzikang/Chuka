@@ -1,13 +1,16 @@
 import Header from "@common/header";
-import SearchBar from "@/components/searchBar";
 import Navbar from "@common/navbar";
 import EventNull from "@components/mypage/EventNull";
 import Event from "@components/mypage/Event";
+import { IoIosSearch } from "react-icons/io";
 import { fetchMyEventList } from "@/apis/event";
 import { useEffect, useState } from "react";
 import { EventDataType } from "@/types/rollingType";
+import { useNavigate } from "react-router-dom";
 
 const MyCelebratePage = () => {
+  const navigate = useNavigate();
+  // 이벤트 조회 페이지네이션
   const [regPage, setRegPage] = useState(1);
   const [partPage, setPartPage] = useState(1);
   const [registeredEvents, setRegisteredEvents] = useState<EventDataType>({
@@ -24,7 +27,6 @@ const MyCelebratePage = () => {
       try {
         const response = await fetchMyEventList({ page: regPage - 1, size: 3 });
         setRegisteredEvents(response);
-        console.log("참여한이벤트: ", registeredEvents);
       } catch (err) {
         console.log(err);
       }
@@ -39,7 +41,6 @@ const MyCelebratePage = () => {
           size: 3,
         });
         setParticipatedEvents(response);
-        // console.log("등록한 이벤트: ", participatedEvents);
       } catch (err) {
         console.log(err);
       }
@@ -56,12 +57,9 @@ const MyCelebratePage = () => {
         flexDirection: "column",
       }}
     >
-      <Header children="나의 ㅊㅋ" />
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "10px" }}
-      >
-        <SearchBar />
-      </div>
+      <Header icon={<IoIosSearch />} onIconClick={() => navigate("/search")}>
+        {"나의 ㅊㅋ"}
+      </Header>
       {registeredEvents.totalCnt === 0 || participatedEvents.totalCnt === 0 ? (
         <EventNull />
       ) : (

@@ -23,28 +23,35 @@ const index = (props: EventProps) => {
       <e.Container>
         <e.Wrap>
           <e.Label>{title}</e.Label>
-          <e.CardWrap>
-            {eventList.eventList.map((event, index) => (
-              <EventCard
-                key={index}
-                eventId={event.eventId}
-                title={event.title}
-                pageUri={event.pageUri}
-                createTime={event.createTime}
-                bannerThumbnailUrl={event.bannerThumbnailUrl}
-                date={event.date}
-              />
-            ))}
-          </e.CardWrap>
+          {eventList.totalCnt > 0 && (
+            <>
+              <e.CardWrap>
+                {eventList.eventList.map((event, index) => (
+                  <EventCard
+                    key={index}
+                    eventId={event.eventId}
+                    title={event.title}
+                    pageUri={event.pageUri}
+                    createTime={event.createTime}
+                    bannerThumbnailUrl={event.bannerThumbnailUrl}
+                    date={event.date}
+                  />
+                ))}
+              </e.CardWrap>
+            </>
+          )}
         </e.Wrap>
-        <e.PagiWrap>
-          <Pagination
-            totalPage={Math.ceil(eventList.totalCnt / 3)}
-            limit={3}
-            page={currentPage}
-            setPage={setCurrentPage}
-          />
-        </e.PagiWrap>
+        {eventList.totalCnt > 0 && (
+          <e.PagiWrap>
+            <Pagination
+              totalPage={Math.ceil(eventList.totalCnt / 3)}
+              limit={3}
+              page={currentPage}
+              setPage={setCurrentPage}
+            />
+          </e.PagiWrap>
+        )}
+        {eventList.totalCnt === 0 && <p>이벤트 정보가 없습니다.</p>}
       </e.Container>
     </>
   );
