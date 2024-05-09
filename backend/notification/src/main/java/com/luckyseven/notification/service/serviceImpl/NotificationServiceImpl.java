@@ -2,6 +2,7 @@ package com.luckyseven.notification.service.serviceImpl;
 
 import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
+import com.luckyseven.notification.dto.EventCreateAlarmDto;
 import com.luckyseven.notification.repository.NotificationRepository;
 import com.luckyseven.notification.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,5 +56,14 @@ public class NotificationServiceImpl implements NotificationService {
     @Override
     public void deleteAllByUserId(String userId) {
         repository.deleteAllByUserId(userId);
+    }
+
+    @Override
+    public void sendNotification(EventCreateAlarmDto data) {
+        Notification notification = new Notification(data.getUserId(), NotificationType.EVENT_CREATE);
+        notification.setPageUri(data.getEventPageUri());
+        notification.setEventId(data.getEventId());
+        repository.save(notification);
+
     }
 }
