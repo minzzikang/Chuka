@@ -18,7 +18,7 @@ const MessageList = () => {
   return (
     <M.Container>
       <M.Wrap>
-        <M.Text>{"작성자"}님의 친구들이 남긴 ㅊㅋ</M.Text>
+        <M.Text>친구들이 남긴 ㅊㅋ</M.Text>
         {data && visibleData.map((item) => <MessageItem key='' />)}
         {isSeeMore ? (
           <M.SeeMoreBtn onClick={() => setIsSeeMore(!isSeeMore)}>
