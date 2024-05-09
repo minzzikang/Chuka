@@ -239,22 +239,7 @@ const RollingWrite = () => {
             나무정원체
           </r.TreegardenButton>
         </r.Wrap>
-        <r.Wrap>
-          {shapeList.map((shape) => (
-            <r.ShapeButton
-              key={shape}
-              $isActive={regData.shape === shapeMap[shape]}
-              onClick={() => onClickShape(shape)}
-            >
-              {shape === "사각형" ? (
-                <r.Img src={Recg} alt={shape} />
-              ) : (
-                <r.Img src={Circle} alt={shape} />
-              )}
-              {shape}
-            </r.ShapeButton>
-          ))}
-        </r.Wrap>
+        <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
         <input
           type="file"
           style={{ display: "none" }}
@@ -268,7 +253,7 @@ const RollingWrite = () => {
           <>
             <r.BlackBox onClick={() => setIsSelectModalOpen(false)} />
             <r.ModalContainer>
-              <r.P>배경 종류를 선택해주세요</r.P>
+              <r.P>배경 종류를 선택해주세요.</r.P>
               <div style={{ display: "flex" }}>
                 <button onClick={() => setBackgroundType("color")}>색깔</button>
                 <button
@@ -305,14 +290,40 @@ const RollingWrite = () => {
             </r.ModalContainer>
           </>
         )}
-        <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
+        {isShapeModalOpen && (
+          <>
+            <r.BlackBox onClick={() => setIsShapeModalOpen(false)} />
+            <r.ModalContainer>
+              <r.P>종이 모양을 선택해주세요.</r.P>
+              <div style={{ display: "flex" }}>
+                {shapeList.map((shape) => (
+                  <button key={shape} onClick={() => onClickShape(shape)}>
+                    {shape === "사각형" ? (
+                      <r.Img src={Recg} alt={shape} />
+                    ) : (
+                      <r.Img src={Circle} alt={shape} />
+                    )}
+                    {shape}
+                  </button>
+                ))}
+              </div>
+              <r.Backdrop>
+                <img
+                  src={"/icon/icon_close_black.png"}
+                  alt="close"
+                  onClick={() => setIsShapeModalOpen(false)}
+                />
+              </r.Backdrop>
+            </r.ModalContainer>
+          </>
+        )}
         {saveModalOpen && (
           <>
             <r.BlackBox onClick={() => setSaveModalOpen(false)} />
             <r.ModalContainer>
               <r.P>한 번 작성한 메시지는 삭제나 수정이 불가능합니다.</r.P>
               <r.P>정말 저장하시겠습니까?</r.P>
-              <r.Button onClick={handleSubmit}>저장하기</r.Button>
+              <button onClick={handleSubmit}>저장하기</button>
               <r.Backdrop>
                 <img
                   src={"/icon/icon_close_black.png"}
