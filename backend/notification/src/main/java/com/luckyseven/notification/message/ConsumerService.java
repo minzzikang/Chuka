@@ -72,8 +72,19 @@ public class ConsumerService {
             // fcm알림
 
             // fcmToken받아오기.
+            Response response = userFeignClient.getUserFcmToken(userId);
+
+            ObjectMapper om = new ObjectMapper();
+            InputStream inputStream = null;
+            inputStream = response.body().asInputStream();
+            // InputStream을 문자열로 변환한다.
+            String responseBody = IOUtils.toString(inputStream, "UTF-8");
+            inputStream.close();
 
 
+            List<String> userFcmTokenList = om.readValue(responseBody, new TypeReference<List<String>>() {});
+
+            // Todo : 펀딩여부알림을 받을 회원의 fcmToken까지 받았음, 회원의 모든 기기에 알림을 보내면 된다.
 
 
         } catch (Exception e) {
