@@ -63,6 +63,7 @@ public class ConsumerService {
                 funding.failCrawling(FundingStatus.REJECT);
 
         }
+        // 알림요청MQ
         FundingStatusAlarmDto fundingStatusAlarmDto = new FundingStatusAlarmDto(userId,fundingId,topic);
         producerService.sendFundingStatusMessage(fundingStatusAlarmDto);
 
