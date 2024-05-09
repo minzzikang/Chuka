@@ -64,7 +64,6 @@ const RollingMainPage = () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
           setEventInfoData(() => eventInfo);
         } catch (err) {
           console.error(err);

@@ -1,45 +1,24 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
-export const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  z-index: 200;
-  width: 30px;
-  height: 250px;
-  background-color: ${colors.mainPink};
-  color: ${colors.white};
-  position: fixed;
-  bottom: 30%;
-  right: 0;
-  transition: right 0.3s ease-in-out;
-  writing-mode: vertical-lr;
-`;
 
-export const P = styled.p`
-  position: absolute;
-  font-size: 20px;
-  color: ${colors.black};
-  text-shadow:
-    -1px 0px ${colors.white},
-    0px 1px ${colors.white},
-    1px 0px ${colors.white},
-    0px -1px ${colors.white};
-  transform: translate(40%, 0);
-  top: 10%;
-  z-index: 10;
-`;
-
-export const Container = styled.div`
+export const Container = styled.div<{ $theme: string }>`
+  width: 100%;
+  height: 100%;
   position: relative;
+/* 
+  background-image: ${(props) =>
+    props.$theme === "CORK_BOARD"
+      ? `url("/img/img_rolling_theme_cork.jpg")`
+      : `url("/img/img_rolling_theme_board.jpg")`}; */
+  /* background-repeat: repeat-y; */
+  /* background-size: cover; */
+
+
   flex-grow: 1;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
-  width: 100%;
-  height: 100%;
   &::-webkit-scrollbar {
     display: none;
     width: 0;
@@ -76,6 +55,38 @@ export const CardWrap = styled.div`
   min-height: 100vh;
 `;
 
+
+export const P = styled.p`
+  position: absolute;
+  font-size: 20px;
+  color: ${colors.black};
+  text-shadow:
+    -1px 0px ${colors.white},
+    0px 1px ${colors.white},
+    1px 0px ${colors.white},
+    0px -1px ${colors.white};
+  transform: translate(40%, 0);
+  top: 10%;
+  z-index: 10;
+`;
+
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  z-index: 200;
+  width: 30px;
+  height: 250px;
+  background-color: ${colors.mainPink};
+  color: ${colors.white};
+  position: fixed;
+  bottom: 30%;
+  right: 0;
+  transition: right 0.3s ease-in-out;
+  writing-mode: vertical-lr;
+`;
+
 export const Card = styled.div<{
   $bgColor?: string;
   $font: string;
@@ -101,6 +112,8 @@ export const Card = styled.div<{
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
+
+
 
 
 export const CardDetail = styled.div<{

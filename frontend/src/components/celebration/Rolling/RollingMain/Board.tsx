@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 import { fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
 import Modal from "@common/modal";
+import useIntersect from "@/hooks/useIntersect";
 
 interface RollingData {
   rollSheetList: RollingItem[];
@@ -29,53 +30,95 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-  const params = useParams<{ eventId?: string }>();
-
   const { eventId, theme } = props;
-
+  const prevUrl = window.location.href;
+  const accessToken = localStorage.getItem("access_token");
+  const params = useParams<{ eventId?: string }>();
   const finalEventId =
     eventId === 0 ? params.eventId ?? "default" : eventId.toString();
-
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
   const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
+  
+  
+  
+  
+  
   const [rolls, setRolls] = useState<RollingData>({
     rollSheetList: [],
     totalCnt: 0,
   });
+  
   const [currentPage, setCurrentPage] = useState(0);
   const [loading, setLoading] = useState(false);
-  const currentPageRef = useRef(currentPage);
+  const targetRef = useRef<HTMLDivElement>(null);
+
+
+
+  // 롤링페이퍼 리스트 불러오고 저장
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      try {
+        const RollList = await fetchRollSheets(finalEventId, currentPage, 6);
+        if (RollList) {
+          setRolls(RollList);
+          setCurrentPage(currentPage + 1);
+        }
+        console.log('롤리스트', RollList);
+
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchData();
+
+    
+  }, [finalEventId]);
+
+
+  const handleIntersect = (entry: IntersectionObserverEntry, observer: IntersectionObserver) => {
+    if (entry.isIntersecting && !loading) {
+      fetchData();
+    }
+  };
 
   useEffect(() => {
-    currentPageRef.current = currentPage;
-  }, [currentPage]);
+    fetchData();
+  }, [finalEventId]);
 
-  const prevUrl = window.location.href;
-  const accessToken = localStorage.getItem("access_token");
-
-  const [selectedRoll, setSelectedRoll] = useState<RollingItem>({
-    nickname: '',
-    content: '',
-    backgroundImageThumbnailUrl: '',
-    backgroundColor: '',
-    font: '',
-    fontColor: '',
-    shape: '',
-    rollSheetId: '',
+  useIntersect(handleIntersect, {
+    rootMargin: '200px',
+    threshold: 0.1,
   });
 
+  
+  const [selectedRoll, setSelectedRoll] = useState<RollingItem>({
+    nickname: "",
+    content: "",
+    backgroundImageThumbnailUrl: "",
+    backgroundColor: "",
+    font: "",
+    fontColor: "",
+    shape: "",
+    rollSheetId: "",
+  });
+
+  // 카드 디테일 모달 오픈
   const handleCardClick = async (rollId: string) => {
     try {
-      const response = await fetchRoll(rollId)
+      const response = await fetchRoll(rollId);
       setSelectedRoll(response);
       setRollingModalOpen(true);
     } catch (err) {
       console.error(err);
-      alert('롤링페이퍼 상세조회에 실패했습니다.')
+      alert("롤링페이퍼 상세조회에 실패했습니다.");
     }
   };
 
+  // 펀딩 drawer 오픈
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
     console.log(rolls);
@@ -86,87 +129,12 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  // 롤링페이퍼 리스트 불러오고 저장
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const RollList = await fetchRollSheets(finalEventId, currentPage, 6);
-        console.log("롤리스트", RollList);
+  // 무한 스크롤
 
-        if (RollList) {
-          setRolls(RollList);
-          setCurrentPage(currentPage + 1);
-          console.log("curPage: ", currentPage);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-      // }
-    };
-    fetchData();
-
-    // window.addEventListener("scroll", handleScroll);
-    // return () => {
-    //   window.removeEventListener("scroll", handleScroll);
-    // };
-  }, [finalEventId]);
-
-  // 무한 스크롤 데이터 불러오기
-  const loadMore = async () => {
-    if (
-      !loading &&
-      window.innerHeight + window.scrollY >= document.body.offsetHeight - 100
-    ) {
-      setLoading(true);
-      try {
-        const newRollList = await fetchRollSheets(
-          // values.eventId.toString(),
-          finalEventId,
-          currentPage,
-          6
-        );
-        if (newRollList && newRollList.length > 0) {
-          setRolls((prevRolls) => ({
-            rollSheetList: [...prevRolls.rollSheetList, ...newRollList],
-            totalCnt: prevRolls.totalCnt + newRollList.length,
-          }));
-          setCurrentPage(currentPage + 1);
-        }
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    }
-  };
-
-  useEffect(() => {
-    const handleScroll = () => {
-      loadMore();
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    // loadMore();
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    loadMore(); // 초기 데이터 로드
-  }, []);
-
-  useEffect(() => {
-    console.log("Updated rolls:", rolls);
-  }, [rolls]);
 
   return (
     <>
-      <b.Container>
+      <b.Container $theme={theme}>
         {rolls.rollSheetList.length === 0 && (
           <b.P>롤링페이퍼를 작성해주세요.</b.P>
         )}
@@ -186,23 +154,26 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
+        {loading && <p ref={targetRef}>Loading...</p>}
         <b.RollingTheme $theme={theme} />
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
+        <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
       </b.Container>
 
-      <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
-
       {rollingModalOpen && selectedRoll && (
-        <Modal name={selectedRoll.nickname} onClose={() => setRollingModalOpen(false)}>
-            <b.CardDetail
-              $bgColor={selectedRoll.backgroundColor}
-              $font={selectedRoll.font}
-              $fontColor={selectedRoll.fontColor}
-              $bgImage={selectedRoll.backgroundImageThumbnailUrl}
-              $shape={selectedRoll.shape}
-            >
-              {selectedRoll.content}
-            </b.CardDetail>
+        <Modal
+          name={selectedRoll.nickname}
+          onClose={() => setRollingModalOpen(false)}
+        >
+          <b.CardDetail
+            $bgColor={selectedRoll.backgroundColor}
+            $font={selectedRoll.font}
+            $fontColor={selectedRoll.fontColor}
+            $bgImage={selectedRoll.backgroundImageThumbnailUrl}
+            $shape={selectedRoll.shape}
+          >
+            {selectedRoll.content}
+          </b.CardDetail>
         </Modal>
       )}
 
