@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { colors } from "@/styles/theme";
 import * as c from "./ColorCard.styled";
 
-interface ColorCardProps {
-  onSelectColor: (color: string) => void;
+interface ColorProps {
+  onColorSelect: (color: string) => void;
 }
 
-const ColorCard: React.FC<ColorCardProps> = ({ onSelectColor }) => {
+const ColorCard = (props: ColorProps) => {
+  const { onColorSelect } = props;
   const [selectedColor, setSelectedColor] = useState<string>("");
 
   const colorList = [
@@ -26,7 +27,7 @@ const ColorCard: React.FC<ColorCardProps> = ({ onSelectColor }) => {
           $isSelected={color === selectedColor}
           onClick={() => {
             setSelectedColor(color);
-            onSelectColor(color);
+            onColorSelect(color);
           }}
         />
       ))}
