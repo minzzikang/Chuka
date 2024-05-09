@@ -2,6 +2,7 @@ package com.luckyseven.notification.message;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DdayReceiveDto;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
@@ -57,10 +58,7 @@ public class ConsumerService {
     @Transactional
     @RabbitListener(queues = EVENT_TO_NOTIFICATION_QUEUE)
     public void receiveEventMessage(BaseMessageDto dataSet) {
-        log.info("** EVENT_TO_NOTIFICATION_QUEUE **");
-        log.info("받는 데이터 => {}",dataSet);
-        log.info("받는 데이터 => {}",dataSet.getData());
-        log.info("받는 데이터 => {}",dataSet.toString());
+
 
         InputStream inputStream = null;
         try {
@@ -82,22 +80,28 @@ public class ConsumerService {
                     // 여기서 회원 정보를 보내서 fcm을 받아오는 로직을 처리해야하는데...
                     HashMap<String, List<String>> deduplicatedUserIdList = DUDdto.getHashMapData();
 
+                    // 현재 데이터의 이벤트, 접속Uri
                     Integer curEventId = data.getEventId();
                     String curPageUri = data.getPageUri();
-                    eventPageUriMap.put(curEventId,curPageUri);
 
+                    eventPageUriMap.put(curEventId,curPageUri);
                     List<String> curMembers = new ArrayList<>();
 
                     deduplicatedUserIdList.put(data.getCreater(), null);
                     curMembers.add(data.getCreater());
+
                     for (String joinMember : data.getJoinMembers()) {
                         deduplicatedUserIdList.put(joinMember, null);
                         curMembers.add(joinMember);
                     }
                     fcmTargetDataSet.put(curEventId,curMembers);
 
+                    // List<userIdList>, 알림 type,
+                    notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN,curEventId,curPageUri); // 단체 일반 알림 보내기
+
+
                 }
-                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
+//                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
                 // 보냄~~~~~
                 Response response = userFeignClient.findAllUsersFcmToken(DUDdto);
 
@@ -117,7 +121,9 @@ public class ConsumerService {
 
 //                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
 
-                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable,eventPageUriMap);
+
+
+//                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable,eventPageUriMap);
 
 
                 // 여기까지 fcmToken board를 받아왔다.
