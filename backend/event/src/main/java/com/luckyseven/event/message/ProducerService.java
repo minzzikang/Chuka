@@ -1,6 +1,8 @@
 package com.luckyseven.event.message;
 
 import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
+import com.luckyseven.event.rollsheet.dto.EventCreateAlarmDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,8 +24,22 @@ public class ProducerService {
 
     @Value("${rabbitmq.event_to_notification.exchange}")
     private String EVENT_TO_NOTIFICATION_EXCHANGE;
+
     public void sendNotificationMessage(BaseMessageDto dataSet) {
         rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", dataSet);
     }
 
+    public void sendNotificationMessage(int eventId, String pageUri, String userId) {
+        // 알림 발생.
+        EventCreateAlarmDto eventCreateAlarmDto = new EventCreateAlarmDto();
+        eventCreateAlarmDto.setEventId(eventId);
+        eventCreateAlarmDto.setUserId(userId);
+        eventCreateAlarmDto.setEventPageUri(pageUri);
+
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(eventCreateAlarmDto);
+        baseMessageDto.setTopic(Topic.EVENT_CREATE);
+
+        rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", baseMessageDto);
+    }
 }
