@@ -21,14 +21,6 @@ class AuthServiceImplTest {
     AuthService authService;
 
     @Test
-    void getToken() {
-    }
-
-    @Test
-    void joinOrLoginForKakao() {
-    }
-
-    @Test
     void getKakaoToken() {
     }
 
@@ -58,6 +50,7 @@ class AuthServiceImplTest {
     }
 
     @Test
+    @DisplayName("AccessToken 발급")
     void issueAccessToken() {
         //
         KakaoUserDto userDto = new KakaoUserDto();
@@ -75,6 +68,7 @@ class AuthServiceImplTest {
     }
 
     @Test
+    @DisplayName("RefreshToken 발급")
     void issueRefreshToken() {
         //
         KakaoUserDto userDto = new KakaoUserDto();
@@ -93,5 +87,6 @@ class AuthServiceImplTest {
 
     @Test
     void reIssueAccessTokenWithRefreshToken() {
+
     }
 }
