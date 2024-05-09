@@ -71,7 +71,9 @@ public class ConsumerService {
 
             // fcm알림
             // fcmToken받아오기.
-            
+
+
+
 
         } catch (Exception e) {
             e.printStackTrace();
