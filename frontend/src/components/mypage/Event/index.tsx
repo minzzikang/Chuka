@@ -1,23 +1,37 @@
-import { useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
 import * as e from "./Event.styled";
-import SearchBar from "@/components/searchBar";
-import RegEventList from "./RegSection/RegEventList";
+import EventCard from "./EventCard";
+import { EventDataType } from "@/types/rollingType";
 
-const index = () => {
-  const navigate = useNavigate();
+interface EventProps {
+  eventList: EventDataType;
+  title: string
+}
+
+const index = (props: EventProps) => {
+  const { eventList, title } = props;
 
   return (
     <>
       <e.Container>
-        <SearchBar />
         <e.Wrap>
-          <e.Label>내가 등록한 ㅊㅋ</e.Label>
-          <RegEventList />
-        </e.Wrap>
-        <e.Wrap>
-          <e.Label>내가 참여한 ㅊㅋ</e.Label>
-          <RegEventList />
+          <e.Label>{title}</e.Label>
+          <e.CardWrap>
+            {eventList.totalCnt > 0 ? (
+              eventList.eventList.map((event, index) => (
+                <EventCard
+                  key={index}
+                  eventId={event.eventId}
+                  title={event.title}
+                  pageUri={event.pageUri}
+                  createTime={event.createTime}
+                  bannerThumbnailUrl={event.bannerThumbnailUrl}
+                  date={event.date}
+                />
+              ))
+            ) : (
+              <p>이벤트를 조회할 수 없습니다.</p>
+            )}
+          </e.CardWrap>
         </e.Wrap>
       </e.Container>
     </>
