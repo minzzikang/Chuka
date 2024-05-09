@@ -2,10 +2,12 @@ package com.luckyseven.user.auth.service;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.dto.UserDto;
+import com.luckyseven.user.util.jwt.JWTUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -19,6 +21,9 @@ class AuthServiceImplTest {
 
     @Autowired
     AuthService authService;
+
+    @Mock
+    JWTUtil jwtUtil;
 
     @Test
     void getKakaoToken() {
@@ -87,6 +92,19 @@ class AuthServiceImplTest {
 
     @Test
     void reIssueAccessTokenWithRefreshToken() {
+        //
+        KakaoUserDto userDto = new KakaoUserDto();
+        userDto.setId(1L);
+        KakaoUserDto.Properties properties = new KakaoUserDto.Properties();
+        properties.setNickname("테스트_닉네임");
+        userDto.setProperties(properties);
+        String refreshToken = authService.issueRefreshToken(userDto);
+
+        //
+        String newRefreshToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+
+        //
+        Assertions.assertThat(newRefreshToken).isNotNull();
 
     }
 }
