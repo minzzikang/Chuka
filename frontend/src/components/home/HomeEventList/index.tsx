@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import * as h from "@components/home/HomeEventList/HomeEventList.styled";
 import { fetchList } from "@/apis/event";
 import Pagination from "@common/pagination";
-import styled from "styled-components";
 
 interface EventData {
   eventList: EventItem[];

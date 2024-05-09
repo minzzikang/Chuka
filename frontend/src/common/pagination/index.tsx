@@ -55,8 +55,8 @@ export const sliceArrayByLimit = (totalPage: number, limit: number) => {
 };
 
 const index = (props: PaginationType) => {
+  // 전체 페이지네이션 갯수, 한 사이클의 페이지네이션 제한 갯수 , 현재 페이지, 현재 페이지 이동
   const { totalPage, limit, page, setPage } = props;
-
   const [currentPageItems, setCurrentPageItems] = useState<number[]>([]);
   const [totalPageItems, setTotalPageItems] = useState<number[][]>([]);
 
