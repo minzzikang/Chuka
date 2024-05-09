@@ -2,7 +2,6 @@ package com.luckyseven.user.auth.service;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.dto.UserDto;
-import com.luckyseven.user.util.jwt.JWTUtil;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,9 +20,6 @@ class AuthServiceImplTest {
 
     @Autowired
     AuthService authService;
-
-    @Mock
-    JWTUtil jwtUtil;
 
     @Test
     void getKakaoToken() {
