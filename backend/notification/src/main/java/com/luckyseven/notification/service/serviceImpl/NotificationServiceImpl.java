@@ -7,6 +7,7 @@ import com.luckyseven.notification.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -36,6 +37,19 @@ public class NotificationServiceImpl implements NotificationService {
         Notification notification = new Notification(userId, type);
         repository.save(notification);
 
+    }
+
+    // 단체 알림.
+    @Override
+    public void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri) {
+        List<Notification> saveDataList = new ArrayList<>();
+        for (String userId : userIdList) {
+            Notification notification = new Notification(userId, type);
+            notification.setEventId(curEventId);
+            notification.setPageUri(curPageUri);
+            saveDataList.add(notification);
+        }
+        repository.saveAll(saveDataList);
     }
 
     @Override
