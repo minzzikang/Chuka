@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 80px;
 `;
 
 export const Header = styled.div`
@@ -156,7 +157,6 @@ export const Button = styled.button`
   height: 50px;
   border-radius: 1em;
   border: none;
-  margin-top: 20px;
 `;
 
 export const BlackBox = styled.div`
@@ -212,6 +212,9 @@ export const ModalContainer = styled.div`
     background-color: ${colors.white};
     border: 2px solid ${colors.mainPink};
     margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
   }
 `;
 
