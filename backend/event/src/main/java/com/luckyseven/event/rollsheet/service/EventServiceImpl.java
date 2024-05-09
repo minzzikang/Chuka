@@ -289,6 +289,7 @@ public class EventServiceImpl implements EventService {
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
+//        System.out.println("**********baseMessageDto -- \n"+baseMessageDto);
 
         producerService.sendNotificationMessage(baseMessageDto);
 
