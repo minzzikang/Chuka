@@ -19,7 +19,7 @@ const index = () => {
       <p.Profile
         src={
           userInfo
-            ? `${userInfo.profile_image}` || "/img/img_default_profile.png"
+            ? `${userInfo.profileImage}` || "/img/img_default_profile.png"
             : "/img/img_default_profile.png"
         }
       />
