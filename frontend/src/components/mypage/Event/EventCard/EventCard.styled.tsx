@@ -2,22 +2,19 @@ import { colors } from "@/styles/theme";
 import styled from "styled-components";
 import Default from "/img/img_default_banner.png";
 
-interface ContainerProps {
-  imgSrc?: string;
-}
-
-export const Container = styled.div<ContainerProps>`
+export const Container = styled.div<{ $imgSrc?: string }>`
   display: flex;
-  margin-top: 20px;
-  width: 90%;
+  width: 100%;
   height: 150px;
   border-radius: 1em;
-  background-image: url(${(props) => props.imgSrc || Default});
+  background-image: url(${(props) => props.$imgSrc || Default});
   padding: 10px;
+  margin: 5px;
   justify-content: space-between;
-  background-size: contain;
+  background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+  cursor: pointer;
 `;
 
 export const InfoWrap = styled.div`
@@ -67,4 +64,19 @@ export const IconWrap = styled.div`
     height: 24px;
     cursor: pointer;
   }
+`;
+
+export const Badge = styled.div<{ $result: boolean }>`
+  width: 40px;
+  height: 15px;
+  color: ${colors.white};
+  border-radius: 1em;
+  margin-bottom: 1em;
+  font-size: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 200;
+  background-color: ${(props) =>
+    props.$result === true ? colors.mainPink : colors.gray};
 `;

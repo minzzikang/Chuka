@@ -31,8 +31,6 @@ export const fetchEventInfo = async (eventId: string): Promise<any> => {
   }
 };
 
-
-
 // 이벤트, 축하메시지 갯수 조회
 export const fetchCount = async () => {
   try {
@@ -60,21 +58,27 @@ export const fetchList = async (sort: string, page: number, size: number) => {
     throw err;
   }
 };
+
 // 내 이벤트 조회
 export const fetchMyEventList = async (
+  sort: string,
   page: number,
-  size: number,
-  participant: boolean
+  size: number
 ) => {
+  const accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.get(`${local}/events/me`, {
       params: {
+        sort,
         page,
         size,
-        participant,
+      },
+      headers: {
+        Authorization: `${accessToken}`,
       },
     });
     console.log("내 이벤트", response.data);
+    return response.data;
   } catch (err) {
     console.error(err);
   }
