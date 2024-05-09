@@ -6,7 +6,7 @@ export const handleAllowNotification = async () => {
   // console.log("토큰 받아보자..")
   try {
     const permission = await Notification.requestPermission();
-    console.log("permission =>",permission)
+    // console.log("permission =>",permission)
 
     if (permission === "granted") {
       // console.log("===============import.meta.env.VITE_VAPID_KEY================>>",import.meta.env.VITE_VAPID_KEY)
@@ -16,7 +16,7 @@ export const handleAllowNotification = async () => {
         vapidKey: "BE5_b5CoL_nOSuLlhrjTyPTIurMdPkjPG9ZqTL59m5hRL63FhnImiEip2GFTIvEl0YEjwNkPquUB7TqFVqoRevM",
       });
 
-      console.log("===============token================>>",token)
+      // console.log("===============token================>>",token)
 
 
       if (token) {

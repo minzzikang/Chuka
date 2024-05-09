@@ -270,8 +270,14 @@ public class EventServiceImpl implements EventService {
     @Scheduled(cron = "0 0 9 * * ?")
     @Override
     public void sendDdayalarm() throws IOException {
+        log.info("9시에 실행되었는가?");
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(userIdList);
+        baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
+
+        producerService.sendNotificationMessage(baseMessageDto);
 
     }
 
@@ -286,7 +292,7 @@ public class EventServiceImpl implements EventService {
 
         producerService.sendNotificationMessage(baseMessageDto);
 
-        log.info(" ** userIdList : {}",userIdList);
+//        log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
     }
 }
