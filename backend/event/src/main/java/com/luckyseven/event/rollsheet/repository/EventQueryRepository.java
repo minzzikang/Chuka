@@ -273,15 +273,16 @@ public class EventQueryRepository {
     }
 
     public List<DdayReceiveDto> findAllByCurdate() {
-        System.out.println("d?????????????????");
+//        System.out.println("d?????????????????");
         LocalDate currentDate = LocalDate.now();
-        System.out.println("currentDate ==> " + currentDate);
+//        System.out.println("currentDate ==> " + currentDate);
 
 
         List<Event> eventIdList = jpaQueryFactory
                 .select(Projections.bean(Event.class,
                         event.eventId,
-                        event.userId))
+                        event.userId,
+                        event.pageUri))
                 .from(event)
                 .where(event.date.eq(currentDate))
                 .fetch();
@@ -293,6 +294,7 @@ public class EventQueryRepository {
             Integer curEventId = curEvent.getEventId();
             ddayReceiveDto.setCreater(curEvent.getUserId());
             ddayReceiveDto.setEventId(curEventId);
+            ddayReceiveDto.setPageUri(curEvent.getPageUri());
 
 
             // 이벤트에 참여한 사람불러오기
