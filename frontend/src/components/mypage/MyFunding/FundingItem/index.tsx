@@ -6,12 +6,15 @@ import { useEffect, useState } from "react";
 import { fetchFunding } from "@/apis/funding";
 
 type FundingType = {
+  fundingId?: number;
+  eventDate?: string;
   eventTitle: string;
   status: string;
   goalAmount: number;
   remainAmount: number;
   dday: number;
   sponsors: [];
+  introduce: string;
 };
 
 interface FundingProps {
@@ -34,7 +37,6 @@ const index = (props: FundingProps) => {
   } = props;
 
   const navigate = useNavigate();
-  const [image, setImage] = useState();
   const [values, setValues] = useState<FundingType>();
 
   // const Dday = startDate - endDate;
@@ -42,7 +44,7 @@ const index = (props: FundingProps) => {
     const fetchData = async () => {
       try {
         const Funding = await fetchFunding(fundingId);
-        console.log("펀딩 데이터", Funding);
+        // console.log("펀딩 개별 데이터", Funding);
         setValues(Funding);
       } catch (err) {
         console.error(err);
@@ -57,12 +59,13 @@ const index = (props: FundingProps) => {
 
   const calculateGoal = () => {
     if (!values) return 0;
-    const percent = ((values.goalAmount - values.remainAmount) / values.goalAmount) * 100;
+    const percent =
+      ((values.goalAmount - values.remainAmount) / values.goalAmount) * 100;
     return percent.toFixed(0);
   };
 
   return (
-    <f.Container onClick={() => navigate(`/`)}>
+    <f.Container onClick={() => navigate(`/celebrate/funding/${fundingId}`, {state: {fundingId: fundingId}})}>
       <f.Img
         src={productImage || "/img/img_default_funding.png"}
         alt="picture"
@@ -76,9 +79,7 @@ const index = (props: FundingProps) => {
             </f.Date>
           </f.InfoWrap>
           <f.IconWrap>
-            <Badge 
-            result={fundingResult}
-            />
+            <Badge result={fundingResult} />
             <img src={Trash} alt="delete" onClick={() => {}} />
           </f.IconWrap>
         </f.RowWrap>
