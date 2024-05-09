@@ -7,20 +7,26 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   padding: 10px;
-  margin-top: 20px;
 `;
 
 export const Wrap = styled.div`
   display: flex;
+  flex-direction: column;
   width: 100%;
   position: relative;
   justify-content: center;
-  margin: 15px;
+  position: relative;
 `;
 
 export const Label = styled.p`
-  margin-left: 20px;
   font-weight: 500;
   position: absolute;
-  left: 0;
+  top: 0;
+  left: 10px;
+`;
+
+export const CardWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  margin-top: 20px;
 `;
