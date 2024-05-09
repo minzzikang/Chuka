@@ -1,10 +1,10 @@
 import * as e from "./Event.styled";
-import EventCard from "./EventCard";
+import EventCard from "@components/mypage/Event/EventCard";
 import { EventDataType } from "@/types/rollingType";
 
 interface EventProps {
   eventList: EventDataType;
-  title: string
+  title: string;
 }
 
 const index = (props: EventProps) => {
