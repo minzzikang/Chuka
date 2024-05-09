@@ -106,7 +106,7 @@ const RollingMainPage = () => {
           createTime={eventInfoData.createTime}
           nickname={eventInfoData.nickname}
         />
-        <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
+        <Board theme={eventInfoData.theme} />
       </Container>
       <Navbar current="celebration" />
     </>
