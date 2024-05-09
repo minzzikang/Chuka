@@ -38,7 +38,7 @@ public class AuthController {
     }
 
     @GetMapping("/token/{token}")
-    public ResponseEntity<?> ttest(@PathVariable("token") String token) {
+    public ResponseEntity<?> tokenTest(@PathVariable("token") String token) {
         try {
 
             log.info("token!!!!!");
@@ -110,7 +110,7 @@ public class AuthController {
 
             String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
             if (newAccessToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token type 불일치");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
             }
 
             HttpHeaders responseHeaders = new HttpHeaders();
