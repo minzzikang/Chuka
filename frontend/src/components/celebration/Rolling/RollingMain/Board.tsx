@@ -1,19 +1,22 @@
 import Drawer from "@components/drawer";
 import RModal from "@common/homeResModal";
 import FundingModal from "./FundingModal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
 import Modal from "@common/modal";
-import useIntersect from "@/hooks/useIntersect";
+import styled from "styled-components";
 
-interface RollingData {
-  rollSheetList: RollingItem[];
-  totalCnt: number;
-}
+const TargetRef = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  color: white;
+`
 
-interface RollingItem {
+
+interface RollSheetListProps {
   nickname: string;
   content: string;
   backgroundImageThumbnailUrl?: string;
@@ -25,77 +28,79 @@ interface RollingItem {
 }
 
 interface BoardProps {
-  eventId: number;
   theme: string;
 }
 
 const Board = (props: BoardProps) => {
-  const { eventId, theme } = props;
+  const { theme } = props;
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem("access_token");
-  const params = useParams<{ eventId?: string }>();
-  const finalEventId =
-    eventId === 0 ? params.eventId ?? "default" : eventId.toString();
+  
+  const { eventId, pageUri } = useParams<{
+    pageUri: string;
+    eventId: string;
+  }>();
+  
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
   const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
-  
-  
-  
-  
-  
-  const [rolls, setRolls] = useState<RollingData>({
-    rollSheetList: [],
-    totalCnt: 0,
-  });
-  
-  const [currentPage, setCurrentPage] = useState(0);
-  const [loading, setLoading] = useState(false);
+
+  const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([])
+  const [totalCnt, setTotalCnt] = useState<number>(0)
+  const [currentPage, setCurrentPage] = useState(0); // 스크롤이 닿았을 때 새롭게 데이터 페이지를 바꿀 상태 
+  const [loading, setLoading] = useState(false); // 로딩 성공
+  const observerRef = useRef<IntersectionObserver>();
   const targetRef = useRef<HTMLDivElement>(null);
 
 
-
-  // 롤링페이퍼 리스트 불러오고 저장
-  useEffect(() => {
-    const fetchData = async () => {
-      setLoading(true);
-      try {
-        const RollList = await fetchRollSheets(finalEventId, currentPage, 6);
-        if (RollList) {
-          setRolls(RollList);
-          setCurrentPage(currentPage + 1);
-        }
-        console.log('롤리스트', RollList);
-
-      } catch (err) {
-        console.error(err);
-      } finally {
-        setLoading(false);
-      }
-    };
-    fetchData();
-
-    
-  }, [finalEventId]);
-
-
-  const handleIntersect = (entry: IntersectionObserverEntry, observer: IntersectionObserver) => {
-    if (entry.isIntersecting && !loading) {
-      fetchData();
+  // 롤링페이퍼 리스트 무한스크롤 불러오기
+  const fetchMoreData = useCallback(async () => {
+    if (loading || (totalCnt > 0 && rollSheetList.length >= totalCnt)) {
+      // 로딩 중이거나 모든 데이터를 이미 로드한 경우 더 이상 데이터를 불러오지 않음
+      return;
     }
-  };
-
-  useEffect(() => {
-    fetchData();
-  }, [finalEventId]);
-
-  useIntersect(handleIntersect, {
-    rootMargin: '200px',
-    threshold: 0.1,
-  });
+    setLoading(true);
+    try {
+      const response = await fetchRollSheets(eventId, currentPage, 8);
+      if (response) {
+        setRollSheetList(prev => [...prev, ...response.rollSheetList]);
+        // setTotalCnt(response.totalCnt);
+        console.log('현재 페이지', currentPage + 1);
+        if (response.rollSheetList.length < 8) {
+          console.log('연결해제 전에');
+          observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
+        } else {
+          setLoading(false)
+          setCurrentPage(prevPage => prevPage + 1); // 데이터 로드가 성공적이면 페이지 번호 증가
+          console.log('object');
+        }
+      }
+    } catch (error) {
+      console.error(error);
+      
+    } 
+  }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
   
-  const [selectedRoll, setSelectedRoll] = useState<RollingItem>({
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && !loading) {
+          fetchMoreData()
+        }
+      },
+      { rootMargin: '200px', threshold: 0.1 }
+    );
+  
+    if (targetRef.current) {
+      observer.observe(targetRef.current);
+    }
+  
+    return () => observer.disconnect();  // 클린업 함수에서 옵저버 연결 해제
+  }, [fetchMoreData, loading]);  // 의존성 배열에서 observerRef 제거, 필요한 변수만 포함
+
+  
+  const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
     nickname: "",
     content: "",
     backgroundImageThumbnailUrl: "",
@@ -121,7 +126,7 @@ const Board = (props: BoardProps) => {
   // 펀딩 drawer 오픈
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
-    console.log(rolls);
+    console.log(rollSheetList, totalCnt);
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {
@@ -129,19 +134,17 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  // 무한 스크롤
-
 
   return (
     <>
       <b.Container $theme={theme}>
-        {rolls.rollSheetList.length === 0 && (
+        {rollSheetList.length === 0 && (
           <b.P>롤링페이퍼를 작성해주세요.</b.P>
         )}
         <b.CardWrap>
-          {rolls.rollSheetList.map((roll) => (
+          {rollSheetList.map((roll, index) => (
             <b.Card
-              key={roll.rollSheetId}
+              key={index}
               $bgColor={roll.backgroundColor}
               $font={roll.font}
               $fontColor={roll.fontColor}
@@ -154,8 +157,8 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        {loading && <p ref={targetRef}>Loading...</p>}
-        <b.RollingTheme $theme={theme} />
+        {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>}
+
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
         <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
       </b.Container>

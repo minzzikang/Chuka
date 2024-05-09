@@ -5,15 +5,15 @@ import { colors } from "@styles/theme";
 export const Container = styled.div<{ $theme: string }>`
   width: 100%;
   height: 100%;
+  min-height: 100vh;
   position: relative;
-/* 
   background-image: ${(props) =>
     props.$theme === "CORK_BOARD"
       ? `url("/img/img_rolling_theme_cork.jpg")`
-      : `url("/img/img_rolling_theme_board.jpg")`}; */
-  /* background-repeat: repeat-y; */
-  /* background-size: cover; */
-
+      : `url("/img/img_rolling_theme_board.jpg")`};
+  background-repeat: repeat-y;
+  background-size: cover;
+  
 
   flex-grow: 1;
   overflow-y: scroll;
@@ -28,20 +28,20 @@ export const Container = styled.div<{ $theme: string }>`
   }
 `;
 
-export const RollingTheme = styled.div<{ $theme: string }>`
-  width: 100%;
-  height: 100%;
+// export const RollingTheme = styled.div<{ $theme: string }>`
+//   width: 100%;
+//   height: 100%;
 
-  opacity: 0.7;
-  position: relative;
-  min-height: 100vh;
-  background-image: ${(props) =>
-    props.$theme === "CORK_BOARD"
-      ? `url("/img/img_rolling_theme_cork.jpg")`
-      : `url("/img/img_rolling_theme_board.jpg")`};
-  background-repeat: repeat-y;
-  background-size: cover;
-`;
+//   opacity: 0.7;
+//   position: relative;
+//   min-height: 100vh;
+//   background-image: ${(props) =>
+//     props.$theme === "CORK_BOARD"
+//       ? `url("/img/img_rolling_theme_cork.jpg")`
+//       : `url("/img/img_rolling_theme_board.jpg")`};
+//   background-repeat: repeat-y;
+//   background-size: cover;
+// `;
 
 export const CardWrap = styled.div`
   position: absolute;
@@ -81,7 +81,7 @@ export const Button = styled.button`
   background-color: ${colors.mainPink};
   color: ${colors.white};
   position: fixed;
-  bottom: 30%;
+  bottom: 18%;
   right: 0;
   transition: right 0.3s ease-in-out;
   writing-mode: vertical-lr;
@@ -112,8 +112,6 @@ export const Card = styled.div<{
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
-
-
 
 
 export const CardDetail = styled.div<{
