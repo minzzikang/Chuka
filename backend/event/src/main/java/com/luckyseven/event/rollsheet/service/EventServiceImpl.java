@@ -220,12 +220,9 @@ public class EventServiceImpl implements EventService {
             }
 
             switch (response.status()) {
-                case HttpStatus.SC_FORBIDDEN ->
-                        throw new UnsupportedOperationException("funding has been raised");
-                case HttpStatus.SC_NOT_FOUND ->
-                        throw new UnsupportedOperationException("funding NOT FOUND");
-                default ->
-                        throw new UnsupportedOperationException("delete funding error");
+                case HttpStatus.SC_FORBIDDEN -> throw new UnsupportedOperationException("funding has been raised");
+                case HttpStatus.SC_NOT_FOUND -> throw new UnsupportedOperationException("funding NOT FOUND");
+                default -> throw new UnsupportedOperationException("delete funding error");
             }
         }
 
@@ -264,6 +261,7 @@ public class EventServiceImpl implements EventService {
     /**
      * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
      * 알림 서버에 보낸다.
+     *
      * @throws IOException
      */
     @Async

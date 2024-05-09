@@ -4,6 +4,9 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
+import com.luckyseven.event.message.ProducerService;
+import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.*;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
@@ -35,9 +38,10 @@ public class EventController {
 
     private final EventService eventService;
     private final RollSheetService rollSheetService;
+    private final ProducerService producerService;
 
     @GetMapping("/test")
-    public ResponseEntity<?> test(){
+    public ResponseEntity<?> test() {
         return eventService.sendDdayalarmTest();
 //        return ResponseEntity.ok().body("보냄");
     }
@@ -62,6 +66,9 @@ public class EventController {
         try {
             String nickname = jwtUtil.getNickname(authorization.substring("Bearer ".length()));
             event = eventService.createEvent(createEventDto, userId, nickname);
+
+            producerService.sendNotificationMessage(event.getEventId(), event.getPageUri(), userId);
+
         } catch (EmptyFileException e) {
             //400
             return ResponseEntity.status(400).body("파일이 비어있습니다.");
@@ -95,7 +102,7 @@ public class EventController {
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
         log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
-        try{
+        try {
             List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
             EventListRes res = new EventListRes();
             res.setEventList(events);
@@ -122,7 +129,7 @@ public class EventController {
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
             @RequestHeader("loggedInUser") String userId
     ) {
-        try{
+        try {
             EventListRes res = new EventListRes();
 
             List<EventDto> results;

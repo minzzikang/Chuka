@@ -2,6 +2,8 @@ package com.luckyseven.notification.service;
 
 import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
+import com.luckyseven.notification.dto.EventCreateAlarmDto;
+import com.luckyseven.notification.dto.FundingStatusSendDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -20,4 +22,8 @@ public interface NotificationService {
     void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri);
 
     void deleteAllByUserId(String userId);
+
+    void sendNotification(EventCreateAlarmDto data);
+
+    void sendFundingNotification(FundingStatusSendDto fundingStatusSendDto);
 }
