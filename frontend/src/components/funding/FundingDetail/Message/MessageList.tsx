@@ -1,25 +1,48 @@
 import { useState } from "react";
 import MessageItem from "./MessageItem";
-import * as M from './MessageList.styled'
+import * as M from "./MessageList.styled";
 
-const MessageList = () => {
+interface Sponsor {
+  sponsorId: number;
+  amount: number;
+  comment: string;
+  nickname: string;
+  profileImage: string;
+}
+
+interface MessageListProps {
+  sponsors: Sponsor[];
+}
+
+const MessageList = (props: MessageListProps) => {
+  const { sponsors } = props;
   const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
-  const data = [
-    <MessageItem />,
-    <MessageItem />,
-    <MessageItem />,
-    <MessageItem />,
-    <MessageItem />,
-    <MessageItem />,
-  ];
+  // const data = [
+  //   <MessageItem />,
+  //   <MessageItem />,
+  //   <MessageItem />,
+  //   <MessageItem />,
+  //   <MessageItem />,
+  //   <MessageItem />,
+  // ];
 
-  const visibleData = isSeeMore ? data.slice(0, 3) : data;
+  const visibleData = isSeeMore ? sponsors.slice(0, 3) : sponsors;
 
   return (
     <M.Container>
       <M.Wrap>
         <M.Text>친구들이 남긴 ㅊㅋ</M.Text>
-        {data && visibleData.map((item) => <MessageItem key='' />)}
+        {sponsors &&
+          visibleData.map((item) => (
+            <MessageItem
+              key={item.sponsorId}
+              sponsorId={item.sponsorId}
+              amount={item.amount}
+              comment={item.comment}
+              nickname={item.nickname}
+              profileImage={item.profileImage}
+            />
+          ))}
         {isSeeMore ? (
           <M.SeeMoreBtn onClick={() => setIsSeeMore(!isSeeMore)}>
             ㅊㅋ 더보기

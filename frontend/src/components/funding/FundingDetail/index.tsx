@@ -66,8 +66,8 @@ const index = () => {
         dDay={values?.dday ?? 0}
       />
       <FundingMessageSection
-      // introduce={values?.introduce}
-      // sponsor={values?.sponsors}
+        introduce={values?.introduce ?? "펀딩을 소개하는 문구입니다."}
+        sponsor={values?.sponsors ?? []}
       />
       <f.Button onClick={onPayment}>선물 펀딩 참여하기</f.Button>
     </f.Container>
