@@ -140,6 +140,7 @@ public class EventController {
             return ResponseEntity.status(200).body(res);
         } catch (Exception e) {
             log.error(e.getMessage());
+            e.printStackTrace();
 
             return ResponseEntity.status(400).body(null);
         }

@@ -119,7 +119,8 @@ public class EventServiceImpl implements EventService {
     public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
         List<EventDto> events;
         if (sort.equals("participants")) {
-            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+            // 롤링페이퍼 개수
+            events = eventQueryRepository.getPublicEventsByRollingPaperCounts(sort, page, pageSize);
         } else {
             events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
         }
@@ -133,6 +134,24 @@ public class EventServiceImpl implements EventService {
 
         return events;
     }
+//    @Override @Deprecated
+//    public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
+//        List<EventDto> events;
+//        if (sort.equals("participants")) {
+//            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+//        } else {
+//            events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
+//        }
+//
+//        for (EventDto eventDto : events) {
+//            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+//                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+//                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+//            }
+//        }
+//
+//        return events;
+//    }
 
     /**
      * 내가 참여한 기록이 있는 이벤트 조회
@@ -239,10 +258,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public int countParticipantEvent(String userId) {
-//        return joinEventRepository.countByUserId(userId);
-        JoinEventPk joinEventPk = new JoinEventPk();
-        joinEventPk.setUserId(userId);
-        return joinEventRepository.countByJoinEventPKUserId(joinEventPk);
+        return joinEventRepository.countByJoinEventPKUserId(userId);
     }
 
     /**
