@@ -2,6 +2,7 @@ import * as e from "./Event.styled";
 import EventCard from "@components/mypage/Event/EventCard";
 import { EventDataType } from "@/types/rollingType";
 import Pagination from "@common/pagination";
+import { useEffect } from "react";
 
 interface EventProps {
   eventList: EventDataType;
@@ -12,6 +13,10 @@ interface EventProps {
 
 const index = (props: EventProps) => {
   const { eventList, title, currentPage, setCurrentPage } = props;
+
+  useEffect(() => {
+    console.log(eventList.totalCnt);
+  }, []);
 
   return (
     <>
@@ -33,7 +38,12 @@ const index = (props: EventProps) => {
           </e.CardWrap>
         </e.Wrap>
         <e.PagiWrap>
-          <Pagination totalPage={eventList.totalCnt} limit={3} page={currentPage} setPage={setCurrentPage} />
+          <Pagination
+            totalPage={Math.ceil(eventList.totalCnt / 3)}
+            limit={3}
+            page={currentPage}
+            setPage={setCurrentPage}
+          />
         </e.PagiWrap>
       </e.Container>
     </>
