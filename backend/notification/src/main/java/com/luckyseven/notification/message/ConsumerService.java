@@ -97,7 +97,8 @@ public class ConsumerService {
                     fcmTargetDataSet.put(curEventId,curMembers);
 
                     // List<userIdList>, 알림 type,
-                    notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN,curEventId,curPageUri); // 단체 일반 알림 보내기
+                    // 단체 일반 알림 보내기
+                    notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN,curEventId,curPageUri);
 
 
                 }
@@ -121,14 +122,7 @@ public class ConsumerService {
 
 //                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
 
-
-
-//                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable,eventPageUriMap);
-
-
-                // 여기까지 fcmToken board를 받아왔다.
-
-
+                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable,eventPageUriMap);
 
             }
         } catch (IOException e) {
