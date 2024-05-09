@@ -7,14 +7,14 @@ import { fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
 import Modal from "@common/modal";
 import styled from "styled-components";
+import useIntersect from "@/hooks/useIntersect";
 
 const TargetRef = styled.div`
   position: absolute;
   left: 0;
   bottom: 0;
   color: white;
-`
-
+`;
 
 interface RollSheetListProps {
   nickname: string;
@@ -35,23 +35,21 @@ const Board = (props: BoardProps) => {
   const { theme } = props;
   const prevUrl = window.location.href;
   const accessToken = localStorage.getItem("access_token");
-  
+
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
-  
+
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
   const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
 
-  const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([])
-  const [totalCnt, setTotalCnt] = useState<number>(0)
-  const [currentPage, setCurrentPage] = useState(0); // 스크롤이 닿았을 때 새롭게 데이터 페이지를 바꿀 상태 
+  const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([]);
+  const [totalCnt, setTotalCnt] = useState<number>(0);
+  const [currentPage, setCurrentPage] = useState(0); // 스크롤이 닿았을 때 새롭게 데이터 페이지를 바꿀 상태
   const [loading, setLoading] = useState(false); // 로딩 성공
   const observerRef = useRef<IntersectionObserver>();
-  const targetRef = useRef<HTMLDivElement>(null);
-
 
   // 롤링페이퍼 리스트 무한스크롤 불러오기
   const fetchMoreData = useCallback(async () => {
@@ -63,43 +61,35 @@ const Board = (props: BoardProps) => {
     try {
       const response = await fetchRollSheets(eventId, currentPage, 8);
       if (response) {
-        setRollSheetList(prev => [...prev, ...response.rollSheetList]);
-        // setTotalCnt(response.totalCnt);
-        console.log('현재 페이지', currentPage + 1);
+        setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
+        console.log("현재 페이지", currentPage + 1);
         if (response.rollSheetList.length < 8) {
-          console.log('연결해제 전에');
+          console.log("연결해제 전에");
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
           setLoading(false)
-          setCurrentPage(prevPage => prevPage + 1); // 데이터 로드가 성공적이면 페이지 번호 증가
-          console.log('object');
+          setCurrentPage((prevPage) => prevPage + 1); // 데이터 로드가 성공적이면 페이지 번호 증가
         }
       }
     } catch (error) {
       console.error(error);
-      
     } 
   }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
-  
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        if (entries[0].isIntersecting && !loading) {
-          fetchMoreData()
-        }
-      },
-      { rootMargin: '200px', threshold: 0.1 }
-    );
-  
-    if (targetRef.current) {
-      observer.observe(targetRef.current);
-    }
-  
-    return () => observer.disconnect();  // 클린업 함수에서 옵저버 연결 해제
-  }, [fetchMoreData, loading]);  // 의존성 배열에서 observerRef 제거, 필요한 변수만 포함
+  const onIntersect = useCallback(
+    (entry: any, observer: any) => {
+      if (entry.isIntersecting && !loading) {
+        fetchMoreData();
+      }
+    },
+    [fetchMoreData, loading]
+  );
 
-  
+  const ref = useIntersect(onIntersect, {
+    rootMargin: "200px",
+    threshold: 0.1,
+  });
+
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
     nickname: "",
     content: "",
@@ -134,13 +124,10 @@ const Board = (props: BoardProps) => {
     }
   };
 
-
   return (
     <>
       <b.Container $theme={theme}>
-        {rollSheetList.length === 0 && (
-          <b.P>롤링페이퍼를 작성해주세요.</b.P>
-        )}
+        {rollSheetList.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         <b.CardWrap>
           {rollSheetList.map((roll, index) => (
             <b.Card
@@ -157,7 +144,10 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>}
+        {/* {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>} */}
+        {/* {rollSheetList.length < totalCnt && (
+          )} */}
+          <div ref={ref}>Loading more...</div>
 
         <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
         <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
