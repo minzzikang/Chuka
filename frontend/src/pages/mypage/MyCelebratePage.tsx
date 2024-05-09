@@ -8,7 +8,8 @@ import { useEffect, useState } from "react";
 import { EventDataType } from "@/types/rollingType";
 
 const MyCelebratePage = () => {
-  const [currentPage, setCurrentPage] = useState(0);
+  const [regPage, setRegPage] = useState(0);
+  const [partPage, setPartPage] = useState(0);
   const [registeredEvents, setRegisteredEvents] = useState<EventDataType>({
     totalCnt: 0,
     eventList: [],
@@ -22,9 +23,9 @@ const MyCelebratePage = () => {
   useEffect(() => {
     const fetchRegEvents = async () => {
       try {
-        const response = await fetchMyEventList("", currentPage, 3);
+        const response = await fetchMyEventList("", regPage, 3);
         setRegisteredEvents(response);
-        console.log("참여한이벤트: ", registeredEvents);
+        // console.log("참여한이벤트: ", registeredEvents);
       } catch (err) {
         console.log(err);
       }
@@ -33,15 +34,15 @@ const MyCelebratePage = () => {
 
     const fetchParticipantEvents = async () => {
       try {
-        const response = await fetchMyEventList("participant", currentPage, 3);
+        const response = await fetchMyEventList("participant", partPage, 3);
         setParticipatedEvents(response);
-        console.log("등록한 이벤트: ", participatedEvents);
+        // console.log("등록한 이벤트: ", participatedEvents);
       } catch (err) {
         console.log(err);
       }
     };
     fetchParticipantEvents();
-  }, [currentPage]);
+  }, [regPage, partPage]);
 
   return (
     <div
@@ -62,8 +63,20 @@ const MyCelebratePage = () => {
         <EventNull />
       ) : (
         <>
-          <Event eventList={registeredEvents} title="내가 등록한 ㅊㅋ" />
-          <Event eventList={participatedEvents} title="내가 참여한 ㅊㅋ" />
+          <Event
+          key="registerEvent"
+          eventList={registeredEvents}
+          title="내가 등록한 ㅊㅋ"
+          currentPage={regPage}
+          setCurrentPage={setRegPage}
+          />
+          <Event
+          key="participantEvent"
+          eventList={participatedEvents}
+          title="내가 참여한 ㅊㅋ"
+          currentPage={partPage}
+          setCurrentPage={setPartPage}
+          />
         </>
       )}
       <Navbar current="mypage" />

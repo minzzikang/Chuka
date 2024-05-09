@@ -30,3 +30,9 @@ export const CardWrap = styled.div`
   flex-direction: column;
   margin-top: 20px;
 `;
+
+export const PagiWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
