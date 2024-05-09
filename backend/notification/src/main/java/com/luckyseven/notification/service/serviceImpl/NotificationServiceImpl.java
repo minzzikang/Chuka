@@ -3,6 +3,7 @@ package com.luckyseven.notification.service.serviceImpl;
 import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.EventCreateAlarmDto;
+import com.luckyseven.notification.dto.FundingStatusSendDto;
 import com.luckyseven.notification.repository.NotificationRepository;
 import com.luckyseven.notification.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,5 +66,13 @@ public class NotificationServiceImpl implements NotificationService {
         notification.setEventId(data.getEventId());
         repository.save(notification);
 
+    }
+
+    @Override
+    public void sendFundingNotification(FundingStatusSendDto fundingStatusSendDto) {
+        Notification notification = new Notification(fundingStatusSendDto.getUserId(), fundingStatusSendDto.getType());
+        notification.setFundingId(fundingStatusSendDto.getFundingId());
+        notification.setUserId(fundingStatusSendDto.getUserId());
+        repository.save(notification);
     }
 }

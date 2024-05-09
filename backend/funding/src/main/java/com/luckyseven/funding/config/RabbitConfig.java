@@ -19,26 +19,38 @@ public class RabbitConfig {
     private String CRAWLING_EXCHANGE;
     @Value("${rabbitmq.product.exchange}")
     private String PRODUCT_EXCHANGE;
+    @Value("${rabbitmq.funding_to_notification.exchange}")
+    private String FUNDINGTONOTIFICATION_EXCHANGE;
+    @Value("${rabbitmq.funding_to_notification.queue}")
+    private String FUNDINGTONOTIFICATION_QUEUE;
     @Value("${rabbitmq.crawling.queue}")
     private String CRAWLING_QUEUE;
     @Value("${rabbitmq.product.queue}")
     private String PRODUCT_QUEUE;
 
     @Bean
+    public Queue fundingToNotificationQueue() {
+        return new Queue(FUNDINGTONOTIFICATION_QUEUE, false);
+    }
+    @Bean
     public Queue crawlingQueue() {
         return new Queue(CRAWLING_QUEUE, false);
     }
     @Bean
-    Queue fundingQueue() {
+    public Queue fundingQueue() {
         return new Queue(PRODUCT_QUEUE, false);
     }
 
+    @Bean
+    public TopicExchange fundingToNotificationExchange() {
+        return new TopicExchange(FUNDINGTONOTIFICATION_EXCHANGE);
+    }
     @Bean
     public TopicExchange crawlingExchange() {
         return new TopicExchange(CRAWLING_EXCHANGE);
     }
     @Bean
-    TopicExchange fundingExchange() {
+    public TopicExchange fundingExchange() {
         return new TopicExchange(PRODUCT_EXCHANGE);
     }
 
@@ -54,6 +66,10 @@ public class RabbitConfig {
     @Bean
     Binding bindingFunding(@Qualifier("fundingQueue") Queue fundingQueue,@Qualifier("fundingExchange") TopicExchange fundingExchange) {
         return BindingBuilder.bind(fundingQueue).to(fundingExchange).with("");
+    }
+    @Bean
+    Binding bindingFundingToNotification(@Qualifier("fundingToNotificationQueue") Queue fundingToNotificationQueue,@Qualifier("fundingToNotificationExchange") TopicExchange fundingToNotificationExchange) {
+        return BindingBuilder.bind(fundingToNotificationQueue).to(fundingToNotificationExchange).with("");
     }
 
     /**

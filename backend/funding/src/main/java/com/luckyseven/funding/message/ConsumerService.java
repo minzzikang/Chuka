@@ -1,6 +1,8 @@
 package com.luckyseven.funding.message;
 
+import com.luckyseven.funding.dto.FundingStatusAlarmDto;
 import com.luckyseven.funding.dto.ProductInfoRes;
+import com.luckyseven.funding.dto.Topic;
 import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.repository.FundingRepository;
@@ -10,7 +12,10 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.NoSuchElementException;
+import java.util.Objects;
 
 /**
  * 펀딩 서버가 요청을 받는 코드는 여기에 작성해주세요 @RabbitListener 어노테이션을 달고 어떤 큐의 정보를 받을 것인지 설정하면 됩니다
@@ -24,16 +29,24 @@ import java.util.NoSuchElementException;
 public class ConsumerService {
     private final String PRODUCT_QUEUE = "product.queue";//어노테이션은 상수여야해서 설정에서 못 가져옴
     private final FundingRepository fundingRepository;
+    private final ProducerService producerService;
 
     @Transactional
     @RabbitListener(queues = PRODUCT_QUEUE)
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
         log.info(productRes.toString());
+
+
+        Topic topic = Topic.FUNDING_DISAPPROVED;
+        String userId = productRes.getUserId();
+        Integer fundingId = productRes.getFundingId();
+
         Funding funding = fundingRepository.findById(productRes.getFundingId())
                 .orElseThrow(NoSuchElementException::new);
 
         switch (productRes.getStatus()){
             case 200:
+                topic=Topic.FUNDING_APPROVED;
                 String productImageUrl = productRes.getProductImageUrl();
                 funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
                 break;
@@ -50,5 +63,9 @@ public class ConsumerService {
                 funding.failCrawling(FundingStatus.REJECT);
 
         }
+        // 알림요청MQ
+        FundingStatusAlarmDto fundingStatusAlarmDto = new FundingStatusAlarmDto(userId,fundingId,topic);
+        producerService.sendFundingStatusMessage(fundingStatusAlarmDto);
+
     }
 }

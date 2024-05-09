@@ -3,11 +3,10 @@ package com.luckyseven.notification.message;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.luckyseven.notification.commons.notification.NotificationResponseDescription;
+import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
-import com.luckyseven.notification.dto.BaseMessageDto;
-import com.luckyseven.notification.dto.DdayReceiveDto;
-import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
-import com.luckyseven.notification.dto.EventCreateAlarmDto;
+import com.luckyseven.notification.dto.*;
 import com.luckyseven.notification.service.FcmService;
 import com.luckyseven.notification.service.NotificationService;
 import com.luckyseven.notification.message.dto.Topic;
@@ -34,10 +33,55 @@ public class ConsumerService {
 
     private final String USER_TO_NOTIFICATION_QUEUE = "user_to_notification.queue";
     private final String EVENT_TO_NOTIFICATION_QUEUE = "event_to_notification.queue";
+    private final String FUNDING_TO_NOTIFICATION_QUEUE = "funding_to_notification.queue";
 
     private final NotificationService notificationService;
     private final UserFeignClient userFeignClient;
     private final FcmService fcmService;
+
+    @Transactional
+    @RabbitListener(queues = FUNDING_TO_NOTIFICATION_QUEUE)
+    public void receiveFundingMessage(FundingStatusAlarmDto fundingStatusAlarmDto) {
+        log.info("fundingStatusAlarmDto : {}", fundingStatusAlarmDto);
+
+        try {
+            Topic topic = fundingStatusAlarmDto.getTopic();
+            NotificationType type = null;
+            String body = null;
+            Integer fundingId = fundingStatusAlarmDto.getFundingId();
+            String userId = fundingStatusAlarmDto.getUserId();
+
+            if (topic.equals(Topic.FUNDING_APPROVED)) {
+                type = NotificationType.FUNDING_APPROVED;
+                body = NotificationResponseDescription.FUNDING_APPROVED;
+
+            } else { // 펀딜 실패한 경우.
+                type = NotificationType.FUNDING_DISAPPROVED;
+                body = NotificationResponseDescription.FUNDING_DISAPPROVED;
+            }
+
+            FundingStatusSendDto fundingStatusSendDto = new FundingStatusSendDto();
+            fundingStatusSendDto.setFundingId(fundingId);
+            fundingStatusSendDto.setUserId(userId);
+            fundingStatusSendDto.setType(type);
+            fundingStatusSendDto.setBody(body);
+
+            // 일반 알림
+            notificationService.sendFundingNotification(fundingStatusSendDto);
+
+            // fcm알림
+
+            // fcmToken받아오기.
+
+
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+    }
+
 
     @Transactional
     @RabbitListener(queues = USER_TO_NOTIFICATION_QUEUE)
@@ -62,9 +106,9 @@ public class ConsumerService {
         try {
 
             if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
-               sendDdayFcm(dataSet);
+                sendDdayFcm(dataSet);
             } else if (dataSet.getTopic().equals(Topic.EVENT_CREATE)) {
-               sendEventCreateFcm(dataSet);
+                sendEventCreateFcm(dataSet);
 
             }
         } catch (IOException e) {
