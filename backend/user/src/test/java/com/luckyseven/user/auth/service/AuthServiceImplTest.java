@@ -3,7 +3,6 @@ package com.luckyseven.user.auth.service;
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.dto.UserDto;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -18,7 +17,6 @@ import static com.luckyseven.user.user.entity.Roles.ROLE_USER;
 @ExtendWith(SpringExtension.class)
 class AuthServiceImplTest {
 
-//    @Mock
     @Autowired
     AuthService authService;
 
@@ -61,6 +59,19 @@ class AuthServiceImplTest {
 
     @Test
     void issueAccessToken() {
+        //
+        KakaoUserDto userDto = new KakaoUserDto();
+        userDto.setId(1L);
+        KakaoUserDto.Properties properties = new KakaoUserDto.Properties();
+        properties.setNickname("테스트_닉네임");
+        userDto.setProperties(properties);
+
+        //
+        String accessToken = authService.issueRefreshToken(userDto);
+
+        //
+        Assertions.assertThat(accessToken).isNotNull();
+        System.out.println("accessToken: " + accessToken);
     }
 
     @Test
