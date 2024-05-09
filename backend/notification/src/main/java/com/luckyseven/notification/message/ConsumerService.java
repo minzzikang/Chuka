@@ -5,6 +5,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DdayReceiveDto;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
+import com.luckyseven.notification.service.FcmService;
 import com.luckyseven.notification.service.NotificationService;
 import com.luckyseven.notification.message.dto.Topic;
 import com.luckyseven.notification.util.feign.UserFeignClient;
@@ -16,10 +17,13 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Slf4j
 @Service
@@ -31,6 +35,7 @@ public class ConsumerService {
 
     private final NotificationService notificationService;
     private final UserFeignClient userFeignClient;
+    private final FcmService fcmService;
 
     @Transactional
     @RabbitListener(queues = USER_TO_NOTIFICATION_QUEUE)
@@ -52,63 +57,74 @@ public class ConsumerService {
     @Transactional
     @RabbitListener(queues = EVENT_TO_NOTIFICATION_QUEUE)
     public void receiveEventMessage(BaseMessageDto dataSet) {
-        log.info("receiveEventMessage: {}", dataSet.toString());
+        log.info("** EVENT_TO_NOTIFICATION_QUEUE **");
 
+        InputStream inputStream = null;
         try {
-            System.out.println("dataSet.getTopic() : " + dataSet.getTopic() + "(" + dataSet.getTopic().getClass() + ") " + "Topic.DDAY_ALARM : " + Topic.DDAY_ALARM + "(" + Topic.DDAY_ALARM.getClass() + ")");
+//            System.out.println("dataSet.getTopic() : " + dataSet.getTopic() + "(" + dataSet.getTopic().getClass() + ") " + "Topic.DDAY_ALARM : " + Topic.DDAY_ALARM + "(" + Topic.DDAY_ALARM.getClass() + ")");
             if (dataSet.getTopic().equals(Topic.DDAY_ALARM)) {
+                String json = null;
+                Map<Integer, List<String>> fcmTargetDataSet = new HashMap<>();
+
                 DeduplicatedUsersIdDto DUDdto = new DeduplicatedUsersIdDto();
                 ObjectMapper om = new ObjectMapper();
 
                 for (Object datum : (List) dataSet.getData()) {
-                    String json = om.writeValueAsString(datum);
+                    json = om.writeValueAsString(datum);
                     DdayReceiveDto data = om.readValue(json, new TypeReference<DdayReceiveDto>() {
                     });
+
+
                     // 여기서 회원 정보를 보내서 fcm을 받아오는 로직을 처리해야하는데...
                     HashMap<String, List<String>> deduplicatedUserIdList = DUDdto.getHashMapData();
 
+                    Integer curEventId = data.getEventId();
+                    List<String> curMembers = new ArrayList<>();
+
                     deduplicatedUserIdList.put(data.getCreater(), null);
+                    curMembers.add(data.getCreater());
                     for (String joinMember : data.getJoinMembers()) {
                         deduplicatedUserIdList.put(joinMember, null);
+                        curMembers.add(joinMember);
                     }
+                    fcmTargetDataSet.put(curEventId,curMembers);
+
                 }
+//                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
                 // 보냄~~~~~
                 Response response = userFeignClient.findAllUsersFcmToken(DUDdto);
 
-                log.info(" \n ** response => {} \n ",response);
-                log.info(" \n ** response body => {} \n ",response.body());
+//                log.info(" \n ** response => {} \n ", response);
 
-                InputStream inputStream = response.body().asInputStream();
+                inputStream = response.body().asInputStream();
 
-                try {
-                    // InputStream을 문자열로 변환한다.
-                    String responseBody = IOUtils.toString(inputStream, "UTF-8");
+
+                // InputStream을 문자열로 변환한다.
+                String responseBody = IOUtils.toString(inputStream, "UTF-8");
+                inputStream.close();
 
 //                    ObjectMapper om = new ObjectMapper();
-                    String json = om.writeValueAsString(responseBody);
-                    DeduplicatedUsersIdDto data = om.readValue(json, new TypeReference<DeduplicatedUsersIdDto>() {
-                    });
+                json = om.writeValueAsString(responseBody);
+                DeduplicatedUsersIdDto lookupTable = om.readValue(json, new TypeReference<DeduplicatedUsersIdDto>() {
+                });
+
+//                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
+
+                fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable);
 
 
-
-
-
-                } finally {
-                    // 사용이 끝난 InputStream은 닫아주어야 한다.
-                    inputStream.close();
-                }
+                // 여기까지 fcmToken board를 받아왔다.
 
 
 
             }
-
-
+        } catch (IOException e) {
+            log.error(e.getMessage());
+            e.printStackTrace();
         } catch (Exception e) {
             log.error(e.getMessage());
             e.printStackTrace();
         }
+
     }
-
-    // userToNoti
-
 }
