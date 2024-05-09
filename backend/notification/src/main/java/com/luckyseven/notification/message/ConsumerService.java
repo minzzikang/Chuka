@@ -70,6 +70,7 @@ public class ConsumerService {
             notificationService.sendFundingNotification(fundingStatusSendDto);
 
             // fcm알림
+
             // fcmToken받아오기.
 
 
