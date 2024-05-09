@@ -1,6 +1,7 @@
 package com.luckyseven.notification.service.serviceImpl;
 
 import com.luckyseven.notification.commons.notification.NotificationResponseDescription;
+import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.notification.dto.FCMMessageDto;
 import com.luckyseven.notification.service.FcmService;
@@ -33,12 +34,13 @@ public class FcmServiceImpl implements FcmService {
         Set<Integer> eventSet = fcmTargetDataSet.keySet();
 
         for (Integer event : eventSet) {
-
+            String curPageUri = eventPageUriMap.get(event);
             FCMMessageDto fcmMessageDto = new FCMMessageDto(); // content => 타입으로 결정, data => eventId;
             fcmMessageDto.setContent(content);
             Map<String, String> data = new HashMap<>(); // eventId
 
             data.put("eventId", event.toString());
+            data.put("pageUri", curPageUri);
             fcmMessageDto.setData(data);
             List<String> eventMembers = fcmTargetDataSet.get(event);
             for (String eventMember : eventMembers) {
@@ -56,4 +58,8 @@ public class FcmServiceImpl implements FcmService {
 
 
     }
+
+
+
+
 }
