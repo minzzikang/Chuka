@@ -166,6 +166,7 @@ public class EventQueryRepository {
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(order)
+                .orderBy(createTimeOrderSpecifierDesc)
                 .offset(pageSize * page)
                 .limit(pageSize)
                 .fetch();
