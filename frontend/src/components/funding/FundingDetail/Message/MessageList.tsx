@@ -17,14 +17,6 @@ interface MessageListProps {
 const MessageList = (props: MessageListProps) => {
   const { sponsors } = props;
   const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
-  // const data = [
-  //   <MessageItem />,
-  //   <MessageItem />,
-  //   <MessageItem />,
-  //   <MessageItem />,
-  //   <MessageItem />,
-  //   <MessageItem />,
-  // ];
 
   const visibleData = isSeeMore ? sponsors.slice(0, 3) : sponsors;
 
@@ -33,7 +25,7 @@ const MessageList = (props: MessageListProps) => {
       <M.Wrap>
         <M.Text>친구들이 남긴 ㅊㅋ</M.Text>
         {sponsors &&
-          visibleData.map((item) => (
+          visibleData.map((item, index) => (
             <MessageItem
               key={item.sponsorId}
               sponsorId={item.sponsorId}
@@ -41,6 +33,7 @@ const MessageList = (props: MessageListProps) => {
               comment={item.comment}
               nickname={item.nickname}
               profileImage={item.profileImage}
+              rank={index + 1}
             />
           ))}
         {isSeeMore ? (

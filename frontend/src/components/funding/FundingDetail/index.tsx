@@ -24,8 +24,6 @@ const index = () => {
   const location = useLocation();
   const fundingId = location.state?.fundingId;
 
-  const percent = 70;
-
   const onPayment = () => {
     console.log("선물 펀딩 참여하기");
     navigate("/celebrate/payment");
