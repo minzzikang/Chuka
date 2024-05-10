@@ -76,7 +76,7 @@ public class FcmServiceImpl implements FcmService {
             }
 
         }catch (Exception e){
-
+            e.printStackTrace();
         }
     }
 
