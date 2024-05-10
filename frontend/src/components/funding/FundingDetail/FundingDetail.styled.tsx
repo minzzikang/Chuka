@@ -4,6 +4,9 @@ import { colors } from "@/styles/theme";
 export const Container = styled.div`
   width: 90%;
   margin: auto auto;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
 `;
 
 export const Button = styled.button`
@@ -12,5 +15,4 @@ export const Button = styled.button`
   color: white;
   background-color: ${colors.mainPink};
   font-size: 1.2em;
-  margin-top: 30px;
 `;

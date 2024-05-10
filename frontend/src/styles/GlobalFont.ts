@@ -2,85 +2,68 @@ import { createGlobalStyle } from "styled-components";
 
 const GlobalFont = createGlobalStyle`
 
+
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 900;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Black.woff") format("woff");
+    font-family: 'Pretendard-Black';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 900;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 800;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-ExtraBold.woff") format("woff");
+    font-family: 'Pretendard-ExtraBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 800;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 700;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Bold.woff") format("woff");
+    font-family: 'Pretendard-Bold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 600;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-SemiBold.woff") format("woff");
+    font-family: 'Pretendard-SemiBold';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 600;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 500;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Medium.woff") format("woff");
+    font-family: 'Pretendard-Medium';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 500;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 400;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Regular.woff") format("woff");
+    font-family: 'Pretendard';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 300;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Light.woff") format("woff");
+    font-family: 'Pretendard-Light';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 300;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 200;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-ExtraLight.woff") format("woff");
+    font-family: 'Pretendard-ExtraLight';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 200;
+    font-style: normal;
 }
 
 @font-face {
-  font-family: "Pretendard";
-  font-weight: 100;
-  font-display: swap;
-  src:
-    local("Pretendard"),
-    url("../assets/fonts/Pretendard-Thin.woff") format("woff");
+    font-family: 'Pretendard-Thin';
+    src: url('https://fastly.jsdelivr.net/gh/Project-Noonnu/noonfonts_2107@1.1/Pretendard-Regular.woff') format('woff');
+    font-weight: 100;
+    font-style: normal;
 }
 
 @font-face {
