@@ -43,11 +43,10 @@ self.addEventListener("push", function (e) {
   if(type === EVENT_OPEN || EVENT_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
-    console.log(`thisEventId이게 왜 null이지?? ${thisEventId}`);
-    console.log(`값이 뭐지?? ${e.data.json().data}`);
     thisPageUri = e.data.json().data.pageUri
     
   } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
+    isEvent=false;
     thisFundingId = e.data.json().data.fundingId
 
   }
@@ -63,22 +62,11 @@ self.addEventListener("push", function (e) {
   // console.log("resultData: ", { resultData });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-  // const notification = e.data.json().notification;
 
-  // const notificationTitle = notification.title;
-  // const notificationOptions = {
-  //   body: notification.body,
-  //   icon: notification.icon,
-  // };
-
-  // if (notification && notificationTitle && notificationOptions.body) {
-  //   self.registration.showNotification(notificationTitle, notificationOptions);
-  // }
 });
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  console.log(e)
   if(isEvent){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
   }else{
