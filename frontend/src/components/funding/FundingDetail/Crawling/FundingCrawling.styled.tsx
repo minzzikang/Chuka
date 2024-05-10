@@ -6,13 +6,14 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const TopWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 `;
 
 export const MiddleWrap = styled.div``;

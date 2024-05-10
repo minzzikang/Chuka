@@ -1,27 +1,32 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
+import { useNavigate } from "react-router";
 
 
-export const Container = styled.div<{ $thumbNail: boolean }>`
+export const Container = styled.div<{ $thumbNailUrl: string }>`
   background-image: ${(props) =>
-    props.$thumbNail
-      ? `url('/img/img_loopy.jpg')`
-      : "url('/img/img_chuka_info.png')"};
+    props.$thumbNailUrl
+      ? `url('${props.$thumbNailUrl}')`
+      : "url('/icon/apple-touch-icon.png')"};
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-size: contain; */
-  width: 100%;
-  height: 150px;
-  border-radius: 30px;
   position: relative;
-`;
+  border-radius: 1em;
+  border: 2px solid ${colors.inputGray};
+  cursor: pointer;
+  width: 150px;
+  height: 150px;
+  margin-top: 10px;
+  z-index: 10000;
+  `;
 
 export const Wrap = styled.div`
   width: 100%;
   height: 44px;
   margin-top: 10px;
-  background-color: ${colors.mainPink};
+  background-color: ${colors.white};
+  opacity: 0.7;
   display: flex;
   position: absolute;
   top: 50%;
@@ -30,29 +35,27 @@ export const Wrap = styled.div`
 export const WrapOverlay = styled.div`
   display: flex;
   width: 100%;
-  height: 44px;
-  opacity: 0.7;
+  /* height: 44px;
+  opacity: 0.7; */
   gap: 5px;
   /* justify-content: center; */
   align-items: center;
-`;
-
-export const Img = styled.img`
-  width: 31.5px;
-  height: 34.5px;
 `;
 
 export const DescWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-left: 6px;
+  gap: 4px;
   /* align-items: center; */
 `;
 export const Title = styled.div`
-  font-size: 1.2em;
+  font-size: 1em;
   font-weight: 700;
 `;
 
-export const Text = styled.div`
-  font-size: 0.9em;
+export const Date = styled.div`
+  font-size: 0.6em;
+  font-weight: 500;
 `

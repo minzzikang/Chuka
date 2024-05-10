@@ -5,13 +5,13 @@ import { colors, sizes } from "./theme";
 export const GlobalStyle = createGlobalStyle`
     ${reset}
     :root {
-        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
+        font-family: 'Pretendard', 'Goocneaeum', 'Treegarden', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
         font-size: 16px;
     }
     * {
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
+        font-family: 'Pretendard', 'Goocneaeum', 'Treegarden', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
     }
     html, body {
         margin: 0;

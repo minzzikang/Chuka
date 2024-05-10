@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
+  margin-top: 10px;
 `;
 
 export const Img = styled.img`
