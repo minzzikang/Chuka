@@ -2,11 +2,18 @@ import * as r from '@components/payment/PaymentDone/PaymentDone.styled'
 import { useNavigate } from 'react-router'
 import Lottie from 'react-lottie'
 import paySuccess from '@assets/lottie/paySuccess.json'
+import { useEffect } from 'react'
 
 
 
 const Index = () => {
   const navigate = useNavigate()
+
+  useEffect(() => {
+    sessionStorage.removeItem("nickname");
+    sessionStorage.removeItem("comment");
+    sessionStorage.removeItem("amount");
+  }, []);
 
   const goPointsPage = () => navigate('/mypage')
 
