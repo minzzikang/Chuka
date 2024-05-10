@@ -1,5 +1,6 @@
 import { BASE_URL, authRequest } from "@utils/requestMethods";
 import { RegDataType } from "@/components/funding/FundingRegInfo";
+import { PayDataType } from "@/components/payment/index.tsx";
 import axios from "axios";
 
 const url = `/domain`;
@@ -55,5 +56,22 @@ export const fetchFunding = async (fundingId: number) => {
     return response.data;
   } catch (err) {
     console.error(err);
+  }
+};
+
+// 펀딩 참여
+export const joinFunding = async (params: PayDataType) => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.post(`${url}/fundings/test`, params, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+    throw err;
   }
 };

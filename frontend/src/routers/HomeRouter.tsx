@@ -13,6 +13,7 @@ import ReviewPage from "@components/home/ReviewPage";
 import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
+import PaymentRedirectHandler from "@/pages/redirect/PaymentRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
 import SearchPage from "@/pages/search/SearchPage";
@@ -38,7 +39,8 @@ const HomeRouter = () => {
       <Route path="/celebrate/rolling/:eventId/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
       <Route path="/celebrate/funding/:fundingId" element={<FundingDetailPage />} />
-      <Route path="/done" element={<PaymentDone />} />
+      <Route path="/celebrate/payment/done" element={<PaymentDone />} />
+      <Route path="/celebrate/payment/doing" element={<PaymentRedirectHandler />} />
 
       <Route path="/notification" element={<NotificationPage />} />
       <Route path="/mypage" element={<MyPage />} />
