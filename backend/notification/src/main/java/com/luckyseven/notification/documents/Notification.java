@@ -52,8 +52,8 @@ public class Notification {
         } else if (type.equals(NotificationType.FUNDING_DISAPPROVED)) {
             newContent = NotificationResponseDescription.FUNDING_DISAPPROVED;
 
-        } else if (type.equals(NotificationType.FUNDING_COMPLET)) {
-            newContent = NotificationResponseDescription.FUNDING_COMPLET;
+        } else if (type.equals(NotificationType.FUNDING_COMPLETE)) {
+            newContent = NotificationResponseDescription.FUNDING_COMPLETE;
         }
 
         this.content = newContent;
