@@ -282,16 +282,14 @@ public class EventServiceImpl implements EventService {
     @Override
     public ResponseEntity<?> sendDdayalarmTest() {
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
-//        log.info("**********************userIdList : {}",userIdList);
+
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
-//        System.out.println("**********baseMessageDto -- \n"+baseMessageDto);
+        if(userIdList.isEmpty()) return ResponseEntity.ok().build();
 
         producerService.sendNotificationMessage(baseMessageDto);
-
-//        log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
     }
 }
