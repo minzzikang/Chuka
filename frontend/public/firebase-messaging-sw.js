@@ -40,7 +40,9 @@ self.addEventListener("push", function (e) {
   console.log("[TYPE] : ", e.data.json().data.type);
   const type = e.data.json().data.type;
   if(type === EVENT_OPEN){
+    console.log("============================")
     console.log("ㅇㅇ 이거 맞음.")
+    console.log("============================")
 
   }
 
