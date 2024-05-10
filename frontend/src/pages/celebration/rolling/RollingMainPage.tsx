@@ -64,7 +64,6 @@ const RollingMainPage = () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          console.log("이벤트get요청!!!!!!!!!!!!!!!!!!!!!!!! : ", eventInfo);
           setEventInfoData(() => eventInfo);
         } catch (err) {
           console.error(err);
@@ -107,7 +106,7 @@ const RollingMainPage = () => {
           createTime={eventInfoData.createTime}
           nickname={eventInfoData.nickname}
         />
-        <Board eventId={eventInfoData.eventId} theme={eventInfoData.theme} />
+        <Board theme={eventInfoData.theme} />
       </Container>
       <Navbar current="celebration" />
     </>

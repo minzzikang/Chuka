@@ -25,7 +25,7 @@ export const createRollMsg = async (formdata: any, eventId: string) => {
 
 // 롤링페이퍼 리스트 조회
 export const fetchRollSheets = async (
-  eventId: string,
+  eventId: string | undefined,
   page: number,
   size: number
 ) => {

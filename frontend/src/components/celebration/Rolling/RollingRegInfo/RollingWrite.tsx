@@ -191,7 +191,10 @@ const RollingWrite = () => {
         />
         <r.Label>작성자</r.Label>
         <r.Wrap>
+          <div style={{display:'flex', flexDirection:'column', width:'95%', gap:'5px'}}>
+          <label htmlFor="nickname" >From:</label>
           <r.WriterInfo
+            id="nickname"
             value={regData.nickname}
             placeholder={user.nickname}
             maxLength={15}
@@ -202,6 +205,7 @@ const RollingWrite = () => {
               }))
             }
           />
+          </div>
         </r.Wrap>
         <r.Label>글씨색</r.Label>
         <r.Wrap>

@@ -22,17 +22,20 @@ const Wrap = styled.div`
   width: 100%;
   height: 44px;
   margin-top: 10px;
-  /* background-color: ${colors.mainPink}; */
+  background-color: ${colors.white};
+  opacity: 0.7;
   display: flex;
   position: absolute;
   top: 50%;
+  border-bottom-right-radius: 1.25em;
+  border-bottom-left-radius: 1.25em;
 `;
 
 const WrapOverlay = styled.div`
   display: flex;
   width: 100%;
-  height: 44px;
-  /* opacity: 0.7; */
+  /* height: 44px;
+  opacity: 0.7; */
   gap: 5px;
   /* justify-content: center; */
   align-items: center;
@@ -42,6 +45,7 @@ const DescWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-left: 6px;
   gap: 4px;
   /* align-items: center; */
 `;
@@ -51,7 +55,8 @@ const Title = styled.div`
 `;
 
 const Date = styled.div`
-  font-size: 0.5em;
+  font-size: 0.6em;
+  font-weight: 500;
 `
 
 export type EventCardType = {
@@ -63,8 +68,8 @@ export type EventCardType = {
 }
 
 export const formattingTitle = (title:string) => {
-    if (title.length > 7) {
-        return `${title.slice(0,7)}...`
+    if (title.length > 6) {
+        return `${title.slice(0,6)}...`
     } 
     return title
   }
@@ -76,6 +81,9 @@ const navigate = useNavigate()
   const formatCreateTime = createTime.split("T")[0]
   const formatTitle = formattingTitle(title)
 
+
+  // const formatDDay = date - today
+
   return (
     <Container $thumbNailUrl={thumbNailUrl} onClick={() => navigate(`${eventUrl}`)} >
       <Wrap>
@@ -83,7 +91,8 @@ const navigate = useNavigate()
           <DescWrap>
             <Title>{formatTitle}</Title>
             <Date>
-              {formatCreateTime} ~ {date}
+              D-DAY : {date}
+              {/* {formatCreateTime} ~  */}
             </Date>
           </DescWrap>
         </WrapOverlay>

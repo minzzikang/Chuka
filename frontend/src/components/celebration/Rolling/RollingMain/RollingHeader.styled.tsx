@@ -1,16 +1,10 @@
 import styled from "styled-components";
-import { colors, sizes } from "@styles/theme";
+import { colors } from "@styles/theme";
 
 export const Container = styled.div`
   display: flex;
-  min-width: ${sizes.minWidth};
-  max-width: ${sizes.maxWidth};
-  @media only screen and (min-width: 430px) {
-    width: 430px;
-  }
-  @media only screen and (min-width: 600px) {
-    width: 375px;
-  }
+  width: 100%;
+  justify-content: space-between;
 `;
 
 export const Img = styled.img`
@@ -20,9 +14,6 @@ export const Img = styled.img`
 
 export const IconWrap = styled.div`
   display: flex;
-  position: absolute;
-  top: 20px;
-  right: 0;
 `;
 
 export const Icon = styled.img`
