@@ -1,7 +1,7 @@
 package com.luckyseven.funding.message;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.luckyseven.funding.dto.FundingStatusAlarmDto;
+import com.luckyseven.funding.dto.FundingToNotificationDto;
 import com.luckyseven.funding.dto.ProductCrawlingReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -33,9 +33,9 @@ public class ProducerService {
         rabbitTemplate.convertAndSend(CRAWLING_EXCHANGE, "", productCrawlingReq);
     }
 
-    public void sendFundingStatusMessage(FundingStatusAlarmDto fundingStatusAlarmDto){
+    public void sendFundingStatusMessage(FundingToNotificationDto fundingToNotificationDto){
 
-        rabbitTemplate.convertAndSend(FUNDINGTONOTIFICATION_EXCHANGE,"",fundingStatusAlarmDto);
+        rabbitTemplate.convertAndSend(FUNDINGTONOTIFICATION_EXCHANGE,"",fundingToNotificationDto);
     }
 
 }
