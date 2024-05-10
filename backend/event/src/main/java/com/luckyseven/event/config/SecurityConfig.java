@@ -79,6 +79,7 @@ public class SecurityConfig {
 
 //        http
 //                .httpBasic(Customizer.withDefaults());
+
         http
                 .httpBasic(AbstractHttpConfigurer::disable);
 

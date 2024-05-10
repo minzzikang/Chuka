@@ -2,7 +2,7 @@
 import LoginPage from "@pages/login/LoginPage";
 import HomePage from "@pages/home/HomePage";
 import CelebrationPage from "@pages/celebration/CelebrationPage";
-import AlarmPage from "@pages/alarm/AlarmPage";
+import NotificationPage from "@/pages/notification/NotificationPage";
 import MyPage from "@pages/mypage/MyPage";
 import FundingRegPage from "@pages/celebration/funding/FundingLinkPage";
 import FundingRegInfoPage from "@pages/celebration/funding/FundingInfoPage";
@@ -15,6 +15,7 @@ import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
+import SearchPage from "@/pages/search/SearchPage";
 
 const HomeRouter = () => {
   return (
@@ -36,19 +37,16 @@ const HomeRouter = () => {
       <Route path="/celebrate/rolling/:eventId/fundings" element={<FundingRegPage />} />
       <Route path="/celebrate/rolling/:eventId/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/payment" element={<PaymentPage />} />
+      <Route path="/celebrate/funding/:fundingId" element={<FundingDetailPage />} />
+      <Route path="/done" element={<PaymentDone />} />
 
-
-      <Route path="/alarm" element={<AlarmPage />} />
-
+      <Route path="/notification" element={<NotificationPage />} />
       <Route path="/mypage" element={<MyPage />} />
-
-      <Route path="/review" element={<ReviewPage />} />
-
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
+      <Route path="/search" element={<SearchPage />} />
+      <Route path="/review" element={<ReviewPage />} />
 
-      <Route path="/detail" element={<FundingDetailPage />} />
-      <Route path="/done" element={<PaymentDone />} />
     </Routes>
   );
 };

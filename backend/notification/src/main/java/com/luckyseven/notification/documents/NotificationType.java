@@ -3,7 +3,7 @@ package com.luckyseven.notification.documents;
 public enum NotificationType {
 
     EVENT_CREATE,
-    FUNDING_COMPLET,
+    FUNDING_COMPLETE,
     EVENT_OPEN,
     FUNDING_APPROVED,
     FUNDING_DISAPPROVED,

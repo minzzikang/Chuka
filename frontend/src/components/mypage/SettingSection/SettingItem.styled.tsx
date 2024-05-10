@@ -13,7 +13,6 @@ export const Container = styled.div`
 export const ImageWrap = styled.div`
   display: flex;
   align-items: center;
-  width: 15px;
 `
 
 export const Left = styled.div`

@@ -7,6 +7,7 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-bottom: 80px;
 `;
 
 export const Header = styled.div`
@@ -32,6 +33,25 @@ export const Header = styled.div`
   }
 `;
 
+export const SelectWrap = styled.div`
+  display: flex;
+  margin-top: 10px;
+  margin-left: 10px;
+  align-self: flex-start;
+  font-size: 0.9em;
+  cursor: pointer;
+
+  span {
+    margin-left: 5px;
+  }
+`;
+
+export const Label = styled.p`
+  align-self: flex-start;
+  margin-left: 10px;
+  margin-bottom: 3px;
+`;
+
 export const Icon = styled(IoIosArrowBack)`
   position: fixed;
   left: 10px;
@@ -40,37 +60,11 @@ export const Icon = styled(IoIosArrowBack)`
   cursor: pointer;
 `;
 
-export const MessageBox = styled.textarea<{
-  font: string;
-  $backColor: string;
-  $shape: string;
-  $backImage?: string;
-  $type: string;
-}>`
-  background-color: ${(props) =>
-    props.$type === "img" ? "transparent" : props.$backColor};
-  background-image: ${(props) =>
-    props.$type === "img" ? `url(${props.$backImage})` : "none"};
-  background-position: center;
-  background-size: contain;
-  margin: 20px;
-  border-radius: 1em;
-  padding: 10px;
-  width: 95%;
-  height: 380px;
-  text-align: center;
-  border: none;
-  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
-  font-size: 1.5em;
-  font-family: ${(props) => props.font}, Pretendard;
-`;
-
 export const WriterInfo = styled.input`
-  width: 100%;
+  width: 95%;
   height: 2em;
   border: none;
   font-size: 1em;
-  margin-left: 5px;
   padding: 5px;
 `;
 
@@ -163,7 +157,6 @@ export const Button = styled.button`
   height: 50px;
   border-radius: 1em;
   border: none;
-  margin-top: 20px;
 `;
 
 export const BlackBox = styled.div`
@@ -211,8 +204,47 @@ export const ModalContainer = styled.div`
   background-color: ${colors.white};
   z-index: 200;
   max-width: ${sizes.maxWidth};
+
+  button {
+    width: 100px;
+    height: 40px;
+    border-radius: 0.7em;
+    background-color: ${colors.white};
+    border: 2px solid ${colors.mainPink};
+    margin: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
 `;
 
 export const P = styled.p`
   margin: 10px;
+`;
+
+export const MessageBox = styled.textarea<{
+  font: string;
+  $backColor: string;
+  $shape: string;
+  $backImage?: string;
+  $type: string;
+}>`
+  background-color: ${(props) =>
+    props.$type === "img" ? "transparent" : props.$backColor};
+  background-image: ${(props) =>
+    props.$backImage ? `url(${props.$backImage})` : "none"};
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin: 20px;
+  border-radius: 1em;
+  padding: ${(props) => (props.$shape === "CIRCLE" ? "20% 10px" : "10px")};
+  width: 95%;
+  height: 380px;
+  text-align: center;
+  resize: none;
+  border: none;
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+  font-size: 1.5em;
+  font-family: ${(props) => (props.font ? props.font : "Pretendard")};
 `;

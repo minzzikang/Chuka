@@ -33,3 +33,11 @@ export const Icon = styled(IoIosArrowBack)`
   font-size: 24px;
   cursor: pointer;
 `;
+
+export const Icon2 = styled.div`
+  cursor: pointer;
+  position: fixed;
+  right: 10px;
+  top: 10px;
+  font-size: 24px;
+`;

@@ -11,7 +11,7 @@ function App() {
     <BrowserRouter>
       <GlobalStyle />
       <GlobalFont />
-      {/* <ScrollToTop /> */}
+      <ScrollToTop />
       <HomeRouter />
     </BrowserRouter>
   );

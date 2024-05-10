@@ -12,4 +12,8 @@ public interface FcmService {
     @Async
     void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable, Map<Integer, String> eventPageUriMap) throws IOException;
 
+    @Async
+    void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId) throws IOException;
+
+
 }
