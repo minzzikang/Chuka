@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   position: relative;
+  height: 100%;
 `;
 
 export const Drawer = styled.div<{ isOpen: boolean }>`
@@ -14,6 +15,7 @@ export const Drawer = styled.div<{ isOpen: boolean }>`
   width: 200px;
   max-width: 300px;
   height: calc(100vh - 62px);
+  /* height: 100%; */
   padding: 15px;
   background-color: ${colors.white};
   color: ${colors.black};

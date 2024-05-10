@@ -59,9 +59,9 @@ export const GlobalStyle = createGlobalStyle`
         background: none;
         border-radius: 10px;
         
-        &:disabled {
+        /* &:disabled {
             background-color: #CACFD9;
-        }
+        } */
     }
     label {
         color: ${colors.mainPink};

@@ -1,6 +1,6 @@
 import { useRecoilValue } from "recoil";
 import * as f from "./MyFunding.styled";
-import SearchBar from "@/components/searchBar";
+import SearchBar from "@/components/search/SearchForm";
 import FundingItem from "@components/mypage/MyFunding/FundingItem";
 import { useEffect, useState } from "react";
 import { fetchMyFundings } from "@/apis/funding";
@@ -33,7 +33,7 @@ const idex = () => {
   return (
     <div>
       <f.Container>
-        <SearchBar />
+        {/* <SearchBar /> */}
         <f.Wrap>
           <f.Label>내가 등록한 펀딩</f.Label>
         </f.Wrap>

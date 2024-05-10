@@ -16,10 +16,10 @@ public interface EventService {
     EventDto createEvent(CreateEventDto eventDto, String userId, String nickname) throws EmptyFileException, BigFileException, NotValidExtensionException, IOException;
     EventDto getEvent(int eventId);
 
-    List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming);
+    List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming, String word);
     @Deprecated List<EventDto> getPublicEvents(boolean isAsc, int page, int pageSize);
     List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize);
-    List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize);
+    List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize, String word);
 
     EventDto editEvent(EditEventDto eventDto, int eventId, String userId) throws EmptyFileException, IOException, NotValidExtensionException, BigFileException;
     void deleteEvent(int eventId) throws UnsupportedOperationException;
@@ -28,7 +28,11 @@ public interface EventService {
     int countEvent();
     int countPublicEvent();
     int countMyEvent(String userId);
+    int countMyUpcomingEvent(String userId);
+    int countMyUpcomingEventSearch(String userId, String word);
+    int countMyEventSearch(String userId, String word);
     int countParticipantEvent(String userId);
+    int countParticipantEventSearch(String userId, String word);
 
     void sendDdayalarm() throws IOException;
     ResponseEntity<?> sendDdayalarmTest() ;

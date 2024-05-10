@@ -10,7 +10,7 @@ const index = (props: BadgeProps) => {
   return (
     <>
       <b.Container $result={result}>
-        {result === "ONGOING" ? "진행 중" : "진행 완료"}
+        {result === "ONGOING" ? "진행 중" : "COMPLETE" ? "종료" : "성공"}
       </b.Container>
     </>
   );

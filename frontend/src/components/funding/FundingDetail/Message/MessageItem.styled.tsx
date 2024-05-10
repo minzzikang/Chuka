@@ -39,5 +39,8 @@ export const Highlight = styled(Text)`
 export const Medal = styled.img`
   display: flex;
   margin-bottom: 10%;
+  margin-right: 5px;
   margin-left: auto;
+  width: 18px;
+  height: auto;
 `;
