@@ -36,17 +36,16 @@ let thisFundingId = null;
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
   
-  console.log("[TEST] : ", e.data.json().data);
-  console.log("[TYPE] : ", e.data.json().data.type);
+  // console.log("[TEST] : ", e.data.json().data);
+  // console.log("[TYPE] : ", e.data.json().data.type);
   const type = e.data.json().data.type;
 
-  if(type === EVENT_OPEN || EVENT_CREATE){
+  if(type === EVENT_OPEN || type ===  EVENT_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri
     
-  } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
-    isEvent=false;
+  } else {
     thisFundingId = e.data.json().data.fundingId
 
   }
