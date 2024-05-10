@@ -1,50 +1,26 @@
 import RollingHeader from "@/components/celebration/Rolling/RollingMain/RollingHeader";
 import Banner from "@/components/celebration/Rolling/RollingMain/Banner";
 import Navbar from "@common/navbar";
-import styled from "styled-components";
-import { sizes } from "@styles/theme";
 import Board from "@/components/celebration/Rolling/RollingMain/Board";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchEventInfo } from "@/apis/event";
-import { fetchFundings } from "@/apis/funding";
-
-export const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  min-width: ${sizes.minWidth};
-  max-width: ${sizes.maxWidth};
-  @media only screen and (min-width: 430px) {
-    width: 430px;
-  }
-  @media only screen and (min-width: 600px) {
-    width: 375px;
-  }
-  position: relative;
-`;
-
-interface EventInfo {
-  userId: string;
-  nickname: string;
-  eventId: number;
-  pageUrl: string;
-  type: string;
-  theme: string;
-  title: string;
-  date: string;
-  createTime: string;
-  bannerUrl: string;
-  bannerThumbnailUrl: string;
-}
+import Drawer from "@components/drawer";
+import RModal from "@common/homeResModal";
+import FundingModal from "@components/celebration/Rolling/RollingMain/FundingModal";
+import { EventInfo } from "./RollingMainPage.styled";
+import * as r from "./RollingMainPage.styled";
+import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
 
 const RollingMainPage = () => {
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
-
+  const prevUrl = window.location.href;
+  const accessToken = localStorage.getItem("access_token");
+  const [isDrawerOpen, setDrawerOpen] = useState(false);
+  const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
   const [eventInfoData, setEventInfoData] = useState<EventInfo>({
     userId: "",
     nickname: "",
@@ -73,27 +49,21 @@ const RollingMainPage = () => {
       }
     };
     fetchEvent();
-
-    const fetchFunding = async () => {
-      if (typeof eventId == "string") {
-        try {
-          const fundingInfo = await fetchFundings(eventId);
-          console.log("펀딩 목록 조회 후후후후", fundingInfo);
-        } catch (err) {
-          console.error(err);
-          throw err;
-        }
-      } else {
-        console.error("eventId 이상");
-      }
-    };
-    fetchFunding();
   }, [eventId]);
 
+  // 펀딩 drawer 오픈
+  const goFunding = () => {
+    sessionStorage.setItem("prevUrl", prevUrl);
+    if (accessToken) {
+      setDrawerOpen(!isDrawerOpen);
+    } else {
+      setFundingModalOpen(true);
+    }
+  };
 
   return (
     <>
-      <Container>
+      <r.Container>
         <RollingHeader
           bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
           title={eventInfoData.title}
@@ -107,7 +77,22 @@ const RollingMainPage = () => {
           nickname={eventInfoData.nickname}
         />
         <Board theme={eventInfoData.theme} />
-      </Container>
+        <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
+        {isDrawerOpen && (
+          <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
+            <DrawerModal/>
+          </Drawer>
+        )}
+
+        {fundingModalOpen && (
+          <RModal
+            name={"선물 펀딩 서비스 이용 동의"}
+            onClose={() => setFundingModalOpen(false)}
+          >
+            <FundingModal setFundingModalOpen={setFundingModalOpen} />
+          </RModal>
+        )}
+      </r.Container>
       <Navbar current="celebration" />
     </>
   );

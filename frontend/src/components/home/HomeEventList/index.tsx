@@ -33,6 +33,7 @@ const index = () => {
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
+    setPage(1)
   };
 
   useEffect(() => {
