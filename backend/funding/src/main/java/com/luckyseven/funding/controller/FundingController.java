@@ -35,6 +35,7 @@ public class FundingController {
             description = "<strong>eventId</strong>를 꼭 담아서 보내주세요.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "해당 이벤트에 펀딩을 더 추가할 수 없습니다 (최대 4개)"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
@@ -44,6 +45,8 @@ public class FundingController {
             final int fundingId = fundingService.createFunding(dto, userId);
             return ResponseEntity.status(HttpStatus.OK).body(fundingId);
 
+        } catch (IllegalStateException e) {
+            return ResponseEntity.status(HttpStatus.valueOf(400)).body("해당 이벤트에 펀딩을 더 추가할 수 없습니다 (최대 4개)");
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

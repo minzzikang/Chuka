@@ -17,6 +17,7 @@ import java.util.List;
 @RequiredArgsConstructor
 public class FundingDetailRes implements Serializable {
     private final Integer fundingId;
+    private final Integer eventId;
     private final LocalDate eventDate;
     private final String eventTitle;
     private final FundingStatus status;
@@ -30,11 +31,12 @@ public class FundingDetailRes implements Serializable {
     public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors, final LocalDate date, final String title) {
         return new FundingDetailRes(
                 funding.getFundingId(),
+                funding.getEventId(),
                 date,
                 title,
                 funding.getStatus(),
                 funding.getProductImage(),
-                (int) ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate()),
+                (int) Math.max(0, ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate())),
                 funding.getGoalAmount(),
                 Math.max(funding.getGoalAmount() - nowFundingAmount, 0),
                 funding.getIntroduce(),
