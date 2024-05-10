@@ -21,6 +21,7 @@ public class FundingDetailRes implements Serializable {
     private final LocalDate eventDate;
     private final String eventTitle;
     private final FundingStatus status;
+    private final String productName;
     private final String productImage;
     private final Integer dDay;
     private final Integer goalAmount;
@@ -35,6 +36,7 @@ public class FundingDetailRes implements Serializable {
                 date,
                 title,
                 funding.getStatus(),
+                funding.getProductName(),
                 funding.getProductImage(),
                 (int) Math.max(0, ChronoUnit.DAYS.between(LocalDate.now(), funding.getEndDate())),
                 funding.getGoalAmount(),

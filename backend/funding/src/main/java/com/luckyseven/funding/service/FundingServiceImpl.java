@@ -34,8 +34,8 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public int createFunding(final FundingCreateReq dto, String userId) {
-
-        if(fundingRepository.countByEventId(dto.getEventId())>3){
+        //이러면 pending이 여러개 있을 때는 체크 불가능
+        if(fundingRepository.countByEventIdAndStatus(dto.getEventId(),FundingStatus.APPROVE)>3){
             throw new IllegalStateException();
         }
 
