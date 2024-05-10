@@ -28,7 +28,7 @@ const NotificationListItem = (props: NotificaionProps) => {
 
   const navigate = useNavigate();
 
-  const goNavigate = (type: string) => {
+  const goNavigate = () => {
     switch (type) {
       case "EVENT_CREATE":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
@@ -88,7 +88,7 @@ const NotificationListItem = (props: NotificaionProps) => {
     creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
 
   return (
-    <N.Container onClick={() => goNavigate}>
+    <N.Container onClick={goNavigate}>
       <N.Wrap>
         <N.LeftWrap>
           <N.ImgWrap>
@@ -103,7 +103,7 @@ const NotificationListItem = (props: NotificaionProps) => {
           <FaRegTrashCan
             color={colors.gray}
             onClick={(e) => {
-              e.stopPropagation();
+              e.stopPropagation(); // 부모요소로 bubble 되는 것을 막음
               handleDelete(notificationId);
             }}
           />
