@@ -52,5 +52,5 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  e.waitUntil(clients.openWindow(`/alarm`));
+  e.waitUntil(clients.openWindow(`/notification`));
 });

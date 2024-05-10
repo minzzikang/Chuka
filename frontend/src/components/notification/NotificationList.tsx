@@ -1,5 +1,5 @@
 import styled from 'styled-components'; 
-import AlarmListItem from './AlarmListItem';
+import NotificationListItem from './NotificationListItem';
 
 export const Container = styled.div`
     display: flex;
@@ -17,13 +17,14 @@ export const Container = styled.div`
     }
 `
 
-const AlarmList = () => {
+const NotificationList = () => {
+    const 
+
     return (
         <Container>
-            <AlarmListItem/>
-
+            <NotificationListItem/>
         </Container>
     );
 };
 
-export default AlarmList;
+export default NotificationList;
