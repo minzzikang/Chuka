@@ -1,6 +1,7 @@
-import * as A from './AlarmListItem.styled'
+import * as N from './NotificationListItem.styled'
 
-const AlarmListItem = () => {
+const NotificationListItem
+ = () => {
   const onClick = () => {
     console.log("상세페이지 이동");
   };
@@ -41,24 +42,25 @@ const AlarmListItem = () => {
   };
 
   return (
-    <A.Container onClick={onClick}>
-      <A.Wrap>
-        <A.LeftWrap>
-          <A.ImgWrap>
+    <N.Container onClick={onClick}>
+      <N.Wrap>
+        <N.LeftWrap>
+          <N.ImgWrap>
             <img src="icon/icon_alarm_event.png" alt="" />
-          </A.ImgWrap>
-          <A.TextWrap>
-            <A.Comment>ㅊㅋ가 등록되었습니다</A.Comment>
-            <A.Title>이벤트 제목</A.Title>
-            <A.Date>2024.04.08 12:13</A.Date>
-          </A.TextWrap>
-        </A.LeftWrap>
-        <A.Delete>
+          </N.ImgWrap>
+          <N.TextWrap>
+            <N.Comment>ㅊㅋ가 등록되었습니다</N.Comment>
+            <N.Title>이벤트 제목</N.Title>
+            <N.Date>2024.04.08 12:13</N.Date>
+          </N.TextWrap>
+        </N.LeftWrap>
+        <N.Delete>
           <img src="icon/icon_trash.png" alt="" />
-        </A.Delete>
-      </A.Wrap>
-    </A.Container>
+        </N.Delete>
+      </N.Wrap>
+    </N.Container>
   );
 };
 
-export default AlarmListItem;
+export default NotificationListItem
+;
