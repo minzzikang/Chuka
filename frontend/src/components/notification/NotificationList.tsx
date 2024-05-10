@@ -36,6 +36,10 @@ const NotificationList = () => {
     fetchData();
   }, []);
 
+  useEffect(() => {
+    console.log(values);
+  }, [values]);
+
   return (
     <Container>
       {values.length > 0 ? (
