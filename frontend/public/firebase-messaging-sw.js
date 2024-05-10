@@ -79,8 +79,7 @@ self.addEventListener("notificationclick", function (e) {
   if(isEvent){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
   }else{
-    console.log("펀딩관련 이동설정해야함~~")
+    e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
   }
 
-  e.waitUntil(clients.openWindow(`/notification/`));
 });
