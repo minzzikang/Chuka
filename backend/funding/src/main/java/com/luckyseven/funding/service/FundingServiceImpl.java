@@ -34,6 +34,11 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public int createFunding(final FundingCreateReq dto, String userId) {
+
+        if(fundingRepository.countByEventId(dto.getEventId())>3){
+            throw new IllegalStateException();
+        }
+
         final Funding data = Funding.builder()
                 .eventId(dto.getEventId())
                 .productLink(dto.getProductLink())
