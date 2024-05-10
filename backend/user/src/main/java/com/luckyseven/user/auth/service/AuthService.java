@@ -9,6 +9,7 @@ public interface AuthService {
     KakaoUserDto getKakaoUserInfo(String token);
 
     UserDto join(KakaoUserDto userDto);
+    void updateProfileImage(KakaoUserDto userDto);
 
     String issueAccessToken(KakaoUserDto userDto);
     String issueRefreshToken(UserDto userDto);
