@@ -1,4 +1,4 @@
-package com.luckyseven.funding.dto;
+package com.luckyseven.notification.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -7,10 +7,10 @@ import lombok.ToString;
 
 @Data
 @ToString
-@AllArgsConstructor
 @NoArgsConstructor
-public class FundingStatusAlarmDto {
+@AllArgsConstructor
+public class FundingCompleteAlarmDto {
+
     private String userId;
     private Integer fundingId;
-    private Topic topic;
 }

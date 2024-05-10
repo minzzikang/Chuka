@@ -4,7 +4,6 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.luckyseven.notification.commons.notification.NotificationResponseDescription;
-import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.*;
 import com.luckyseven.notification.service.FcmService;
@@ -41,57 +40,66 @@ public class ConsumerService {
 
     @Transactional
     @RabbitListener(queues = FUNDING_TO_NOTIFICATION_QUEUE)
-    public void receiveFundingMessage(FundingStatusAlarmDto fundingStatusAlarmDto) {
-        log.info("fundingStatusAlarmDto : {}", fundingStatusAlarmDto);
+    public void receiveFundingMessage(FundingToNotificationDto fundingToNotificationDto) {
+        log.info("fundingToNotificationDto : {}", fundingToNotificationDto);
 
         try {
-            Topic topic = fundingStatusAlarmDto.getTopic();
+
+            Topic topic = fundingToNotificationDto.getTopic();
             NotificationType type = null;
             String body = null;
-            Integer fundingId = fundingStatusAlarmDto.getFundingId();
-            String userId = fundingStatusAlarmDto.getUserId();
+            Integer fundingId = fundingToNotificationDto.getFundingId();
+            String userId = fundingToNotificationDto.getUserId();
 
             if (topic.equals(Topic.FUNDING_APPROVED)) {
                 type = NotificationType.FUNDING_APPROVED;
                 body = NotificationResponseDescription.FUNDING_APPROVED;
 
-            } else { // 펀딜 실패한 경우.
+            } else if (topic.equals(Topic.FUNDING_DISAPPROVED)) { // 펀딜 실패한 경우.
                 type = NotificationType.FUNDING_DISAPPROVED;
                 body = NotificationResponseDescription.FUNDING_DISAPPROVED;
+            } else if (topic.equals(Topic.FUNDING_COMPLETE)) {
+                type = NotificationType.FUNDING_COMPLETE;
+                body = NotificationResponseDescription.FUNDING_COMPLETE;
+
             }
 
-            FundingStatusSendDto fundingStatusSendDto = new FundingStatusSendDto();
-            fundingStatusSendDto.setFundingId(fundingId);
-            fundingStatusSendDto.setUserId(userId);
-            fundingStatusSendDto.setType(type);
-            fundingStatusSendDto.setBody(body);
+            FundingToNotificationMessageDto fundingToNotificationMessageDto = new FundingToNotificationMessageDto();
+            fundingToNotificationMessageDto.setFundingId(fundingId);
+            fundingToNotificationMessageDto.setUserId(userId);
+            fundingToNotificationMessageDto.setType(type);
+            fundingToNotificationMessageDto.setBody(body);
 
             // 일반 알림
-            notificationService.sendFundingNotification(fundingStatusSendDto);
-
-            // fcm알림
+            notificationService.sendFundingNotification(fundingToNotificationMessageDto);
 
             // fcmToken받아오기.
-            Response response = userFeignClient.getUserFcmToken(userId);
-
-            ObjectMapper om = new ObjectMapper();
-            InputStream inputStream = null;
-            inputStream = response.body().asInputStream();
-            // InputStream을 문자열로 변환한다.
-            String responseBody = IOUtils.toString(inputStream, "UTF-8");
-            inputStream.close();
+            List<String> userFcmTokenList = sendGetFcmTokenReq(userId);
 
 
-            List<String> userFcmTokenList = om.readValue(responseBody, new TypeReference<List<String>>() {});
-
-            // Todo : 펀딩여부알림을 받을 회원의 fcmToken까지 받았음, 회원의 모든 기기에 알림을 보내면 된다.
-            fcmService.fundingStatusNotification(userFcmTokenList,body,fundingId);
+            // fcm알림
+            fcmService.fundingStatusNotification(userFcmTokenList, body, fundingId);
 
 
         } catch (Exception e) {
             e.printStackTrace();
 
         }
+    }
+
+    private List<String> sendGetFcmTokenReq(String userId) throws IOException {
+        Response response = userFeignClient.getUserFcmToken(userId);
+
+        ObjectMapper om = new ObjectMapper();
+        InputStream inputStream = null;
+        inputStream = response.body().asInputStream();
+        // InputStream을 문자열로 변환한다.
+        String responseBody = IOUtils.toString(inputStream, "UTF-8");
+        inputStream.close();
+
+
+        return om.readValue(responseBody, new TypeReference<List<String>>() {
+        });
     }
 
 
