@@ -1,22 +1,60 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
-export const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  z-index: 200;
-  width: 30px;
-  height: 250px;
-  background-color: ${colors.mainPink};
-  color: ${colors.white};
-  position: fixed;
-  bottom: 30%;
-  right: 0;
-  transition: right 0.3s ease-in-out;
-  writing-mode: vertical-lr;
+
+export const Container = styled.div<{ $theme: string }>`
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  position: relative;
+  background-image: ${(props) =>
+    props.$theme === "CORK_BOARD"
+      ? `url("/img/img_rolling_theme_cork.jpg")`
+      : `url("/img/img_rolling_theme_board.jpg")`};
+  background-repeat: repeat-y;
+  background-size: cover;
+  
+
+  flex-grow: 1;
+  overflow-y: scroll;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+    width: 0;
+    height: 0;
+    background: transparent;
+    -webkit-appearance: none;
+  }
 `;
+
+// export const RollingTheme = styled.div<{ $theme: string }>`
+//   width: 100%;
+//   height: 100%;
+
+//   opacity: 0.7;
+//   position: relative;
+//   min-height: 100vh;
+//   background-image: ${(props) =>
+//     props.$theme === "CORK_BOARD"
+//       ? `url("/img/img_rolling_theme_cork.jpg")`
+//       : `url("/img/img_rolling_theme_board.jpg")`};
+//   background-repeat: repeat-y;
+//   background-size: cover;
+// `;
+
+export const CardWrap = styled.div`
+  position: absolute;
+  width: 100%;
+  display: grid;
+  align-content: start;
+  row-gap: 30px;
+  column-gap: 5px;
+  grid-template-columns: calc(50%) calc(50%);
+  padding: 10px;
+  min-height: 100vh;
+`;
+
 
 export const P = styled.p`
   position: absolute;
@@ -32,48 +70,21 @@ export const P = styled.p`
   z-index: 10;
 `;
 
-export const Container = styled.div`
-  position: relative;
-  flex-grow: 1;
-  overflow-y: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  width: 100%;
-  height: 100%;
-  &::-webkit-scrollbar {
-    display: none;
-    width: 0;
-    height: 0;
-    background: transparent;
-    -webkit-appearance: none;
-  }
-`;
-
-export const RollingTheme = styled.div<{ $theme: string }>`
-  width: 100%;
-  height: 100%;
-
-  opacity: 0.7;
-  position: relative;
-  min-height: 100vh;
-  background-image: ${(props) =>
-    props.$theme === "CORK_BOARD"
-      ? `url("/img/img_rolling_theme_cork.jpg")`
-      : `url("/img/img_rolling_theme_board.jpg")`};
-  background-repeat: repeat-y;
-  background-size: cover;
-`;
-
-export const CardWrap = styled.div`
-  position: absolute;
-  width: 100%;
-  display: grid;
-  align-content: start;
-  row-gap: 30px;
-  column-gap: 5px;
-  grid-template-columns: calc(50%) calc(50%);
-  padding: 10px;
-  min-height: 100vh;
+export const Button = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2em;
+  z-index: 200;
+  width: 30px;
+  height: 250px;
+  background-color: ${colors.mainPink};
+  color: ${colors.white};
+  position: fixed;
+  bottom: 18%;
+  right: 0;
+  transition: right 0.3s ease-in-out;
+  writing-mode: vertical-lr;
 `;
 
 export const Card = styled.div<{
