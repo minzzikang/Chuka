@@ -21,7 +21,7 @@ const NotificationPage = () => {
     <div>
       <Header children={"알림"} />
       <NotificationList />
-      <Navbar current="alarm" />
+      <Navbar current="notification" />
       {!accessToken && (
         <RModal name={"알림 서비스 동의"} onClose={handleCancel}>
           <NotificationModal />
