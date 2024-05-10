@@ -12,7 +12,6 @@ import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EditEventDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
-import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
@@ -30,6 +29,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -90,8 +90,8 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
-    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming) {
-        List<EventDto> events = eventQueryRepository.getMyEvents(userId, page, pageSize, upcoming);
+    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming, String word) {
+        List<EventDto> events = eventQueryRepository.getMyEvents(userId, page, pageSize, upcoming, word);
         for (EventDto eventDto : events) {
             if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
                 eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
@@ -157,8 +157,8 @@ public class EventServiceImpl implements EventService {
      * 내가 참여한 기록이 있는 이벤트 조회
      */
     @Override
-    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize) {
-        List<EventDto> events = eventQueryRepository.getEventsUserParticipatedIn(userId, page, pageSize);
+    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize, String word) {
+        List<EventDto> events = eventQueryRepository.getEventsUserParticipatedIn(userId, page, pageSize, word);
         for (EventDto eventDto : events) {
             if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
                 eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
@@ -220,12 +220,9 @@ public class EventServiceImpl implements EventService {
             }
 
             switch (response.status()) {
-                case HttpStatus.SC_FORBIDDEN ->
-                        throw new UnsupportedOperationException("funding has been raised");
-                case HttpStatus.SC_NOT_FOUND ->
-                        throw new UnsupportedOperationException("funding NOT FOUND");
-                default ->
-                        throw new UnsupportedOperationException("delete funding error");
+                case HttpStatus.SC_FORBIDDEN -> throw new UnsupportedOperationException("funding has been raised");
+                case HttpStatus.SC_NOT_FOUND -> throw new UnsupportedOperationException("funding NOT FOUND");
+                default -> throw new UnsupportedOperationException("delete funding error");
             }
         }
 
@@ -257,21 +254,48 @@ public class EventServiceImpl implements EventService {
     }
 
     @Override
+    public int countMyUpcomingEvent(String userId) {
+        return eventRepository.countByUserIdAndDateGreaterThanEqual(userId, LocalDate.now());
+    }
+
+    @Override
+    public int countMyUpcomingEventSearch(String userId, String word) {
+        return eventRepository.countByUserIdAndDateGreaterThanEqualAndTitleContaining(userId, LocalDate.now(), word);
+    }
+
+    @Override
+    public int countMyEventSearch(String userId, String word) {
+        return eventRepository.countByUserIdAndTitleContaining(userId, word);
+    }
+
+    @Override
     public int countParticipantEvent(String userId) {
         return joinEventRepository.countByJoinEventPKUserId(userId);
+    }
+
+    @Override
+    public int countParticipantEventSearch(String userId, String word) {
+        return eventQueryRepository.getParticipantEventSearchCount(userId, word);
     }
 
     /**
      * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
      * 알림 서버에 보낸다.
+     *
      * @throws IOException
      */
     @Async
     @Scheduled(cron = "0 0 9 * * ?")
     @Override
     public void sendDdayalarm() throws IOException {
+        log.info("9시에 실행되었는가?");
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(userIdList);
+        baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
+
+        producerService.sendNotificationMessage(baseMessageDto);
 
     }
 
@@ -283,10 +307,9 @@ public class EventServiceImpl implements EventService {
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
+        if(userIdList.isEmpty()) return ResponseEntity.ok().build();
 
         producerService.sendNotificationMessage(baseMessageDto);
-
-        log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
     }
 }

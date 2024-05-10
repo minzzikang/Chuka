@@ -7,13 +7,13 @@ importScripts(
 
 // install event
 self.addEventListener("install", (e) => {
-  console.log("[Service Worker] installed");
+  // console.log("[Service Worker] installed");
 });
 
 // activate event
 self.addEventListener("activate", function (e) {
   // e.waitUntil(self.clients.claim())
-  console.log("fcm service worker가 실행되었습니다.");
+  // console.log("fcm service worker가 실행되었습니다.");
 });
 
 // fetch event
@@ -23,20 +23,34 @@ self.addEventListener("fetch", (e) => {
 
 //
 self.addEventListener("push", function (e) {
-  const notification = e.data.json().notification;
+  // console.log("push: ", e.data.json());
+  if (!e.data.json()) return;
 
-  const notificationTitle = notification.title;
+  const resultData = e.data.json().notification;
+  const notificationTitle = resultData.title;
   const notificationOptions = {
-    body: notification.body,
-    icon: notification.icon,
+    body: resultData.body,
+    icon: resultData.image,
+    tag: resultData.tag,
+    ...resultData,
   };
+  // console.log("push: ", { resultData, notificationTitle, notificationOptions });
 
-  if (notification && notificationTitle && notificationOptions.body) {
-    self.registration.showNotification(notificationTitle, notificationOptions);
-  }
+  self.registration.showNotification(notificationTitle, notificationOptions);
+  // const notification = e.data.json().notification;
+
+  // const notificationTitle = notification.title;
+  // const notificationOptions = {
+  //   body: notification.body,
+  //   icon: notification.icon,
+  // };
+
+  // if (notification && notificationTitle && notificationOptions.body) {
+  //   self.registration.showNotification(notificationTitle, notificationOptions);
+  // }
 });
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  e.waitUntil(clients.openWindow("/alarm"));
+  e.waitUntil(clients.openWindow(`/notification`));
 });

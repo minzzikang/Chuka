@@ -18,6 +18,9 @@ public class Notification {
     private String userId;
     private String content;
     private String creationDateTime;
+    private String pageUri;
+    private Integer eventId;
+    private Integer fundingId;
     private NotificationType type;
 
     public Notification() {
@@ -31,6 +34,10 @@ public class Notification {
         setCreationDateTime(); // 형식 => "생성일 2024.02.15 12:13"
     }
 
+    /**
+     *
+     * @param type 메시지 타입에따라 알림 내용을 설정한다.
+     */
     public void setContent(NotificationType type) {
         String newContent = "";
         if (type.equals(NotificationType.EVENT_CREATE)) {
@@ -45,13 +52,16 @@ public class Notification {
         } else if (type.equals(NotificationType.FUNDING_DISAPPROVED)) {
             newContent = NotificationResponseDescription.FUNDING_DISAPPROVED;
 
-        } else if (type.equals(NotificationType.FUNDING_COMPLET)) {
-            newContent = NotificationResponseDescription.FUNDING_COMPLET;
+        } else if (type.equals(NotificationType.FUNDING_COMPLETE)) {
+            newContent = NotificationResponseDescription.FUNDING_COMPLETE;
         }
 
         this.content = newContent;
     }
 
+    /**
+     * 식별자를 UUID로 세팅한다.
+     */
     public void setNotificationId() {
         this.notificationId = UUID.randomUUID().toString().split("-")[0];
     }
