@@ -25,6 +25,7 @@ public class FcmSender {
     private final ObjectMapper objectMapper;
 
     public void sendMessageTo(FCMMessageDto fcmMessageDto) throws IOException {
+        log.info("*********************sendMessageTo***************************");
         String message = makeMessage(fcmMessageDto);
 
         OkHttpClient client = new OkHttpClient();
@@ -41,10 +42,12 @@ public class FcmSender {
         Response response = client.newCall(request).execute();
 
         log.info("[FCM_Log] => {}", response.body().string());
+        log.info("[FCM_Log] => message : {}", response.message());
     }
 
     private String makeMessage(FCMMessageDto fcmMessageDto)
             throws JsonParseException, JsonProcessingException {
+        System.out.println("fcmMessageDto >> "+fcmMessageDto);
         FcmMSG fcmMessage =
                 FcmMSG.builder()
                         .message(
@@ -53,7 +56,8 @@ public class FcmSender {
                                         .data(fcmMessageDto.getData())
                                         .notification(
                                                 FcmMSG.Notification.builder()
-                                                        .contents(fcmMessageDto.getContent())
+                                                        .title(fcmMessageDto.getContent())
+                                                        .body("눌러서 확인하기🎉")
                                                         .build())
                                         .build())
                         .validateOnly(false)

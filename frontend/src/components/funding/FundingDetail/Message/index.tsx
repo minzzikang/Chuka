@@ -1,18 +1,29 @@
 import MessageList from "./MessageList";
-import * as F from './FundingMessage.styled'
+import * as F from "./FundingMessage.styled";
 
+interface Sponsor {
+  sponsorId: number;
+  amount: number;
+  comment: string;
+  nickname: string;
+  profileImage: string;
+}
 
+interface FundingProps {
+  introduce: string;
+  sponsor: Sponsor[];
+}
 
-const index = () => {
+const index = (props: FundingProps) => {
+  const { introduce, sponsor } = props;
 
   return (
     <F.Container>
       <F.Wrap>
         <F.Text>펀딩 소개</F.Text>
-        <F.Intro>{'이 펀딩을 소개하는 문구입니다.'}</F.Intro>
+        <F.Intro>{introduce}</F.Intro>
       </F.Wrap>
-      {/* 메시지 리스트 */}
-      <MessageList/>
+      <MessageList sponsors={sponsor}/>
     </F.Container>
   );
 };

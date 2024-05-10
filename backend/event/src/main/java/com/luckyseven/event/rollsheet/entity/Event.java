@@ -52,6 +52,9 @@ public class Event {
     private Boolean visibility;
 
     @Column(nullable = false)
+    private int rollingPaperCnt;
+
+    @Column(nullable = false)
     private LocalDateTime createTime;
 
 }

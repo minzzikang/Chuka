@@ -119,7 +119,8 @@ public class EventServiceImpl implements EventService {
     public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
         List<EventDto> events;
         if (sort.equals("participants")) {
-            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+            // 롤링페이퍼 개수
+            events = eventQueryRepository.getPublicEventsByRollingPaperCounts(sort, page, pageSize);
         } else {
             events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
         }
@@ -133,6 +134,24 @@ public class EventServiceImpl implements EventService {
 
         return events;
     }
+//    @Override @Deprecated
+//    public List<EventDto> getPublicEvents(String order, String sort, int page, int pageSize) {
+//        List<EventDto> events;
+//        if (sort.equals("participants")) {
+//            events = eventQueryRepository.getPublicEventsByParticipants(sort, page, pageSize);
+//        } else {
+//            events = eventQueryRepository.getPublicEventsByCreateTime(order, page, pageSize);
+//        }
+//
+//        for (EventDto eventDto : events) {
+//            if (eventDto.getBanner() != null && eventDto.getBannerThumbnail() != null) {
+//                eventDto.setBannerUrl(fileService.getImageUrl(eventDto.getBanner()));
+//                eventDto.setBannerThumbnailUrl(fileService.getImageUrl(eventDto.getBannerThumbnail()));
+//            }
+//        }
+//
+//        return events;
+//    }
 
     /**
      * 내가 참여한 기록이 있는 이벤트 조회
@@ -201,12 +220,9 @@ public class EventServiceImpl implements EventService {
             }
 
             switch (response.status()) {
-                case HttpStatus.SC_FORBIDDEN ->
-                        throw new UnsupportedOperationException("funding has been raised");
-                case HttpStatus.SC_NOT_FOUND ->
-                        throw new UnsupportedOperationException("funding NOT FOUND");
-                default ->
-                        throw new UnsupportedOperationException("delete funding error");
+                case HttpStatus.SC_FORBIDDEN -> throw new UnsupportedOperationException("funding has been raised");
+                case HttpStatus.SC_NOT_FOUND -> throw new UnsupportedOperationException("funding NOT FOUND");
+                default -> throw new UnsupportedOperationException("delete funding error");
             }
         }
 
@@ -239,30 +255,21 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public int countParticipantEvent(String userId) {
-//        return joinEventRepository.countByUserId(userId);
-        JoinEventPk joinEventPk = new JoinEventPk();
-        joinEventPk.setUserId(userId);
-        return joinEventRepository.countByJoinEventPKUserId(joinEventPk);
+        return joinEventRepository.countByJoinEventPKUserId(userId);
     }
 
     /**
      * 매일 9시에 당일이 이벤트 오픈인 이벤트의 생성자와 참여자 정보를
      * 알림 서버에 보낸다.
+     *
      * @throws IOException
      */
     @Async
     @Scheduled(cron = "0 0 9 * * ?")
     @Override
     public void sendDdayalarm() throws IOException {
+        log.info("9시에 실행되었는가?");
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
-
-
-    }
-
-    @Override
-    public ResponseEntity<?> sendDdayalarmTest() {
-        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
-
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
@@ -270,7 +277,21 @@ public class EventServiceImpl implements EventService {
 
         producerService.sendNotificationMessage(baseMessageDto);
 
-        log.info(" ** userIdList : {}",userIdList);
+    }
+
+    @Override
+    public ResponseEntity<?> sendDdayalarmTest() {
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+//        log.info("**********************userIdList : {}",userIdList);
+        BaseMessageDto baseMessageDto = new BaseMessageDto();
+        baseMessageDto.setData(userIdList);
+        baseMessageDto.setTopic(Topic.DDAY_ALARM);
+
+//        System.out.println("**********baseMessageDto -- \n"+baseMessageDto);
+
+        producerService.sendNotificationMessage(baseMessageDto);
+
+//        log.info(" ** userIdList : {}",userIdList);
         return ResponseEntity.ok().body(userIdList);
     }
 }
