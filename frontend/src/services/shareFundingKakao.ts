@@ -1,18 +1,15 @@
+import { FundingHeaderType } from "@/components/funding/FundingDetail/Header";
+
 const KAKAO_JS_API_KEY = import.meta.env.VITE_KAKAO_JS_API_KEY;
 
 
-window.Kakao.init(KAKAO_JS_API_KEY);
-window.Kakao.isInitialized();
 
-type shareFundingKakaoType = {
-  fundingUrl:string 
-  bannerThumbnailUrl: string
-  title:string
-  nickname:string
+if (!window.Kakao.isInitialized()) {
+    window.Kakao.init(KAKAO_JS_API_KEY);
 }
 
-export const shareFundingKakao = (props:shareFundingKakaoType) => {
-  const {fundingUrl, bannerThumbnailUrl, title, nickname} = props
+export const shareFundingKakao = (props:FundingHeaderType) => {
+  const {fundingUrl, productUrl, productName, nickname} = props
 
   if (window.Kakao) {
     const kakao = window.Kakao;
@@ -20,10 +17,10 @@ export const shareFundingKakao = (props:shareFundingKakaoType) => {
     kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: title, // 이벤트 제목
+        title: productName, // 이벤트 제목
         description: `${nickname}님이 올린 기념일을 축하해주세요 !`, // 이벤트 소개 문구
         imageUrl:
-          bannerThumbnailUrl ? `${bannerThumbnailUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
+          productUrl ? `${productUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
         link: {
           mobileWebUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 URL
           webUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 URL
