@@ -103,7 +103,7 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "실패"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<BaseResponseBody> saveFcmToken(
+    public ResponseEntity<?> saveFcmToken(
             @RequestBody FcmTokenDto fcmToken, @RequestHeader("loggedInUser") String userId
     ) {
         try {
@@ -118,6 +118,9 @@ public class UserController {
             log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));
+        }catch (Exception e){
+            e.printStackTrace();
+            return ResponseEntity.internalServerError().body(("[ERROR] : "+e.getMessage()));
         }
     }
 
