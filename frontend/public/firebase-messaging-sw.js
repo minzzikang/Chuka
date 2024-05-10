@@ -42,7 +42,7 @@ self.addEventListener("push", function (e) {
 
   if(type === EVENT_OPEN || EVENT_CREATE){
     isEvent = true;
-    thisFundingId = e.data.json().data.eventId
+    thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri
     
   } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
