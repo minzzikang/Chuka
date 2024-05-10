@@ -1,4 +1,7 @@
+import { useEffect } from "react";
 import * as N from "./NotificationListItem.styled";
+import { FaRegTrashCan } from "react-icons/fa6";
+import { colors } from "@/styles/theme";
 
 interface NotificaionProps {
   content: string;
@@ -11,6 +14,10 @@ const NotificationListItem = (props: NotificaionProps) => {
   const onClick = () => {
     console.log("상세페이지 이동");
   };
+
+  useEffect(() => {
+    console.log(type);
+  }, [type]);
 
   const setImage = (type: string) => {
     switch (type) {
@@ -28,7 +35,7 @@ const NotificationListItem = (props: NotificaionProps) => {
         };
       case "EVENT_OPEN":
         return {
-          src: "icon/icon_alarm_funding_dday.png",
+          src: "icon/icon_alarm_dday.png",
           width: "26px",
           height: "25px",
         };
@@ -44,10 +51,16 @@ const NotificationListItem = (props: NotificaionProps) => {
           width: "25px",
           height: "25px",
         };
+      default:
+        return {
+          src: "",
+        };
     }
   };
 
   const icon = setImage(type);
+  const formatDate =
+    creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
 
   return (
     <N.Container onClick={onClick}>
@@ -58,11 +71,11 @@ const NotificationListItem = (props: NotificaionProps) => {
           </N.ImgWrap>
           <N.TextWrap>
             <N.Comment>{content}</N.Comment>
-            <N.Date>{creationDateTime}</N.Date>
+            <N.Date>{formatDate}</N.Date>
           </N.TextWrap>
         </N.LeftWrap>
         <N.Delete>
-          <img src="icon/icon_trash.png" alt="" />
+          <FaRegTrashCan color={colors.gray} />
         </N.Delete>
       </N.Wrap>
     </N.Container>
