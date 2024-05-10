@@ -33,7 +33,7 @@ const idex = () => {
   return (
     <div>
       <f.Container>
-        <SearchBar />
+        {/* <SearchBar /> */}
         <f.Wrap>
           <f.Label>내가 등록한 펀딩</f.Label>
         </f.Wrap>

@@ -7,7 +7,7 @@ export const Wrap = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: ${colors.gray};
+  background-color: ${colors.inputGray};
   font-size: 1em;
   padding: 9px 13px;
   border-radius: 20px;
