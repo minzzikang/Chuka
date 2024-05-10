@@ -54,7 +54,7 @@ const PaymentPage = () => {
         buyer_tel: '010-1234-5678',
         buyer_addr: '서울특별시 강남구 삼성동',
         buyer_postcode: '123-456',
-        m_redirect_url: 'http://localhost:5000',
+        m_redirect_url: 'https://chuka.kr/celebrate/payment/doing',
       }, function (rsp: any) {
         if (rsp.success) {
           console.log('결제 성공');
