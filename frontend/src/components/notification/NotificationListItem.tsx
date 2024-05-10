@@ -1,23 +1,52 @@
-import { useEffect } from "react";
 import * as N from "./NotificationListItem.styled";
 import { FaRegTrashCan } from "react-icons/fa6";
 import { colors } from "@/styles/theme";
+import { useNavigate } from "react-router-dom";
 
 interface NotificaionProps {
   content: string;
   creationDateTime: string;
   type: string;
+  eventId?: number;
+  fundingId?: number;
+  pageUri?: string;
+  notificationId: string;
+  handleDelete: (notificationId: string) => void;
 }
 
 const NotificationListItem = (props: NotificaionProps) => {
-  const { content, creationDateTime, type } = props;
-  const onClick = () => {
-    console.log("상세페이지 이동");
-  };
+  const {
+    content,
+    creationDateTime,
+    type,
+    eventId,
+    fundingId,
+    pageUri,
+    notificationId,
+    handleDelete,
+  } = props;
 
-  useEffect(() => {
-    console.log(type);
-  }, [type]);
+  const navigate = useNavigate();
+
+  const goNavigate = (type: string) => {
+    switch (type) {
+      case "EVENT_CREATE":
+        navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
+        break;
+      case "FUNDING_APPROVED":
+        navigate(`/celebrate/funding/${fundingId}`);
+        break;
+      case "EVENT_OPEN":
+        navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
+        break;
+      case "FUNDING_COMPLETE":
+        navigate(`/celebrate/funding/${fundingId}`);
+        break;
+      case "FUNDING_DISAPPROVED":
+        navigate(`/celebrate/rolling/${eventId}/fundings`);
+        break;
+    }
+  };
 
   const setImage = (type: string) => {
     switch (type) {
@@ -51,10 +80,6 @@ const NotificationListItem = (props: NotificaionProps) => {
           width: "25px",
           height: "25px",
         };
-      default:
-        return {
-          src: "",
-        };
     }
   };
 
@@ -63,7 +88,7 @@ const NotificationListItem = (props: NotificaionProps) => {
     creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
 
   return (
-    <N.Container onClick={onClick}>
+    <N.Container onClick={() => goNavigate}>
       <N.Wrap>
         <N.LeftWrap>
           <N.ImgWrap>
@@ -75,7 +100,13 @@ const NotificationListItem = (props: NotificaionProps) => {
           </N.TextWrap>
         </N.LeftWrap>
         <N.Delete>
-          <FaRegTrashCan color={colors.gray} />
+          <FaRegTrashCan
+            color={colors.gray}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleDelete(notificationId);
+            }}
+          />
         </N.Delete>
       </N.Wrap>
     </N.Container>
