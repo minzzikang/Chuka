@@ -130,6 +130,14 @@ public class AuthServiceImpl implements AuthService {
         return UserDto.of(userRepository.saveAndFlush(user));
     }
 
+    @Override
+    public void updateProfileImage(KakaoUserDto userDto) {
+        User user = userRepository.findByUserId(String.valueOf(userDto.getId()));
+        user.setProfileImage(userDto.getProperties().getProfileImage());
+
+        userRepository.saveAndFlush(user);
+    }
+
     public String issueAccessToken(KakaoUserDto userDto) {
         // 1시간 후 토큰 만료
         return jWTUtil.createAccessToken(

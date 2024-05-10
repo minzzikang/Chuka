@@ -36,16 +36,16 @@ let thisFundingId = null;
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
   
-  console.log("[TEST] : ", e.data.json().data);
-  console.log("[TYPE] : ", e.data.json().data.type);
+  // console.log("[TEST] : ", e.data.json().data);
+  // console.log("[TYPE] : ", e.data.json().data.type);
   const type = e.data.json().data.type;
 
-  if(type === EVENT_OPEN || EVENT_CREATE){
+  if(type === EVENT_OPEN || type ===  EVENT_CREATE){
     isEvent = true;
-    thisFundingId = e.data.json().data.eventId
+    thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri
     
-  } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
+  } else {
     thisFundingId = e.data.json().data.fundingId
 
   }
@@ -58,25 +58,15 @@ self.addEventListener("push", function (e) {
     tag: resultData.tag,
     ...resultData,
   };
-  console.log("resultData: ", { resultData });
+  // console.log("resultData: ", { resultData });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
-  // const notification = e.data.json().notification;
 
-  // const notificationTitle = notification.title;
-  // const notificationOptions = {
-  //   body: notification.body,
-  //   icon: notification.icon,
-  // };
-
-  // if (notification && notificationTitle && notificationOptions.body) {
-  //   self.registration.showNotification(notificationTitle, notificationOptions);
-  // }
 });
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  if(isEvent){
+  if(isEvent === true){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
   }else{
     e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
