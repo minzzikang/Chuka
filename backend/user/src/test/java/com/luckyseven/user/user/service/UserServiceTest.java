@@ -7,13 +7,10 @@ import com.luckyseven.user.user.dto.UserDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.sql.SQLIntegrityConstraintViolationException;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
@@ -52,6 +49,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("유저 정보 조회")
     void getUser() {
         UserDto user = userService.getUser("1");
 
@@ -84,6 +82,7 @@ class UserServiceTest {
     }
 
     @Test
+    @DisplayName("로그아웃")
     void logout() {
         // accessToken 발급
         KakaoUserDto userDto = new KakaoUserDto();
