@@ -27,11 +27,10 @@ const RollingHeader = (props: RollingHeader) => {
     navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
   };
 
-
   return (
     <>
       <r.Container>
-        <r.Img src={Logo} alt="logo" onClick={() => (navigate('/')) } />
+        <r.Img src={Logo} alt="logo" onClick={() => navigate("/")} />
         <r.IconWrap>
           <r.BtnWrap onClick={() => ShareKakao({eventUrl, bannerThumbnailUrl, title, nickname})}>
             <r.Icon src={ShareIcon} alt="share" />

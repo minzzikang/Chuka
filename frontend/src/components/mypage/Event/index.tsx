@@ -1,24 +1,40 @@
-import { useRecoilValue } from "recoil";
-import { useNavigate } from "react-router-dom";
 import * as e from "./Event.styled";
-import SearchBar from "@/components/searchBar";
-import RegEventList from "./RegSection/RegEventList";
+import EventCard from "@components/mypage/Event/EventCard";
+import { EventDataType } from "@/types/rollingType";
+import Pagination from "@common/pagination";
 
-const index = () => {
-  const navigate = useNavigate();
+interface EventProps {
+  eventList: EventDataType;
+  title: string;
+  currentPage: number;
+  setCurrentPage: (page: number) => void;
+}
+
+const index = (props: EventProps) => {
+  const { eventList, title, currentPage, setCurrentPage } = props;
 
   return (
     <>
       <e.Container>
-        <SearchBar />
         <e.Wrap>
-          <e.Label>내가 등록한 ㅊㅋ</e.Label>
-          <RegEventList />
+          <e.Label>{title}</e.Label>
+          <e.CardWrap>
+            {eventList.eventList.map((event, index) => (
+              <EventCard
+                key={index}
+                eventId={event.eventId}
+                title={event.title}
+                pageUri={event.pageUri}
+                createTime={event.createTime}
+                bannerThumbnailUrl={event.bannerThumbnailUrl}
+                date={event.date}
+              />
+            ))}
+          </e.CardWrap>
         </e.Wrap>
-        <e.Wrap>
-          <e.Label>내가 참여한 ㅊㅋ</e.Label>
-          <RegEventList />
-        </e.Wrap>
+        <e.PagiWrap>
+          <Pagination totalPage={eventList.totalCnt} limit={3} page={currentPage} setPage={setCurrentPage} />
+        </e.PagiWrap>
       </e.Container>
     </>
   );

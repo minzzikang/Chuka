@@ -4,7 +4,8 @@ public enum Topic {
 
     DELETE_USER,
     DDAY_ALARM,
-    GET_FCM_TOKEN,
-
+    EVENT_CREATE,
+    FUNDING_DISAPPROVED,
+    FUNDING_APPROVED
 
 }

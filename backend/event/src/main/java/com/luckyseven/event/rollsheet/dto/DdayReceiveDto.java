@@ -10,5 +10,6 @@ import java.util.List;
 public class DdayReceiveDto {
     private List<String> joinMembers;
     private String creater;
+    private String pageUri;
     private Integer eventId;
 }

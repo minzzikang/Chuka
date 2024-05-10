@@ -3,6 +3,8 @@ package com.luckyseven.notification.util.feign;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import feign.Response;
 import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -12,5 +14,9 @@ public interface UserFeignClient {
 
     @PostMapping("/users/notifications/fcm-token")
     Response findAllUsersFcmToken(DeduplicatedUsersIdDto dto);
+
+    @GetMapping("/users/{userId}/fcm-token")
+    Response getUserFcmToken(@PathVariable("userId") String userId);
+
 
 }
