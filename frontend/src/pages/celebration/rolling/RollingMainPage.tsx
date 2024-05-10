@@ -41,6 +41,8 @@ const RollingMainPage = () => {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           setEventInfoData(() => eventInfo);
+          console.log(eventInfo);
+          console.log('닉네임',eventInfo.nickname);
         } catch (err) {
           console.error(err);
         }
@@ -54,6 +56,7 @@ const RollingMainPage = () => {
   // 펀딩 drawer 오픈
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
+    console.log(localStorage.getItem('currentUser'));
     if (accessToken) {
       setDrawerOpen(!isDrawerOpen);
     } else {

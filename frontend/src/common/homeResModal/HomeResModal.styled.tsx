@@ -24,7 +24,7 @@ export const Container = styled.div`
   display: flex;
   position: fixed;
   bottom: 60px;
-  z-index: 101;
+  z-index: 1000;
   width: 100%;
   min-width: ${sizes.minWidth};
   max-width: ${sizes.maxWidth};

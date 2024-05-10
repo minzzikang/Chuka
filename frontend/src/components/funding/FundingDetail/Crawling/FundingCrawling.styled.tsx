@@ -13,7 +13,7 @@ export const TopWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  margin-top: 10px;
 `;
 
 export const MiddleWrap = styled.div``;
@@ -39,8 +39,9 @@ export const BottomWrap = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 700;
+  margin: 20px;
 `;
 
 export const Text = styled.span`
