@@ -85,6 +85,7 @@ public class ConsumerService {
             List<String> userFcmTokenList = om.readValue(responseBody, new TypeReference<List<String>>() {});
 
             // Todo : 펀딩여부알림을 받을 회원의 fcmToken까지 받았음, 회원의 모든 기기에 알림을 보내면 된다.
+            fcmService.fundingStatusNotification(userFcmTokenList,body,fundingId);
 
 
         } catch (Exception e) {
