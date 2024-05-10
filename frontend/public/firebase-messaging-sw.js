@@ -27,7 +27,7 @@ const EVENT_OPEN = "EVENT_OPEN";
 const FUNDING_APPROVED = "FUNDING_APPROVED";
 const FUNDING_DISAPPROVED = "FUNDING_DISAPPROVED";
 
-let thisType = null;
+let isEvent = false;
 let thisPageUri = null;
 let thisEventId = null;
 let thisFundingId = null;
@@ -39,10 +39,14 @@ self.addEventListener("push", function (e) {
   console.log("[TEST] : ", e.data.json().data);
   console.log("[TYPE] : ", e.data.json().data.type);
   const type = e.data.json().data.type;
-  if(type === EVENT_OPEN){
-    console.log("============================")
-    console.log("ㅇㅇ 이거 맞음.")
-    console.log("============================")
+
+  if(type === EVENT_OPEN || EVENT_CREATE){
+    isEvent = true;
+    thisFundingId = e.data.json().data.eventId
+    thisPageUri = e.data.json().data.pageUri
+    
+  } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
+    thisFundingId = e.data.json().data.fundingId
 
   }
 
@@ -71,7 +75,12 @@ self.addEventListener("push", function (e) {
 });
 
 self.addEventListener("notificationclick", function (e) {
-  console.log(resultData);
   e.notification.close();
-  e.waitUntil(clients.openWindow(`/alarm`));
+  if(isEvent){
+      e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
+  }else{
+    console.log("펀딩관련 이동설정해야함~~")
+  }
+
+  e.waitUntil(clients.openWindow(`/notification/`));
 });
