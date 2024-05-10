@@ -21,6 +21,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -31,7 +32,7 @@ import java.util.NoSuchElementException;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/events")
-@Tag(name = "Event", description = "이벤트(롤링페이퍼) API")
+@Tag(name = "Event", description = "이벤트(롤링페이퍼) API, loggedInUser: api 게이트웨이에서 넣으주는 값 (스웨거 테스트시 직접 입력)")
 public class EventController {
 
     private final JWTUtil jwtUtil;
@@ -118,28 +119,47 @@ public class EventController {
     }
 
     @GetMapping("/me")
-    @Operation(summary = "내 이벤트 조회", description = "내 이벤트 목록을 조회한다. (이벤트 날짜 기준 내림차순")
+    @Operation(summary = "내 이벤트 조회", description = "내 이벤트 목록을 조회한다. (이벤트 날짜 기준 내림차순 정렬)")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<EventListRes> getMyEvents(
-            @Parameter(description = "sort", example = "upcoming || participant") @RequestParam(required = false, defaultValue = "") String sort,
-            @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
+            @Parameter(description = "정렬 기준 -> upcoming(오늘을 포함) || participant(롤링페이퍼를 작성한 이벤트, 내 이벤트 제외) || default", example = "upcoming") @RequestParam(required = false, defaultValue = "default") String sort,
+            @Parameter(description = "검색어 (이벤트 제목)", example = "") @RequestParam(required = false, defaultValue = "") String word,
+            @Parameter(description = "페이지 번호 (0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
-            @RequestHeader("loggedInUser") String userId
+            @Parameter(description = "로그인한 유저 아이디") @RequestHeader("loggedInUser") String userId
     ) {
         try {
             EventListRes res = new EventListRes();
 
             List<EventDto> results;
             if (sort.equals("participant")) {
-                results = eventService.getEventsUserParticipatedIn(userId, page, size);
-                res.setTotalCnt(eventService.countParticipantEvent(userId));
+                results = eventService.getEventsUserParticipatedIn(userId, page, size, word);
+
+                if (word.isBlank()) {
+                    res.setTotalCnt(eventService.countParticipantEvent(userId));
+                } else {
+                    res.setTotalCnt(eventService.countParticipantEventSearch(userId, word));
+                }
             } else {
                 boolean upcoming = sort.equals("upcoming");
-                results = eventService.getMyEvents(userId, page, size, upcoming);
-                res.setTotalCnt(eventService.countMyEvent(userId));
+                results = eventService.getMyEvents(userId, page, size, upcoming, word);
+
+                if (!word.isBlank()) { // 검색어 존재
+                    if (upcoming) { // 다가오는 이벤트
+                        res.setTotalCnt(eventService.countMyUpcomingEventSearch(userId, word));
+                    } else {
+                        res.setTotalCnt(eventService.countMyEventSearch(userId, word));
+                    }
+                } else {
+                    if (upcoming) {
+                        res.setTotalCnt(eventService.countMyUpcomingEvent(userId));
+                    } else { // 내 이벤트 전체
+                        res.setTotalCnt(eventService.countMyEvent(userId));
+                    }
+                }
             }
 
             res.setEventList(results);
