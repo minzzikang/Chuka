@@ -68,11 +68,7 @@ const index = () => {
           onClick={handleLogout}
         />
       ) : (
-        <SettingItem
-          title="로그인"
-          // url="/mypage/funding"
-          icon={<LuLogIn />}
-        />
+        <SettingItem title="로그인" url="/login" icon={<LuLogIn />} />
       )}
 
       <SettingItem

@@ -1,15 +1,18 @@
 import Header from "@common/header";
-import SearchBar from "@/components/searchBar";
 import Navbar from "@common/navbar";
 import EventNull from "@components/mypage/EventNull";
 import Event from "@components/mypage/Event";
+import { IoIosSearch } from "react-icons/io";
 import { fetchMyEventList } from "@/apis/event";
 import { useEffect, useState } from "react";
 import { EventDataType } from "@/types/rollingType";
+import { useNavigate } from "react-router-dom";
 
 const MyCelebratePage = () => {
-  const [regPage, setRegPage] = useState(0);
-  const [partPage, setPartPage] = useState(0);
+  const navigate = useNavigate();
+  // 이벤트 조회 페이지네이션
+  const [regPage, setRegPage] = useState(1);
+  const [partPage, setPartPage] = useState(1);
   const [registeredEvents, setRegisteredEvents] = useState<EventDataType>({
     totalCnt: 0,
     eventList: [],
@@ -19,13 +22,11 @@ const MyCelebratePage = () => {
     eventList: [],
   });
 
-  
   useEffect(() => {
     const fetchRegEvents = async () => {
       try {
-        const response = await fetchMyEventList('', regPage, 3);
+        const response = await fetchMyEventList({ page: regPage - 1, size: 3 });
         setRegisteredEvents(response);
-        // console.log("참여한이벤트: ", registeredEvents);
       } catch (err) {
         console.log(err);
       }
@@ -34,9 +35,12 @@ const MyCelebratePage = () => {
 
     const fetchParticipantEvents = async () => {
       try {
-        const response = await fetchMyEventList("participant", partPage, 3);
+        const response = await fetchMyEventList({
+          sort: "participant",
+          page: partPage - 1,
+          size: 3,
+        });
         setParticipatedEvents(response);
-        // console.log("등록한 이벤트: ", participatedEvents);
       } catch (err) {
         console.log(err);
       }
@@ -53,29 +57,26 @@ const MyCelebratePage = () => {
         flexDirection: "column",
       }}
     >
-      <Header children="나의 ㅊㅋ" />
-      <div
-        style={{ display: "flex", justifyContent: "center", margin: "10px" }}
-      >
-        <SearchBar />
-      </div>
+      <Header icon={<IoIosSearch />} onIconClick={() => navigate("/search")}>
+        {"나의 ㅊㅋ"}
+      </Header>
       {registeredEvents.totalCnt === 0 || participatedEvents.totalCnt === 0 ? (
         <EventNull />
       ) : (
         <>
           <Event
-          key="registerEvent"
-          eventList={registeredEvents}
-          title="내가 등록한 ㅊㅋ"
-          currentPage={regPage}
-          setCurrentPage={setRegPage}
+            key="registerEvent"
+            eventList={registeredEvents}
+            title="내가 등록한 ㅊㅋ"
+            currentPage={regPage}
+            setCurrentPage={setRegPage}
           />
           <Event
-          key="participantEvent"
-          eventList={participatedEvents}
-          title="내가 참여한 ㅊㅋ"
-          currentPage={partPage}
-          setCurrentPage={setPartPage}
+            key="participantEvent"
+            eventList={participatedEvents}
+            title="내가 참여한 ㅊㅋ"
+            currentPage={partPage}
+            setCurrentPage={setPartPage}
           />
         </>
       )}

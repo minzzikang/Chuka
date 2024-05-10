@@ -60,18 +60,21 @@ export const fetchList = async (sort: string, page: number, size: number) => {
 };
 
 // 내 이벤트 조회
-export const fetchMyEventList = async (
-  sort: string,
-  page: number,
-  size: number
-) => {
+export const fetchMyEventList = async ({
+  sort,
+  page,
+  size,
+}: {
+  sort?: string;
+  page: number;
+  size: number;
+}) => {
   const accessToken = localStorage.getItem("access_token");
+
   try {
     const response = await axios.get(`${local}/events/me`, {
-      params: {
-        sort,
-        page,
-        size,
+      params : {
+        sort, page, size
       },
       headers: {
         Authorization: `${accessToken}`,
