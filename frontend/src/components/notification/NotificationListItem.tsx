@@ -1,38 +1,44 @@
-import * as N from './NotificationListItem.styled'
+import * as N from "./NotificationListItem.styled";
 
-const NotificationListItem
- = () => {
+interface NotificaionProps {
+  content: string;
+  creationDateTime: string;
+  type: string;
+}
+
+const NotificationListItem = (props: NotificaionProps) => {
+  const { content, creationDateTime, type } = props;
   const onClick = () => {
     console.log("상세페이지 이동");
   };
 
-  const setImage = (key: any) => {
-    switch (key) {
-      case "REGISTER":
+  const setImage = (type: string) => {
+    switch (type) {
+      case "EVENT_CREATE":
         return {
           src: "icon/icon_alarm_event.png",
           width: "20px",
           height: "20px",
         };
-      case "FUNDING":
+      case "FUNDING_APPROVED":
         return {
           src: "icon/icon_alarm_funding_end.png",
           width: "30px",
           height: "30px",
         };
-      case "DDAY":
+      case "EVENT_OPEN":
         return {
           src: "icon/icon_alarm_funding_dday.png",
           width: "26px",
           height: "25px",
         };
-      case "APPROVE":
+      case "FUNDING_COMPLETE":
         return {
           src: "icon/icon_alarm_funding_success.png",
           width: "25px",
           height: "23.1px",
         };
-      case "REJECT":
+      case "FUNDING_DISAPPROVED":
         return {
           src: "icon/icon_alarm_funding_fail.png",
           width: "25px",
@@ -41,17 +47,18 @@ const NotificationListItem
     }
   };
 
+  const icon = setImage(type);
+
   return (
     <N.Container onClick={onClick}>
       <N.Wrap>
         <N.LeftWrap>
           <N.ImgWrap>
-            <img src="icon/icon_alarm_event.png" alt="" />
+            <img src={icon?.src} alt="icon" />
           </N.ImgWrap>
           <N.TextWrap>
-            <N.Comment>ㅊㅋ가 등록되었습니다</N.Comment>
-            <N.Title>이벤트 제목</N.Title>
-            <N.Date>2024.04.08 12:13</N.Date>
+            <N.Comment>{content}</N.Comment>
+            <N.Date>{creationDateTime}</N.Date>
           </N.TextWrap>
         </N.LeftWrap>
         <N.Delete>
@@ -62,5 +69,4 @@ const NotificationListItem
   );
 };
 
-export default NotificationListItem
-;
+export default NotificationListItem;
