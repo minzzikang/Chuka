@@ -70,22 +70,22 @@ export const P = styled.p`
   z-index: 10;
 `;
 
-export const Button = styled.button`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 1.2em;
-  z-index: 200;
-  width: 30px;
-  height: 250px;
-  background-color: ${colors.mainPink};
-  color: ${colors.white};
-  position: fixed;
-  bottom: 18%;
-  right: 0;
-  transition: right 0.3s ease-in-out;
-  writing-mode: vertical-lr;
-`;
+// export const Button = styled.button`
+//   display: flex;
+//   align-items: center;
+//   justify-content: center;
+//   font-size: 1.2em;
+//   z-index: 200;
+//   width: 30px;
+//   height: 250px;
+//   background-color: ${colors.mainPink};
+//   color: ${colors.white};
+//   position: fixed;
+//   bottom: 18%;
+//   right: 0;
+//   transition: right 0.3s ease-in-out;
+//   writing-mode: vertical-lr;
+// `;
 
 export const Card = styled.div<{
   $bgColor?: string;
@@ -98,7 +98,7 @@ export const Card = styled.div<{
   width: 150px;
   height: 150px;
   margin: 10px;
-  z-index: 250;
+  z-index: 200;
   flex-direction: column;
   justify-content: center;
   align-items: center;

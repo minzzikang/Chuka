@@ -1,6 +1,8 @@
 package com.luckyseven.notification.service.serviceImpl;
 
 import com.luckyseven.notification.commons.notification.NotificationResponseDescription;
+
+import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.notification.dto.FCMMessageDto;
 import com.luckyseven.notification.service.FcmService;
@@ -42,6 +44,7 @@ public class FcmServiceImpl implements FcmService {
 
             data.put("eventId", event.toString());
             data.put("pageUri", curPageUri);
+            data.put("type", NotificationType.EVENT_OPEN.toString());
             fcmMessageDto.setData(data);
             List<String> eventMembers = fcmTargetDataSet.get(event);
             for (String eventMember : eventMembers) {
@@ -61,13 +64,14 @@ public class FcmServiceImpl implements FcmService {
     }
 
     @Override
-    public void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId) throws IOException {
+    public void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId, NotificationType type) throws IOException {
         log.info("userFcmTokenList : {}",userFcmTokenList);
         try {
             for (String token : userFcmTokenList) {
                 FCMMessageDto fcmMessageDto = new FCMMessageDto();
                 Map<String ,String > data = new HashMap<>();
                 data.put("fundingId",fundingId.toString());
+                data.put("type", type.toString());
                 fcmMessageDto.setContent(body);
                 fcmMessageDto.setTargetToken(token);
                 fcmMessageDto.setData(data);

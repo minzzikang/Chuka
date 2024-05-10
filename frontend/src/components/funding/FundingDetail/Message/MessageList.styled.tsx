@@ -23,3 +23,15 @@ export const SeeMoreBtn = styled.button`
   border-radius: 5px;
   color: ${colors.mainPink};
 `;
+
+export const MsgNone = styled.div`
+  display: flex;
+  align-items: center;
+  padding-left: 10px;
+
+  width: 100%;
+  height: 33px;
+  background-color: #fff;
+  border-radius: 10px;
+  font-size: 1em;
+`;

@@ -1,78 +1,7 @@
-import styled from "styled-components";
-import { colors } from "@/styles/theme";
 import { useNavigate } from "react-router";
-
-
-const Container = styled.div<{ $thumbNailUrl: string }>`
-  background-image: ${(props) =>
-    props.$thumbNailUrl
-      ? `url('${props.$thumbNailUrl}')`
-      : "url('/icon/apple-touch-icon.png')"};
-  background-size: cover;
-  background-position: center;
-  background-repeat: no-repeat;
-  /* background-size: contain; */
-  width: 120px;
-  height: 120px;
-  border-radius: 30px;
-  position: relative;
-`;
-
-const Wrap = styled.div`
-  width: 100%;
-  height: 44px;
-  margin-top: 10px;
-  background-color: ${colors.white};
-  opacity: 0.7;
-  display: flex;
-  position: absolute;
-  top: 50%;
-  border-bottom-right-radius: 1.25em;
-  border-bottom-left-radius: 1.25em;
-`;
-
-const WrapOverlay = styled.div`
-  display: flex;
-  width: 100%;
-  /* height: 44px;
-  opacity: 0.7; */
-  gap: 5px;
-  /* justify-content: center; */
-  align-items: center;
-`;
-
-const DescWrap = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  padding-left: 6px;
-  gap: 4px;
-  /* align-items: center; */
-`;
-const Title = styled.div`
-  font-size: 1em;
-  font-weight: 700;
-`;
-
-const Date = styled.div`
-  font-size: 0.6em;
-  font-weight: 500;
-`
-
-export type EventCardType = {
-    title:string
-    createTime:string
-    date: string
-    thumbNailUrl: string
-    eventUrl: string
-}
-
-export const formattingTitle = (title:string) => {
-    if (title.length > 6) {
-        return `${title.slice(0,6)}...`
-    } 
-    return title
-  }
+import * as e from './EventCard.styled'
+import { EventCardType } from "./EventCard.styled";
+import { formattingTitle } from "@/utils/stringFormat";
 
 const index = (props: EventCardType) => {
 const navigate = useNavigate()
@@ -85,19 +14,19 @@ const navigate = useNavigate()
   // const formatDDay = date - today
 
   return (
-    <Container $thumbNailUrl={thumbNailUrl} onClick={() => navigate(`${eventUrl}`)} >
-      <Wrap>
-        <WrapOverlay>
-          <DescWrap>
-            <Title>{formatTitle}</Title>
-            <Date>
+    <e.Container $thumbNailUrl={thumbNailUrl} onClick={() => navigate(`${eventUrl}`)} >
+      <e.Wrap>
+        <e.WrapOverlay>
+          <e.DescWrap>
+            <e.Title>{formatTitle}</e.Title>
+            <e.Date>
               D-DAY : {date}
               {/* {formatCreateTime} ~  */}
-            </Date>
-          </DescWrap>
-        </WrapOverlay>
-      </Wrap>
-    </Container>
+            </e.Date>
+          </e.DescWrap>
+        </e.WrapOverlay>
+      </e.Wrap>
+    </e.Container>
   );
 };
 

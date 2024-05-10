@@ -13,7 +13,7 @@ self.addEventListener("install", (e) => {
 // activate event
 self.addEventListener("activate", function (e) {
   // e.waitUntil(self.clients.claim())
-  // console.log("fcm service worker가 실행되었습니다.");
+  console.log("fcm service worker가 실행되었습니다.");
 });
 
 // fetch event
@@ -21,10 +21,34 @@ self.addEventListener("fetch", (e) => {
   // console.log('[Service Worker] fetched resource ' + e.request.url);
 });
 
-//
+const EVENT_CREATE = "EVENT_CREATE";
+const FUNDING_COMPLETE = "FUNDING_COMPLETE";
+const EVENT_OPEN = "EVENT_OPEN";
+const FUNDING_APPROVED = "FUNDING_APPROVED";
+const FUNDING_DISAPPROVED = "FUNDING_DISAPPROVED";
+
+let isEvent = false;
+let thisPageUri = null;
+let thisEventId = null;
+let thisFundingId = null;
+
+
 self.addEventListener("push", function (e) {
-  // console.log("push: ", e.data.json());
   if (!e.data.json()) return;
+  
+  console.log("[TEST] : ", e.data.json().data);
+  console.log("[TYPE] : ", e.data.json().data.type);
+  const type = e.data.json().data.type;
+
+  if(type === EVENT_OPEN || EVENT_CREATE){
+    isEvent = true;
+    thisFundingId = e.data.json().data.eventId
+    thisPageUri = e.data.json().data.pageUri
+    
+  } else if(type === FUNDING_APPROVED || type === FUNDING_COMPLETE || type === FUNDING_DISAPPROVED){
+    thisFundingId = e.data.json().data.fundingId
+
+  }
 
   const resultData = e.data.json().notification;
   const notificationTitle = resultData.title;
@@ -34,7 +58,7 @@ self.addEventListener("push", function (e) {
     tag: resultData.tag,
     ...resultData,
   };
-  // console.log("push: ", { resultData, notificationTitle, notificationOptions });
+  console.log("resultData: ", { resultData });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
   // const notification = e.data.json().notification;
@@ -52,5 +76,10 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  e.waitUntil(clients.openWindow(`/notification`));
+  if(isEvent){
+      e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
+  }else{
+    e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
+  }
+
 });

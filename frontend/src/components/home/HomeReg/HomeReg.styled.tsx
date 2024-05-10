@@ -26,8 +26,8 @@ export const Title = styled.div`
 
 export const TitleWrap = styled.div`
   margin-top: 20px;
-
-`
+  font-family: "Goocneaeum";
+`;
 
 export const Img = styled.img`
   width: 100px;
@@ -36,6 +36,7 @@ export const Img = styled.img`
 
 export const Text = styled.div`
   font-size: 1em;
+  font-family: "Goocneaeum";
 `;
 
 export const Hightlight = styled.div`
@@ -52,6 +53,6 @@ export const Button = styled.button`
   align-items: center;
   gap: 5px;
   border-radius: 10px;
-  margin-top:5px;
+  margin-top: 5px;
   margin-bottom: 5px;
 `;
