@@ -3,6 +3,8 @@ package com.luckyseven.event.rollsheet.repository;
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
 import com.luckyseven.event.rollsheet.entity.Event;
+import com.luckyseven.event.rollsheet.entity.JoinEvent;
+import com.querydsl.core.types.Expression;
 import com.querydsl.core.types.OrderSpecifier;
 import com.querydsl.core.types.Projections;
 import com.querydsl.core.types.dsl.Expressions;
@@ -26,10 +28,33 @@ public class EventQueryRepository {
 
     private final JPAQueryFactory jpaQueryFactory;
 
-    final OrderSpecifier<String> createTimeOrderSpecifierDesc = Expressions.stringPath("event.createTime").desc();
-    final OrderSpecifier<String> createTimeOrderSpecifierAsc = Expressions.stringPath("event.createTime").asc();
-    final OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
-    final OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
+    private final OrderSpecifier<String> createTimeOrderSpecifierDesc = Expressions.stringPath("event.createTime").desc();
+    private final OrderSpecifier<String> createTimeOrderSpecifierAsc = Expressions.stringPath("event.createTime").asc();
+    private final OrderSpecifier<String> eventDateOrderSpecifierDesc = Expressions.stringPath("event.date").desc();
+    private final OrderSpecifier<String> eventDateOrderSpecifierAsc = Expressions.stringPath("event.date").asc();
+
+    private final Expression<EventDto> eventProjection = Projections.bean(
+            EventDto.class,
+            event.eventId,
+            event.userId,
+            event.nickname,
+            event.pageUri,
+            event.type,
+            event.title,
+            event.date,
+            event.banner,
+            event.bannerThumbnail,
+            event.theme,
+            event.visibility,
+            event.createTime
+    );
+
+    private List<EventDto> executePagination(JPAQuery<EventDto> query, int page, int pageSize) {
+        return query
+                .offset(pageSize * page)
+                .limit(pageSize)
+                .fetch();
+    }
 
     /**
      * 내가 생성한 이벤트 조회
@@ -39,59 +64,28 @@ public class EventQueryRepository {
      * @param pageSize 페이지당 항목 수
      * @return 생성한 이벤트 목록
      */
-    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming) {
-        JPAQuery<EventDto> query = jpaQueryFactory.select(
-                        Projections.bean(EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime))
+    public List<EventDto> getMyEvents(String userId, int page, int pageSize, boolean upcoming, String word) {
+        JPAQuery<EventDto> query = jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .where(event.userId.eq(userId));
 
-        if (upcoming) {
-            query = query.where(event.date.after(LocalDate.now())); // 예정된 이벤트만 선택
+        if (!word.isBlank()) {
+            query = query.where(event.title.contains(word));
         }
 
-        List<EventDto> result = query
-                .orderBy(eventDateOrderSpecifierDesc)
-                .offset(pageSize * page)
-                .limit(pageSize)
-                .fetch();
+        if (upcoming) {
+            query = query.where(event.date.goe(LocalDate.now())); // 예정된 이벤트만 선택
+        }
 
-        return result;
+        query = query.orderBy(eventDateOrderSpecifierDesc);
+
+        return executePagination(query, page, pageSize);
     }
 
     public List<EventDto> getPublicEventsByCreateTime(boolean isAsc, int page, int pageSize) {
-        OrderSpecifier<String> orderSpecifier;
-        if (isAsc) {
-            orderSpecifier = createTimeOrderSpecifierAsc;
-        } else {
-            orderSpecifier = createTimeOrderSpecifierDesc;
-        }
+        OrderSpecifier<String> orderSpecifier = isAsc ? createTimeOrderSpecifierAsc : createTimeOrderSpecifierDesc;
 
-        List<EventDto> results = jpaQueryFactory.select(
-                        Projections.bean(EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime))
+        List<EventDto> results = jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(orderSpecifier)
@@ -103,27 +97,9 @@ public class EventQueryRepository {
     }
 
     public List<EventDto> getPublicEventsByCreateTime(String order, int page, int pageSize) {
-        OrderSpecifier<String> orderSpecifier;
-        if (order.equals("asc")) {
-            orderSpecifier = createTimeOrderSpecifierAsc;
-        } else {
-            orderSpecifier = createTimeOrderSpecifierDesc;
-        }
+        OrderSpecifier<String> orderSpecifier = order.equals("asc") ? createTimeOrderSpecifierAsc : createTimeOrderSpecifierDesc;
 
-        List<EventDto> results = jpaQueryFactory.select(
-                        Projections.bean(EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime))
+        List<EventDto> results = jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(orderSpecifier)
@@ -138,31 +114,9 @@ public class EventQueryRepository {
         OrderSpecifier<Integer> asc = event.rollingPaperCnt.asc();
         OrderSpecifier<Integer> desc = event.rollingPaperCnt.desc();
 
-        OrderSpecifier<Integer> order;
-        if (sort.equals("asc")) {
-            order = asc;
-        } else {
-            order = desc;
-        }
+        OrderSpecifier<Integer> order = sort.equals("asc") ? asc : desc;
 
-        return jpaQueryFactory
-                .select(
-                        Projections.bean(
-                                EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime
-                        )
-                )
+        return jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(order)
@@ -177,31 +131,9 @@ public class EventQueryRepository {
         OrderSpecifier<Long> asc = joinEvent.joinEventPK.event.eventId.count().asc();
         OrderSpecifier<Long> desc = joinEvent.joinEventPK.event.eventId.count().desc();
 
-        OrderSpecifier<Long> order;
-        if (sort.equals("asc")) {
-            order = asc;
-        } else {
-            order = desc;
-        }
+        OrderSpecifier<Long> order = sort.equals("asc") ? asc : desc;
 
-        return jpaQueryFactory
-                .select(
-                        Projections.bean(
-                                EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime
-                        )
-                )
+        return jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .leftJoin(joinEvent)
                 .on(event.eventId.eq(joinEvent.joinEventPK.event.eventId))
@@ -215,27 +147,9 @@ public class EventQueryRepository {
     }
 
     public List<EventDto> getPublicEventsOrderByDate(boolean isAsc, int page, int pageSize) {
-        OrderSpecifier<String> orderSpecifier;
-        if (isAsc) {
-            orderSpecifier = eventDateOrderSpecifierAsc;
-        } else {
-            orderSpecifier = eventDateOrderSpecifierDesc;
-        }
+        OrderSpecifier<String> orderSpecifier = isAsc ? eventDateOrderSpecifierAsc : eventDateOrderSpecifierDesc;
 
-        List<EventDto> results = jpaQueryFactory.select(
-                        Projections.bean(EventDto.class,
-                                event.eventId,
-                                event.userId,
-                                event.nickname,
-                                event.pageUri,
-                                event.type,
-                                event.title,
-                                event.date,
-                                event.banner,
-                                event.bannerThumbnail,
-                                event.theme,
-                                event.visibility,
-                                event.createTime))
+        List<EventDto> results = jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .where(event.visibility.eq(true))
                 .orderBy(orderSpecifier)
@@ -246,38 +160,39 @@ public class EventQueryRepository {
         return results;
     }
 
-    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize) {
-        List<EventDto> results = jpaQueryFactory
-                .select(Projections.bean(EventDto.class,
-                        event.eventId,
-                        event.userId,
-                        event.nickname,
-                        event.pageUri,
-                        event.type,
-                        event.title,
-                        event.date,
-                        event.banner,
-                        event.bannerThumbnail,
-                        event.theme,
-                        event.visibility,
-                        event.createTime))
+    public List<EventDto> getEventsUserParticipatedIn(String userId, int page, int pageSize, String word) {
+        JPAQuery<EventDto> query = jpaQueryFactory.select(eventProjection)
                 .from(event)
                 .rightJoin(joinEvent)
                 .on(event.eq(joinEvent.joinEventPK.event))
-                .where(joinEvent.joinEventPK.userId.eq(userId))
-                .orderBy(eventDateOrderSpecifierDesc)
-                .offset(pageSize * page)
-                .limit(pageSize)
+                .where(joinEvent.joinEventPK.userId.eq(userId));
+
+        if (!word.isBlank()) {
+            query = query.where(event.title.contains(word));
+        }
+
+        query = query.orderBy(eventDateOrderSpecifierDesc);
+
+        return executePagination(query, page, pageSize);
+    }
+
+    public int getParticipantEventSearchCount(String userId, String word) {
+        List<JoinEvent> results = jpaQueryFactory
+                .select(joinEvent)
+                .from(joinEvent)
+                .innerJoin(event)
+                .on(joinEvent.joinEventPK.event.eq(event))
+                .where(
+                        joinEvent.joinEventPK.userId.eq(userId)
+                                .and(event.title.contains(word))
+                )
                 .fetch();
 
-        return results;
+        return results.isEmpty() ? 0 : results.size();
     }
 
     public List<DdayReceiveDto> findAllByCurdate() {
-//        System.out.println("d?????????????????");
         LocalDate currentDate = LocalDate.now();
-//        System.out.println("currentDate ==> " + currentDate);
-
 
         List<Event> eventIdList = jpaQueryFactory
                 .select(Projections.bean(Event.class,
@@ -287,7 +202,7 @@ public class EventQueryRepository {
                 .from(event)
                 .where(event.date.eq(currentDate))
                 .fetch();
-//    log.info("======data =============> {}",data);
+
         List<DdayReceiveDto> result = new ArrayList<>();
 
         for (Event curEvent : eventIdList) {
@@ -297,9 +212,7 @@ public class EventQueryRepository {
             ddayReceiveDto.setEventId(curEventId);
             ddayReceiveDto.setPageUri(curEvent.getPageUri());
 
-
             // 이벤트에 참여한 사람불러오기
-
             List<String> joinMembers = jpaQueryFactory
                     .select(joinEvent.joinEventPK.userId)
                     .from(joinEvent).leftJoin(event).on(joinEvent.joinEventPK.event.eq(event))
@@ -308,9 +221,7 @@ public class EventQueryRepository {
             ddayReceiveDto.setJoinMembers(joinMembers);
             result.add(ddayReceiveDto);
         }
-//        for (DdayReceiveDto ddayReceiveDto : result) {
-//            log.info("ddayReceiveDto.toString() => {}", ddayReceiveDto.toString());
-//        }
+
         return result;
     }
 }
