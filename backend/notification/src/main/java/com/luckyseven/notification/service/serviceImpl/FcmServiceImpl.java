@@ -1,11 +1,11 @@
 package com.luckyseven.notification.service.serviceImpl;
 
 import com.luckyseven.notification.commons.notification.NotificationResponseDescription;
-import com.luckyseven.notification.dto.BaseMessageDto;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.notification.dto.FCMMessageDto;
 import com.luckyseven.notification.service.FcmService;
 import com.luckyseven.notification.util.fcm.FcmSender;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+@Slf4j
 @Service
 public class FcmServiceImpl implements FcmService {
 
@@ -60,8 +61,23 @@ public class FcmServiceImpl implements FcmService {
     }
 
     @Override
-    public void fundingStatusNotification() throws IOException {
+    public void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId) throws IOException {
+        log.info("userFcmTokenList : {}",userFcmTokenList);
+        try {
+            for (String token : userFcmTokenList) {
+                FCMMessageDto fcmMessageDto = new FCMMessageDto();
+                Map<String ,String > data = new HashMap<>();
+                data.put("fundingId",fundingId.toString());
+                fcmMessageDto.setContent(body);
+                fcmMessageDto.setTargetToken(token);
+                fcmMessageDto.setData(data);
 
+                fcmSender.sendMessageTo(fcmMessageDto);
+            }
+
+        }catch (Exception e){
+
+        }
     }
 
 
