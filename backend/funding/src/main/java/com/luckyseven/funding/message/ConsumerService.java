@@ -1,6 +1,6 @@
 package com.luckyseven.funding.message;
 
-import com.luckyseven.funding.dto.FundingStatusAlarmDto;
+import com.luckyseven.funding.dto.FundingToNotificationDto;
 import com.luckyseven.funding.dto.ProductInfoRes;
 import com.luckyseven.funding.dto.Topic;
 import com.luckyseven.funding.entity.Funding;
@@ -12,10 +12,7 @@ import org.springframework.amqp.rabbit.annotation.RabbitListener;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.HashMap;
-import java.util.Map;
 import java.util.NoSuchElementException;
-import java.util.Objects;
 
 /**
  * 펀딩 서버가 요청을 받는 코드는 여기에 작성해주세요 @RabbitListener 어노테이션을 달고 어떤 큐의 정보를 받을 것인지 설정하면 됩니다
@@ -64,7 +61,7 @@ public class ConsumerService {
 
         }
         // 알림요청MQ
-        FundingStatusAlarmDto fundingStatusAlarmDto = new FundingStatusAlarmDto(userId,fundingId,topic);
+        FundingToNotificationDto fundingStatusAlarmDto = new FundingToNotificationDto(userId,fundingId,topic);
         producerService.sendFundingStatusMessage(fundingStatusAlarmDto);
 
     }
