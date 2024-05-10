@@ -67,7 +67,7 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  if(isEvent){
+  if(isEvent === true){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
   }else{
     e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
