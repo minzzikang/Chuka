@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.OptimisticLockingFailureException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -109,7 +110,7 @@ public class UserController {
             userService.saveFcmToken(userId, fcmToken.getFcmToken());
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "fcm token 저장 성공"));
-        } catch (SQLIntegrityConstraintViolationException e) {
+        } catch (DataIntegrityViolationException e) {
             log.error(e.getMessage());
 
             return ResponseEntity.status(409).body(BaseResponseBody.of(HttpStatus.CONFLICT.value(), "fcm token 중복"));
