@@ -18,3 +18,22 @@ export const fetchNotifications = async () => {
     throw err;
   }
 };
+
+// 알림 단건 삭제
+export const deleteNotification = async (notificationId: string) => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.delete(
+      `${url}/notifications/${notificationId}`,
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
+    return response;
+  } catch (err) {
+    console.error(err);
+    throw err;
+  }
+};
