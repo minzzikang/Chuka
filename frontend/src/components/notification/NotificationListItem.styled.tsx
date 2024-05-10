@@ -10,7 +10,6 @@ export const Container = styled.div`
   cursor: pointer;
 `;
 
-
 export const Wrap = styled.div`
   display: flex;
   justify-content: space-between;
@@ -25,7 +24,7 @@ export const ImgWrap = styled.div`
   width: 40px;
   height: 40px;
   border-radius: 6px;
-  background-color: #fff;
+  background-color: ${colors.white};
 `;
 
 export const LeftWrap = styled.div`
