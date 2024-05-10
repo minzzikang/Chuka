@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import SettingItem from "./SettingItem";
-import { IoIosLock } from "react-icons/io";
 import { GiPartyHat } from "react-icons/gi";
 import { SlPresent } from "react-icons/sl";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
@@ -40,12 +39,6 @@ const index = () => {
 
   return (
     <Container>
-      <SettingItem
-        title="계정"
-        // text={userInfo.memberNo !== -1 ? userInfo.email : ''}
-        icon={<IoIosLock />}
-      />
-
       {userInfo ? (
         <SettingItem
           title="나의 ㅊㅋ"
