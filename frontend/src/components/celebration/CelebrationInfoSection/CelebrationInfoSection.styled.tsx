@@ -4,7 +4,6 @@ import { colors } from "@styles/theme";
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: 100%;
   align-items: center;
   justify-content: center;
 `;
@@ -12,7 +11,7 @@ export const Container = styled.div`
 export const Button = styled.button<{ $active: boolean }>`
   background-color: ${(props) =>
     props.$active ? colors.mainPink : colors.white};
-  border: 2px solid ${(props) => props.$active ? 'none' : colors.inputGray};
+  border: 2px solid ${(props) => (props.$active ? "none" : colors.inputGray)};
   color: ${(props) => (props.$active ? colors.white : colors.gray)};
   border-radius: 0.7em;
   font-size: 0.9em;
@@ -29,7 +28,6 @@ export const Wrap = styled.div`
   flex-direction: column;
   margin-top: 0.3em;
   margin-bottom: 0.5em;
-  width: 81%;
 `;
 
 export const Input = styled.input`
@@ -92,6 +90,7 @@ export const P = styled.p`
 
 export const BtnWrap = styled.div`
   display: flex;
+  margin-bottom: 3px;
 `;
 
 export const ThemeButton = styled.button<{
