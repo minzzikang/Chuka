@@ -2,6 +2,7 @@ import * as H from "./FundingHeader.styled";
 import { shareFundingKakao } from "@/services/shareFundingKakao";
 import { colors } from "@/styles/theme";
 import { LuScrollText } from "react-icons/lu";
+import { useNavigate } from "react-router-dom";
 
 export type FundingHeaderType = {
   fundingUrl: string
@@ -14,10 +15,21 @@ export type FundingHeaderType = {
 
 
 const index = (props: FundingHeaderType) => {
+  const navigate = useNavigate()
   const {fundingUrl, productUrl, productName, nickname} = props
+  const eventUrl = sessionStorage.getItem('prevUrl')
   const handleBack = () => {
     window.history.back();
   };
+
+  const goEvent = () => {
+    if (eventUrl) {
+      const url = new URL(eventUrl)
+      navigate(url.pathname)
+    } else {
+      navigate('/')
+    }
+  }
 
   return (
     <H.Container>
@@ -32,9 +44,7 @@ const index = (props: FundingHeaderType) => {
         <H.Text>공유하기</H.Text>
       </H.IconWrap>
       <H.IconWrap
-        onClick={() =>
-          shareFundingKakao({ fundingUrl, productUrl, productName, nickname })
-        }
+        onClick={goEvent}
       >
         <H.customIcon>  
         <LuScrollText color={colors.mainPink} size={22}/>

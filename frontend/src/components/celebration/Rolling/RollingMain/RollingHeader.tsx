@@ -18,13 +18,10 @@ const RollingHeader = (props: RollingHeaderType) => {
     pageUri: string | undefined;
     eventId: string | undefined;
   }>();
-  const locate = useLocation();
   const navigate = useNavigate();
-
   const eventUrl = window.location.href;
 
   const handleAdd = () => {
-    console.log(pageUri);
     navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
   };
 
