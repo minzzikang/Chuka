@@ -11,7 +11,9 @@ interface SearchProps {
 const index = (props: SearchProps) => {
   const { value, setValue, onSearch } = props;
 
-  const onKeyDown = (e: KeyboardEvent<Element>) => onSearch(value, e);
+  const onKeyDown = (e: KeyboardEvent<Element>) => {
+    onSearch(value, e);
+  };
 
   const onClick = () => {
     onSearch(value, null);
