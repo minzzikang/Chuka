@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
-
 export const Container = styled.div<{ $theme: string }>`
   width: 100%;
   height: 100%;
@@ -13,8 +12,6 @@ export const Container = styled.div<{ $theme: string }>`
       : `url("/img/img_rolling_theme_board.jpg")`};
   background-repeat: repeat-y;
   background-size: cover;
-  
-
   flex-grow: 1;
   overflow-y: scroll;
   -ms-overflow-style: none;
@@ -28,21 +25,6 @@ export const Container = styled.div<{ $theme: string }>`
   }
 `;
 
-// export const RollingTheme = styled.div<{ $theme: string }>`
-//   width: 100%;
-//   height: 100%;
-
-//   opacity: 0.7;
-//   position: relative;
-//   min-height: 100vh;
-//   background-image: ${(props) =>
-//     props.$theme === "CORK_BOARD"
-//       ? `url("/img/img_rolling_theme_cork.jpg")`
-//       : `url("/img/img_rolling_theme_board.jpg")`};
-//   background-repeat: repeat-y;
-//   background-size: cover;
-// `;
-
 export const CardWrap = styled.div`
   position: absolute;
   width: 100%;
@@ -53,8 +35,23 @@ export const CardWrap = styled.div`
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
   min-height: 100vh;
-`;
 
+  & > div:nth-child(3n) {
+    transform: rotate(-3deg);
+  }
+
+  & > div:nth-child(5n) {
+    transform: rotate(3deg);
+  }
+
+  & > div:nth-child(even):not(:nth-child(3n)):not(:nth-child(5n)) {
+    transform: rotate(2deg);
+  }
+
+  & > div:nth-child(odd):not(:nth-child(3n)):not(:nth-child(5n)) {
+    transform: rotate(-2deg);
+  }
+`;
 
 export const P = styled.p`
   position: absolute;
@@ -69,23 +66,6 @@ export const P = styled.p`
   top: 10%;
   z-index: 10;
 `;
-
-// export const Button = styled.button`
-//   display: flex;
-//   align-items: center;
-//   justify-content: center;
-//   font-size: 1.2em;
-//   z-index: 200;
-//   width: 30px;
-//   height: 250px;
-//   background-color: ${colors.mainPink};
-//   color: ${colors.white};
-//   position: fixed;
-//   bottom: 18%;
-//   right: 0;
-//   transition: right 0.3s ease-in-out;
-//   writing-mode: vertical-lr;
-// `;
 
 export const Card = styled.div<{
   $bgColor?: string;
@@ -112,7 +92,6 @@ export const Card = styled.div<{
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
-
 
 export const CardDetail = styled.div<{
   $bgColor?: string;
