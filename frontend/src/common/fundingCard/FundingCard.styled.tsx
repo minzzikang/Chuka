@@ -18,14 +18,16 @@ export const Container = styled.div<{ $thumbNailUrl: string }>`
   width: 150px;
   height: 150px;
   margin-top: 10px;
-  z-index: 10000;
+  z-index: 1000;
   `;
 
 export const Wrap = styled.div`
   width: 100%;
   height: 44px;
   margin-top: 10px;
-  background-color: ${colors.white};
+  /* background-color: ${colors.mainPink}; */
+  /* color: ${colors.white}; */
+  background-color: #fff;
   opacity: 0.7;
   display: flex;
   position: absolute;
@@ -35,10 +37,7 @@ export const Wrap = styled.div`
 export const WrapOverlay = styled.div`
   display: flex;
   width: 100%;
-  /* height: 44px;
-  opacity: 0.7; */
   gap: 5px;
-  /* justify-content: center; */
   align-items: center;
 `;
 
@@ -58,4 +57,13 @@ export const Title = styled.div`
 export const Date = styled.div`
   font-size: 0.6em;
   font-weight: 500;
+`
+
+export const Icon = styled.img`
+  width: 20px;
+  height: 20px;
+  z-index: 1001;
+  position: absolute;
+  top: 7px;
+  right: 7px;
 `
