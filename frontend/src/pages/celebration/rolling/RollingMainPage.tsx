@@ -13,8 +13,7 @@ import * as r from "./RollingMainPage.styled";
 import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
 
 const RollingMainPage = () => {
-  const { eventId, pageUri } = useParams<{
-    pageUri: string;
+  const { eventId } = useParams<{
     eventId: string;
   }>();
   const prevUrl = window.location.href;
@@ -41,6 +40,7 @@ const RollingMainPage = () => {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           setEventInfoData(() => eventInfo);
+          console.log('이벤트 정보 : ', eventInfo);
         } catch (err) {
           console.error(err);
         }
@@ -80,7 +80,7 @@ const RollingMainPage = () => {
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
         {isDrawerOpen && (
           <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
-            <DrawerModal/>
+            <DrawerModal eventUserId={eventInfoData.userId}/>
           </Drawer>
         )}
 

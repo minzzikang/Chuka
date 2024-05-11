@@ -7,6 +7,7 @@ import com.luckyseven.funding.dto.FundingRes;
 import com.luckyseven.funding.exception.NotLoggedInUserException;
 import com.luckyseven.funding.service.FundingService;
 import com.luckyseven.funding.service.SponsorService;
+import feign.FeignException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -36,6 +37,8 @@ public class FundingController {
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "400", description = "해당 이벤트에 펀딩을 더 추가할 수 없습니다 (최대 4개)"),
+            @ApiResponse(responseCode = "403", description = "이벤트를 만든 사람과 펀딩 생성하는 사람이 일치하지 않음"),
+            @ApiResponse(responseCode = "404", description = "해당하는 이벤트가 없습니다"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
 
@@ -47,6 +50,11 @@ public class FundingController {
 
         } catch (IllegalStateException e) {
             return ResponseEntity.status(HttpStatus.valueOf(400)).body("해당 이벤트에 펀딩을 더 추가할 수 없습니다 (최대 4개)");
+        } catch (IllegalAccessException e){
+            return ResponseEntity.status(HttpStatus.valueOf(403)).body("이벤트를 만든 사람과 펀딩 생성하는 사람이 일치하지 않음");
+        }catch (FeignException.NotFound e) {
+            // FeignClient를 통한 외부 서비스 요청에서 404 응답을 받은 경우
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("해당하는 이벤트가 없습니다");
         } catch (Exception e) {
             log.info("[ERROR] : {}", e.getMessage());
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

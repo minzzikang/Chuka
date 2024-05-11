@@ -64,17 +64,22 @@ export const fetchMyEventList = async ({
   sort,
   page,
   size,
+  word,
 }: {
   sort?: string;
   page: number;
   size: number;
+  word?: string;
 }) => {
   const accessToken = localStorage.getItem("access_token");
 
   try {
     const response = await axios.get(`${local}/events/me`, {
-      params : {
-        sort, page, size
+      params: {
+        sort,
+        page,
+        size,
+        word,
       },
       headers: {
         Authorization: `${accessToken}`,

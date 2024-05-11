@@ -20,8 +20,7 @@ export const IconWrap = styled.div`
   position: relative;
   display: flex;
   gap: 5px;
-
-`
+`;
 
 export const Icon = styled.img`
   width: 20px;
@@ -29,7 +28,13 @@ export const Icon = styled.img`
   position: absolute;
   right: 60px;
   top: 10px;
-`
+`;
+
+export const customIcon = styled.div`
+  position: absolute;
+  right: 61px;
+  top: 10px;
+`;
 
 export const Text = styled.div`
   color: ${colors.mainPink};

@@ -1,5 +1,6 @@
 package com.luckyseven.funding.service;
 
+import com.luckyseven.funding.client.UserFeignClient;
 import com.luckyseven.funding.dto.*;
 import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
@@ -8,7 +9,8 @@ import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.exception.NotLoggedInUserException;
 import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
-import com.luckyseven.funding.util.EventFeignClient;
+import com.luckyseven.funding.client.EventFeignClient;
+import com.luckyseven.funding.util.ImageUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,9 +33,21 @@ public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
     private final EventFeignClient eventFeignClient;
     private final ProducerService producerService;
+    private final UserFeignClient userFeignClient;
+    private final ImageUtil imageUtil;
+    private final String DEFAULT_PROFILE_IMAGE_URL = "http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640";
 
     @Override
-    public int createFunding(final FundingCreateReq dto, String userId) {
+    public int createFunding(final FundingCreateReq dto, String userId) throws IllegalAccessException {
+        //해당 이벤트 번호가 있는지 확인 && 해당 이벤트 만든 사람과 펀딩 만드는 사람이 같은지 확인
+        EventDto eventDto = eventFeignClient.getEvent(dto.getEventId());
+        if(!eventDto.getUserId().equals(userId)){
+            //FIXME 로그지우기
+            log.info(eventDto.toString());
+            log.info(userId);
+            throw new IllegalAccessException("이벤트를 만든 사람과 일치하지 않습니다");
+        }
+
         //이러면 pending이 여러개 있을 때는 체크 불가능
         if(fundingRepository.countByEventIdAndStatus(dto.getEventId(),FundingStatus.APPROVE)>3){
             throw new IllegalStateException();
@@ -60,28 +74,10 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.APPROVE);
+        final List<Funding> fundingList = fundingRepository.findByEventIdAndStatusOrderByResultAsc(FundingStatus.APPROVE,eventId);
 
         return fundingList.stream()
-                .map(funding -> {
-                    int currentFundingAmount = funding.getSponsorList().stream()
-                            .mapToInt(Sponsor::getAmount)
-                            .sum();
-                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-                    boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
-                    boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
-                    FundingResult fundingResult;
-
-                    if (isGoal)
-                        fundingResult = FundingResult.SUCCESS;
-                    else {
-                        if (isFundingPeriod)
-                            fundingResult = FundingResult.ONGOING;
-                        else
-                            fundingResult = FundingResult.COMPLETE;
-                    }
-                    return FundingRes.of(funding, fundingResult);
-                })
+                .map(FundingRes::of)
                 .toList();
     }
 
@@ -91,7 +87,27 @@ public class FundingServiceImpl implements FundingService {
                 .orElseThrow(() -> new NoSuchElementException(fundingId+"에 해당하는 펀딩이 없습니다."));
         List<Sponsor> sponsorList = funding.getSponsorList();
         List<SponsorRes> sponsorsResList = sponsorList.stream()
-                .map(sponsor -> SponsorRes.of(sponsor, "프로필이미지"))
+                .map(sponsor -> {
+                    UserDto userDto = null;
+                    String profileImage = "";
+
+                    try {
+                        userDto = userFeignClient.getUser(sponsor.getUserId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        profileImage = DEFAULT_PROFILE_IMAGE_URL;   //회원 정보를 불러오지 못한 경우 (유효하지 않은 회원 ID)
+                    }
+
+                    //유효한 프로필 이미지 URL
+                    if(imageUtil.isImageUrlValidModerate(userDto.getProfileImage())) {
+                        profileImage = userDto.getProfileImage();
+                    //유효하지 않은 프로필 이미지 URL
+                    } else {
+                        profileImage = DEFAULT_PROFILE_IMAGE_URL;
+                    }
+
+                    return SponsorRes.of(sponsor, profileImage);
+                })
                 .toList();
         final int nowFundingAmount = sponsorList.stream()
                 .mapToInt(Sponsor::getAmount)
@@ -104,27 +120,9 @@ public class FundingServiceImpl implements FundingService {
     @Override
     public List<FundingRes> getMyFunding(String userId) {
         final List<Funding> fundingList = fundingRepository.findAllByUserId(userId);
-
+        // DB 컬럼 변경 -> FundingRes 변경-> 여기 변경, 이런 일이 있었습니다 -지연
         return fundingList.stream()
-                .map(funding -> {
-                    int currentFundingAmount = funding.getSponsorList().stream()
-                            .mapToInt(Sponsor::getAmount)
-                            .sum();
-                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-                    boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
-                    boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
-                    FundingResult fundingResult;
-
-                    if (isGoal)
-                        fundingResult = FundingResult.SUCCESS;
-                    else {
-                        if (isFundingPeriod)
-                            fundingResult = FundingResult.ONGOING;
-                        else
-                            fundingResult = FundingResult.COMPLETE;
-                    }
-                    return FundingRes.of(funding, fundingResult);
-                })
+                .map(FundingRes::of)
                 .toList();
     }
 

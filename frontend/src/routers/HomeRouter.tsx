@@ -16,7 +16,6 @@ import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import PaymentRedirectHandler from "@/pages/redirect/PaymentRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
-import SearchPage from "@/pages/search/SearchPage";
 
 const HomeRouter = () => {
   return (
@@ -46,7 +45,6 @@ const HomeRouter = () => {
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
-      <Route path="/search" element={<SearchPage />} />
       <Route path="/review" element={<ReviewPage />} />
 
     </Routes>

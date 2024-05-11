@@ -2,11 +2,9 @@ import * as c from "@components/celebration/Celebration.styled";
 import Button from "@common/button";
 import TypeSection from "./TypeSection";
 import CelebrationInfoSection from "./CelebrationInfoSection";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/stores/user";
 
 interface CelebrationProps {
   type: string;
@@ -17,8 +15,6 @@ interface CelebrationProps {
 }
 
 const Index = () => {
-  const user = useRecoilValue(userState);
-
   const navigate = useNavigate();
   const [regData, setRegData] = useState<CelebrationProps>({
     type: "BIRTHDAY", // 이벤트 종류
@@ -29,10 +25,6 @@ const Index = () => {
   });
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
-
-  useEffect(() => {
-    // console.log(localStorage.getItem("access_token"));
-  }, []);
 
   const handleType = (newType: string) => {
     setRegData((prev) => ({
@@ -82,6 +74,16 @@ const Index = () => {
   };
 
   const handleSubmit = async () => {
+    if (!regData.title) {
+      alert("제목을 입력해주세요.");
+      return;
+    }
+
+    if (!regData.date) {
+      alert("날짜를 선택해주세요.");
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("type", regData.type);
@@ -96,7 +98,6 @@ const Index = () => {
 
     try {
       const res = await createEventReg(formData);
-      console.log("post 값", res);
       navigate(`/celebrate/rolling/${res.eventId}/${res.pageUri}`);
     } catch (err) {
       console.error(err);
