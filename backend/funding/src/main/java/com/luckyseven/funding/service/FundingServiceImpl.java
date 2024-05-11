@@ -96,7 +96,6 @@ public class FundingServiceImpl implements FundingService {
                 .orElseThrow(() -> new NoSuchElementException(fundingId+"에 해당하는 펀딩이 없습니다."));
         List<Sponsor> sponsorList = funding.getSponsorList();
         List<SponsorRes> sponsorsResList = sponsorList.stream()
-                //TODO: 테스트 필요
                 .map(sponsor -> {
                     UserDto userDto = null;
                     String profileImage = "";
