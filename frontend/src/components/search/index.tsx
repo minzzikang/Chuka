@@ -2,7 +2,6 @@ import * as s from "./Search.styled";
 import SearchForm from "@/components/search/SearchForm";
 import Navbar from "@common/navbar";
 import RecentTerm from "@components/search/RecentTerm";
-import SearchResult from "@components/search/SearchResult";
 import { KeyboardEvent, useEffect, useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { keywordState } from "@stores/search";
