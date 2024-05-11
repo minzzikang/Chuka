@@ -11,13 +11,7 @@ export const Container = styled.article`
   position: sticky;
   border: 2px solid ${colors.inputGray};
   border-radius: 1em;
-
-  img {
-    width: 18px;
-    height: 18px;
-    margin-right: 10px;
-    cursor: pointer;
-  }
+  padding-right: 5px;
 `;
 
 export const Input = styled.input`

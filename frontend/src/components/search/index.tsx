@@ -51,9 +51,9 @@ const index = (props: SearchProps) => {
   }, [keyword]);
 
   // 검색
-  const onSearch = async (value: string, e: KeyboardEvent<Element>) => {
-    if (e.key === "Enter") {
-      e.preventDefault();
+  const onSearch = async (value: string, e: KeyboardEvent<Element> | null) => {
+    if (e === null || e.key === "Enter") {
+      e?.preventDefault();
       setKeyword(value);
       addRecentTerm(value);
       try {
