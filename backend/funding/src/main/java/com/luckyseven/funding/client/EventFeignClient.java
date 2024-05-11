@@ -5,8 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-//TODO: application.properties에 URL 추가
-@FeignClient(name = "eventclient", url = "http://k10c107.p.ssafy.io:8084/api/v1/events/")
+@FeignClient(name = "eventclient", url = "${feignclient.event-baseUrl-v1}")
 public interface EventFeignClient {
     //이벤트 정보 조회
     @GetMapping("{eventId}")

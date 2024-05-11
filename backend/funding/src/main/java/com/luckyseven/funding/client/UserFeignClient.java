@@ -5,7 +5,6 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-//TODO: 테스트 중
 @FeignClient(name = "userclient", url = "${feignclient.user-baseUrl-v1}")
 public interface UserFeignClient {
     //회원 정보 조회
