@@ -22,12 +22,12 @@ public class FundingRes implements Serializable {
     private final String productImage;
     private final LocalDate startDate;
     private final LocalDate endDate;
-    public static FundingRes of(final Funding funding, final FundingResult fundingResult){
+    public static FundingRes of(final Funding funding){
         return new FundingRes(
                 funding.getFundingId(),
                 funding.getEventId(),
                 funding.getIntroduce(),
-                fundingResult,
+                funding.getResult(),
                 funding.getProductName(),
                 funding.getProductImage(),
                 funding.getCreateTime().toLocalDate(),
