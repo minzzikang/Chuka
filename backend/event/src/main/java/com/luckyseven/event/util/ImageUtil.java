@@ -134,7 +134,7 @@ public class ImageUtil {
             g2.drawImage(originalImage, 0, 0, scaledWidth, scaledHeight, null);
             g2.dispose();
 
-            //banner.png -> profile_thumbnail.png
+            //banner.png -> banner_thumbnail.png
             //aae199be-5aec-4741-9cca-b25791674023_banner.png -> aae199be-5aec-4741-9cca-b25791674023_bannerThumbnail.png
             thumbnailFile = new File(FilenameUtils.getBaseName(originalImageFile.getName()) + "Thumbnail." + extension);
             ImageIO.write(thumbnailImage, extension, thumbnailFile);
