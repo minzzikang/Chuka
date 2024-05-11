@@ -1,18 +1,15 @@
+import { FundingHeaderType } from "@/components/funding/FundingDetail/Header";
+
 const KAKAO_JS_API_KEY = import.meta.env.VITE_KAKAO_JS_API_KEY;
 
 
-window.Kakao.init(KAKAO_JS_API_KEY);
-window.Kakao.isInitialized();
 
-type ShareKakaoType = {
-  eventUrl:string 
-  bannerThumbnailUrl: string
-  title:string
-  nickname:string
+if (!window.Kakao.isInitialized()) {
+    window.Kakao.init(KAKAO_JS_API_KEY);
 }
 
-export const ShareKakao = (props:ShareKakaoType) => {
-  const {eventUrl, bannerThumbnailUrl, title, nickname} = props
+export const shareFundingKakao = (props:FundingHeaderType) => {
+  const {fundingUrl, productUrl, productName, nickname} = props
 
   if (window.Kakao) {
     const kakao = window.Kakao;
@@ -20,13 +17,13 @@ export const ShareKakao = (props:ShareKakaoType) => {
     kakao.Share.sendDefault({
       objectType: "feed",
       content: {
-        title: title, // 이벤트 제목
+        title: productName, // 이벤트 제목
         description: `${nickname}님이 올린 기념일을 축하해주세요 !`, // 이벤트 소개 문구
         imageUrl:
-          bannerThumbnailUrl ? `${bannerThumbnailUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
+          productUrl ? `${productUrl}` : "https://i.ibb.co/phLPvFV/android-chrome-192x192.png", // 이벤트 대표 이미지 or 기본 이미지(ㅊㅋ)
         link: {
-          mobileWebUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 URL
-          webUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 URL
+          mobileWebUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 URL
+          webUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 URL
         },
       },
       // itemContent: {
@@ -64,17 +61,17 @@ export const ShareKakao = (props:ShareKakaoType) => {
       // },
       buttons: [
         {
-          title: "추카 페이지 이동",
+          title: "추카 서비스 이용하기",
           link: {
             mobileWebUrl: "https://chuka.kr", // 추카 앱 이동
             webUrl: "https://chuka.kr",
           },
         },
         {
-          title: "이벤트 바로가기",
+          title: "펀딩 상품 구경하기",
           link: {
-            mobileWebUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr', // 이벤트 링크
-            webUrl: eventUrl ? `${eventUrl}`:'https://chuka.kr' //  
+            mobileWebUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 링크
+            webUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr' //  
           },
         },
       ],

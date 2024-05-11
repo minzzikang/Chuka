@@ -10,4 +10,5 @@ public interface FundingRepository extends JpaRepository<Funding, Integer> {
     List<Funding> findAllByEventIdAndStatus(Integer eventId, FundingStatus status);
     List<Funding> findAllByUserId(String userId);
     List<Funding> findAllByEventId(Integer eventId);
+    Integer countByEventIdAndStatus(Integer eventId, FundingStatus fundingStatus);
 }

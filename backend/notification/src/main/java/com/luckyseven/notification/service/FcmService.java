@@ -1,5 +1,6 @@
 package com.luckyseven.notification.service;
 
+import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import org.springframework.scheduling.annotation.Async;
 
@@ -13,7 +14,7 @@ public interface FcmService {
     void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable, Map<Integer, String> eventPageUriMap) throws IOException;
 
     @Async
-    void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId) throws IOException;
+    void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId, NotificationType type) throws IOException;
 
 
 }

@@ -1,79 +1,76 @@
 import styled from "styled-components";
-import { colors } from "@styles/theme";
 
-export const Container = styled.div`
+export type DrawerType = {
+  isOpen: boolean;
+  children?: React.ReactNode;
+  onClose: () => void;
+  name: string;
+};
+
+export const Container = styled.div<{ $isOpen: boolean }>`
   display: flex;
-  flex-direction: column;
-  position: relative;
-  height: 100%;
-`;
-
-export const Drawer = styled.div<{ isOpen: boolean }>`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 200px;
-  max-width: 300px;
-  height: calc(100vh - 62px);
-  /* height: 100%; */
-  padding: 15px;
-  background-color: ${colors.white};
-  color: ${colors.black};
-  position: absolute;
-  bottom: 0;
-  right: 0;
-  transform: ${(props) =>
-    props.isOpen ? "translateX(0)" : "translateX(100%)"};
-  transition: transform 0.3s ease-in-out;
-  visibility: ${(props) => (props.isOpen ? "visible" : "hidden")};
-  z-index: 1000;
-`;
-
-export const Overlay = styled.div<{ isOpen: boolean }>`
-  display: ${(props) => (props.isOpen ? "block" : "none")};
+  justify-content: flex-end;
   position: fixed;
-  top: 0;
   left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  min-height: 100vh;
+  transform: ${(props) =>
+    props.$isOpen ? "translateX(0)" : "translateX(100%)"};
+  transition: transform 0.5s ease-in-out;
+  z-index: 301;
+`;
+
+export const BlackBox = styled.div`
+  position: fixed;
+  left: 0;
+  top: 0;
+  z-index: 300;
   width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.5);
-  z-index: 900;
+  height: 100%;
+  background-color: #000;
+  opacity: 0.3;
 `;
 
-export const Title = styled.p`
-  font-size: 20px;
-  font-weight: 500;
+export const Wrap = styled.div`
+  position: relative;
+  z-index: 301;
   display: flex;
+  flex-direction: column;
+
+  background-color: #fff;
+  width: 50%;
+  overflow-y: scroll;
+  transition: transform 0.5s ease-in-out;
+  &::-webkit-scrollbar {
+    display: none; /* 크롬, 사파리, 오페라, 엣지 */
+    width: 0; /* Remove scrollbar space */
+    height: 0;
+    background: transparent; /* Optional: just make scrollbar invisible */
+    -webkit-appearance: none;
+  }
 `;
 
-export const Button = styled.button`
+export const ModalName = styled.div`
   display: flex;
-  justify-content: center;
+  justify-content: flex-start;
   align-items: center;
-  background-color: ${colors.mainPink};
-  color: ${colors.white};
-  width: 100px;
-  height: 35px;
-  border-radius: 0.7em;
-  margin-top: 20px;
+  padding: 15px;
+  padding-top: 40px;
+  height: 40px;
+  font-size: 1.5em;
+  font-weight: 600;
 `;
 
-export const Icon = styled.img`
-  width: 18px;
-  height: 18px;
-  margin-left: 2.8em;
-  cursor: pointer;
-`;
-
-export const Card = styled.div`
-  margin-top: 10px;
-  background-color: ${colors.white};
-  border-radius: 1em;
-  border: 2px solid ${colors.inputGray};
-  cursor: pointer;
-`;
-
-export const Img = styled.img`
-  width: 130px;
-  height: auto;
+export const Backdrop = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0.5em;
+  img {
+    cursor: pointer;
+    width: 12px;
+    height: 12px;
+  }
 `;

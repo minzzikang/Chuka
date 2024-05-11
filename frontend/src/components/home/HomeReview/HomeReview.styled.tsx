@@ -32,7 +32,7 @@ export const Title = styled.div`
   margin-bottom: 10px;
 `;
 
-export const Desc = styled.div`
+export const Desc = styled.span`
     font-size: 1em;
     color: ${colors.gray};
     margin: auto auto;
@@ -58,4 +58,8 @@ export const Button = styled.button`
   background-color: ${colors.mainPink};
   margin-bottom: 200px;
   margin-top: 20px;
+`;
+
+export const Highlight = styled(Desc)`
+  color: ${colors.mainPink};
 `;

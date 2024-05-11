@@ -2,9 +2,10 @@ import FundingHeaderSection from "./Header";
 import FundingCrawlingSection from "./Crawling";
 import FundingMessageSection from "./Message";
 import * as f from "./FundingDetail.styled";
-import { useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchFunding } from "@/apis/funding";
 import { useEffect, useState } from "react";
+import { calculatePercent } from "@/utils/calculation";
 
 type FundingType = {
   fundingId: number;
@@ -12,6 +13,7 @@ type FundingType = {
   eventTitle: string;
   status: string;
   productImage: string;
+  productName: string;
   goalAmount: number;
   remainAmount: number;
   introduce: string;
@@ -21,8 +23,9 @@ type FundingType = {
 
 const index = () => {
   const navigate = useNavigate();
-  const location = useLocation();
-  const fundingId = location.state?.fundingId;
+  const params = useParams()
+  const fundingId = Number(params.fundingId)
+  const fundingUrl = window.location.href
 
   const onPayment = () => {
     console.log("선물 펀딩 참여하기");
@@ -44,18 +47,14 @@ const index = () => {
     fetchData();
   }, [fundingId]);
 
-  const calculateGoal = () => {
-    if (!values) return 0;
-    const percent =
-      ((values.goalAmount - values.remainAmount) / values.goalAmount) * 100;
-    return Math.round(percent);
-  };
+
 
   return (
     <f.Container>
-      <FundingHeaderSection />
+      {/* eventId header에 넣어주기 -> 카카오 공유하기 */}
+      <FundingHeaderSection fundingUrl={fundingUrl} productUrl={values?.productImage} productName={values?.productName} nickname={''} />
       <FundingCrawlingSection
-        percent={calculateGoal()}
+        percent={values ? calculatePercent(values.goalAmount, values.remainAmount) : 0}
         image={values?.productImage ?? "/img/img_present_funding.png"}
         title={values?.eventTitle ?? "데이터를 불러올 수 없습니다."}
         date={values?.eventDate ?? "0000-00-00"}

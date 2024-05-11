@@ -18,8 +18,8 @@ const index = (props: CrawlingType) => {
   return (
     <C.Container>
       <C.HighLight>{formatDate} ㅊㅋ</C.HighLight>
-      <C.Title>{title}</C.Title>
       <C.Img src={image} />
+      <C.Title>{title}</C.Title>
       <C.TopWrap>
         <div>
           목표까지 <C.HighLight>{remainAmount.toLocaleString()}</C.HighLight> 원
