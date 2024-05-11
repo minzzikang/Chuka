@@ -1,14 +1,13 @@
-import { BASE_URL, authRequest } from "@utils/requestMethods";
 import { RegDataType } from "@/components/funding/FundingRegInfo";
 import { PayDataType } from "@/components/payment/index.tsx";
 import axios from "axios";
 
+const accessToken = localStorage.getItem("access_token");
 const url = `/domain`;
 // const url = `https://chuka.kr/api/v1`
 
 // 펀딩 생성
 export const createFunding = async (params: RegDataType) => {
-  const accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.post(`${url}/fundings`, params, {
       headers: {
@@ -18,6 +17,7 @@ export const createFunding = async (params: RegDataType) => {
     });
     return response.data;
   } catch (err) {
+    alert('입력이 누락된 곳이 있는지 살펴봐주세요')
     console.error(err);
     throw err;
   }
@@ -36,7 +36,6 @@ export const fetchFundings = async (eventId: string) => {
 
 // 나의 펀딩 조회
 export const fetchMyFundings = async () => {
-  const accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.get(`${url}/fundings/me`, {
       headers: {
@@ -61,7 +60,6 @@ export const fetchFunding = async (fundingId: number) => {
 
 // 펀딩 참여
 export const joinFunding = async (params: PayDataType) => {
-  const accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.post(`${url}/fundings/test`, params, {
       headers: {
@@ -75,3 +73,20 @@ export const joinFunding = async (params: PayDataType) => {
     throw err;
   }
 };
+
+// 펀딩 삭제
+
+export const deleteFunding = async (fundingId: number) => {
+  try {
+    const response = await axios.delete(`${url}/fundings/${fundingId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+    })
+    return response.data
+  } catch (err) {
+    console.error(err)
+  }
+
+}

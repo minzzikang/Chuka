@@ -82,6 +82,7 @@ const Index = () => {
   };
 
   const handleSubmit = async () => {
+    console.log(regData);
     const formData = new FormData();
 
     formData.append("type", regData.type);

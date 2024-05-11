@@ -6,6 +6,8 @@ import * as F from "./FundingRegDoneModal.styled"
 
 const index = () => {
   const navigate = useNavigate();
+  const eventUrl = sessionStorage.getItem('prevUrl')
+
 
   const defaultOptions = {
     loop: true,
@@ -16,15 +18,20 @@ const index = () => {
     },
   };
 
+  const goEvent = () => {
+    if (eventUrl) {
+      const url = new URL(eventUrl)
+      navigate(url.pathname)
+    }
+  }
+
   return (
     <F.Container>
       <Lottie options={defaultOptions} width={150} height={150} />
       <F.P>펀딩 등록이 신청되었습니다.</F.P>
       <F.P>등록이 완료되면 알림으로 안내드립니다.</F.P>
       <F.Button
-        onClick={() => {
-          navigate("/");
-        }}
+        onClick={goEvent}
       >
         확인
       </F.Button>

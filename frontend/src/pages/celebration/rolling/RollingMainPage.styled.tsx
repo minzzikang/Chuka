@@ -21,7 +21,7 @@ export const Button = styled.button`
   background-color: ${colors.mainPink};
   color: ${colors.white};
   position: absolute;
-  bottom: 25%;
+  bottom: 30%;
   right: 0;
   transition: right 0.3s ease-in-out;
   writing-mode: vertical-lr;
