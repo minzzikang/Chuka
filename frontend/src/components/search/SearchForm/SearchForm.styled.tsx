@@ -6,9 +6,11 @@ export const Container = styled.article`
   align-items: center;
   justify-content: space-between;
   width: 90%;
-  margin: 0 auto;
-  height: 70px;
+  margin: 10px auto;
+  height: 40px;
   position: sticky;
+  border: 2px solid ${colors.inputGray};
+  border-radius: 1em;
 
   img {
     width: 18px;
@@ -24,17 +26,5 @@ export const Input = styled.input`
   border: none;
   padding: 11px 20px;
   border-radius: 20px;
-  background-color: ${colors.white};
-`;
-
-export const Xbutton = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  img {
-    width: 16px;
-    height: 16px;
-    cursor: pointer;
-  }
+  background-color: transparent;
 `;
