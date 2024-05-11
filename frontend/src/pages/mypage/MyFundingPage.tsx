@@ -4,25 +4,16 @@ import FundingNull from "@/components/mypage/MyFundingNull";
 import MyFunding from "@/components/mypage/MyFunding/idex";
 import { useEffect, useState } from "react";
 import { fetchMyFundings } from "@/apis/funding";
-
-interface MyFundingProps {
-  fundingId: number;
-  introduce: string;
-  fundingResult: string;
-  productImage?: string;
-  startDate: string;
-  endDate: string;
-}
+import { FundingDataType } from "@/types/fundingType";
 
 const MyFundingPage = () => {
-  const [values, setValues] = useState<MyFundingProps[]>([]);
+  const [values, setValues] = useState<FundingDataType[]>([]);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchMyFundings();
         setValues(response);
-        console.log("펀딩정보", values);
       } catch (err) {
         console.log(err);
       }
@@ -39,7 +30,9 @@ const MyFundingPage = () => {
         flexDirection: "column",
       }}
     >
-      <Header children="나의 펀딩" />
+      <Header>
+        {"나의 펀딩"}
+      </Header>
       {values.length > 0 ? <MyFunding /> : <FundingNull />}
       <Navbar current="mypage" />
     </div>
