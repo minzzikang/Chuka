@@ -84,7 +84,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public Boolean cancelPayment(String pgId){
         final IamportClient iamportClient = new IamportClient(REST_API_KEY, REST_API_SECERT_KEY);
-        //미완성코드
+        //TODO 미완성코드
         return true;
     }
 }
