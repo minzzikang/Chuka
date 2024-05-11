@@ -45,8 +45,8 @@ const index = () => {
     <h.Container>
       <h.Title>ㅊㅋ 사용 후기</h.Title>
       <h.Desc>
-        사용후기를 작성해주세요. 후기를 작성해주신 분들께 추첨을 통해 스타벅스
-        기프티콘을 드립니다. 사용 후기를 등록하면 실시간으로 공개됩니다.
+        사용후기를 작성해주세요. 후기를 작성해주신 분들께 추첨을 통해 <h.Highlight>스타벅스
+        기프티콘</h.Highlight>을 드립니다. 사용 후기를 등록하면 실시간으로 공개됩니다.
       </h.Desc>
       {reviewData &&
         reviewData.map((item, index) => {

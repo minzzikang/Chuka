@@ -6,13 +6,14 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
+  gap: 15px;
 `;
 
 export const TopWrap = styled.div`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  margin-top: 10px;
 `;
 
 export const MiddleWrap = styled.div``;
@@ -38,8 +39,9 @@ export const BottomWrap = styled.div`
 `;
 
 export const Title = styled.div`
-  font-size: 1.5em;
+  font-size: 1.3em;
   font-weight: 700;
+  margin: 20px;
 `;
 
 export const Text = styled.span`

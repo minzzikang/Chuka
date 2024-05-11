@@ -1,6 +1,4 @@
-import Drawer from "@components/drawer";
-import RModal from "@common/homeResModal";
-import FundingModal from "./FundingModal";
+
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { fetchRoll, fetchRollSheets } from "@/apis/roll";
@@ -33,15 +31,14 @@ interface BoardProps {
 
 const Board = (props: BoardProps) => {
   const { theme } = props;
-  const prevUrl = window.location.href;
-  const accessToken = localStorage.getItem("access_token");
+
 
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
 
-  const [isDrawerOpen, setDrawerOpen] = useState(false);
+
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
   const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
 
@@ -113,16 +110,7 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  // 펀딩 drawer 오픈
-  const goFunding = () => {
-    sessionStorage.setItem("prevUrl", prevUrl);
-    console.log(rollSheetList, totalCnt);
-    if (accessToken) {
-      setDrawerOpen(!isDrawerOpen);
-    } else {
-      setFundingModalOpen(true);
-    }
-  };
+
 
   return (
     <>
@@ -149,8 +137,7 @@ const Board = (props: BoardProps) => {
           )} */}
           <div ref={ref}>Loading more...</div>
 
-        <b.Button onClick={goFunding}>선물펀딩확인하기</b.Button>
-        <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} />
+
       </b.Container>
 
       {rollingModalOpen && selectedRoll && (
@@ -170,14 +157,6 @@ const Board = (props: BoardProps) => {
         </Modal>
       )}
 
-      {fundingModalOpen && (
-        <RModal
-          name={"선물 펀딩 서비스 이용 동의"}
-          onClose={() => setFundingModalOpen(false)}
-        >
-          <FundingModal setFundingModalOpen={setFundingModalOpen} />
-        </RModal>
-      )}
     </>
   );
 };

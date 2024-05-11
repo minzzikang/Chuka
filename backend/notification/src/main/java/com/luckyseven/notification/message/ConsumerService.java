@@ -78,7 +78,7 @@ public class ConsumerService {
 
 
             // fcm알림
-            fcmService.fundingStatusNotification(userFcmTokenList, body, fundingId);
+            fcmService.fundingStatusNotification(userFcmTokenList, body, fundingId,type);
 
 
         } catch (Exception e) {

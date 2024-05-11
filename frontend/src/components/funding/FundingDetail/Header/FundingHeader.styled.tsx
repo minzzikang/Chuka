@@ -8,12 +8,32 @@ export const Container = styled.div`
   width: 100%;
 `;
 
-export const Icon = styled(IoIosArrowBack)`
+export const IconArrow = styled(IoIosArrowBack)`
   position: fixed;
   left: 10px;
   top: 10px;
   font-size: 24px;
   cursor: pointer;
+`;
+
+export const IconWrap = styled.div`
+  position: relative;
+  display: flex;
+  gap: 5px;
+`;
+
+export const Icon = styled.img`
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  right: 60px;
+  top: 10px;
+`;
+
+export const customIcon = styled.div`
+  position: absolute;
+  right: 61px;
+  top: 10px;
 `;
 
 export const Text = styled.div`

@@ -1,6 +1,17 @@
 import { colors } from '@styles/theme'
 import styled from 'styled-components'
 
+export const Container = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+`
+
 export const BlackBox = styled.div`
   position: fixed;
   left: 0;
@@ -12,16 +23,6 @@ export const BlackBox = styled.div`
   opacity: 0.3;
 `
 
-export const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  left: 0;
-  top: 0;
-  width: 100%;
-  height: 100%;
-`
 
 export const Wrap = styled.div`
   position: relative;

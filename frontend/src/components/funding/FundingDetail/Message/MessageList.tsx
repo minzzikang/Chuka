@@ -14,6 +14,7 @@ interface MessageListProps {
   sponsors: Sponsor[];
 }
 
+
 const MessageList = (props: MessageListProps) => {
   const { sponsors } = props;
   const [isSeeMore, setIsSeeMore] = useState<boolean>(true);
@@ -36,7 +37,7 @@ const MessageList = (props: MessageListProps) => {
               rank={index + 1}
             />
           ))}
-        {isSeeMore ? (
+        { !sponsors ? ( isSeeMore ? (
           <M.SeeMoreBtn onClick={() => setIsSeeMore(!isSeeMore)}>
             ㅊㅋ 더보기
           </M.SeeMoreBtn>
@@ -44,7 +45,7 @@ const MessageList = (props: MessageListProps) => {
           <M.SeeMoreBtn onClick={() => setIsSeeMore(!isSeeMore)}>
             ㅊㅋ 접기
           </M.SeeMoreBtn>
-        )}
+        )) : <M.MsgNone>아직 펀딩 메시지가 없습니다.</M.MsgNone> } 
       </M.Wrap>
     </M.Container>
   );

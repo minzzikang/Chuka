@@ -69,6 +69,8 @@ public class AuthController {
             if (!userService.isExistUser(String.valueOf(userInfo.getId()))) {
                 authService.join(userInfo);
                 statusCode = 201;
+            } else {
+                authService.updateProfileImage(userInfo);
             }
 
             String accessToken = authService.issueAccessToken(userInfo);
