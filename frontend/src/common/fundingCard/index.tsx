@@ -3,20 +3,30 @@ import * as f from "./FundingCard.styled";
 import { formattingTitle } from "@/utils/stringFormat";
 
 export type FundingCardType = {
-    fundingId:number
-    productImgUrl:string
-    productName:string
-    introduce:string
-    startDate:string
-    endDate:string
-    fundingResult:string
-}
+  eventUserId: string;
+  fundingId: number;
+  productImgUrl: string;
+  productName: string;
+  introduce: string;
+  startDate: string;
+  endDate: string;
+  fundingResult: string;
+};
 
 const index = (props: FundingCardType) => {
   const navigate = useNavigate();
-  const { fundingId ,productImgUrl, productName, introduce, startDate, endDate, fundingResult } = props;
+  const {
+    eventUserId,
+    fundingId,
+    productImgUrl,
+    productName,
+    introduce,
+    startDate,
+    endDate,
+    fundingResult,
+  } = props;
 
-//   const formatCreateTime = createTime.split("T")[0];
+  //   const formatCreateTime = createTime.split("T")[0];
   const formatName = formattingTitle(productName);
 
   // const formatDDay = date - today
@@ -24,15 +34,14 @@ const index = (props: FundingCardType) => {
   return (
     <f.Container
       $thumbNailUrl={productImgUrl}
-      onClick={() => navigate(`/celebrate/funding/${fundingId}`)}
+      onClick={() => navigate(`/celebrate/funding/${fundingId}`, {state: eventUserId})}
     >
       <f.Wrap>
         <f.WrapOverlay>
           <f.DescWrap>
             <f.Title>{formatName}</f.Title>
             <f.Date>
-                {startDate} ~ {endDate}
-              {/* {formatCreateTime} ~  */}
+              {startDate} ~ {endDate}
             </f.Date>
           </f.DescWrap>
         </f.WrapOverlay>
