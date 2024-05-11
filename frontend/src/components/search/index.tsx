@@ -6,7 +6,7 @@ import SearchResult from "@components/search/SearchResult";
 import { KeyboardEvent, useEffect, useState, useRef } from "react";
 import { useRecoilState } from "recoil";
 import { keywordState } from "@stores/search";
-import { deleteBlank } from "@utils/regexMethods";
+import { deleteBlank } from "@utils/stringFormat";
 import { EventDataType } from "@/types/rollingType";
 import { fetchMyEventList } from "@/apis/event";
 
