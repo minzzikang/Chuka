@@ -109,7 +109,14 @@ const index = (props: RollingInfoSectionType) => {
           </c.ThemeButton>
         </c.BtnWrap>
       </c.Wrap>
-      <c.Wrap>
+      <div
+        style={{
+          marginBottom: "10px",
+          alignSelf: "flex-start",
+          display: "flex",
+          flexDirection: "column",
+        }}
+      >
         <Label htmlFor="visible" children="ㅊㅋ 노출 여부" />
         <c.BtnWrap>
           <c.Button onClick={toggleButton} $active={isVisible}>
@@ -119,7 +126,8 @@ const index = (props: RollingInfoSectionType) => {
             {"허용하지 않음"}
           </c.Button>
         </c.BtnWrap>
-      </c.Wrap>
+        <c.P>허용 시 추카 메인 화면에 노출됩니다.</c.P>
+      </div>
     </c.Container>
   );
 };
