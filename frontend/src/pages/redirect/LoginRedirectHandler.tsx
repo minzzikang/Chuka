@@ -5,6 +5,8 @@ import { userState } from "@stores/user";
 import { useSetRecoilState } from "recoil";
 import { fetchUserInfo } from "@/apis/auth";
 import { handleAllowNotification } from "@/services/notificationPermission";
+
+
 const LoginRedirectHandler = () => {
   const setUserState = useSetRecoilState(userState);
   const navigate = useNavigate();

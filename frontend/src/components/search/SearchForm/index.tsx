@@ -1,18 +1,23 @@
-import { Dispatch, SetStateAction } from "react";
+import { Dispatch, SetStateAction, KeyboardEvent } from "react";
 import * as s from "./SearchForm.styled";
-import { KeyboardEvent } from "react";
+import { IoIosSearch } from "react-icons/io";
 
-interface SearchBarProps {
+interface SearchProps {
   value: string;
   setValue: Dispatch<SetStateAction<string>>;
-  onSearch: (value: string, e: React.KeyboardEvent) => void;
-  resetKeyword: () => void;
+  onSearch: (value: string, e: KeyboardEvent<Element> | null) => void;
 }
 
-const index = (props: SearchBarProps) => {
-  const { value, setValue, onSearch, resetKeyword } = props;
+const index = (props: SearchProps) => {
+  const { value, setValue, onSearch } = props;
 
-  const onKeyDown = (e: KeyboardEvent<Element>) => onSearch(value, e);
+  const onKeyDown = (e: KeyboardEvent<Element>) => {
+    onSearch(value, e);
+  };
+
+  const onClick = () => {
+    onSearch(value, null);
+  };
 
   return (
     <>
@@ -26,9 +31,7 @@ const index = (props: SearchBarProps) => {
           }}
           onKeyDown={onKeyDown}
         />
-        <s.Xbutton>
-          <img src="/icon/icon_close_black.png" alt="" onClick={resetKeyword} />
-        </s.Xbutton>
+        <IoIosSearch size={18} onClick={onClick} />
       </s.Container>
     </>
   );

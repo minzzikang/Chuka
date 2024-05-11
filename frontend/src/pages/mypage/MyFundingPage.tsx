@@ -31,7 +31,14 @@ const MyFundingPage = () => {
   }, []);
 
   return (
-    <div>
+    <div
+      style={{
+        paddingBottom: "80px", // 네비게이션 바 높이만큼 패딩 추가
+        minHeight: "100vh", // 화면의 전체 높이를 채우도록 설정
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
       <Header children="나의 펀딩" />
       {values.length > 0 ? <MyFunding /> : <FundingNull />}
       <Navbar current="mypage" />

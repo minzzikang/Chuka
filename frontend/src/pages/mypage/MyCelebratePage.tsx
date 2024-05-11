@@ -1,15 +1,32 @@
 import Header from "@common/header";
 import Navbar from "@common/navbar";
+import Search from "@components/search";
 import EventNull from "@components/mypage/EventNull";
 import Event from "@components/mypage/Event";
+import SearchResult from "@components/search/SearchResult";
 import { IoIosSearch } from "react-icons/io";
 import { fetchMyEventList } from "@/apis/event";
 import { useEffect, useState } from "react";
 import { EventDataType } from "@/types/rollingType";
-import { useNavigate } from "react-router-dom";
 
 const MyCelebratePage = () => {
-  const navigate = useNavigate();
+  // 검색
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
+  const [searchResults, setSearchResults] = useState<EventDataType>({
+    totalCnt: 0,
+    eventList: [],
+  });
+
+  const handleSearchClose = (result: EventDataType | null) => {
+    setIsSearchOpen(false);
+    if (result) {
+      setSearchResults(result);
+      console.log("searchResults.............", searchResults);
+    } else {
+      setSearchResults({ totalCnt: 0, eventList: [] });
+    }
+  };
+
   // 이벤트 조회 페이지네이션
   const [regPage, setRegPage] = useState(1);
   const [partPage, setPartPage] = useState(1);
@@ -48,6 +65,10 @@ const MyCelebratePage = () => {
     fetchParticipantEvents();
   }, [regPage, partPage]);
 
+  useEffect(() => {
+    console.log("전달받은 검색결과", searchResults);
+  }, [searchResults]);
+
   return (
     <div
       style={{
@@ -57,27 +78,37 @@ const MyCelebratePage = () => {
         flexDirection: "column",
       }}
     >
-      <Header icon={<IoIosSearch />} onIconClick={() => navigate("/search")}>
+      {isSearchOpen && (
+        <Search setIsSearchOpen={setIsSearchOpen} onClose={handleSearchClose} />
+      )}
+      <Header icon={<IoIosSearch />} onIconClick={() => setIsSearchOpen(true)}>
         {"나의 ㅊㅋ"}
       </Header>
-      {registeredEvents.totalCnt === 0 || participatedEvents.totalCnt === 0 ? (
-        <EventNull />
+      {searchResults.totalCnt !== 0 ? (
+        <SearchResult result={searchResults} />
       ) : (
         <>
-          <Event
-            key="registerEvent"
-            eventList={registeredEvents}
-            title="내가 등록한 ㅊㅋ"
-            currentPage={regPage}
-            setCurrentPage={setRegPage}
-          />
-          <Event
-            key="participantEvent"
-            eventList={participatedEvents}
-            title="내가 참여한 ㅊㅋ"
-            currentPage={partPage}
-            setCurrentPage={setPartPage}
-          />
+          {registeredEvents.totalCnt === 0 ||
+          participatedEvents.totalCnt === 0 ? (
+            <EventNull />
+          ) : (
+            <>
+              <Event
+                key="registerEvent"
+                eventList={registeredEvents}
+                title="내가 등록한 ㅊㅋ"
+                currentPage={regPage}
+                setCurrentPage={setRegPage}
+              />
+              <Event
+                key="participantEvent"
+                eventList={participatedEvents}
+                title="내가 참여한 ㅊㅋ"
+                currentPage={partPage}
+                setCurrentPage={setPartPage}
+              />
+            </>
+          )}
         </>
       )}
       <Navbar current="mypage" />
