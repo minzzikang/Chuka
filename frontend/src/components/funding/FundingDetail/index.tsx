@@ -2,12 +2,15 @@ import FundingHeaderSection from "./Header";
 import FundingCrawlingSection from "./Crawling";
 import FundingMessageSection from "./Message";
 import * as f from "./FundingDetail.styled";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { fetchFunding } from "@/apis/funding";
 import { useEffect, useState } from "react";
 import { calculatePercent } from "@/utils/calculation";
+import RModal from "@common/responsiveModal";
+import FundingDeleteModal from "@/pages/celebration/funding/FundingDeleteModal";
 
 type FundingType = {
+  // 펀딩 상품 url
   fundingId: number;
   eventDate: string;
   eventTitle: string;
@@ -16,29 +19,37 @@ type FundingType = {
   productName: string;
   goalAmount: number;
   remainAmount: number;
+  productLink: string;
   introduce: string;
   sponsors: [];
   dday: number;
 };
 
 const index = () => {
-  const navigate = useNavigate();
-  const params = useParams()
-  const fundingId = Number(params.fundingId)
-  const fundingUrl = window.location.href
+  const location = useLocation();
+  const params = useParams();
+  const fundingId = Number(params.fundingId);
+  const fundingUrl = window.location.href;
+  const eventUserId = location.state;
+  const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
+  const currentUserId = currentUser.userState.userId;
+  const eventUrl = sessionStorage.getItem("prevUrl");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
+  // 결제하기
   const onPayment = () => {
-    console.log("선물 펀딩 참여하기");
-    navigate("/celebrate/payment");
+    // console.log(userId);
+    // navigate("/celebrate/payment");
   };
 
   const [values, setValues] = useState<FundingType>();
 
+  // 펀딩 상세 조회 요청
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchFunding(fundingId);
-        console.log("디테일 페이지 함수 호출!!!!!", response);
+        console.log("펀딩 상세 조회", response);
         setValues(response);
       } catch (err) {
         console.log(err);
@@ -47,26 +58,50 @@ const index = () => {
     fetchData();
   }, [fundingId]);
 
-
-
   return (
     <f.Container>
-      {/* eventId header에 넣어주기 -> 카카오 공유하기 */}
-      <FundingHeaderSection fundingUrl={fundingUrl} productUrl={values?.productImage} productName={values?.productName} nickname={''} />
+      <FundingHeaderSection
+        fundingUrl={fundingUrl}
+        productUrl={values?.productImage}
+        productName={values?.productName}
+        nickname={""}
+      />
       <FundingCrawlingSection
-        percent={values ? calculatePercent(values.goalAmount, values.remainAmount) : 0}
+        percent={
+          values ? calculatePercent(values.goalAmount, values.remainAmount) : 0
+        }
         image={values?.productImage ?? "/img/img_present_funding.png"}
-        title={values?.eventTitle ?? "데이터를 불러올 수 없습니다."}
+        title={values?.productName ?? "데이터를 불러올 수 없습니다."}
         date={values?.eventDate ?? "0000-00-00"}
         goalAmount={values?.goalAmount ?? 0}
         remainAmount={values?.remainAmount ?? 0}
         dDay={values?.dday ?? 0}
       />
       <FundingMessageSection
+        productLink={values?.productLink ?? "상품 링크가 등록되지 않았습니다."}
         introduce={values?.introduce ?? "펀딩을 소개하는 문구입니다."}
         sponsor={values?.sponsors ?? []}
       />
-      <f.Button onClick={onPayment}>선물 펀딩 참여하기</f.Button>
+
+      {eventUserId === currentUserId ? (
+        <f.BtnWrap>
+          <f.PinkBtn onClick={onPayment}>펀딩 직접 참여</f.PinkBtn>
+          <f.WhiteBtn onClick={() => setIsModalOpen(true)}>
+            펀딩 삭제
+          </f.WhiteBtn>
+        </f.BtnWrap>
+      ) : (
+        <f.PinkBtn onClick={onPayment}>선물 펀딩 참여하기</f.PinkBtn>
+      )}
+
+      {isModalOpen && (
+        <RModal name={"펀딩 상품 삭제"} onClose={() => setIsModalOpen(false)}>
+          <FundingDeleteModal
+            setFundingModalOpen={setIsModalOpen}
+            fundingId={fundingId}
+          />
+        </RModal>
+      )}
     </f.Container>
   );
 };

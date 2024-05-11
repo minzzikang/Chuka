@@ -1,5 +1,6 @@
 package com.luckyseven.funding.service;
 
+import com.luckyseven.funding.client.UserFeignClient;
 import com.luckyseven.funding.dto.*;
 import com.luckyseven.funding.entity.Funding;
 import com.luckyseven.funding.entity.FundingResult;
@@ -8,7 +9,8 @@ import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.exception.NotLoggedInUserException;
 import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
-import com.luckyseven.funding.util.EventFeignClient;
+import com.luckyseven.funding.client.EventFeignClient;
+import com.luckyseven.funding.util.ImageUtil;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -31,6 +33,9 @@ public class FundingServiceImpl implements FundingService {
     private final FundingRepository fundingRepository;
     private final EventFeignClient eventFeignClient;
     private final ProducerService producerService;
+    private final UserFeignClient userFeignClient;
+    private final ImageUtil imageUtil;
+    private final String DEFAULT_PROFILE_IMAGE_URL = "http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640";
 
     @Override
     public int createFunding(final FundingCreateReq dto, String userId) {
@@ -91,7 +96,27 @@ public class FundingServiceImpl implements FundingService {
                 .orElseThrow(() -> new NoSuchElementException(fundingId+"에 해당하는 펀딩이 없습니다."));
         List<Sponsor> sponsorList = funding.getSponsorList();
         List<SponsorRes> sponsorsResList = sponsorList.stream()
-                .map(sponsor -> SponsorRes.of(sponsor, "프로필이미지"))
+                .map(sponsor -> {
+                    UserDto userDto = null;
+                    String profileImage = "";
+
+                    try {
+                        userDto = userFeignClient.getUser(sponsor.getUserId());
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        profileImage = DEFAULT_PROFILE_IMAGE_URL;   //회원 정보를 불러오지 못한 경우 (유효하지 않은 회원 ID)
+                    }
+
+                    //유효한 프로필 이미지 URL
+                    if(imageUtil.isImageUrlValidModerate(userDto.getProfileImage())) {
+                        profileImage = userDto.getProfileImage();
+                    //유효하지 않은 프로필 이미지 URL
+                    } else {
+                        profileImage = DEFAULT_PROFILE_IMAGE_URL;
+                    }
+
+                    return SponsorRes.of(sponsor, profileImage);
+                })
                 .toList();
         final int nowFundingAmount = sponsorList.stream()
                 .mapToInt(Sponsor::getAmount)
