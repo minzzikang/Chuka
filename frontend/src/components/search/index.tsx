@@ -63,11 +63,12 @@ const index = (props: SearchProps) => {
           word: value,
         });
         setResult(fetchData);
-        setIsSearchOpen(false);
         onClose(fetchData);
+        setIsSearchOpen(false);
       } catch (err) {
         console.log(err);
         onClose(null);
+        setIsSearchOpen(false);
       }
     }
   };
@@ -94,7 +95,7 @@ const index = (props: SearchProps) => {
           />
         </s.Xbutton>
         <SearchForm value={value} setValue={setValue} onSearch={onSearch} />
-        {keyword === "" ? <RecentTerm /> : <SearchResult result={result} />}
+        {keyword === "" ? <RecentTerm /> : null}
         <Navbar current="mypage" />
       </s.Container>
     </s.BackDrop>

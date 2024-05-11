@@ -12,7 +12,6 @@ import { EventDataType } from "@/types/rollingType";
 const MyCelebratePage = () => {
   // 검색
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchPage, setSearchPage] = useState(1);
   const [searchResults, setSearchResults] = useState<EventDataType>({
     totalCnt: 0,
     eventList: [],
@@ -20,7 +19,7 @@ const MyCelebratePage = () => {
 
   const handleSearchClose = (result: EventDataType | null) => {
     setIsSearchOpen(false);
-    if (result && result.totalCnt > 0) {
+    if (result) {
       setSearchResults(result);
       console.log("searchResults.............", searchResults);
     } else {
@@ -66,6 +65,10 @@ const MyCelebratePage = () => {
     fetchParticipantEvents();
   }, [regPage, partPage]);
 
+  useEffect(() => {
+    console.log("전달받은 검색결과", searchResults);
+  }, [searchResults]);
+
   return (
     <div
       style={{
@@ -81,34 +84,31 @@ const MyCelebratePage = () => {
       <Header icon={<IoIosSearch />} onIconClick={() => setIsSearchOpen(true)}>
         {"나의 ㅊㅋ"}
       </Header>
-      {/* {searchResults.totalCnt > 0 ? (
-        // <Event
-        //   eventList={searchResults}
-        //   title="검색 결과"
-        //   currentPage={searchPage}
-        //   setCurrentPage={setSearchPage}
-        // />
+      {searchResults.totalCnt !== 0 ? (
         <SearchResult result={searchResults} />
-      )  */
-      registeredEvents.totalCnt === 0 ||
-        participatedEvents.totalCnt === 0 ? (
-        <EventNull />
       ) : (
         <>
-          <Event
-            key="registerEvent"
-            eventList={registeredEvents}
-            title="내가 등록한 ㅊㅋ"
-            currentPage={regPage}
-            setCurrentPage={setRegPage}
-          />
-          <Event
-            key="participantEvent"
-            eventList={participatedEvents}
-            title="내가 참여한 ㅊㅋ"
-            currentPage={partPage}
-            setCurrentPage={setPartPage}
-          />
+          {registeredEvents.totalCnt === 0 ||
+          participatedEvents.totalCnt === 0 ? (
+            <EventNull />
+          ) : (
+            <>
+              <Event
+                key="registerEvent"
+                eventList={registeredEvents}
+                title="내가 등록한 ㅊㅋ"
+                currentPage={regPage}
+                setCurrentPage={setRegPage}
+              />
+              <Event
+                key="participantEvent"
+                eventList={participatedEvents}
+                title="내가 참여한 ㅊㅋ"
+                currentPage={partPage}
+                setCurrentPage={setPartPage}
+              />
+            </>
+          )}
         </>
       )}
       <Navbar current="mypage" />
