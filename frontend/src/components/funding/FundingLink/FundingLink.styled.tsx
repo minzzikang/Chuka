@@ -7,7 +7,6 @@ export const Container = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  gap: 10px;
 `;
 
 export const Wrap = styled.div`
@@ -24,14 +23,17 @@ export const Carousel = styled.div`
 export const Img = styled.img`
   width: 200px;
   height: 200px;
-  margin-top: 50px;
+  margin-top: 40px;
 `;
 
-export const Label = styled.label``;
+export const Label = styled.label`
+font-size: 0.9em;
+margin-top: 20px;
+`;
 
-export const Input = styled.input`
+export const TextArea = styled.textarea`
   width: 339px;
-  height: 36px;
+  height: 60px;
   padding-left: 10px;
 `;
 
@@ -43,7 +45,10 @@ export const Button = styled.button`
 `;
 
 export const Text = styled.p`
-  color: ${colors.mainPink};
 	font-size: 1em;
-	font-weight: 700;
 `;
+
+
+
+export const CautionWrap = styled.div`
+`

@@ -61,6 +61,7 @@ export const ModalName = styled.div`
   height: 40px;
   font-size: 1.5em;
   font-weight: 600;
+  margin-bottom: 15px;
 `;
 
 export const Backdrop = styled.div`

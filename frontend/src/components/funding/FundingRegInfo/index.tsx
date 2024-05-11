@@ -27,8 +27,7 @@ export type RegDataType = {
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
-  const { eventId, pageUri } = useParams<{ eventId: string; pageUri: string }>();
-
+  const { eventId } = useParams<{ eventId: string }>()
   const [regData, setRegData] = useState<RegDataType>({
     eventId: Number(eventId),
     productLink: productLink,
@@ -52,9 +51,10 @@ const index = () => {
     console.log(regData);
     try {
       const response = await createFunding(regData)
-      console.log("찐찐찐찐찐찐찐찐찐찐찐찐", response);
+      console.log('펀딩 등록 완료', response);
       setIsRegOpen(true);
     } catch (err) {
+      console.log(regData);
       console.error(err)
     }
 
@@ -181,7 +181,7 @@ const index = () => {
               }))
             }
           />
-          <F.LargeBtn onClick={onRegister}>펀딩 상품 등록</F.LargeBtn>
+          <F.LargeBtn onClick={onRegister}>펀딩 상품 등록 신청</F.LargeBtn>
 
           {isAddressOpen && (
             <RModal
