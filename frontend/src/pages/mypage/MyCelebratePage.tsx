@@ -81,7 +81,7 @@ const MyCelebratePage = () => {
       <Header icon={<IoIosSearch />} onIconClick={() => setIsSearchOpen(true)}>
         {"나의 ㅊㅋ"}
       </Header>
-      {searchResults.totalCnt > 0 ? (
+      {/* {searchResults.totalCnt > 0 ? (
         // <Event
         //   eventList={searchResults}
         //   title="검색 결과"
@@ -89,7 +89,8 @@ const MyCelebratePage = () => {
         //   setCurrentPage={setSearchPage}
         // />
         <SearchResult result={searchResults} />
-      ) : registeredEvents.totalCnt === 0 ||
+      )  */
+      registeredEvents.totalCnt === 0 ||
         participatedEvents.totalCnt === 0 ? (
         <EventNull />
       ) : (
