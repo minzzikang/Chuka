@@ -84,8 +84,9 @@ const NotificationListItem = (props: NotificaionProps) => {
   };
 
   const icon = setImage(type);
-  const formatDate =
-    creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
+  const formatDate = creationDateTime
+    ? creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1]
+    : "";
 
   return (
     <N.Container onClick={goNavigate}>

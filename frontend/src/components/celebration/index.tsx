@@ -98,7 +98,7 @@ const Index = () => {
 
     try {
       const res = await createEventReg(formData);
-      navigate(`/celebrate/rolling/${res.eventId}/${res.pageUri}`);
+        navigate(`/celebrate/rolling/${res.eventId}/${res.ageUri}`);
     } catch (err) {
       console.error(err);
     }

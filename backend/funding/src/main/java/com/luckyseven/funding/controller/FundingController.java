@@ -65,7 +65,7 @@ public class FundingController {
     @GetMapping("/events/{eventId}")
     @Operation(
             summary = "이벤트에 해당하는 펀딩 목록",
-            description = "<strong>eventId</strong>를 통해 ✨<strong>승인</strong>✨된 펀딩 목록을 볼 수 있다")
+            description = "<strong>eventId</strong>를 통해 ✨<strong>크롤링이 성공 혹은 실패</strong>✨된 펀딩 목록을 볼 수 있다")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
