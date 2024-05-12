@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { colors } from "@/styles/theme";
 import { useNavigate } from "react-router";
 
-
 export const Container = styled.div<{ $thumbNailUrl: string }>`
   background-image: ${(props) =>
     props.$thumbNailUrl
@@ -16,6 +15,18 @@ export const Container = styled.div<{ $thumbNailUrl: string }>`
   height: 120px;
   border-radius: 30px;
   position: relative;
+`;
+
+export const Dday = styled.div`
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  font-weight: 600;
+  text-shadow:
+    -0.8px 0px ${colors.white},
+    0px 0.8px ${colors.white},
+    0.8px 0px ${colors.white},
+    0px -0.8px ${colors.white};
 `;
 
 export const Wrap = styled.div`
@@ -55,14 +66,14 @@ export const Title = styled.div`
 `;
 
 export const Date = styled.div`
-  font-size: 0.7em;
+  font-size: 0.9em;
   font-weight: 500;
-`
+`;
 
 export type EventCardType = {
-    title:string
-    createTime:string
-    date: string
-    thumbNailUrl: string
-    eventUrl: string
-}
+  title: string;
+  createTime: string;
+  date: string;
+  thumbNailUrl: string;
+  eventUrl: string;
+};
