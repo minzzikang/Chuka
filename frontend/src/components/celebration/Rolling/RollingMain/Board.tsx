@@ -1,7 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { fetchRoll, fetchRollSheets } from "@/apis/roll";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/stores/user";
+import { deleteRoll, fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
+import { colors } from "@/styles/theme";
+import { FaRegTrashCan } from "react-icons/fa6";
 import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
@@ -22,6 +26,7 @@ interface RollSheetListProps {
   fontColor: string;
   shape: string;
   rollSheetId: string;
+  userId: string | null;
 }
 
 interface BoardProps {
@@ -29,6 +34,7 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
+  const user = useRecoilValue(userState);
   const { theme } = props;
 
   const { eventId, pageUri } = useParams<{
@@ -84,6 +90,7 @@ const Board = (props: BoardProps) => {
   });
 
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
+    userId: "",
     nickname: "",
     content: "",
     backgroundImageThumbnailUrl: "",
@@ -103,6 +110,19 @@ const Board = (props: BoardProps) => {
     } catch (err) {
       console.error(err);
       alert("롤링페이퍼 상세조회에 실패했습니다.");
+    }
+  };
+
+  const handleDelete = async (rollSheetId: string) => {
+    try {
+      await deleteRoll(rollSheetId);
+      alert("메시지가 삭제되었습니다.");
+      setRollingModalOpen(false);
+      setRollSheetList((prev) =>
+        prev.filter((roll) => roll.rollSheetId !== rollSheetId)
+      );
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -146,6 +166,26 @@ const Board = (props: BoardProps) => {
             $bgImage={selectedRoll.backgroundImageThumbnailUrl}
             $shape={selectedRoll.shape}
           >
+            {selectedRoll.userId && user.userId === selectedRoll.userId && (
+              <div
+                style={{
+                  display: "flex",
+                  position: "absolute",
+                  top: "0",
+                  right: "0",
+                  fontSize: "0.8em",
+                }}
+              >
+                <FaRegTrashCan
+                  color={colors.gray}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(selectedRoll.rollSheetId);
+                  }}
+                />
+                <span style={{ color: colors.gray }}>삭제</span>
+              </div>
+            )}
             {selectedRoll.content}
           </b.CardDetail>
         </Modal>

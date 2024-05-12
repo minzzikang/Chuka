@@ -106,11 +106,12 @@ export const CardDetail = styled.div<{
   $shape: string;
 }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  max-height: 90vh;
+  height: 90%;
   margin: 10px;
   z-index: 250;
   font-size: 1.5em;
