@@ -14,10 +14,6 @@ interface EventProps {
 const index = (props: EventProps) => {
   const { eventList, title, currentPage, setCurrentPage } = props;
 
-  useEffect(() => {
-    console.log(eventList.totalCnt);
-  }, []);
-
   const handleDelete = async () => {
 
   }

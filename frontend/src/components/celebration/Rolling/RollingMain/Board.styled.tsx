@@ -34,6 +34,7 @@ export const CardWrap = styled.div`
   column-gap: 5px;
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
+  padding-bottom: 80px;
   min-height: 100vh;
 
   & > div:nth-child(3n) {
