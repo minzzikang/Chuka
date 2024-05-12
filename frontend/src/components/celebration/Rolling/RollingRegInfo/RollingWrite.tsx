@@ -10,6 +10,8 @@ import { userState } from "@/stores/user";
 import { createRollMsg } from "@/apis/roll";
 import { LuPaintbrush } from "react-icons/lu";
 import { TiScissors } from "react-icons/ti";
+import { BsMagic } from "react-icons/bs";
+import { makeMessage } from "@/utils/makeMessage";
 
 interface RegDataProps {
   shape: string;
@@ -151,6 +153,15 @@ const RollingWrite = () => {
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isShapeModalOpen, setIsShapeModalOpen] = useState(false);
 
+  const recommendMessage = () => {
+    const randomIdx = Math.floor(Math.random() * makeMessage.length);
+    const randomMessage = makeMessage[randomIdx];
+    setRegData((prevData) => ({
+      ...prevData,
+      content: randomMessage,
+    }));
+  };
+
   return (
     <>
       <r.Header>
@@ -166,9 +177,16 @@ const RollingWrite = () => {
             <LuPaintbrush />
             <span>배경 선택</span>
           </div>
-          <div onClick={() => setIsShapeModalOpen(true)}>
+          <div
+            style={{ marginRight: "30px" }}
+            onClick={() => setIsShapeModalOpen(true)}
+          >
             <TiScissors />
             <span>종이 모양 선택</span>
+          </div>
+          <div style={{ marginLeft: "50px" }} onClick={recommendMessage}>
+            <BsMagic color={colors.mainPink} />
+            <span style={{color : colors.mainPink}}>축하 멘트 추천</span>
           </div>
         </r.SelectWrap>
         <r.MessageBox
@@ -191,20 +209,27 @@ const RollingWrite = () => {
         />
         <r.Label>작성자</r.Label>
         <r.Wrap>
-          <div style={{display:'flex', flexDirection:'column', width:'95%', gap:'5px'}}>
-          <label htmlFor="nickname" >From:</label>
-          <r.WriterInfo
-            id="nickname"
-            value={regData.nickname}
-            placeholder={user.nickname}
-            maxLength={15}
-            onChange={(e) =>
-              setRegData((prevData) => ({
-                ...prevData,
-                nickname: e.target.value,
-              }))
-            }
-          />
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              width: "95%",
+              gap: "5px",
+            }}
+          >
+            <label htmlFor="nickname">From:</label>
+            <r.WriterInfo
+              id="nickname"
+              value={regData.nickname}
+              placeholder={user.nickname}
+              maxLength={15}
+              onChange={(e) =>
+                setRegData((prevData) => ({
+                  ...prevData,
+                  nickname: e.target.value,
+                }))
+              }
+            />
           </div>
         </r.Wrap>
         <r.Label>글씨색</r.Label>
