@@ -13,7 +13,7 @@ export const createEventReg = async (formdata: any) => {
         Authorization: `${accessToken}`,
       },
     });
-    return response.data;
+    return response;
   } catch (err) {
     console.error(err);
   }

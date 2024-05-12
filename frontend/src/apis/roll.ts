@@ -12,7 +12,7 @@ export const createRollMsg = async (formdata: any, eventId: string) => {
       },
     });
     console.log("롤링페이퍼 등록", response.data);
-    return response.data;
+    return response;
   } catch (err) {
     console.error(err);
   }
