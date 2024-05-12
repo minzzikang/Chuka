@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -32,4 +31,10 @@ export const Intro = styled.div`
   background-color: #fff;
   border-radius: 10px;
   font-size: 1em;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    display: none; /* 웹킷 기반 브라우저에서 스크롤바 숨기기 */
+  }
+  -ms-overflow-style: none; /* IE, Edge 브라우저에서 스크롤바 숨기기 */
+  scrollbar-width: none;
 `;
