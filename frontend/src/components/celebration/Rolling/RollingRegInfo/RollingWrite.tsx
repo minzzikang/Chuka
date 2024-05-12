@@ -3,7 +3,7 @@ import Recg from "/img/img_recgPaper.png";
 import Circle from "/img/img_circlePaper.png";
 import ColorCard from "./ColorCard";
 import * as r from "./RollingWrite.styled";
-import { useState, useRef, ChangeEvent, useEffect } from "react";
+import { useState, useRef, ChangeEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/stores/user";
