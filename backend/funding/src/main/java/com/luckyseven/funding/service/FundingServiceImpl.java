@@ -10,6 +10,7 @@ import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.client.EventFeignClient;
 import com.luckyseven.funding.util.ImageUtil;
+import com.luckyseven.funding.util.ProfanityFilter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -33,6 +34,7 @@ public class FundingServiceImpl implements FundingService {
     private final ProducerService producerService;
     private final UserFeignClient userFeignClient;
     private final ImageUtil imageUtil;
+    private final ProfanityFilter profanityFilter;
     private final String DEFAULT_PROFILE_IMAGE_URL = "http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640";
 
     @Override
@@ -52,7 +54,7 @@ public class FundingServiceImpl implements FundingService {
         final Funding data = Funding.builder()
                 .eventId(dto.getEventId())
                 .productLink(dto.getProductLink())
-                .introduce(dto.getIntroduce())
+                .introduce(profanityFilter.changeWithDeafultDelimiter(dto.getIntroduce()))
                 .goalAmount(dto.getGoalAmount())
                 .option(dto.getOption())
                 .receiverName(dto.getReceiverName())
