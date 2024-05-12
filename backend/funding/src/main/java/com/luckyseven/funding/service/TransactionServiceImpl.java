@@ -46,8 +46,10 @@ public class TransactionServiceImpl implements TransactionService {
             final String pgTransactionId = iamportResponse.getResponse().getMerchantUid();
             final String pgStatus = iamportResponse.getResponse().getStatus();
 
-            log.info("PG Amount: {}, PG Transaction ID: {}, PG Status: {}", pgAmount, pgTransactionId, pgStatus);
-
+            log.info("from PG DTO: PG Amount: {}, PG Transaction ID: {}, PG Status: {}", pgAmount, pgTransactionId, pgStatus);
+            log.info("from frontpage DTO:  PG Amount: {}, PG Transaction ID: {}", amount, transactionId);
+            log.info("pgAmount vs Amount {}",pgAmount == amount);
+            log.info("pgTransactionId vs TransactionId {}",pgTransactionId.equals(transactionId));
             if (!pgStatus.equals("paid")) {
                 throw new IllegalCallerException("결제 오류입니다.");
             }
