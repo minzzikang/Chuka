@@ -1,32 +1,22 @@
+import { userType } from "@/types/authType";
 import * as p from "./ProfileSection.styled";
-import { useNavigate } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "@stores/user";
 
-const index = () => {
-  const userInfo = useRecoilValue(userState);
-  const accessToken = localStorage.getItem("access_token");
-  const navigate = useNavigate();
+interface userProps {
+  userInfo: userType;
+}
 
-  const handleLogin = () => {
-    if (!accessToken) {
-      navigate("/login");
-    }
-  };
+const index = (props: userProps) => {
+  const { userInfo } = props;
 
   return (
-    <p.Container onClick={handleLogin}>
+    <p.Container>
       <p.Profile
-        src={
-          userInfo
-            ? `${userInfo.profileImage}` || "/img/img_default_profile.png"
-            : "/img/img_default_profile.png"
-        }
+        src={userInfo.profileImage || "/img/img_default_profile.png"}
       />
       <p.InfoWrap>
-        <p.Name>{userInfo ? userInfo.nickname : "로그인 필요"}</p.Name>
+        <p.Name>{userInfo.nickname || "로그인 필요"}</p.Name>
 
-        {userInfo ? (
+        {userInfo.nickname ? (
           <p.Description>오늘도 추카와 함께 축하해요</p.Description>
         ) : (
           <p.Description>
