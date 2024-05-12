@@ -98,7 +98,15 @@ const Index = () => {
 
     try {
       const res = await createEventReg(formData);
-      navigate(`/celebrate/rolling/${res.eventId}/${res.pageUri}`);
+      if (res?.status === 200) {
+        navigate(`/celebrate/rolling/${res.data.daeventId}/${res.data.ageUri}`);
+      } else if (res?.status === 413) {
+        alert("이미지 용량은 20MB 이하만 가능합니다.");
+        return;
+      } else if (res?.status === 415) {
+        alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
+        return;
+      }
     } catch (err) {
       console.error(err);
     }
