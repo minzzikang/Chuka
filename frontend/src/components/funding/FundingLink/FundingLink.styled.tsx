@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,14 +26,15 @@ export const Img = styled.img`
 `;
 
 export const Label = styled.label`
-font-size: 0.9em;
-margin-top: 20px;
+  font-size: 0.9em;
+  margin-top: 20px;
 `;
 
 export const TextArea = styled.textarea`
   width: 339px;
   height: 60px;
   padding-left: 10px;
+  resize: none;
 `;
 
 export const Button = styled.button`
@@ -45,10 +45,7 @@ export const Button = styled.button`
 `;
 
 export const Text = styled.p`
-	font-size: 1em;
+  font-size: 1em;
 `;
 
-
-
-export const CautionWrap = styled.div`
-`
+export const CautionWrap = styled.div``;

@@ -40,7 +40,6 @@ const Board = (props: BoardProps) => {
 
 
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
-  const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
 
   const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([]);
   const [totalCnt, setTotalCnt] = useState<number>(0);

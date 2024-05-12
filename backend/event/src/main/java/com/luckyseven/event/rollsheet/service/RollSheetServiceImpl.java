@@ -127,6 +127,22 @@ public class RollSheetServiceImpl implements RollSheetService {
     }
 
     @Override
+    public boolean isMyRollSheet(String userId, String rollSheetId) {
+        RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
+
+        if (rollSheet.getUserId().isBlank()) {
+            return false;
+        }
+
+        return rollSheet.getUserId().equals(userId);
+    }
+
+    @Override
+    public void deleteRollSheet(String rollSheetId) {
+        rollSheetRepository.deleteById(rollSheetId);
+    }
+
+    @Override
     public void deleteByRollSheetId(String rollSheetId) {
         RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
         fileService.deleteBackgroundImageOnAmazonS3(rollSheetId);

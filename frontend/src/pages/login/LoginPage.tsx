@@ -15,8 +15,7 @@ const LoginPage = () => {
     const LOCAL_URL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI2}&response_type=code`;
 
     // window.location.href = kakaoURL;
-    window.location.href = LOCAL_URL;
-
+    window.location.href = kakaoURL;
   };
 
   return (

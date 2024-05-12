@@ -91,6 +91,10 @@ public class FundingServiceImpl implements FundingService {
                     UserDto userDto = null;
                     String profileImage = "";
 
+                    if(sponsor.getUserId() == null || sponsor.getUserId().isEmpty()){ //스폰서는 비회원도 가능해서 넣었습니다
+                        return SponsorRes.of(sponsor, DEFAULT_PROFILE_IMAGE_URL);
+                    }
+
                     try {
                         userDto = userFeignClient.getUser(sponsor.getUserId());
                     } catch (Exception e) {
