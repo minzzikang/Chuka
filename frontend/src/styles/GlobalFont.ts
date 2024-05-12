@@ -69,14 +69,14 @@ const GlobalFont = createGlobalStyle`
 @font-face {
     font-family: 'Goocneaeum';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Gootneaeum.woff') format('woff');
-    font-weight: normal;
+    font-weight: 600;
     font-style: normal;
 }
 
 @font-face {
     font-family: 'Treegarden';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
-    font-weight: normal;
+    font-weight: 600;
     font-style: normal;
 }
 

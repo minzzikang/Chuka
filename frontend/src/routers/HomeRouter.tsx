@@ -21,6 +21,7 @@ const HomeRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/review" element={<ReviewPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
 
@@ -36,8 +37,8 @@ const HomeRouter = () => {
 
       <Route path="/celebrate/rolling/:eventId/fundings" element={<FundingRegPage />} />
       <Route path="/celebrate/rolling/:eventId/funding-info" element={<FundingRegInfoPage />} />
-      <Route path="/celebrate/payment" element={<PaymentPage />} />
       <Route path="/celebrate/funding/:fundingId" element={<FundingDetailPage />} />
+      <Route path="/celebrate/funding/:fundingId/payment" element={<PaymentPage />} />
       <Route path="/celebrate/payment/done" element={<PaymentDone />} />
       <Route path="/celebrate/payment/doing" element={<PaymentRedirectHandler />} />
 
@@ -45,7 +46,6 @@ const HomeRouter = () => {
       <Route path="/mypage" element={<MyPage />} />
       <Route path="/mypage/celebrate" element={<MyCelebratePage />} />
       <Route path="/mypage/funding" element={<MyFundingPage />} />
-      <Route path="/review" element={<ReviewPage />} />
 
     </Routes>
   );
