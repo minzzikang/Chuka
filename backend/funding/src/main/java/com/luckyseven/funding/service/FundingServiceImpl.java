@@ -117,7 +117,7 @@ public class FundingServiceImpl implements FundingService {
                 .sum();
         EventDto eventDto = eventFeignClient.getEvent(funding.getEventId());
 
-        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList, eventDto.getDate(), eventDto.getTitle());
+        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList, eventDto.getDate(), eventDto.getTitle(), eventDto.getPageUri());
     }
 
     @Override
