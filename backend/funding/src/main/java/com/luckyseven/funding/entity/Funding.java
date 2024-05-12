@@ -72,7 +72,7 @@ public class Funding {
     @Column
     private String productImage;
 
-    @Column(length = 50)
+    @Column
     private String productName;
 
     @Column
