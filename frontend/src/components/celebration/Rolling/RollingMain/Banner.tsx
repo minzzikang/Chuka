@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import * as b from "./Banner.styled";
-import TestImg from "/img/img_main_banner.png";
+import Default from "/img/img_default_banner.png";
 import { IoMdSettings } from "react-icons/io";
 import { calculateDay } from "@/utils/calculation";
 
@@ -15,11 +15,11 @@ interface BannerInfo {
 const Banner = (props: BannerInfo) => {
   const { bannerThumbnailUrl, title, date, createTime, nickname } = props;
 
-  if (!bannerThumbnailUrl) {
-    return <p>Loading...</p>;
-  }
+  // if (!bannerThumbnailUrl) {
+  //   return <p>Loading...</p>;
+  // }
 
-  const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : TestImg;
+  const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : Default;
 
   const dDay = calculateDay(date, createTime);
 
