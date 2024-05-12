@@ -126,12 +126,23 @@ public class RollSheetServiceImpl implements RollSheetService {
         return result;
     }
 
+    /**
+     * @param userId 요청한 유저
+     * @param rollSheetId 롤링페이퍼 아이디
+     * @return 내가 작성한 롤링페이퍼이거나, 내 이벤트에 작성된 롤링페이퍼인지 확인
+     */
     @Override
     public boolean isMyRollSheet(String userId, String rollSheetId) {
         RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
 
         if (rollSheet.getUserId().isBlank()) {
             return false;
+        }
+
+        // 내 이벤트이면
+        Event event = eventRepository.findByEventId(rollSheet.getEventId());
+        if (event.getUserId().equals(userId)) {
+            return true;
         }
 
         return rollSheet.getUserId().equals(userId);
