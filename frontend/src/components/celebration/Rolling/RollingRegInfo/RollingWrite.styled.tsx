@@ -223,7 +223,7 @@ export const P = styled.p`
 `;
 
 export const MessageBox = styled.textarea<{
-  font: string;
+  $font: string;
   $backColor: string;
   $shape: string;
   $backImage?: string;
@@ -246,5 +246,5 @@ export const MessageBox = styled.textarea<{
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
   font-size: 1.5em;
-  font-family: ${(props) => (props.font ? props.font : "Pretendard")};
+  font-family: ${(props) => (props.$font ? props.$font : "Pretendard")};
 `;

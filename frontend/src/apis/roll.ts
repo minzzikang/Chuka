@@ -38,7 +38,6 @@ export const fetchRollSheets = async (
 };
 
 // 롤링페이퍼 단건 조회
-
 export const fetchRoll = async (rollSheetId: string) => {
   try {
     const response = await axios.get(

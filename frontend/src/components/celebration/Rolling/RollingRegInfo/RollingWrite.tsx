@@ -3,7 +3,7 @@ import Recg from "/img/img_recgPaper.png";
 import Circle from "/img/img_circlePaper.png";
 import ColorCard from "./ColorCard";
 import * as r from "./RollingWrite.styled";
-import { useState, useRef, ChangeEvent } from "react";
+import { useState, useRef, ChangeEvent, useEffect } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useRecoilValue } from "recoil";
 import { userState } from "@/stores/user";
@@ -93,39 +93,7 @@ const RollingWrite = () => {
     fileInputRef.current?.click();
   };
 
-  const handleSubmit = async () => {
-    setSaveModalOpen(false);
-
-    if (!regData.content) {
-      alert("내용을 필수로 입력해주세요.");
-      return;
-    }
-
-    if (regData.nickname === "") {
-      alert("닉네임을 입력해주세요.");
-      return;
-    }
-
-    const formData = new FormData();
-
-    formData.append("shape", regData.shape);
-    formData.append("backgroundColor", regData.backgroundColor);
-    formData.append("content", regData.content);
-    formData.append("font", regData.font);
-    formData.append("nickname", regData.nickname);
-    if (regData.backgroundImage) {
-      formData.append("backgroundImage", regData.backgroundImage);
-    }
-
-    try {
-      const res = await createRollMsg(formData, eventId);
-      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}`);
-    } catch (err) {
-      console.error(err);
-    }
-  };
-
-  const [selectedColor, setSelectedColor] = useState<string>("black");
+  const [selectedColor, setSelectedColor] = useState<string>("");
   const [selectedFont, setSelectedFont] = useState<string>("Pretendard");
 
   const colorList = [
@@ -139,11 +107,11 @@ const RollingWrite = () => {
     colors.redFont,
   ];
 
-  const handleSelectFontColor = (color: string) => {
-    setSelectedColor(color);
+  const handleSelectFontColor = (fontColor: string) => {
+    setSelectedColor(fontColor);
     setRegData((prevData: any) => ({
       ...prevData,
-      fontColor: color,
+      fontColor: fontColor,
     }));
   };
 
@@ -170,6 +138,40 @@ const RollingWrite = () => {
       ...prevData,
       content: randomMessage,
     }));
+  };
+
+  // 롤링페이퍼 작성
+  const handleSubmit = async () => {
+    setSaveModalOpen(false);
+
+    if (!regData.content) {
+      alert("내용을 필수로 입력해주세요.");
+      return;
+    }
+
+    if (regData.nickname === "") {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+
+    const formData = new FormData();
+
+    formData.append("shape", regData.shape);
+    formData.append("backgroundColor", regData.backgroundColor);
+    formData.append("content", regData.content);
+    formData.append("font", regData.font);
+    formData.append("fontColor", regData.fontColor);
+    formData.append("nickname", regData.nickname);
+    if (regData.backgroundImage) {
+      formData.append("backgroundImage", regData.backgroundImage);
+    }
+
+    try {
+      const res = await createRollMsg(formData, eventId);
+      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}`);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   return (
@@ -201,7 +203,7 @@ const RollingWrite = () => {
         </r.SelectWrap>
         <r.MessageBox
           id="content"
-          font={selectedFont}
+          $font={selectedFont}
           $backColor={regData.backgroundColor}
           $backImage={selectedFile}
           placeholder="내용을 작성해주세요."
