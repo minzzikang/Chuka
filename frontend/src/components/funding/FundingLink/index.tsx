@@ -12,12 +12,14 @@ const index = () => {
 
   const handleClick = () => {
     if (productLink) {
-      alert('상품이 등록 가능한 사이트는 네이버 쇼핑 스마트스토어, 11번가, GMarket, 옥션, SSG입니다. 확인해주세요 !')
+      alert(
+        "상품 크롤링이 가능한 사이트는 네이버 쇼핑 스마트스토어, 11번가, GMarket, 옥션, SSG입니다. 확인해주세요 !"
+      );
       navigate(`/celebrate/rolling/${eventId}/funding-info`, {
         state: { productLink },
       });
     } else {
-      alert('상품 구매 링크를 입력해주세요')
+      alert("상품 구매 링크를 입력해주세요");
     }
   };
 
@@ -38,12 +40,16 @@ const index = () => {
           />
           <F.Button onClick={handleClick}>다음</F.Button>
           <F.Label>주의사항</F.Label>
-          <div>상품 등록 가능 사이트</div>
-          <div>* 네이버 쇼핑 스마트스토어</div>
-          <div>* 11번가</div>
-          <div>* GMarket</div>
-          <div>* 옥션</div>
-          <div>* SSG</div>
+          <div>상품 크롤링 가능 사이트</div>
+          <div>* 아래의 사이트를 제외한 사이트는 상품 등록이 가능하나 상품을 크롤링하지 못합니다.</div>
+          <div>* 따라서 이용자님이 직접 수정하셔야 합니다.</div>
+          <ul>
+            <li>* 네이버 쇼핑 스마트스토어</li>
+            <li>* 11번가</li>
+            <li>* GMarket</li>
+            <li>* 옥션</li>
+            <li>* SSG</li>
+          </ul>
         </F.Wrap>
       </F.Container>
     </>
