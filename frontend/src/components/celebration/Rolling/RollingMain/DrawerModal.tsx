@@ -25,7 +25,7 @@ const DrawerModal = (props: {eventUserId?:string | undefined}) => {
   const [fundingData, setFundingData] = useState<fundingData[]>([]);
   // json.parse() 쓰는 이유 : localstorage의 데이터는 json형식으로 저장 -> 다시 js객체로 변환해서 사용해야함
   const currentUser = JSON.parse(localStorage.getItem('currentUser') ?? '{}')
-  const currentUserId = currentUser.userState.userId ?? ''
+  const currentUserId = currentUser.userState?.userId ?? ''
 
   // 펀딩 목록 조회 요청
   useEffect(() => {
