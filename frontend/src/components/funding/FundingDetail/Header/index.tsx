@@ -8,7 +8,9 @@ export type FundingHeaderType = {
   fundingUrl: string
   productImgUrl: string | undefined
   productName: string | undefined
-  nickname: string
+  nickname: string | undefined
+  eventId: number | undefined
+  pageUri: string | undefined
 };
 
 
@@ -16,20 +18,11 @@ export type FundingHeaderType = {
 
 const index = (props: FundingHeaderType) => {
   const navigate = useNavigate()
-  const {fundingUrl, productImgUrl, productName, nickname} = props
-  const eventUrl = sessionStorage.getItem('prevUrl')
+  const {fundingUrl, productImgUrl, productName, nickname, eventId, pageUri} = props
   const handleBack = () => {
     window.history.back();
   };
 
-  const goEvent = () => {
-    if (eventUrl) {
-      const url = new URL(eventUrl)
-      navigate(url.pathname)
-    } else {
-      navigate('/')
-    }
-  }
 
   return (
     <H.Container>
@@ -37,14 +30,14 @@ const index = (props: FundingHeaderType) => {
       <div style={{ display:'flex', gap:'45px'}}>
       <H.IconWrap
         onClick={() =>
-          shareFundingKakao({ fundingUrl, productImgUrl, productName, nickname })
+          shareFundingKakao({ fundingUrl, productImgUrl, productName, nickname, eventId, pageUri })
         }
       >
         <H.Icon src="/icon/icon_share.png" alt="" />
         <H.Text>공유하기</H.Text>
       </H.IconWrap>
       <H.IconWrap
-        onClick={goEvent}
+        onClick={() => navigate(`/celebrate/rolling/${eventId}/${pageUri}`)}
       >
         <H.customIcon>  
         <LuScrollText color={colors.mainPink} size={22}/>
