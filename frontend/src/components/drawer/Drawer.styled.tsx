@@ -16,9 +16,6 @@ export const Container = styled.div<{ $isOpen: boolean }>`
   width: 100%;
   height: 100%;
   min-height: 100vh;
-  transform: ${(props) =>
-    props.$isOpen ? "translateX(0)" : "translateX(100%)"};
-  transition: transform 0.5s ease-in-out;
   z-index: 301;
 `;
 
