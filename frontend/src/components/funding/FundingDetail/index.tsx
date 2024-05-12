@@ -31,7 +31,7 @@ const index = () => {
   const navigate = useNavigate()
   const fundingId = Number(params.fundingId);
   const fundingUrl = window.location.href;
-  const eventUserId = location.state;
+  const eventUserId = location.state ?? '';
   const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
   const currentUserId = currentUser.userState.userId;
   const eventUrl = sessionStorage.getItem("prevUrl");
