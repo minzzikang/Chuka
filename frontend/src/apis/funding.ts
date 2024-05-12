@@ -17,7 +17,7 @@ export const createFunding = async (params: RegDataType) => {
     });
     return response.data;
   } catch (err) {
-    alert('입력이 누락된 곳이 있는지 살펴봐주세요')
+    alert("입력이 누락된 곳이 있는지 살펴봐주세요");
     console.error(err);
     throw err;
   }
@@ -75,7 +75,6 @@ export const joinFunding = async (params: PayDataType) => {
 };
 
 // 펀딩 삭제
-
 export const deleteFunding = async (fundingId: number) => {
   try {
     const response = await axios.delete(`${url}/fundings/${fundingId}`, {
@@ -83,10 +82,9 @@ export const deleteFunding = async (fundingId: number) => {
         "Content-Type": "application/json",
         Authorization: `${accessToken}`,
       },
-    })
-    return response.data
+    });
+    return response.data;
   } catch (err) {
-    console.error(err)
+    console.error(err);
   }
-
-}
+};

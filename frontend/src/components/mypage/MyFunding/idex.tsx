@@ -1,9 +1,7 @@
-import { useRecoilValue } from "recoil";
 import * as f from "./MyFunding.styled";
-import SearchBar from "@/components/search/SearchForm";
 import FundingItem from "@components/mypage/MyFunding/FundingItem";
 import { useEffect, useState } from "react";
-import { fetchMyFundings } from "@/apis/funding";
+import { fetchMyFundings, deleteFunding } from "@/apis/funding";
 
 interface MyFundingProps {
   fundingId: number;
@@ -21,7 +19,6 @@ const idex = () => {
     const fetchData = async () => {
       try {
         const MyFundings = await fetchMyFundings();
-        console.log("내 펀딩들", MyFundings);
         setFundings(MyFundings);
       } catch (err) {
         console.error(err);
@@ -30,10 +27,23 @@ const idex = () => {
     fetchData();
   }, []);
 
+  const handleDelete = async (fundingId: number) => {
+    try {
+      await deleteFunding(fundingId);
+      const updatedValues = fundings.filter(
+        (item) => item.fundingId !== fundingId
+      );
+      setFundings(updatedValues);
+      alert("펀딩이 삭제되었습니다.");
+    } catch (err) {
+      console.log(err);
+      alert(err);
+    }
+  };
+
   return (
     <div>
       <f.Container>
-        {/* <SearchBar /> */}
         <f.Wrap>
           <f.Label>내가 등록한 펀딩</f.Label>
         </f.Wrap>
@@ -46,6 +56,7 @@ const idex = () => {
             productImage={funding.productImage}
             startDate={funding.startDate}
             endDate={funding.endDate}
+            handleDelete={handleDelete}
           />
         ))}
       </f.Container>
