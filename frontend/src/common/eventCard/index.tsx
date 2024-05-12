@@ -9,7 +9,7 @@ const index = (props: EventCardType) => {
   const { title, createTime, date, thumbNailUrl, eventUrl } = props;
 
   const formatCreateTime = createTime.split("T")[0];
-  const formatTitle = formattingTitle(title);
+  const formatTitle = formattingTitle(title ?? '이벤트 제목');
 
   const formatDDay = calculateDay(date, createTime);
 
