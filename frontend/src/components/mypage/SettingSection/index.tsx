@@ -4,10 +4,11 @@ import { GiPartyHat } from "react-icons/gi";
 import { SlPresent } from "react-icons/sl";
 import { LuLogIn, LuLogOut } from "react-icons/lu";
 import { IoIosCloseCircleOutline } from "react-icons/io";
-import { useSetRecoilState, useRecoilValue } from "recoil";
+import { useSetRecoilState } from "recoil";
 import { defaultUser, userState } from "@stores/user";
 import { logout } from "@/apis/auth";
 import { useNavigate } from "react-router";
+import { userType } from "@/types/authType";
 
 export const Container = styled.div`
   display: flex;
@@ -16,8 +17,12 @@ export const Container = styled.div`
   margin: 20px auto 0;
 `;
 
-const index = () => {
-  const userInfo = useRecoilValue(userState);
+interface userProps {
+  userInfo: userType;
+}
+
+const index = (props: userProps) => {
+  const { userInfo } = props;
   const setUserInfo = useSetRecoilState(userState);
   const navigate = useNavigate();
 
@@ -26,7 +31,6 @@ const index = () => {
       await logout();
       localStorage.removeItem("access_token");
       localStorage.removeItem("refresh_token");
-      sessionStorage.removeItem("selectedFileUrl");
 
       setUserInfo(defaultUser);
       localStorage.removeItem("currentUser");
@@ -37,38 +41,37 @@ const index = () => {
     }
   };
 
+  const isLoggedIn = userInfo && userInfo.userId;
+
   return (
     <Container>
-      {userInfo ? (
-        <SettingItem
-          title="나의 ㅊㅋ"
-          url="/mypage/celebrate"
-          icon={<GiPartyHat />}
-        />
-      ) : undefined}
-      {userInfo ? (
-        <SettingItem
-          title="나의 펀딩"
-          url="/mypage/funding"
-          icon={<SlPresent />}
-        />
-      ) : undefined}
-
-      {userInfo ? (
-        <SettingItem
-          title="로그아웃"
-          icon={<LuLogOut />}
-          onClick={handleLogout}
-        />
-      ) : (
+      {isLoggedIn && (
+        <>
+          <SettingItem
+            title="나의 ㅊㅋ"
+            url="/mypage/celebrate"
+            icon={<GiPartyHat />}
+          />
+          <SettingItem
+            title="나의 펀딩"
+            url="/mypage/funding"
+            icon={<SlPresent />}
+          />
+          <SettingItem
+            title="로그아웃"
+            icon={<LuLogOut />}
+            onClick={handleLogout}
+          />
+        </>
+      )}
+      {!isLoggedIn && (
         <SettingItem title="로그인" url="/login" icon={<LuLogIn />} />
       )}
-
-      <SettingItem
+      {/* <SettingItem
         title="회원탈퇴"
         // url="/mypage/funding"
         icon={<IoIosCloseCircleOutline />}
-      />
+      /> */}
     </Container>
   );
 };
