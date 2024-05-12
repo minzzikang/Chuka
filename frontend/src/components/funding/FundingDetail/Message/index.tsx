@@ -1,5 +1,6 @@
 import MessageList from "./MessageList";
 import * as F from "./FundingMessage.styled";
+import { handleUrlCopy } from "@/utils/useCountUp";
 
 interface Sponsor {
   sponsorId: number;
@@ -22,7 +23,8 @@ const index = (props: FundingProps) => {
     <F.Container>
       <F.Wrap>
         <F.Text>펀딩 상품 링크</F.Text>
-        <F.Intro>{productLink}</F.Intro>
+        <F.Intro onClick={() => handleUrlCopy(productLink)
+        }>{productLink}</F.Intro>
       </F.Wrap>
       <F.Wrap>
         <F.Text>펀딩 소개</F.Text>

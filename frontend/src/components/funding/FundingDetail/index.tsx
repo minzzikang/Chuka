@@ -36,6 +36,7 @@ const index = () => {
   const eventUrl = sessionStorage.getItem("prevUrl");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [values, setValues] = useState<FundingType>();
+  const accessToken = localStorage.getItem('access_token')
 
   // 펀딩 상세 조회 요청
   useEffect(() => {
@@ -50,6 +51,7 @@ const index = () => {
     };
     fetchData();
   }, [fundingId]);
+
 
   return (
     <f.Container>
@@ -78,7 +80,7 @@ const index = () => {
 
       {eventUserId === currentUserId ? (
         <f.BtnWrap>
-          <f.PinkBtn onClick={() => navigate("/celebrate/funding/:fundingId/payment")}>펀딩 직접 참여</f.PinkBtn>
+          <f.PinkBtn onClick={() => navigate(`/celebrate/funding/${fundingId}/payment`)}>펀딩 직접 참여</f.PinkBtn>
           <f.WhiteBtn onClick={() => setIsModalOpen(true)}>
             펀딩 삭제
           </f.WhiteBtn>
