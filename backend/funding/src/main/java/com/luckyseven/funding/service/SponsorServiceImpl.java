@@ -32,7 +32,7 @@ public class SponsorServiceImpl implements SponsorService{
         Optional<Funding> optionalFunding = fundingRepository.findById(fundingId);
         Funding funding = optionalFunding.orElseThrow(() -> new NoSuchElementException("해당하는 펀딩 번호가 없습니다."));
 
-        if(funding.getStatus() != FundingStatus.APPROVE) {
+        if(funding.getStatus() != FundingStatus.APPROVE && funding.getStatus() != FundingStatus.REJECT) {
             //transactionService.cancelPayment(dto.getPgId());
             throw new IllegalStateException();
         }
