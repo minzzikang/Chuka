@@ -4,8 +4,8 @@ import AmountSection from "@components/payment/AmountSection";
 import MethodSection from "@components/payment/MethodSection";
 import MessageSection from "@/components/payment/MessageSection";
 import FinalAmountSection from "@components/payment/FinalAmountSection";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { joinFunding } from "@/apis/funding";
 
 interface ImpWindow extends Window {
@@ -24,6 +24,7 @@ const PaymentPage = () => {
   const [amount, setAmount] = useState(1000);
   const [nickname, setNickname] = useState("");
   const [comment, setComment] = useState("");
+  const { fundingId } = useParams<{ fundingId: string}>()
   const [payData, setPayData] = useState<PayDataType>({
     amount: amount,
     nickname: nickname,
@@ -82,6 +83,10 @@ const PaymentPage = () => {
       }
     );
   };
+
+  useEffect(() => {
+    console.log(fundingId);
+  },[])
 
   return (
     <>
