@@ -37,19 +37,19 @@ export const CardWrap = styled.div`
   min-height: 100vh;
 
   & > div:nth-child(3n) {
-    transform: rotate(-3deg);
+    transform: rotate(-4deg);
   }
 
   & > div:nth-child(5n) {
-    transform: rotate(3deg);
+    transform: rotate(10deg);
   }
 
   & > div:nth-child(even):not(:nth-child(3n)):not(:nth-child(5n)) {
-    transform: rotate(2deg);
+    transform: rotate(7deg);
   }
 
   & > div:nth-child(odd):not(:nth-child(3n)):not(:nth-child(5n)) {
-    transform: rotate(-2deg);
+    transform: rotate(-12deg);
   }
 `;
 

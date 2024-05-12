@@ -36,14 +36,8 @@ export const Header = styled.div`
 export const SelectWrap = styled.div`
   display: flex;
   margin-top: 10px;
-  margin-left: 10px;
-  align-self: flex-start;
-  font-size: 0.9em;
-  cursor: pointer;
-
-  span {
-    margin-left: 5px;
-  }
+  gap: 20px;
+  /* align-self: flex-start; */
 `;
 
 export const Label = styled.p`
@@ -61,7 +55,6 @@ export const Icon = styled(IoIosArrowBack)`
 `;
 
 export const WriterInfo = styled.input`
-  width: 95%;
   height: 2em;
   border: none;
   font-size: 1em;
@@ -122,6 +115,7 @@ export const PretendButton = styled.button<{ $isSelected: boolean }>`
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
+  margin-right: 15px;
   border: 2px solid
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
   background-color: ${colors.white};
@@ -132,6 +126,7 @@ export const GoocneaeumButton = styled.button<{ $isSelected: boolean }>`
   font-family: "Goocneaeum";
   width: 95px;
   height: 37px;
+  margin-right: 15px;
   border-radius: 0.5em;
   border: 2px solid
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
@@ -148,6 +143,7 @@ export const TreegardenButton = styled.button<{ $isSelected: boolean }>`
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
   background-color: ${colors.white};
   color: ${(props) => (props.$isSelected ? colors.mainPink : colors.gray)};
+  margin-right: 15px;
 `;
 
 export const Button = styled.button`
@@ -236,12 +232,15 @@ export const MessageBox = styled.textarea<{
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin: 20px;
+  margin: 10px;
   border-radius: 1em;
-  padding: ${(props) => (props.$shape === "CIRCLE" ? "20% 10px" : "10px")};
+  padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
   width: 95%;
   height: 380px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   resize: none;
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};

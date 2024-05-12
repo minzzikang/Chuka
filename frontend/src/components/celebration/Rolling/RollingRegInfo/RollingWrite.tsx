@@ -182,24 +182,46 @@ const RollingWrite = () => {
       </r.Header>
       <r.Container>
         <r.SelectWrap>
-          <div
-            style={{ marginRight: "15px" }}
+          <button
+            style={{
+              border: "2px solid #495057",
+              borderRadius: "0.3em",
+              padding: "5px",
+              display: "flex",
+              fontSize: "0.9em",
+            }}
             onClick={() => setIsSelectModalOpen(true)}
           >
-            <LuPaintbrush />
-            <span>배경 선택</span>
-          </div>
-          <div
-            style={{ marginRight: "30px" }}
+            <LuPaintbrush style={{ marginRight: "5px" }} />
+            배경 선택
+          </button>
+          <button
+            style={{
+              border: "2px solid #495057",
+              borderRadius: "0.3em",
+              padding: "5px",
+              display: "flex",
+              fontSize: "0.9em",
+            }}
             onClick={() => setIsShapeModalOpen(true)}
           >
-            <TiScissors />
-            <span>종이 모양 선택</span>
-          </div>
-          <div style={{ marginLeft: "50px" }} onClick={recommendMessage}>
-            <BsMagic color={colors.mainPink} />
-            <span style={{ color: colors.mainPink }}>축하 멘트 추천</span>
-          </div>
+            <TiScissors style={{ marginRight: "5px" }} />
+            종이 모양 선택
+          </button>
+          <button
+            style={{
+              border: "2px solid",
+              color: "#ff3b85",
+              borderRadius: "0.3em",
+              padding: "5px",
+              display: "flex",
+              fontSize: "0.9em",
+            }}
+            onClick={recommendMessage}
+          >
+            <BsMagic style={{ marginRight: "5px" }} />
+            축하 멘트 자동 완성
+          </button>
         </r.SelectWrap>
         <r.MessageBox
           id="content"
