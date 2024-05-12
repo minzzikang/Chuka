@@ -68,9 +68,9 @@ export const fetchFunding = async (fundingId: number) => {
 };
 
 // 펀딩 참여
-export const joinFunding = async (params: PayDataType) => {
+export const joinFunding = async (fundingId: number, params: PayDataType) => {
   try {
-    const response = await axios.post(`${url}/fundings/test`, params, {
+    const response = await axios.post(`${url}/fundings/${fundingId}`, params, {
       headers: {
         "Content-Type": "application/json",
         Authorization: `${accessToken}`,

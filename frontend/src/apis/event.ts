@@ -101,3 +101,19 @@ export const fetchMyEventList = async ({
     console.error(err);
   }
 };
+
+// 이벤트 삭제
+export const deleteEvent = async (eventId: number) => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.delete(`${url}/events/${eventId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

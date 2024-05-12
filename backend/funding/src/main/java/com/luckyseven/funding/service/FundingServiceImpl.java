@@ -3,7 +3,6 @@ package com.luckyseven.funding.service;
 import com.luckyseven.funding.client.UserFeignClient;
 import com.luckyseven.funding.dto.*;
 import com.luckyseven.funding.entity.Funding;
-import com.luckyseven.funding.entity.FundingResult;
 import com.luckyseven.funding.entity.FundingStatus;
 import com.luckyseven.funding.entity.Sponsor;
 import com.luckyseven.funding.exception.NotLoggedInUserException;
@@ -11,6 +10,7 @@ import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.client.EventFeignClient;
 import com.luckyseven.funding.util.ImageUtil;
+import com.luckyseven.funding.util.ProfanityFilter;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -18,8 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.util.Arrays;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -35,6 +34,7 @@ public class FundingServiceImpl implements FundingService {
     private final ProducerService producerService;
     private final UserFeignClient userFeignClient;
     private final ImageUtil imageUtil;
+    private final ProfanityFilter profanityFilter;
     private final String DEFAULT_PROFILE_IMAGE_URL = "http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640";
 
     @Override
@@ -42,21 +42,19 @@ public class FundingServiceImpl implements FundingService {
         //해당 이벤트 번호가 있는지 확인 && 해당 이벤트 만든 사람과 펀딩 만드는 사람이 같은지 확인
         EventDto eventDto = eventFeignClient.getEvent(dto.getEventId());
         if(!eventDto.getUserId().equals(userId)){
-            //FIXME 로그지우기
-            log.info(eventDto.toString());
-            log.info(userId);
             throw new IllegalAccessException("이벤트를 만든 사람과 일치하지 않습니다");
         }
 
-        //이러면 pending이 여러개 있을 때는 체크 불가능
-        if(fundingRepository.countByEventIdAndStatus(dto.getEventId(),FundingStatus.APPROVE)>3){
+        //원래는 approve만 체크였는데 5월12일 기준으로 심사진행중, 승인, 거절 개수를 세는 것으로 변경
+        final List<FundingStatus> statuses = Arrays.asList(FundingStatus.APPROVE, FundingStatus.REJECT, FundingStatus.PENDING);
+        if(fundingRepository.countByEventIdAndStatusIn(dto.getEventId(), statuses) > 3){
             throw new IllegalStateException();
         }
 
         final Funding data = Funding.builder()
                 .eventId(dto.getEventId())
                 .productLink(dto.getProductLink())
-                .introduce(dto.getIntroduce())
+                .introduce(profanityFilter.changeWithDeafultDelimiter(dto.getIntroduce()))
                 .goalAmount(dto.getGoalAmount())
                 .option(dto.getOption())
                 .receiverName(dto.getReceiverName())
@@ -74,7 +72,8 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findByEventIdAndStatusOrderByResultAsc(FundingStatus.APPROVE,eventId);
+        final List<FundingStatus> statuses = Arrays.asList(FundingStatus.APPROVE, FundingStatus.REJECT);
+        final List<Funding> fundingList = fundingRepository.findByEventIdAndStatusInSorted(eventId, statuses);
 
         return fundingList.stream()
                 .map(FundingRes::of)
@@ -118,7 +117,7 @@ public class FundingServiceImpl implements FundingService {
                 .sum();
         EventDto eventDto = eventFeignClient.getEvent(funding.getEventId());
 
-        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList, eventDto.getDate(), eventDto.getTitle());
+        return FundingDetailRes.of(funding, nowFundingAmount, sponsorsResList, eventDto.getDate(), eventDto.getTitle(), eventDto.getPageUri());
     }
 
     @Override
