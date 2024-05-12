@@ -10,7 +10,7 @@ import jakarta.persistence.EntityNotFoundException;
 import java.util.List;
 
 public interface FundingService {
-    int createFunding(FundingCreateReq dto, String userId);
+    int createFunding(FundingCreateReq dto, String userId) throws IllegalAccessException;
     List<FundingRes> findFundings(int eventId);
     FundingDetailRes getFunding(int fundingId);
     List<FundingRes> getMyFunding(String userId);
