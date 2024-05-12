@@ -1,4 +1,4 @@
-package com.luckyseven.funding.util;
+package com.luckyseven.event.util;
 
 import com.vane.badwordfiltering.BadWordFiltering;
 import lombok.extern.slf4j.Slf4j;
