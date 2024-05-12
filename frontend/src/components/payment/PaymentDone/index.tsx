@@ -15,6 +15,7 @@ const Index = () => {
     sessionStorage.removeItem("nickname");
     sessionStorage.removeItem("comment");
     sessionStorage.removeItem("amount");
+    sessionStorage.removeItem("fundingId");
   }, []);
 
   const defaultOptions = {
