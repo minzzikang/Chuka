@@ -23,6 +23,8 @@ type FundingType = {
   sponsors: [];
   dday: number;
   nickname: string;
+  eventId: number;
+  pageUri: string;
 };
 
 const index = () => {
@@ -33,7 +35,7 @@ const index = () => {
   const fundingUrl = window.location.href;
   const eventUserId = location.state ?? '';
   const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
-  const currentUserId = currentUser.userState.userId;
+  const currentUserId = currentUser.userState?.userId ?? '';
   const eventUrl = sessionStorage.getItem("prevUrl");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [values, setValues] = useState<FundingType>();
@@ -61,6 +63,8 @@ const index = () => {
         productImgUrl={values?.productLink}
         productName={values?.productName}
         nickname={values?.nickname ?? ''}
+        pageUri={values?.pageUri}
+        eventId={values?.eventId}
       />
       <FundingCrawlingSection
         percent={
