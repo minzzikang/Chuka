@@ -52,13 +52,17 @@ const RollingMainPage = () => {
   }, [eventId]);
 
   // 펀딩 drawer 오픈
+  // const goFunding = () => {
+  //   sessionStorage.setItem("prevUrl", prevUrl);
+  //   if (accessToken) {
+  //     setDrawerOpen(!isDrawerOpen);
+  //   } else {
+  //     setFundingModalOpen(true);
+  //   }
+  // };
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
-    if (accessToken) {
-      setDrawerOpen(!isDrawerOpen);
-    } else {
-      setFundingModalOpen(true);
-    }
+    setDrawerOpen(true);
   };
 
 
@@ -81,18 +85,18 @@ const RollingMainPage = () => {
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
         {isDrawerOpen && (
           <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
-            <DrawerModal eventUserId={eventInfoData.userId}/>
+            <DrawerModal eventUserId={eventInfoData?.userId}/>
           </Drawer>
         )}
 
-        {fundingModalOpen && (
+        {/* {fundingModalOpen && (
           <RModal
             name={"선물 펀딩 서비스 이용 동의"}
             onClose={() => setFundingModalOpen(false)}
           >
             <FundingModal setFundingModalOpen={setFundingModalOpen} />
           </RModal>
-        )}
+        )} */}
       </r.Container>
       <Navbar current="celebration" />
     </>

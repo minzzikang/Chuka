@@ -22,6 +22,7 @@ type FundingType = {
   introduce: string;
   sponsors: [];
   dday: number;
+  nickname: string;
 };
 
 const index = () => {
@@ -57,16 +58,16 @@ const index = () => {
     <f.Container>
       <FundingHeaderSection
         fundingUrl={fundingUrl}
-        productUrl={values?.productImage}
+        productImgUrl={values?.productLink}
         productName={values?.productName}
-        nickname={""}
+        nickname={values?.nickname ?? ''}
       />
       <FundingCrawlingSection
         percent={
           values ? calculatePercent(values.goalAmount, values.remainAmount) : 0
         }
-        image={values?.productImage ?? "/img/img_present_funding.png"}
-        title={values?.productName ?? "데이터를 불러올 수 없습니다."}
+        image={values?.productImage ?? "/img/img_default_funding.png"}
+        title={values?.productName ?? "유효하지않은 링크로 크롤링에 실패했습니다. 직접 수정해주세요."}
         date={values?.eventDate ?? "0000-00-00"}
         goalAmount={values?.goalAmount ?? 0}
         remainAmount={values?.remainAmount ?? 0}
