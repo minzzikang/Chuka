@@ -1,6 +1,6 @@
 import { RegDataType } from "@/components/funding/FundingRegInfo";
 import { PayDataType } from "@/components/payment/index.tsx";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const accessToken = localStorage.getItem("access_token");
 const url = `https://chuka.kr/api/v1`;
@@ -9,15 +9,24 @@ const local = "/domain";
 // 펀딩 생성
 export const createFunding = async (params: RegDataType) => {
   try {
-    const response = await axios.post(`${url}/fundings`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${accessToken}`,
-      },
-    });
-    return response.data;
+    const response:AxiosResponse = await axios
+      .post(`${url}/fundings`, params, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${accessToken}`,
+        },
+      })
+      .then((e) => {
+        return response.data;
+      })
+      .catch((e) => {
+        if (e.response.status === 401) {
+          alert('이건 무슨 에러죠?')
+        } else if (e.response.status === 404) {
+          alert("입력이 누락된 곳이 있는지 살펴봐주세요");
+        }
+      })
   } catch (err) {
-    alert("입력이 누락된 곳이 있는지 살펴봐주세요");
     console.error(err);
     throw err;
   }
