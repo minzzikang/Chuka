@@ -60,7 +60,7 @@ const index = () => {
     <f.Container>
       <FundingHeaderSection
         fundingUrl={fundingUrl}
-        productImgUrl={values?.productLink}
+        productImgUrl={values?.productImage}
         productName={values?.productName}
         nickname={values?.nickname ?? ''}
         pageUri={values?.pageUri}
