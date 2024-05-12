@@ -150,7 +150,13 @@ public class RollSheetServiceImpl implements RollSheetService {
 
     @Override
     public void deleteRollSheet(String rollSheetId) {
+        RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
+
         rollSheetRepository.deleteById(rollSheetId);
+
+        Event event = eventRepository.findByEventId(rollSheet.getEventId());
+        event.setRollingPaperCnt(event.getRollingPaperCnt() - 1);
+        eventRepository.save(event);
     }
 
     @Override
