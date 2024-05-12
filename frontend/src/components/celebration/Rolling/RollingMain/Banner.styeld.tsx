@@ -4,6 +4,7 @@ import { colors } from "@styles/theme";
 export const Wrap = styled.div`
   position: relative;
   width: 100%;
+  background-color: ${colors.white};
 `;
 
 export const Title = styled.p`
@@ -61,5 +62,7 @@ export const EventDay = styled.p`
 export const Banner = styled.img`
   opacity: 0.5;
   width: 100%;
+  height: auto;
   max-height: 120px;
+  object-fit: contain;
 `;

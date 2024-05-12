@@ -37,7 +37,21 @@ export const SelectWrap = styled.div`
   display: flex;
   margin-top: 10px;
   gap: 20px;
-  /* align-self: flex-start; */
+  align-items: center;
+
+  button {
+    display: flex;
+    border-radius: 0.3em;
+    padding: 5px;
+    font-size: 0.9em;
+    min-width: 100px; // 최소 너비 설정
+    white-space: nowrap; // 글자가 줄바꿈되지 않도록 설정
+
+    @media (min-width: 769px) {
+      font-size: 0.8em; // 데스크탑에서는 글씨 크기를 줄임
+      padding: 10px 5px; // 데스크탑에서는 패딩 조정
+    }
+  }
 `;
 
 export const Label = styled.p`

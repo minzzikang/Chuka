@@ -13,9 +13,7 @@ const MyFundingPage = () => {
     const fetchData = async () => {
       try {
         const response = await fetchMyFundings();
-        if (response?.status === 200) {
-          setValues(response.data);
-        }
+        setValues(response);
       } catch (err) {
         console.log(err);
       }
