@@ -27,7 +27,7 @@ const index = (props: FundingCardType) => {
   } = props;
 
   //   const formatCreateTime = createTime.split("T")[0];
-  const formatName = formattingTitle(productName);
+  const formatName = formattingTitle(productName ?? '상품명');
 
   // const formatDDay = date - today
 
