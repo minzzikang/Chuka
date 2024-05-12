@@ -30,7 +30,7 @@ type FundingType = {
 const index = () => {
   const location = useLocation();
   const params = useParams();
-  const navigate = useNavigate()
+  const navigate = useNavigate();
   const fundingId = Number(params.fundingId);
   const fundingUrl = window.location.href;
   const eventUserId = location.state ?? '';
@@ -91,7 +91,11 @@ const index = () => {
           </f.WhiteBtn>
         </f.BtnWrap>
       ) : (
-        <f.PinkBtn onClick={() => navigate(`/celebrate/funding/${fundingId}/payment`)}>선물 펀딩 참여하기</f.PinkBtn>
+        <f.PinkBtn
+          onClick={() => navigate(`/celebrate/funding/${fundingId}/payment`)}
+        >
+          선물 펀딩 참여하기
+        </f.PinkBtn>
       )}
 
       {isModalOpen && (

@@ -1,8 +1,8 @@
 import Logo from "/img/img_logo.png";
-import ShareIcon from "/icon/icon_share.png";
-import AddIcon from "/icon/icon_add_message.png";
+import { FiShare } from "react-icons/fi";
+import { MdOutlinePostAdd } from "react-icons/md";
 import { shareEventKakao } from "@/services/shareEventKakao";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import * as r from "./RollingHeader.styled";
 
 export type RollingHeaderType = {
@@ -35,11 +35,11 @@ const RollingHeader = (props: RollingHeaderType) => {
               shareEventKakao({ eventUrl, bannerThumbnailUrl, title, nickname })
             }
           >
-            <r.Icon src={ShareIcon} alt="share" />
+            <FiShare size={22} />
             <r.Span>공유하기</r.Span>
           </r.BtnWrap>
           <r.BtnWrap onClick={handleAdd}>
-            <r.Icon src={AddIcon} alt="add" />
+            <MdOutlinePostAdd size={24} />
             <r.Span>작성하기</r.Span>
           </r.BtnWrap>
         </r.IconWrap>

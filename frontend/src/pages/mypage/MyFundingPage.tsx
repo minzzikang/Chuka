@@ -31,7 +31,13 @@ const MyFundingPage = () => {
       }}
     >
       <Header>{"나의 펀딩"}</Header>
-      {values.length > 0 ? <MyFunding /> : <FundingNull />}
+      {!values ? (
+        <p>데이터를 불러오는 데 실패했습니다.</p>
+      ) : values.length > 0 ? (
+        <MyFunding />
+      ) : (
+        <FundingNull />
+      )}
       <Navbar current="mypage" />
     </div>
   );
