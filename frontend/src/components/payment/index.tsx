@@ -74,7 +74,7 @@ const PaymentPage = () => {
         })
         .then(response => {
             console.log(response);
-            navigate('/celebrate/payment/done');
+            navigate(`/celebrate/funding/${fundingId}/payment`);
         });
         } else {
           console.log('결제 실패');
@@ -84,17 +84,13 @@ const PaymentPage = () => {
     );
   };
 
-  useEffect(() => {
-    console.log(fundingId);
-  },[])
-
   return (
     <>
       <Header children="펀딩 참여하기" />
       <P.Container>
         <P.Wrap>
           <AmountSection amount={amount} setAmount={setAmount} />
-          <MethodSection />
+          {/* <MethodSection /> */}
           <MessageSection
             nickname={nickname}
             setNickname={setNickname}
