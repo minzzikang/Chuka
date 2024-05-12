@@ -1,4 +1,3 @@
-
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import { fetchRoll, fetchRollSheets } from "@/apis/roll";
@@ -32,12 +31,10 @@ interface BoardProps {
 const Board = (props: BoardProps) => {
   const { theme } = props;
 
-
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
-
 
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
 
@@ -58,18 +55,18 @@ const Board = (props: BoardProps) => {
       const response = await fetchRollSheets(eventId, currentPage, 8);
       if (response) {
         setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
-        console.log("현재 페이지", currentPage + 1);
+        // console.log("현재 페이지", currentPage + 1);
         if (response.rollSheetList.length < 8) {
           console.log("연결해제 전에");
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
-          setLoading(false)
+          setLoading(false);
           setCurrentPage((prevPage) => prevPage + 1); // 데이터 로드가 성공적이면 페이지 번호 증가
         }
       }
     } catch (error) {
       console.error(error);
-    } 
+    }
   }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
   const onIntersect = useCallback(
@@ -109,8 +106,6 @@ const Board = (props: BoardProps) => {
     }
   };
 
-
-
   return (
     <>
       <b.Container $theme={theme}>
@@ -134,9 +129,7 @@ const Board = (props: BoardProps) => {
         {/* {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>} */}
         {/* {rollSheetList.length < totalCnt && (
           )} */}
-          <div ref={ref}>Loading more...</div>
-
-
+        <div ref={ref}>Loading more...</div>
       </b.Container>
 
       {rollingModalOpen && selectedRoll && (
@@ -155,7 +148,6 @@ const Board = (props: BoardProps) => {
           </b.CardDetail>
         </Modal>
       )}
-
     </>
   );
 };
