@@ -39,7 +39,7 @@ const RollingMainPage = () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          setEventInfoData(() => eventInfo);
+          setEventInfoData(eventInfo);
           console.log('이벤트 정보 : ', eventInfo);
         } catch (err) {
           console.error(err);
@@ -85,7 +85,7 @@ const RollingMainPage = () => {
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
         {isDrawerOpen && (
           <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
-            <DrawerModal eventUserId={eventInfoData?.userId}/>
+            <DrawerModal eventUserId={eventInfoData.userId}/>
           </Drawer>
         )}
 
