@@ -13,6 +13,7 @@ import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
+import com.luckyseven.event.util.ProfanityFilter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.domain.PageRequest;
@@ -39,6 +40,8 @@ public class RollSheetServiceImpl implements RollSheetService {
 
     private final FileService fileService;
 
+    private final ProfanityFilter profanityFilter;
+
     private final int ROLL_SHEET_IMAGE_WIDTH = 1080;
     private final int ROLL_SHEET_IMAGE_HEIGHT = 2400;
 
@@ -57,10 +60,10 @@ public class RollSheetServiceImpl implements RollSheetService {
         rollSheet.setUserId(userId);
         rollSheet.setShape(rollSheetDto.getShape());
         rollSheet.setBackgroundColor(rollSheetDto.getBackgroundColor());
-        rollSheet.setContent(rollSheetDto.getContent());
+        rollSheet.setContent(profanityFilter.changeWithDeafultDelimiter(rollSheetDto.getContent()));
         rollSheet.setFont(rollSheetDto.getFont());
         rollSheet.setFontColor(rollSheetDto.getFontColor());
-        rollSheet.setNickname(rollSheetDto.getNickname());
+        rollSheet.setNickname(profanityFilter.changeWithDeafultDelimiter(rollSheetDto.getNickname()));
         rollSheet.setCreateTime(LocalDateTime.now());
 
         if (rollSheetDto.getBackgroundImage() != null) {
