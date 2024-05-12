@@ -110,7 +110,7 @@ public class RollSheetController {
     @Operation(summary = "롤링페이퍼 단건 조회", description = "rollSheetId에 해당하는 롤링페이퍼를 조회한다.")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "200", description = "실패"),
+            @ApiResponse(responseCode = "400", description = "실패"),
             @ApiResponse(responseCode = "404", description = "존재하지 않는 이벤트"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
@@ -125,6 +125,36 @@ public class RollSheetController {
         } catch (Exception e) {
             log.error("롤링페이퍼 단건 조회: {}", e.getMessage());
             return ResponseEntity.status(400).body(null);
+        }
+    }
+
+    @DeleteMapping("/roll-sheets/{rollSheetId}")
+    @Operation(summary = "롤링페이퍼 삭제", description = "rollSheetId에 해당하는 롤링페이퍼를 삭제한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "400", description = "실패"),
+            @ApiResponse(responseCode = "404", description = "존재하지 않는 롤링페이퍼"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> deleteRollSheet(
+            @PathVariable("rollSheetId") String rollSheetId,
+            @Parameter(description = "로그인한 유저 아이디") @RequestHeader("loggedInUser") String userId
+    ) {
+
+        if (!rollSheetService.isMyRollSheet(userId, rollSheetId)) {
+            
+            return ResponseEntity.status(401).body(BaseResponseBody.of(401, "권한 없음"));
+        }
+
+        try {
+            rollSheetService.deleteRollSheet(rollSheetId);
+
+            return ResponseEntity.status(200).body(BaseResponseBody.of(200, "롤링페이퍼 삭제 완료."));
+        } catch (NoSuchElementException e) {
+            return ResponseEntity.status(404).body(BaseResponseBody.of(404, "존재하지 않는 롤링페이퍼입니다."));
+        } catch (Exception e) {
+            log.error("[ERROR] 롤링페이퍼 삭제: {}", e.getMessage());
+            return ResponseEntity.status(400).body(BaseResponseBody.of(400, "롤링페이퍼 삭제 실패. 관리자에게 문의하세요."));
         }
     }
 
