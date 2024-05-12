@@ -18,6 +18,10 @@ const index = (props: EventProps) => {
     console.log(eventList.totalCnt);
   }, []);
 
+  const handleDelete = async () => {
+
+  }
+
   return (
     <>
       <e.Container>
