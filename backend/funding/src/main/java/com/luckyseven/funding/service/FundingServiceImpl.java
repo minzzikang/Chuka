@@ -38,7 +38,16 @@ public class FundingServiceImpl implements FundingService {
     private final String DEFAULT_PROFILE_IMAGE_URL = "http://t1.kakaocdn.net/account_images/default_profile.jpeg.twg.thumb.R640x640";
 
     @Override
-    public int createFunding(final FundingCreateReq dto, String userId) {
+    public int createFunding(final FundingCreateReq dto, String userId) throws IllegalAccessException {
+        //해당 이벤트 번호가 있는지 확인 && 해당 이벤트 만든 사람과 펀딩 만드는 사람이 같은지 확인
+        EventDto eventDto = eventFeignClient.getEvent(dto.getEventId());
+        if(!eventDto.getUserId().equals(userId)){
+            //FIXME 로그지우기
+            log.info(eventDto.toString());
+            log.info(userId);
+            throw new IllegalAccessException("이벤트를 만든 사람과 일치하지 않습니다");
+        }
+
         //이러면 pending이 여러개 있을 때는 체크 불가능
         if(fundingRepository.countByEventIdAndStatus(dto.getEventId(),FundingStatus.APPROVE)>3){
             throw new IllegalStateException();
@@ -65,28 +74,10 @@ public class FundingServiceImpl implements FundingService {
 
     @Override
     public List<FundingRes> findFundings(final int eventId) {
-        final List<Funding> fundingList = fundingRepository.findAllByEventIdAndStatus(eventId, FundingStatus.APPROVE);
+        final List<Funding> fundingList = fundingRepository.findByEventIdAndStatusOrderByResultAsc(FundingStatus.APPROVE,eventId);
 
         return fundingList.stream()
-                .map(funding -> {
-                    int currentFundingAmount = funding.getSponsorList().stream()
-                            .mapToInt(Sponsor::getAmount)
-                            .sum();
-                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-                    boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
-                    boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
-                    FundingResult fundingResult;
-
-                    if (isGoal)
-                        fundingResult = FundingResult.SUCCESS;
-                    else {
-                        if (isFundingPeriod)
-                            fundingResult = FundingResult.ONGOING;
-                        else
-                            fundingResult = FundingResult.COMPLETE;
-                    }
-                    return FundingRes.of(funding, fundingResult);
-                })
+                .map(FundingRes::of)
                 .toList();
     }
 
@@ -129,27 +120,9 @@ public class FundingServiceImpl implements FundingService {
     @Override
     public List<FundingRes> getMyFunding(String userId) {
         final List<Funding> fundingList = fundingRepository.findAllByUserId(userId);
-
+        // DB 컬럼 변경 -> FundingRes 변경-> 여기 변경, 이런 일이 있었습니다 -지연
         return fundingList.stream()
-                .map(funding -> {
-                    int currentFundingAmount = funding.getSponsorList().stream()
-                            .mapToInt(Sponsor::getAmount)
-                            .sum();
-                    LocalDate nowDate = LocalDate.now(ZoneId.of("Asia/Seoul"));
-                    boolean isGoal = currentFundingAmount >= funding.getGoalAmount();
-                    boolean isFundingPeriod = !nowDate.isAfter(funding.getEndDate());
-                    FundingResult fundingResult;
-
-                    if (isGoal)
-                        fundingResult = FundingResult.SUCCESS;
-                    else {
-                        if (isFundingPeriod)
-                            fundingResult = FundingResult.ONGOING;
-                        else
-                            fundingResult = FundingResult.COMPLETE;
-                    }
-                    return FundingRes.of(funding, fundingResult);
-                })
+                .map(FundingRes::of)
                 .toList();
     }
 

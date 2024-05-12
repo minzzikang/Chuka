@@ -2,6 +2,7 @@ package com.luckyseven.funding.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
@@ -28,13 +29,15 @@ public class Sponsor implements Serializable {
     @JoinColumn(name = "funding_id")
     private Funding funding;
 
+    @NotNull
     @Column
     private Integer amount;
 
-    @Column
+    @Column(length = 50)
     private String comment;
 
-    @Column
+    @NotNull
+    @Column(length = 15)
     private String nickname;
 
     @OneToOne(fetch = FetchType.LAZY)
