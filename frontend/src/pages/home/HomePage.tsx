@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/stores/user";
+
 import * as h from "./HomePage.styled";
 import Navbar from "@common/navbar";
 import HomeHeader from "@components/home/HomeHeader/";
@@ -12,7 +11,6 @@ import { fetchCount } from "@/apis/event";
 import { handleAllowNotification } from "@/services/notificationPermission";
 
 const HomePage = () => {
-  // const user = useRecoilValue(userState);
   const [eventCount, setEventCount] = useState({
     eventCnt: 0 || null,
     msgCnt: 0 || null,
