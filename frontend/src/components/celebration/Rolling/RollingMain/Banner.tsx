@@ -1,6 +1,6 @@
 import { useParams } from "react-router";
 import { useEffect, useState } from "react";
-import * as b from "./Banner.styeld";
+import * as b from "./Banner.styled";
 import TestImg from "/img/img_main_banner.png";
 import { IoMdSettings } from "react-icons/io";
 import { fetchEventInfo } from "@/apis/event";

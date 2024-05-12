@@ -134,8 +134,8 @@ export const GoocneaeumButton = styled.button<{ $isSelected: boolean }>`
   color: ${(props) => (props.$isSelected ? colors.mainPink : colors.gray)};
 `;
 
-export const TreegardenButton = styled.button<{ $isSelected: boolean }>`
-  font-family: "Treegarden" !important;
+export const BazziButton = styled.button<{ $isSelected: boolean }>`
+  font-family: "Bazzi";
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
