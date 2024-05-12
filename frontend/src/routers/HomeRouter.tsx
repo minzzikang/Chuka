@@ -39,7 +39,7 @@ const HomeRouter = () => {
       <Route path="/celebrate/rolling/:eventId/funding-info" element={<FundingRegInfoPage />} />
       <Route path="/celebrate/funding/:fundingId" element={<FundingDetailPage />} />
       <Route path="/celebrate/funding/:fundingId/payment" element={<PaymentPage />} />
-      <Route path="/celebrate/payment/done" element={<PaymentDone />} />
+      <Route path="/celebrate/funding/:fundingId/payment/done" element={<PaymentDone />} />
       <Route path="/celebrate/payment/doing" element={<PaymentRedirectHandler />} />
 
       <Route path="/notification" element={<NotificationPage />} />
