@@ -20,7 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> findAllByUserId(String userId) {
-        return repository.findAllByUserId(userId);
+        return repository.findAllByUserIdOrderByCreateDateTimeDesc(userId);
     }
 
     @Override
