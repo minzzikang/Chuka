@@ -1,5 +1,4 @@
 import * as m from "./SettingItem.styled";
-import { useRecoilValue } from "recoil";
 import { useNavigate } from "react-router-dom";
 
 

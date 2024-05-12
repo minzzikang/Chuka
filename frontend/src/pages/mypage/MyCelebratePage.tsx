@@ -64,10 +64,6 @@ const MyCelebratePage = () => {
     fetchParticipantEvents();
   }, [regPage, partPage]);
 
-  useEffect(() => {
-    console.log("전달받은 검색결과", searchResults);
-  }, [searchResults]);
-
   return (
     <div
       style={{
