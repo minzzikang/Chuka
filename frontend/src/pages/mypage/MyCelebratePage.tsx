@@ -21,7 +21,6 @@ const MyCelebratePage = () => {
     setIsSearchOpen(false);
     if (result) {
       setSearchResults(result);
-      console.log("searchResults.............", searchResults);
     } else {
       setSearchResults({ totalCnt: 0, eventList: [] });
     }

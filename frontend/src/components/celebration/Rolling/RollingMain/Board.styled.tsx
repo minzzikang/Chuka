@@ -109,7 +109,7 @@ export const CardDetail = styled.div<{
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  max-height: 90vh;
   margin: 10px;
   z-index: 250;
   font-size: 1.5em;

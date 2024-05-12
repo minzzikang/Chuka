@@ -1,9 +1,8 @@
-import { useParams } from "react-router";
 import { useEffect, useState } from "react";
 import * as b from "./Banner.styled";
 import TestImg from "/img/img_main_banner.png";
 import { IoMdSettings } from "react-icons/io";
-import { fetchEventInfo } from "@/apis/event";
+import { calculateDay } from "@/utils/calculation";
 
 interface BannerInfo {
   bannerThumbnailUrl: string;
@@ -13,32 +12,14 @@ interface BannerInfo {
   nickname: string;
 }
 
-const Banner = (props:BannerInfo) => {
-
-  const {bannerThumbnailUrl, title, date, createTime, nickname} = props
-
-
+const Banner = (props: BannerInfo) => {
+  const { bannerThumbnailUrl, title, date, createTime, nickname } = props;
 
   if (!bannerThumbnailUrl) {
     return <p>Loading...</p>;
   }
 
-  const bannerImg = bannerThumbnailUrl
-    ? bannerThumbnailUrl
-    : TestImg;
-
-  const calculateDay = (eventDate: string | undefined, creationTime: string | undefined) => {
-    //  예외처리
-    if (!eventDate || !creationTime) {
-      return 0; 
-    }
-
-    const eventDateObj = new Date(eventDate);
-    const creationDateObj = new Date(creationTime.split("T")[0]);
-    const diff = eventDateObj.getTime() - creationDateObj.getTime();
-
-    return Math.ceil(diff / (1000 * 60 * 60 * 24));
-  };
+  const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : TestImg;
 
   const dDay = calculateDay(date, createTime);
 

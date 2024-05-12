@@ -185,10 +185,6 @@ const RollingWrite = () => {
           <button
             style={{
               border: "2px solid #495057",
-              borderRadius: "0.3em",
-              padding: "5px",
-              display: "flex",
-              fontSize: "0.9em",
             }}
             onClick={() => setIsSelectModalOpen(true)}
           >
@@ -198,10 +194,6 @@ const RollingWrite = () => {
           <button
             style={{
               border: "2px solid #495057",
-              borderRadius: "0.3em",
-              padding: "5px",
-              display: "flex",
-              fontSize: "0.9em",
             }}
             onClick={() => setIsShapeModalOpen(true)}
           >
@@ -212,10 +204,6 @@ const RollingWrite = () => {
             style={{
               border: "2px solid",
               color: "#ff3b85",
-              borderRadius: "0.3em",
-              padding: "5px",
-              display: "flex",
-              fontSize: "0.9em",
             }}
             onClick={recommendMessage}
           >
