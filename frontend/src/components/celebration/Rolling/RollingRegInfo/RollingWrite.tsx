@@ -168,7 +168,7 @@ const RollingWrite = () => {
 
     try {
       const res = await createRollMsg(formData, eventId);
-      navigate(`/celebrate/rolling/${res.eventId}/${pageUri}`);
+      navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
     } catch (err) {
       console.error(err);
     }
@@ -295,12 +295,12 @@ const RollingWrite = () => {
           >
             꽃내음체
           </r.GoocneaeumButton>
-          <r.TreegardenButton
-            $isSelected={selectedFont === "TREEGARDEN"}
-            onClick={() => handleSelectFont("TREEGARDEN")}
+          <r.BazziButton
+            $isSelected={selectedFont === "BAZZI"}
+            onClick={() => handleSelectFont("BAZZI")}
           >
-            나무정원체
-          </r.TreegardenButton>
+            배찌체
+          </r.BazziButton>
         </r.Wrap>
         <r.Button onClick={() => setSaveModalOpen(true)}>저장하기</r.Button>
         <input
