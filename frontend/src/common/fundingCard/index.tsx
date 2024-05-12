@@ -3,7 +3,7 @@ import * as f from "./FundingCard.styled";
 import { formattingTitle } from "@/utils/stringFormat";
 
 export type FundingCardType = {
-  eventUserId: string;
+  eventUserId: string | undefined;
   fundingId: number;
   productImgUrl: string;
   productName: string;
