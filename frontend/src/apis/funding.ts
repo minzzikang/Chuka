@@ -3,8 +3,8 @@ import { PayDataType } from "@/components/payment/index.tsx";
 import axios from "axios";
 
 const accessToken = localStorage.getItem("access_token");
-const url = `/domain`;
-// const url = `https://chuka.kr/api/v1`
+const url = `https://chuka.kr/api/v1`;
+const local = "/domain";
 
 // 펀딩 생성
 export const createFunding = async (params: RegDataType) => {

@@ -1,17 +1,17 @@
-import { BASE_URL, authRequest } from "@utils/requestMethods";
 import { userType } from "@/types/authType";
 import axios from "axios";
 
 const JWT_EXPIRY_TIME = 3600 * 1000;
 
-const url = `/domain`
+const url = `https://chuka.kr/api/v1`;
+const local = "/domain";
 
 // 리프레시 토큰 요청
 export const refresh = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
-  return authRequest
+  return axios
     .post(
-      "/auth/reissue",
+      `${url}/auth/reissue`,
       {},
       {
         headers: {
@@ -26,7 +26,7 @@ export const refresh = async () => {
 // 로그인 성공 시
 export const loginSuccess = async (res: { accessToken: string }) => {
   const { accessToken } = res;
-  authRequest.defaults.headers.Authorization = `Bearer ${accessToken}`;
+  // authRequest.defaults.headers.Authorization = `Bearer ${accessToken}`;
   setTimeout(() => refresh(), JWT_EXPIRY_TIME - 5000);
 };
 
@@ -50,11 +50,15 @@ export const fetchUserInfo = () => {
 export const sendFCMToken = async (fcmToken: string) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`${url}/users/fcm-token`, {fcmToken}, {
-      headers: {
-        Authorization: `${accessToken}`,
-      },
-    });
+    const response = await axios.post(
+      `${url}/users/fcm-token`,
+      { fcmToken },
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
     return response.data;
   } catch (err) {
     console.error(err);
@@ -64,10 +68,14 @@ export const sendFCMToken = async (fcmToken: string) => {
 // 로그아웃
 export const logout = async () => {
   const accessToken = localStorage.getItem("access_token");
-  const response = await axios.post(`/domain/users/logout`, {}, {
-    headers: {
-      Authorization: `${accessToken}`,
-    },
-  });
-  return response
+  const response = await axios.post(
+    `${url}/users/logout`,
+    {},
+    {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    }
+  );
+  return response;
 };

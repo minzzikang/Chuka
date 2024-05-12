@@ -1,7 +1,7 @@
 import axios from "axios";
 
-const url = `/domain`;
-// const url = `https://chuka.kr/api/v1`
+const url = `https://chuka.kr/api/v1`;
+const local = "/domain";
 
 // 알림 목록 조회
 export const fetchNotifications = async () => {
