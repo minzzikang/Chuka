@@ -46,8 +46,8 @@ const HomePage = () => {
         <HomeEventReg />
         <HomeEventList />
         <HomeReview />
+        <h.Img src="/img/img_main_banner.png" alt="" />
       </h.Wrap>
-      <h.Img src="/img/img_main_banner.png" alt="" />
       <Navbar current={"home"} />
     </>
   );

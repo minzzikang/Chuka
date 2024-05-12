@@ -96,6 +96,16 @@ const RollingWrite = () => {
   const handleSubmit = async () => {
     setSaveModalOpen(false);
 
+    if (!regData.content) {
+      alert("내용을 필수로 입력해주세요.");
+      return;
+    }
+
+    if (regData.nickname === "") {
+      alert("닉네임을 입력해주세요.");
+      return;
+    }
+
     const formData = new FormData();
 
     formData.append("shape", regData.shape);
@@ -186,7 +196,7 @@ const RollingWrite = () => {
           </div>
           <div style={{ marginLeft: "50px" }} onClick={recommendMessage}>
             <BsMagic color={colors.mainPink} />
-            <span style={{color : colors.mainPink}}>축하 멘트 추천</span>
+            <span style={{ color: colors.mainPink }}>축하 멘트 추천</span>
           </div>
         </r.SelectWrap>
         <r.MessageBox
