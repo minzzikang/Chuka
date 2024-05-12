@@ -5,7 +5,7 @@ import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default (mode: string) => {
-  process.env = { ...process.env, ...loadEnv(mode, process.cwd())}
+  process.env = { ...process.env, ...loadEnv(mode, process.cwd()) };
   return defineConfig({
     build: {
       outDir: "dev-dist",
@@ -58,17 +58,17 @@ export default (mode: string) => {
       // watch: {
       //   usePolling: true,
       // },
-  
+
       // CORS -> 프록시 설정
-      // proxy:{
-      //   "/domain":{
-      //     target:"https://chuka.kr/api/v1",
-      //     changeOrigin:true,
-      //     // "domain" -> "https://chuka.kr/api/v1"로 치환 : CORs 에러 회피
-      //     rewrite: (path) => path.replace(/^\/domain/, ""),
-      //     // secure:false,
-      //   }
-      // },
+      proxy: {
+        "/domain": {
+          target: "https://chuka.kr/api/v1",
+          changeOrigin: true,
+          // "domain" -> "https://chuka.kr/api/v1"로 치환 : CORs 에러 회피
+          rewrite: (path) => path.replace(/^\/domain/, ""),
+          // secure:false,
+        },
+      },
       host: true,
       strictPort: true,
       port: 5000,
@@ -78,4 +78,4 @@ export default (mode: string) => {
       },
     },
   });
-}
+};
