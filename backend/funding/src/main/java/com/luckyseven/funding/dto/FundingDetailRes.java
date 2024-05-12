@@ -20,6 +20,7 @@ public class FundingDetailRes implements Serializable {
     private final String nickname;
     private final String userId;
     private final Integer eventId;
+    private final String pageUri;
     private final LocalDate eventDate;
     private final String eventTitle;
     private final FundingStatus status;
@@ -32,12 +33,13 @@ public class FundingDetailRes implements Serializable {
     private final String introduce;
     private final List<SponsorRes> sponsors;
 
-    public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors, final LocalDate date, final String title) {
+    public static FundingDetailRes of(final Funding funding, final int nowFundingAmount, final List<SponsorRes> sponsors, final LocalDate date, final String title, final String pageUri) {
         return new FundingDetailRes(
                 funding.getFundingId(),
                 funding.getReceiverName(),
                 funding.getUserId(),
                 funding.getEventId(),
+                pageUri,
                 date,
                 title,
                 funding.getStatus(),

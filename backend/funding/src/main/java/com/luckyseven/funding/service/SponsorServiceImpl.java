@@ -7,7 +7,9 @@ import com.luckyseven.funding.entity.*;
 import com.luckyseven.funding.message.ProducerService;
 import com.luckyseven.funding.repository.FundingRepository;
 import com.luckyseven.funding.repository.SponsorRepository;
+import com.luckyseven.funding.util.ProfanityFilter;
 import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.vane.badwordfiltering.BadWordFiltering;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -27,12 +29,14 @@ public class SponsorServiceImpl implements SponsorService{
     private final FundingRepository fundingRepository;
     private final TransactionService transactionService;
     private final ProducerService producerService;
+    private final ProfanityFilter profanityFilter;
+
     @Override
     public int joinFunding(int fundingId, FundingJoinReq dto, String userId) throws IllegalStateException {
         Optional<Funding> optionalFunding = fundingRepository.findById(fundingId);
         Funding funding = optionalFunding.orElseThrow(() -> new NoSuchElementException("해당하는 펀딩 번호가 없습니다."));
 
-        if(funding.getStatus() != FundingStatus.APPROVE) {
+        if(funding.getStatus() != FundingStatus.APPROVE && funding.getStatus() != FundingStatus.REJECT) {
             //transactionService.cancelPayment(dto.getPgId());
             throw new IllegalStateException();
         }
@@ -42,8 +46,8 @@ public class SponsorServiceImpl implements SponsorService{
                 .funding(Funding.builder().fundingId(fundingId).build())
                 .userId(userId)
                 .amount(dto.getAmount())
-                .nickname(dto.getNickname())
-                .comment(dto.getComment())
+                .nickname(profanityFilter.changeWithDeafultDelimiter(dto.getNickname()))
+                .comment(profanityFilter.changeWithDeafultDelimiter(dto.getComment()))
                 .transaction(Transaction.builder().transactionId(dto.getTransactionId()).build())
                 .build();
         final Sponsor result = sponsorRepository.save(data);

@@ -5,32 +5,28 @@ export const Container = styled.div`
   display: flex;
   width: 100%;
   justify-content: space-between;
-  margin-top: 10px;
 `;
 
 export const Img = styled.img`
   width: 15%;
   height: auto;
+  margin-left: 10px;
 `;
 
 export const IconWrap = styled.div`
   display: flex;
 `;
 
-export const Icon = styled.img`
-  width: 24px;
-  height: 24px;
-  margin-right: 3px;
-`;
-
 export const Span = styled.span`
-  color: ${colors.mainPink};
+  margin-left: 3px;
   font-weight: 500;
 `;
 
 export const BtnWrap = styled.div`
   display: flex;
   align-items: center;
+  justify-content: center;
   margin-right: 20px;
   cursor: pointer;
+  color: ${colors.mainPink};
 `;

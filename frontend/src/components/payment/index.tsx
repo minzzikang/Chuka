@@ -41,9 +41,10 @@ const PaymentPage = () => {
     sessionStorage.setItem('nickname', nickname);
     sessionStorage.setItem('comment', comment);
     sessionStorage.setItem('amount', amount.toString());
+    sessionStorage.setItem('fundingId', fundingId || "");
     
     const { IMP } = window as ImpWindow;
-    IMP?.init('imp34763563');
+    IMP?.init(import.meta.env.VITE_PAYMENT_KEY);
     IMP?.request_pay({
         pg: 'kakaopay',
         pay_method: 'card',
@@ -67,14 +68,15 @@ const PaymentPage = () => {
             pgId: rsp.imp_uid,
             transactionId: rsp.merchant_uid,
           }));
-        joinFunding({
+          joinFunding(fundingId? parseInt(fundingId, 10) : 0,
+            {
           ...payData,
           pgId: rsp.imp_uid,
           transactionId: rsp.merchant_uid,
         })
         .then(response => {
             console.log(response);
-            navigate(`/celebrate/funding/${fundingId}/payment`);
+            navigate(`/celebrate/funding/${fundingId}/payment/done`);
         });
         } else {
           console.log('결제 실패');

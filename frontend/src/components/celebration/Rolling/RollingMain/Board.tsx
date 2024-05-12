@@ -129,7 +129,9 @@ const Board = (props: BoardProps) => {
         {/* {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>} */}
         {/* {rollSheetList.length < totalCnt && (
           )} */}
-        <div ref={ref}>Loading more...</div>
+        <div ref={ref} style={{ color: "transparent" }}>
+          Loading more...
+        </div>
       </b.Container>
 
       {rollingModalOpen && selectedRoll && (

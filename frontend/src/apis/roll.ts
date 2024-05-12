@@ -60,3 +60,21 @@ export const fetchRoll = async (rollSheetId: string) => {
     console.error(err);
   }
 };
+
+// 롤링페이퍼 단건 삭제
+export const deleteRoll = async (rollSheetId: string) => {
+  const accessToken = localStorage.getItem("acess_token");
+  try {
+    const response = await axios.delete(
+      `${url}/events/roll-sheets/${rollSheetId}`,
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};

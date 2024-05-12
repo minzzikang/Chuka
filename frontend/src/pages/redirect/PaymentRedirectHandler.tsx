@@ -11,6 +11,7 @@ const PaymentRedirectHandler = () => {
   const nickname = sessionStorage.getItem("nickname") as string;
   const comment = sessionStorage.getItem("comment") as string;
   const amount = parseInt(sessionStorage.getItem("amount") || "0", 10);
+  const fundingId = parseInt(sessionStorage.getItem("fundingId") || "0", 10);
 
   useEffect(() => {
     if (isSuccess === "true") {
@@ -22,21 +23,21 @@ const PaymentRedirectHandler = () => {
         transactionId,
       };
 
-      joinFunding(payData)
+      joinFunding(fundingId, payData)
         .then((response) => {
           // 결제 성공 시 처리 로직
           console.log("결제 성공:", response);
-          navigate("/celebrate/payment/done");
+          navigate(`/celebrate/funding/${fundingId}/payment/done`);
         })
         .catch((error) => {
           // 결제 실패 시 처리 로직
           console.error("결제 실패:", error);
-          navigate("/celebrate/payment");
+          navigate(`/celebrate/funding/${fundingId}/payment`);
         });
     } else {
       // 결제 실패 시 처리 로직
       console.error("결제 실패");
-      navigate("/celebrate/payment");
+      navigate(`/celebrate/funding/${fundingId}/payment`);
     }
   }, []);
 
