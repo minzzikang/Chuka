@@ -3,6 +3,7 @@ import Lottie from "react-lottie";
 import animationData from "@assets/lottie/chuka.json";
 import { useEffect } from 'react';
 import useCountNum from '@/utils/useCountUp';
+import { handleUrlCopy } from '@/utils/useCountUp';
 
 
 type HomeIntroType = {
@@ -25,15 +26,6 @@ const index = (props: HomeIntroType) => {
     },
   };
 
-  const handleUrlCopy = async () => {
-    try {
-      await navigator.clipboard.writeText("chuka.kr");
-      alert("클립보드에 링크가 복사되었어요.");
-      console.log("카카오 공유하기");
-    } catch (err) {
-      console.log(err);
-    }
-  };
 
   useEffect
 
@@ -49,7 +41,7 @@ const index = (props: HomeIntroType) => {
         <h.Text>추카는 특별한 날, 친구들과 함께 축하 메시지를 공유하고</h.Text>
         <h.Text>원하는 선물을 펀딩하여 배송해드리는 서비스입니다.</h.Text>
         <h.AnimationWrap>
-          <div onClick={handleUrlCopy}>
+          <div onClick={() => handleUrlCopy("chuka.kr")}>
             <Lottie
               options={defaultOptions}
               width={62.15}
