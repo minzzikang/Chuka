@@ -1,4 +1,3 @@
-import { BASE_URL, authRequest } from "@utils/requestMethods";
 import axios from "axios";
 
 const url = `https://chuka.kr/api/v1`;
@@ -8,7 +7,7 @@ const local = "/domain";
 export const createEventReg = async (formdata: any) => {
   const accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(`${local}/events`, formdata, {
+    const response = await axios.post(`${url}/events`, formdata, {
       headers: {
         "Content-Type": "multipart/form-data",
         Authorization: `${accessToken}`,
@@ -23,7 +22,7 @@ export const createEventReg = async (formdata: any) => {
 // 이벤트 단건 정보 조회
 export const fetchEventInfo = async (eventId: string): Promise<any> => {
   try {
-    const response = await axios.get(`${local}/events/${eventId}`);
+    const response = await axios.get(`${url}/events/${eventId}`);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -34,7 +33,7 @@ export const fetchEventInfo = async (eventId: string): Promise<any> => {
 // 이벤트, 축하메시지 갯수 조회
 export const fetchCount = async () => {
   try {
-    const response = await axios.get(`${local}/events/count`);
+    const response = await axios.get(`${url}/events/count`);
     return response.data;
   } catch (err) {
     console.error(err);
@@ -45,7 +44,7 @@ export const fetchCount = async () => {
 // 이벤트 목록 조회
 export const fetchList = async (sort: string, page: number, size: number) => {
   try {
-    const response = await axios.get(`/domain/events`, {
+    const response = await axios.get(`${url}/events`, {
       params: {
         sort,
         page,
@@ -74,7 +73,7 @@ export const fetchMyEventList = async ({
   const accessToken = localStorage.getItem("access_token");
 
   try {
-    const response = await axios.get(`${local}/events/me`, {
+    const response = await axios.get(`${url}/events/me`, {
       params: {
         sort,
         page,
