@@ -7,7 +7,7 @@ const local = "/domain";
 export const createRollMsg = async (formdata: any, eventId: string) => {
   try {
     const response: AxiosResponse = await axios
-      .post(`${local}/events/${eventId}`, formdata, {
+      .post(`${url}/events/${eventId}`, formdata, {
         headers: {
           "Content-Type": "multipart/form-data",
         },
