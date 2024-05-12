@@ -42,7 +42,7 @@ export const fetchMyFundings = async () => {
         Authorization: `${accessToken}`,
       },
     });
-    return response;
+    return response.data;
   } catch (err) {
     console.error(err);
   }
