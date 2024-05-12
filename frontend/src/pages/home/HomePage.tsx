@@ -12,7 +12,7 @@ import { fetchCount } from "@/apis/event";
 import { handleAllowNotification } from "@/services/notificationPermission";
 
 const HomePage = () => {
-  // const user = useRecoilValue(userState);
+  const user = useRecoilValue(userState);
   const [eventCount, setEventCount] = useState({
     eventCnt: 0 || null,
     msgCnt: 0 || null,
