@@ -84,6 +84,10 @@ export const Card = styled.div<{
   align-items: center;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
+  font-size: 1.1em;
+  font: 700;
+  font-weight: bold;
+
   background-color: ${(props) =>
     props.$bgImage ? "transparent" : props.$bgColor || colors.white};
   background-image: ${(props) =>
