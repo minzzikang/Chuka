@@ -47,8 +47,7 @@ public class SponsorServiceImpl implements SponsorService{
                 .userId(userId)
                 .amount(dto.getAmount())
                 .nickname(dto.getNickname())
-                //TODO: 필터링 테스트 중
-                .comment(profanityFilter.badWordFiltering.change(dto.getComment()))
+                .comment(profanityFilter.changeWithDeafultDelimiter(dto.getComment()))
                 .transaction(Transaction.builder().transactionId(dto.getTransactionId()).build())
                 .build();
         final Sponsor result = sponsorRepository.save(data);
