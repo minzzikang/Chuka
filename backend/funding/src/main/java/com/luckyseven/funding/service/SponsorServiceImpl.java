@@ -56,7 +56,7 @@ public class SponsorServiceImpl implements SponsorService{
             FundingToNotificationDto fundingToNotificationDto =
                     new FundingToNotificationDto(funding.getUserId(),fundingId, Topic.FUNDING_COMPLETE);
             //TODO 코드 작성했지만 큐로 보내서 알림받는 테스트는 못해봐서 주석처리함
-            //producerService.sendFundingStatusMessage(fundingToNotificationDto);
+            producerService.sendFundingStatusMessage(fundingToNotificationDto);
         }
         return result.getSponsorId();
     }
