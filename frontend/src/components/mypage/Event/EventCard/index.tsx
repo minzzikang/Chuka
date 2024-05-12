@@ -1,7 +1,5 @@
 import * as e from "./EventCard.styled";
 import { useNavigate } from "react-router-dom";
-import Trash from "/icon/icon_trash.png";
-import Badge from "@components/badge";
 import { EventItem } from "@/types/rollingType";
 
 const index = (props: EventItem) => {
