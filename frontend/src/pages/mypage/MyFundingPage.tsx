@@ -13,7 +13,9 @@ const MyFundingPage = () => {
     const fetchData = async () => {
       try {
         const response = await fetchMyFundings();
-        setValues(response);
+        if (response?.status === 200) {
+          setValues(response.data);
+        }
       } catch (err) {
         console.log(err);
       }
@@ -30,9 +32,7 @@ const MyFundingPage = () => {
         flexDirection: "column",
       }}
     >
-      <Header>
-        {"나의 펀딩"}
-      </Header>
+      <Header>{"나의 펀딩"}</Header>
       {values.length > 0 ? <MyFunding /> : <FundingNull />}
       <Navbar current="mypage" />
     </div>
