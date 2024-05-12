@@ -1,6 +1,7 @@
 import * as f from "./FundingItem.styled";
 import { useNavigate } from "react-router-dom";
-import Trash from "/icon/icon_trash.png";
+import { colors } from "@/styles/theme";
+import { FaRegTrashCan } from "react-icons/fa6";
 import Badge from "@components/badge";
 import { useEffect, useState } from "react";
 import { fetchFunding } from "@/apis/funding";
@@ -24,6 +25,7 @@ interface FundingProps {
   productImage: string;
   startDate: string;
   endDate: string;
+  handleDelete: (fundingId: number) => void;
 }
 
 const index = (props: FundingProps) => {
@@ -34,17 +36,16 @@ const index = (props: FundingProps) => {
     productImage,
     startDate,
     endDate,
+    handleDelete,
   } = props;
 
   const navigate = useNavigate();
   const [values, setValues] = useState<FundingType>();
 
-  // const Dday = startDate - endDate;
   useEffect(() => {
     const fetchData = async () => {
       try {
         const Funding = await fetchFunding(fundingId);
-        // console.log("펀딩 개별 데이터", Funding);
         setValues(Funding);
       } catch (err) {
         console.error(err);
@@ -65,7 +66,13 @@ const index = (props: FundingProps) => {
   };
 
   return (
-    <f.Container onClick={() => navigate(`/celebrate/funding/${fundingId}`, {state: {fundingId: fundingId}})}>
+    <f.Container
+      onClick={() =>
+        navigate(`/celebrate/funding/${fundingId}`, {
+          state: { fundingId: fundingId },
+        })
+      }
+    >
       <f.Img
         src={productImage || "/img/img_default_funding.png"}
         alt="picture"
@@ -80,7 +87,13 @@ const index = (props: FundingProps) => {
           </f.InfoWrap>
           <f.IconWrap>
             <Badge result={fundingResult} />
-            <img src={Trash} alt="delete" onClick={() => {}} />
+            <FaRegTrashCan
+              color={colors.gray}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(fundingId);
+              }}
+            />
           </f.IconWrap>
         </f.RowWrap>
         <f.MoneyInfoWrap>
