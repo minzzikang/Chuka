@@ -34,7 +34,7 @@ const index = (props: EventItem) => {
   return (
     <e.Container $imgSrc={bannerThumbnailUrl} onClick={goPage}>
       <e.InfoWrap>
-        <e.Dday>D{dDay > 0 ? "-" + dDay : "+" + dDay}</e.Dday>
+        <e.Dday>D{dDay >= 0 ? "-" + dDay : "+" + -dDay}</e.Dday>
         <e.Title>{title}</e.Title>
         <e.Date>{date}</e.Date>
       </e.InfoWrap>
