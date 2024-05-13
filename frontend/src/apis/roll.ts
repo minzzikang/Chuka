@@ -18,7 +18,7 @@ export const createRollMsg = async (formdata: any, eventId: string) => {
       // 유효성 검사 예외처리
       .catch((e) => {
         if (e.response.status === 413) {
-          alert("이미지 용량은 20MB 이하만 가능합니다.");
+          alert("이미지 크기를 줄여주세요 혹은 이미지 용량은 20MB 이하만 가능합니다.");
           return;
         } else if (e.response.status === 415) {
           alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
