@@ -1,15 +1,14 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
 export const Container = styled.div`
-  width: 100%; 
+  width: 100%;
   margin-top: 50px;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  font-family: 'Goocneaeum';
+  font-family: "Goocneaeum";
 `;
 
 export const IntroWrap = styled.div`
@@ -68,6 +67,7 @@ export const ChukaInfoWrap = styled.div`
 export const AnimationWrap = styled.div`
   position: relative;
   margin-top: 10px;
+  cursor: pointer;
 `;
 
 export const Promotion = styled.img`
@@ -77,7 +77,7 @@ export const Promotion = styled.img`
 `;
 
 export const TextWrap = styled.div`
-margin-right: 20px;
+  margin-right: 20px;
   width: 70%;
   display: flex;
   justify-content: space-between;

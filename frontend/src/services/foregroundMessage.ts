@@ -4,7 +4,6 @@ import { app } from '@/services/initFirebase'
 const messaging = getMessaging(app)
 
 onMessage(messaging, payload => {
-    console.log(payload)
     const notificationTitle =
       payload && payload.notification && payload.notification.title
     const notificationOptions = {

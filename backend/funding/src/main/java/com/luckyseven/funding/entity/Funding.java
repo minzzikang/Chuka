@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.ColumnDefault;
+import org.hibernate.annotations.ColumnTransformer;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -46,23 +47,39 @@ public class Funding {
     private String option;
 
     @NotNull
-    @Column(length = 15)
+    @Column(length = 20)
     private String receiverName;
 
     @NotNull
-    @Column(length = 30)
+    @Column(length = 90)
+    @ColumnTransformer(
+            read = "CONVERT(AES_DECRYPT(FROM_BASE64(receiver_phone), '${secret-key}') USING UTF8)",
+            write = "TO_BASE64(AES_ENCRYPT(?, '${secret-key}'))"
+    )
     private String receiverPhone;
 
     @NotNull
-    @Column(length = 10)
+    @Column(length = 50)
+    @ColumnTransformer(
+            read = "CONVERT(AES_DECRYPT(FROM_BASE64(postal_code), '${secret-key}') USING UTF8)",
+            write = "TO_BASE64(AES_ENCRYPT(?, '${secret-key}'))"
+    )
     private String postalCode;
 
     @NotNull
-    @Column(length = 50)
+    @Column(length = 150)
+    @ColumnTransformer(
+            read = "CONVERT(AES_DECRYPT(FROM_BASE64(address), '${secret-key}') USING UTF8)",
+            write = "TO_BASE64(AES_ENCRYPT(?, '${secret-key}'))"
+    )
     private String address;
 
     @NotNull
-    @Column(length = 50)
+    @Column(length = 150)
+    @ColumnTransformer(
+            read = "CONVERT(AES_DECRYPT(FROM_BASE64(address_detail), '${secret-key}') USING UTF8)",
+            write = "TO_BASE64(AES_ENCRYPT(?, '${secret-key}'))"
+    )
     private String addressDetail;
 
     @ColumnDefault("'PENDING'")

@@ -33,7 +33,6 @@ const DrawerModal = (props: {eventUserId?:string | undefined}) => {
       if (typeof eventId == "string") {
         try {
           const fundingInfo = await fetchFundings(eventId);
-          console.log("펀딩 목록 조회", fundingInfo);
           setFundingData(fundingInfo);
         } catch (err) {
           console.error(err);

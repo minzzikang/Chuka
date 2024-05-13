@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
@@ -18,38 +18,37 @@ export const refresh = async () => {
     )
     .then((res: any) => {
       const newToken = res.headers["authorization"];
-      console.log("새 토큰", newToken);
-      console.log("refresh ----- 전 ", localStorage.getItem("access_token"));
-
       localStorage.setItem("access_token", newToken);
-
-      console.log("refresh ----- 후", localStorage.getItem("access_token"));
       return newToken;
     })
     .catch((err) => console.log(err));
 };
 
 // 회원 정보 조회(내정보)
-export const fetchUserInfo = () => {
-  const accessToken = localStorage.getItem("access_token");
-  return axios
-    .get(`${url}/users/me`, {
+export const fetchUserInfo = async (): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
+  try {
+    const response: AxiosResponse = await axios.get(`${url}/users/me`, {
       headers: {
         Authorization: `${accessToken}`,
       },
-    })
-    .then((res) => {
-      console.log("get 요청 데이터", res.data);
-      return res.data;
-    })
-    .catch((err) => console.error(err));
+    });
+    return response.data;
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return fetchUserInfo();
+    } else {
+      console.error(e);
+    }
+  }
 };
 
 // FCM 기기 토큰 전송
-export const sendFCMToken = async (fcmToken: string) => {
-  const accessToken = localStorage.getItem("access_token");
+export const sendFCMToken = async (fcmToken: string): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.post(
+    const response: AxiosResponse = await axios.post(
       `${url}/users/fcm-token`,
       { fcmToken },
       {
@@ -59,22 +58,36 @@ export const sendFCMToken = async (fcmToken: string) => {
       }
     );
     return response.data;
-  } catch (err) {
-    console.error(err);
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return sendFCMToken(fcmToken);
+    } else {
+      console.error(e);
+    }
   }
 };
 
 // 로그아웃
-export const logout = async () => {
-  const accessToken = localStorage.getItem("access_token");
-  const response = await axios.post(
-    `${url}/users/logout`,
-    {},
-    {
-      headers: {
-        Authorization: `${accessToken}`,
-      },
+export const logout = async (): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
+  try {
+    const response: AxiosResponse = await axios.post(
+      `${url}/users/logout`,
+      {},
+      {
+        headers: {
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
+    return response;
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return logout();
+    } else {
+      console.error(e);
     }
-  );
-  return response;
+  }
 };

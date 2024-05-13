@@ -7,11 +7,6 @@ import PayBox from "./PayBox";
 import { FUNDING_IMGURL, FUNDING_COMMENT, FUNDING_HEIGHT, FUNDING_WIDTH } from "@/assets/data/payBox";
 
 
-
-
-
-
-
 const index = (props: AmountSectionType) => {
   const { amount, setAmount } = props;
 
