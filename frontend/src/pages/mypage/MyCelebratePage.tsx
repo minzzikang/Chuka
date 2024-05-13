@@ -43,6 +43,7 @@ const MyCelebratePage = () => {
       try {
         const response = await fetchMyEventList({ page: regPage - 1, size: 3 });
         setRegisteredEvents(response);
+        console.log('내가 등록한 이벤트 : ', response)
       } catch (err) {
         console.log(err);
         setRegisteredEvents({ totalCnt: 0, eventList: [] });
@@ -57,6 +58,7 @@ const MyCelebratePage = () => {
           page: partPage - 1,
           size: 3,
         });
+        console.log('나의 참여 이벤트 : ', response)
         setParticipatedEvents(response);
       } catch (err) {
         console.log(err);
