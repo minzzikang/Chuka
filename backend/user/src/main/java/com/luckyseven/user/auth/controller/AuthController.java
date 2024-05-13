@@ -106,13 +106,16 @@ public class AuthController {
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
     ) {
         try {
-            log.info("refreshToken: {}", authorization);
             String refreshToken = authorization.substring("Bearer ".length());
             log.info("refreshToken: {}", refreshToken);
 
-            String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
-            if (newAccessToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
+            String newAccessToken = null;
+            try {
+                newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+            } finally {
+                if (newAccessToken == null) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
+                }
             }
 
             HttpHeaders responseHeaders = new HttpHeaders();
@@ -143,17 +146,21 @@ public class AuthController {
         return ResponseEntity.status(200).body(newAccessToken);
     }
 
-    private final  ProducerService producerService;
-    @GetMapping("/mqTest")
-    public ResponseEntity<?> mqTest() {
+    @PostMapping("/token2")
+    @Operation(summary = "refresh token 생성기", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> refreshTokenCreator(
+            @Parameter(description = "userId") @RequestParam String id,
+            @Parameter(description = "nickname") @RequestParam String nickname
+    ) {
+        String newRefreshToken = jwtUtil.createRefreshTokenTmp(id, nickname);
 
-        BaseMessageDto dataSet = new BaseMessageDto();
-        dataSet.setTopic(Topic.DELETE_USER);
-        dataSet.setData("12345678");
-        producerService.sendNotificationMessage(dataSet);
-
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(200).body(newRefreshToken);
     }
+
 
 }
 

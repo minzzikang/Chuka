@@ -48,7 +48,7 @@ public class EventController {
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger 에서 Authorization token 설정 必")
+    @Operation(summary = "이벤트 등록", description = "이벤트를 등록(생성)한다.\n swagger 에서 Authorization token 설정 必 \n 파일을 보내지 않을 때는 empty value 체크 해제 후 보내야함 \n 날짜 형식 2024-04-04")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "400", description = "비어있는 파일"),

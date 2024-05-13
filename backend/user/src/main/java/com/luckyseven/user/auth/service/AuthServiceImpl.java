@@ -190,10 +190,11 @@ public class AuthServiceImpl implements AuthService {
 
         if (jWTUtil.getType(refreshToken).equals("RTK")
                 && redisService.getValues(id).equals(refreshToken)) {
+            jWTUtil.validateToken(refreshToken);
+
             User user = userRepository.findByUserId(id);
 
             // refreshToken 재발급
-            // issueRefreshToken(UserDto.of(user));
             return issueAccessToken(UserDto.of(user));
         }
 
