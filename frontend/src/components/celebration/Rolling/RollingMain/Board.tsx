@@ -12,12 +12,6 @@ import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
 import { calculateDay } from "@/utils/calculation";
 
-const TargetRef = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  color: white;
-`;
 
 interface RollSheetListProps {
   nickname: string;
@@ -114,6 +108,7 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  // 롤링페이퍼 메시지 삭제
   const handleDelete = async (rollSheetId: string) => {
     try {
       await deleteRoll(rollSheetId);
@@ -127,9 +122,10 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  
+  // 블러처리 DDAY 계산
   const [isDDay, setIsDDay] = useState<boolean>(false);
 
-  // 블러처리 DDAY 계산
   useEffect(() => {
     console.log('ssssss', date);
     const isDDay = calculateDay(date);
@@ -137,7 +133,7 @@ const Board = (props: BoardProps) => {
     if (isDDay === 'DAY') {
       setIsDDay(true);
     }
-  }, [calculateDay]);
+  }, [date]);
 
   return (
     <>
