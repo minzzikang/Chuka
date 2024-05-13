@@ -60,3 +60,10 @@ export const Img = styled.img`
   background-color: #fff;
   border-radius: 20%;
 `;
+
+export const LinkDiv = styled.div`
+  
+  color: ${colors.gray};
+  font-size: 1em;
+
+`
