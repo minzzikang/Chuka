@@ -7,4 +7,5 @@ export type notificationType = {
   pageUri?: string;
   fundingId?: number;
   type: string;
+  eventTitle?: string;
 };

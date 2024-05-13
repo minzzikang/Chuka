@@ -19,7 +19,7 @@ public interface NotificationService {
     // 일반 알림 발생시키는 로직.
     void sendNotification(String userId, NotificationType type);
 
-    void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri);
+    void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri, String curEventTitle);
 
     void deleteAllByUserId(String userId);
 

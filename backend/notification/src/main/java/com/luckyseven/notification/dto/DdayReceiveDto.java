@@ -16,6 +16,7 @@ public class DdayReceiveDto {
     private List<String> joinMembers;
     private String creater;
     private String pageUri;
+    private String title;
     private Integer eventId;
 
     public DdayReceiveDto() {

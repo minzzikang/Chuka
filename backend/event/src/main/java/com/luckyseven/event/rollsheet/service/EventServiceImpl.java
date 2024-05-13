@@ -288,11 +288,14 @@ public class EventServiceImpl implements EventService {
      * @throws IOException
      */
     @Async
-    @Scheduled(cron = "0 0 9 * * ?")
     @Override
+    @Scheduled(cron = "0 0 10 * * ?")
     public void sendDdayalarm() throws IOException {
-        log.info("9시에 실행되었는가?");
+//        log.info("실행되었는가?");
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+        if(userIdList.isEmpty()) return;
+
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);

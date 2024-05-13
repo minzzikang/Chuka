@@ -11,6 +11,7 @@ interface NotificaionProps {
   fundingId?: number;
   pageUri?: string;
   notificationId: string;
+  eventTitle?: string;
   handleDelete: (notificationId: string) => void;
 }
 
@@ -24,6 +25,7 @@ const NotificationListItem = (props: NotificaionProps) => {
     pageUri,
     notificationId,
     handleDelete,
+    eventTitle,
   } = props;
 
   const navigate = useNavigate();
@@ -96,6 +98,7 @@ const NotificationListItem = (props: NotificaionProps) => {
           </N.ImgWrap>
           <N.TextWrap>
             <N.Comment>{content}</N.Comment>
+            <N.Title>{eventTitle}</N.Title>
             <N.Date>{formatDate}</N.Date>
           </N.TextWrap>
         </N.LeftWrap>
