@@ -81,9 +81,6 @@ public class SecurityConfig {
                 .httpBasic(Customizer.withDefaults());
 
         http
-                .httpBasic((auth) -> auth.disable());
-
-        http
                 .authorizeHttpRequests((auth) -> auth
                         .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
