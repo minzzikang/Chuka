@@ -81,7 +81,7 @@ const index = (props: RollingInfoSectionType) => {
             id="img"
             ref={fileInputRef}
             onChange={handleImgChange}
-            accept="image/jpeg, image/png, image/gif, image/webp"
+            accept="image/jpeg, image/png, image/gif"
           />
           {fileName || "축하하는 날을 대표하는 이미지를 등록해주세요."}
           <img src={FileIcon} />
