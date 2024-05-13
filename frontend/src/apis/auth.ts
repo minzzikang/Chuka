@@ -16,9 +16,14 @@ export const refresh = async () => {
         },
       }
     )
-    .then((res) => {
+    .then((res: any) => {
       const newToken = res.headers["authorization"];
+      console.log("새 토큰", newToken);
+      console.log("refresh ----- 전 ", localStorage.getItem("access_token"));
+
       localStorage.setItem("access_token", newToken);
+
+      console.log("refresh ----- 후", localStorage.getItem("access_token"));
     })
     .catch((err) => console.log(err));
 };
