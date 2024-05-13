@@ -197,6 +197,7 @@ public class EventQueryRepository {
         List<Event> eventIdList = jpaQueryFactory
                 .select(Projections.bean(Event.class,
                         event.eventId,
+                        event.title,
                         event.userId,
                         event.pageUri))
                 .from(event)
@@ -211,6 +212,7 @@ public class EventQueryRepository {
             ddayReceiveDto.setCreater(curEvent.getUserId());
             ddayReceiveDto.setEventId(curEventId);
             ddayReceiveDto.setPageUri(curEvent.getPageUri());
+            ddayReceiveDto.setTitle(curEvent.getTitle());
 
             // 이벤트에 참여한 사람불러오기
             List<String> joinMembers = jpaQueryFactory
