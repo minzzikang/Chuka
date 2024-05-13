@@ -5,36 +5,34 @@ const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
 
 // 이벤트 등록
-export const createEventReg = async (formdata: any) => {
+export const createEventReg = async (formdata: any): Promise<any> => {
   let accessToken = localStorage.getItem("access_token");
   try {
-    const response: AxiosResponse = await axios
-      .post(`${url}/events`, formdata, {
+    const response: AxiosResponse = await axios.post(
+      `${url}/events`,
+      formdata,
+      {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization: `${accessToken}`,
         },
-      })
-      .then((res) => {
-        return response.data;
-      })
-      // 유효성 검사 예외처리
-      .catch((e: any) => {
-        if (e.response.status === 413) {
-          alert("이미지 용량은 20MB 이하만 가능합니다.");
-          return;
-        } else if (e.response.status === 415) {
-          alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
-          return;
-        } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
-          console.log("refresh 전 ", localStorage.getItem("access_token"));
-          refresh();
-          console.log("refresh 후", localStorage.getItem("access_token"));
-          return createEventReg(formdata);
-        }
-      });
-  } catch (err) {
-    console.error(err);
+      }
+    );
+    return response.data;
+    // 유효성 검사 예외처리
+  } catch (e: any) {
+    if (e.response.status === 413) {
+      alert("이미지 용량은 20MB 이하만 가능합니다.");
+      return;
+    } else if (e.response.status === 415) {
+      alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
+      return;
+    } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      console.log("refresh 전 ", localStorage.getItem("access_token"));
+      await refresh();
+      console.log("refresh 후", localStorage.getItem("access_token"));
+      return createEventReg(formdata);
+    }
   }
 };
 
