@@ -17,13 +17,16 @@ export const createFunding = async (params: RegDataType) => {
         },
       })
       .then((res) => {
-        return res.data
+        return response.data
       })
-      .catch((e) => {
-        if (e.response.status === 401) {
-          alert('이건 무슨 에러죠?')
-        } else if (e.response.status === 404) {
+      .catch((err) => {
+        if (err.response.status === 401) {
+          alert('로그아웃 후 재로그인해주세요')
+          return
+          
+        } else if (err.response.status === 404) {
           alert("입력이 누락된 곳이 있는지 살펴봐주세요");
+          return
         }
       })
   } catch (err) {
