@@ -1,6 +1,7 @@
 import * as e from "./EventCard.styled";
 import { useNavigate } from "react-router-dom";
 import { EventItem } from "@/types/rollingType";
+import { formattingMyPage } from "@/utils/stringFormat";
 
 const index = (props: EventItem) => {
   const { title, bannerThumbnailUrl, date, eventId, pageUri, createTime } =
@@ -35,7 +36,7 @@ const index = (props: EventItem) => {
     <e.Container $imgSrc={bannerThumbnailUrl} onClick={goPage}>
       <e.InfoWrap>
         <e.Dday>D{dDay >= 0 ? "-" + dDay : "+" + -dDay}</e.Dday>
-        <e.Title>{title}</e.Title>
+        <e.Title>{formattingMyPage(title)}</e.Title>
         <e.Date>{date}</e.Date>
       </e.InfoWrap>
       <e.IconWrap>

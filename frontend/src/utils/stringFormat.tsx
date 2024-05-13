@@ -12,3 +12,20 @@ export const formattingTitle = (title: string) => {
   }
   return title;
 };
+
+
+// 제목 9글자 뒤부터는 ...
+export const formattingMyPage = (title: string) => {
+  if (title.length > 9) {
+    return `${title.slice(0, 9)}...`;
+  }
+  return title;
+};
+
+// 내용 53글자 뒤부터는 ...
+export const formattingComment = (comment: string) => {
+  if (comment.length > 53) {
+    return `${comment.slice(0, 53)}...`;
+  }
+  return comment;
+};
