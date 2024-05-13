@@ -35,22 +35,46 @@ export const Header = styled.div`
 
 export const SelectWrap = styled.div`
   display: flex;
-  margin-top: 10px;
-  gap: 20px;
+  justify-content: space-between;
   align-items: center;
+  margin-top: 20px;
+  margin-bottom: 10px;
+  gap: 17px;
 
   button {
     display: flex;
     border-radius: 0.3em;
-    padding: 5px;
-    font-size: 0.9em;
-    min-width: 100px; // 최소 너비 설정
+    font-size: 0.8em;
+    /* min-width: 100px; // 최소 너비 설정 */
     white-space: nowrap; // 글자가 줄바꿈되지 않도록 설정
 
     @media (min-width: 769px) {
-      font-size: 0.8em; // 데스크탑에서는 글씨 크기를 줄임
-      padding: 10px 5px; // 데스크탑에서는 패딩 조정
+      font-size: 0.9em; // 데스크탑에서는 글씨 크기를 줄임
     }
+  }
+`;
+
+export const SelectBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid #495057;
+  width: 100px;
+  height: 35px;
+  @media (min-width: 769px) {
+    width: 90px; // 데스크탑에서는 글씨 크기를 줄임
+  }
+`;
+export const SelectPinkBtn = styled.button`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px solid ${colors.mainPink};
+  color: ${colors.mainPink};
+  width: 150px;
+  height: 35px;
+  @media (min-width: 769px) {
+    width: 140px; // 데스크탑에서는 글씨 크기를 줄임
   }
 `;
 

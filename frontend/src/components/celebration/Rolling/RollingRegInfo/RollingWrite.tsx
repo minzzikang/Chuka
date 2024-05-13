@@ -182,34 +182,24 @@ const RollingWrite = () => {
       </r.Header>
       <r.Container>
         <r.SelectWrap>
-          <button
-            style={{
-              border: "2px solid #495057",
-            }}
+          <r.SelectBtn
             onClick={() => setIsSelectModalOpen(true)}
           >
             <LuPaintbrush style={{ marginRight: "5px" }} />
             배경 선택
-          </button>
-          <button
-            style={{
-              border: "2px solid #495057",
-            }}
+          </r.SelectBtn>
+          <r.SelectBtn
             onClick={() => setIsShapeModalOpen(true)}
           >
             <TiScissors style={{ marginRight: "5px" }} />
-            종이 모양 선택
-          </button>
-          <button
-            style={{
-              border: "2px solid",
-              color: "#ff3b85",
-            }}
+            모양 선택
+          </r.SelectBtn>
+          <r.SelectPinkBtn
             onClick={recommendMessage}
           >
             <BsMagic style={{ marginRight: "5px" }} />
             축하 멘트 자동 완성
-          </button>
+          </r.SelectPinkBtn>
         </r.SelectWrap>
         <r.MessageBox
           id="content"
