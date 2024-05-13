@@ -18,4 +18,5 @@ public interface FundingService {
     void stopFundings(int fundingId, String userId) throws NotLoggedInUserException, EntityNotFoundException;
     void deleteFundings(int fundingId, String userId) throws NotLoggedInUserException, IllegalStateException, EntityNotFoundException;
     void deleteFundingsByEventId(int eventId) throws IllegalStateException, EntityNotFoundException;
+    void reloadProfanityData();
 }
