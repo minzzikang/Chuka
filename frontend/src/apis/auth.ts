@@ -24,6 +24,7 @@ export const refresh = async () => {
       localStorage.setItem("access_token", newToken);
 
       console.log("refresh ----- 후", localStorage.getItem("access_token"));
+      return newToken;
     })
     .catch((err) => console.log(err));
 };
