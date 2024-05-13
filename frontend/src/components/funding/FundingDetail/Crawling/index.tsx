@@ -19,6 +19,7 @@ const index = (props: CrawlingType) => {
     <C.Container>
       <C.HighLight>{formatDate} ㅊㅋ</C.HighLight>
       <C.Img src={image} />
+      <div style={{color:'gray', fontSize:'1em'}} >구매 링크 바로가기</div>
       <C.Title>{title}</C.Title>
       <C.TopWrap>
         <div>

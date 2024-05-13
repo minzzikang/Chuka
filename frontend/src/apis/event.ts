@@ -15,8 +15,8 @@ export const createEventReg = async (formdata: any) => {
           Authorization: `${accessToken}`,
         },
       })
-      .then((e) => {
-        return response.data;
+      .then((res) => {
+        return res.data;
       })
       // 유효성 검사 예외처리
       .catch((e: any) => {
