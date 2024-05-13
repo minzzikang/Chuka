@@ -3,12 +3,8 @@ import { useState } from "react";
 import { AmountSectionType } from "@/types/fundingType";
 
 
-
-
 const index = (props:AmountSectionType) => {
-
   const {amount, setAmount} = props
-
 
   return (
     <F.Container>

@@ -4,7 +4,6 @@ import styled from "styled-components";
 import TopSection from "@components/home/ReviewPage/TopSection";
 import MiddleSection from "@components/home/ReviewPage/MiddleSection";
 import Header from '@common/header'
-import axios from "axios";
 import { createReview } from "@/apis/review";
 import { useNavigate } from "react-router-dom";
 
@@ -35,9 +34,7 @@ const index = () => {
   const onRegister = async () => {
     try {
       const response = createReview(regData)
-      console.log(response);
       navigate('/')
-      console.log("리뷰 등록", regData);
     } catch (err) {
       console.error(err)
     }
