@@ -8,9 +8,9 @@ const LoginPage = () => {
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
   const REDIRECT_URI = import.meta.env.VITE_REDIRECT_URI;
   const REDIRECT_URI2 = import.meta.env.VITE_REDIRECT_URI2;
+  const setUserInfo = useSetRecoilState(userState);
 
   const handleClick = () => {
-    const setUserInfo = useSetRecoilState(userState);
     setUserInfo(defaultUser);
     // 배포 URL
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
