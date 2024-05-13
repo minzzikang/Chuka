@@ -50,6 +50,7 @@ const NotificationList = (props: NotificationProps) => {
             fundingId={item.fundingId}
             createDateTime={item.createDateTime}
             type={item.type}
+            eventTitle={item.eventTitle}
             handleDelete={handleDelete}
           />
         ))
