@@ -1,6 +1,8 @@
 import logo from "/img/img_main_logo.png";
 import * as l from "@pages/login/LoginPage.styled";
 import kakao from "/icon/icon_kakao.png";
+import { useSetRecoilState } from "recoil";
+import { defaultUser, userState } from "@stores/user";
 
 const LoginPage = () => {
   const KAKAO_API_KEY = import.meta.env.VITE_KAKAO_API_KEY;
@@ -8,6 +10,8 @@ const LoginPage = () => {
   const REDIRECT_URI2 = import.meta.env.VITE_REDIRECT_URI2;
 
   const handleClick = () => {
+    const setUserInfo = useSetRecoilState(userState);
+    setUserInfo(defaultUser);
     // 배포 URL
     const kakaoURL = `https://kauth.kakao.com/oauth/authorize?client_id=${KAKAO_API_KEY}&redirect_uri=${REDIRECT_URI}&response_type=code`;
 

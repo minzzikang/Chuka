@@ -1,14 +1,12 @@
 import axios, { AxiosResponse } from "axios";
-import { useSetRecoilState } from "recoil";
-import { defaultUser, userState } from "@stores/user";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
 
 // 리프레시 토큰 요청
 export const refresh = async () => {
-  const setUserInfo = useSetRecoilState(userState);
   const refreshToken = localStorage.getItem("refresh_token");
+
   return axios
     .post(
       `${url}/auth/reissue`,
@@ -29,7 +27,6 @@ export const refresh = async () => {
         alert("인증이 만료되었습니다. 다시 로그인 해주세요.");
         localStorage.removeItem("access_token");
         localStorage.removeItem("refresh_token");
-        setUserInfo(defaultUser);
         localStorage.removeItem("currentUser");
         window.location.replace("https://chuka.kr/login");
       } else {
