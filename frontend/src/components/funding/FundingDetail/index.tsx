@@ -6,7 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { fetchFunding } from "@/apis/funding";
 import { useEffect, useState } from "react";
 import { calculatePercent } from "@/utils/calculation";
-import RModal from "@common/responsiveModal";
+import RModal from "@common/homeResModal";
 import FundingDeleteModal from "@/pages/celebration/funding/FundingDeleteModal";
 import Navbar from "@common/navbar";
 
