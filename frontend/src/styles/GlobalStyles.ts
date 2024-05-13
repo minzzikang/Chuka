@@ -94,6 +94,7 @@ export const GlobalStyle = createGlobalStyle`
         padding-top: 10px;
         border-radius: 10px;
         border-color: ${colors.inputGray};
+        resize: none;
         &:focus {
             border-color: ${colors.mainPink};
             outline: none;
