@@ -70,6 +70,7 @@ export const sendFCMToken = async (fcmToken: string): Promise<any> => {
     );
     return response.data;
   } catch (e: any) {
+    console.log('fcm토큰 에러 로그 데이터: ', e.response.status, e.response.data)
     if (e.response.status === 401 && e.response.data === "EXPIRED") {
       await refresh();
       return sendFCMToken(fcmToken);

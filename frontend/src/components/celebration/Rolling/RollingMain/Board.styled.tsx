@@ -68,6 +68,17 @@ export const P = styled.p`
   z-index: 10;
 `;
 
+export const DeleteBtn = styled.button`
+position: absolute;
+bottom: 0;
+font-size: 1em;
+color: white;
+  width: 100%;
+  height: 60px;
+  background-color: ${colors.mainPink};
+
+`
+
 export const Card = styled.div<{
   $bgColor?: string;
   $font: string;
@@ -125,3 +136,4 @@ export const CardDetail = styled.div<{
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
+
