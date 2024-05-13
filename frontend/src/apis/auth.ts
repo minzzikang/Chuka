@@ -72,8 +72,6 @@ export const sendFCMToken = async (fcmToken: string): Promise<any> => {
     if (e.response.status === 401 && e.response.data === "EXPIRED") {
       await refresh();
       return sendFCMToken(fcmToken);
-    } else if (e.response.status === 409) {
-      return;
     } else {
       console.error(e);
       throw e;
