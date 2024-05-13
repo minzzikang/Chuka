@@ -10,6 +10,7 @@ import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
+import { BlurOpenDDay } from "@/utils/calculation";
 
 const TargetRef = styled.div`
   position: absolute;
@@ -32,11 +33,12 @@ interface RollSheetListProps {
 
 interface BoardProps {
   theme: string;
+  date: string;
 }
 
 const Board = (props: BoardProps) => {
   const user = useRecoilValue(userState);
-  const { theme } = props;
+  const { theme, date } = props;
 
   const { eventId, pageUri } = useParams<{
     pageUri: string;
@@ -125,6 +127,19 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  const [isDDay, setIsDDay] = useState<boolean>(false);
+
+  // 블러처리 DDAY 계산
+  useEffect(() => {
+    const calculateDDay = BlurOpenDDay(date);
+
+    console.log('dday야??',calculateDDay);
+    
+    if (calculateDDay) {
+      setIsDDay(true);
+    }
+  }, [BlurOpenDDay]);
+
   return (
     <>
       <b.Container $theme={theme}>
@@ -140,9 +155,9 @@ const Board = (props: BoardProps) => {
               $shape={roll.shape}
               onClick={() => handleCardClick(roll.rollSheetId)}
             >
-              <p style={{ filter: "blur(3px)" }}>
+              <b.SMComment $active={isDDay}>
                 {formattingComment(roll.content)}
-              </p>
+              </b.SMComment>
               <p>From. {roll.nickname}</p>
             </b.Card>
           ))}
@@ -184,7 +199,7 @@ const Board = (props: BoardProps) => {
                 <span style={{ color: colors.gray }}>삭제</span>
               </div>
             )} */}
-            <p style={{ filter: "blur(5px)" }}>{selectedRoll.content}</p>
+            <b.LGComment $active={isDDay} >{selectedRoll.content}</b.LGComment>
           </b.CardDetail>
         </Modal>
       )}
