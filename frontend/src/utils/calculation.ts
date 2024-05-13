@@ -21,3 +21,19 @@ export const calculateDay = (
 
   return Math.ceil(diff / (1000 * 60 * 60 * 24));
 };
+
+
+export const BlurOpenDDay = ( eventDate:string) => {
+
+  const eventDateObj = new Date(eventDate);
+  const today = new Date()
+  const diff = eventDateObj.getTime() - today.getTime() 
+
+  console.log('오늘', today)
+  console.log('dday와 오늘의 차이', diff);
+  if (diff === 0) {
+    return 1
+  } else {
+    return 0
+  }
+} 
