@@ -16,7 +16,7 @@ export const createEventReg = async (formdata: any) => {
         },
       })
       .then((res) => {
-        return res.data;
+        return response.data;
       })
       // 유효성 검사 예외처리
       .catch((e: any) => {
