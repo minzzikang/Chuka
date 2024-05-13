@@ -78,6 +78,8 @@ public class RollSheetServiceImpl implements RollSheetService {
             result.setBackgroundImageThumbnailUrl(fileService.getImageUrl(result.getBackgroundImageThumbnail()));
         }
 
+        log.info("joinEvent 등록");
+        log.info("userId: {}, event.getUserId: {}, userId: {}", userId, event.getUserId(), userId);
         // joinEvent 등록
         if (userId != null && !userId.isEmpty() && !event.getUserId().equals(userId)) {
             JoinEvent joinEvent = new JoinEvent();

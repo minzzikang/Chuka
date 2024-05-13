@@ -1,5 +1,4 @@
 import axios, { AxiosResponse } from "axios";
-import { useNavigate } from "react-router-dom";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
@@ -7,6 +6,7 @@ const local = "/domain";
 // 리프레시 토큰 요청
 export const refresh = async () => {
   const refreshToken = localStorage.getItem("refresh_token");
+
   return axios
     .post(
       `${url}/auth/reissue`,
@@ -24,8 +24,10 @@ export const refresh = async () => {
     })
     .catch((e: any) => {
       if (e.response.status === 401) {
-        console.log("401 에러 뜸~~");
         alert("인증이 만료되었습니다. 다시 로그인 해주세요.");
+        localStorage.removeItem("access_token");
+        localStorage.removeItem("refresh_token");
+        localStorage.removeItem("currentUser");
         window.location.replace("https://chuka.kr/login");
       } else {
         console.log("에러", e);
@@ -70,7 +72,6 @@ export const sendFCMToken = async (fcmToken: string): Promise<any> => {
     );
     return response.data;
   } catch (e: any) {
-    console.log('fcm토큰 에러 로그 데이터: ', e.response.status, e.response.data)
     if (e.response.status === 401 && e.response.data === "EXPIRED") {
       await refresh();
       return sendFCMToken(fcmToken);
