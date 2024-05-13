@@ -13,5 +13,6 @@ public class FCMMessageDto {
 
     private String targetToken;
     private String content;
+    private String body;
     private Map<String, String> data;
 }

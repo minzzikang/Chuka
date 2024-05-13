@@ -16,8 +16,8 @@ export const createFunding = async (params: RegDataType) => {
           Authorization: `${accessToken}`,
         },
       })
-      .then((e) => {
-        return response.data;
+      .then((res) => {
+        return res.data
       })
       .catch((e) => {
         if (e.response.status === 401) {

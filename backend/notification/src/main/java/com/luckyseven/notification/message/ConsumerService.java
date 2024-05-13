@@ -159,6 +159,7 @@ public class ConsumerService {
 
         Map<Integer, List<String>> fcmTargetDataSet = new HashMap<>();
         Map<Integer, String> eventPageUriMap = new HashMap<>();
+        Map<Integer, String> eventTitleMap = new HashMap<>();
 
         DeduplicatedUsersIdDto DUDdto = new DeduplicatedUsersIdDto();
         ObjectMapper om = new ObjectMapper();
@@ -173,8 +174,10 @@ public class ConsumerService {
             // 현재 데이터의 이벤트, 접속Uri
             Integer curEventId = data.getEventId();
             String curPageUri = data.getPageUri();
+            String curTitle = data.getTitle();
 
             eventPageUriMap.put(curEventId, curPageUri);
+            eventTitleMap.put(curEventId, curTitle);
             List<String> curMembers = new ArrayList<>();
 
             deduplicatedUserIdList.put(data.getCreater(), null);
@@ -188,7 +191,7 @@ public class ConsumerService {
 
             // List<userIdList>, 알림 type,
             // 단체 일반 알림 보내기
-            notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN, curEventId, curPageUri);
+            notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN, curEventId, curPageUri,curTitle);
 
 
         }
@@ -207,6 +210,6 @@ public class ConsumerService {
 
 //                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
 
-        fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable, eventPageUriMap);
+        fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable, eventPageUriMap,eventTitleMap);
     }
 }
