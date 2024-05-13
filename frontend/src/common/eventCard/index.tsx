@@ -11,7 +11,7 @@ const index = (props: EventCardType) => {
   const formatCreateTime = createTime.split("T")[0];
   const formatTitle = formattingTitle(title ?? '이벤트 제목');
 
-  const formatDDay = calculateDay(date, createTime);
+  const formatDDay = calculateDay(date);
 
   return (
     <e.Container
