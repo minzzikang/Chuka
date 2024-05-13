@@ -34,6 +34,7 @@ export const CardWrap = styled.div`
   column-gap: 5px;
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
+  padding-bottom: 80px;
   min-height: 100vh;
 
   & > div:nth-child(3n) {
@@ -105,11 +106,12 @@ export const CardDetail = styled.div<{
   $shape: string;
 }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 90%;
   margin: 10px;
   z-index: 250;
   font-size: 1.5em;

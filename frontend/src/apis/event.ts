@@ -2,10 +2,10 @@ import axios, { AxiosResponse } from "axios";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
+const accessToken = localStorage.getItem("access_token");
 
 // 이벤트 등록
 export const createEventReg = async (formdata: any) => {
-  const accessToken = localStorage.getItem("access_token");
   try {
     const response: AxiosResponse = await axios
       .post(`${url}/events`, formdata, {
@@ -83,8 +83,6 @@ export const fetchMyEventList = async ({
   size: number;
   word?: string;
 }) => {
-  const accessToken = localStorage.getItem("access_token");
-
   try {
     const response = await axios.get(`${url}/events/me`, {
       params: {
@@ -98,6 +96,22 @@ export const fetchMyEventList = async ({
       },
     });
     console.log("내 이벤트", response.data);
+    return response.data;
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+// 이벤트 삭제
+export const deleteEvent = async (eventId: number) => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.delete(`${url}/events/${eventId}`, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `${accessToken}`,
+      },
+    });
     return response.data;
   } catch (err) {
     console.error(err);

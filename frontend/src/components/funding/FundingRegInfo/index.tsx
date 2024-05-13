@@ -159,6 +159,7 @@ const index = () => {
               id="address"
               value={regData.postalCode}
               placeholder="우편번호"
+              readOnly
             />
             <F.SmallBtn onClick={() => setIsAddressOpen(true)}>
               우편번호 검색
@@ -169,6 +170,7 @@ const index = () => {
             id="address"
             value={regData.address}
             placeholder="주소를 입력해주세요"
+            readOnly
           />
           <F.Input
             id="address"
