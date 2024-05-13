@@ -106,13 +106,16 @@ public class AuthController {
             @Parameter(hidden = true) @RequestHeader("Authorization") String authorization
     ) {
         try {
-            log.info("refreshToken: {}", authorization);
             String refreshToken = authorization.substring("Bearer ".length());
             log.info("refreshToken: {}", refreshToken);
 
-            String newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
-            if (newAccessToken == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
+            String newAccessToken = null;
+            try {
+                newAccessToken = authService.reIssueAccessTokenWithRefreshToken(refreshToken);
+            } finally {
+                if (newAccessToken == null) {
+                    return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("invalid token");
+                }
             }
 
             HttpHeaders responseHeaders = new HttpHeaders();
