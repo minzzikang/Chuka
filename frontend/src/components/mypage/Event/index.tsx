@@ -51,6 +51,7 @@ const index = (props: EventProps) => {
             />
           </e.PagiWrap>
         )}
+        <br/>
         {eventList.totalCnt === 0 && <p>이벤트 정보가 없습니다.</p>}
       </e.Container>
     </>
