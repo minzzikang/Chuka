@@ -16,7 +16,7 @@ const Banner = (props: BannerInfo) => {
 
   const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : Default;
 
-  const dDay = calculateDay(date, createTime);
+  const dDay = calculateDay(date);
 
   return (
     <>

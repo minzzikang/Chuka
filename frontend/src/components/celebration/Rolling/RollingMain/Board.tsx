@@ -10,7 +10,7 @@ import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
-import { BlurOpenDDay } from "@/utils/calculation";
+import { calculateDay } from "@/utils/calculation";
 
 const TargetRef = styled.div`
   position: absolute;
@@ -131,14 +131,12 @@ const Board = (props: BoardProps) => {
 
   // 블러처리 DDAY 계산
   useEffect(() => {
-    const calculateDDay = BlurOpenDDay(date);
-
-    console.log('dday야??',calculateDDay);
-    
-    if (calculateDDay) {
+    const isDDay = calculateDay(date);
+    console.log('dday야??',isDDay);
+    if (isDDay === 'DAY') {
       setIsDDay(true);
     }
-  }, [BlurOpenDDay]);
+  }, [calculateDay]);
 
   return (
     <>
