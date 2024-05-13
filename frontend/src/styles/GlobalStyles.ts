@@ -5,13 +5,13 @@ import { colors, sizes } from "./theme";
 export const GlobalStyle = createGlobalStyle`
     ${reset}
     :root {
-        font-family: 'Pretendard', 'Goocneaeum', 'Treegarden', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
+        font-family: 'Pretendard', 'Goocneaeum', 'Bazzi', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
         font-size: 16px;
     }
     * {
         padding: 0;
         box-sizing: border-box;
-        font-family: 'Pretendard', 'Goocneaeum', 'Treegarden', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
+        font-family: 'Pretendard', 'Goocneaeum', 'Bazzi', 'YeonSung', 'HiMelody', Arial, Helvetica, sans-serif;
     }
     html, body {
         margin: 0;
@@ -31,7 +31,7 @@ export const GlobalStyle = createGlobalStyle`
     }
 
     #root {
-        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Treegarden', Arial, Helvetica, sans-serif;
+        font-family: 'Pretendard', 'YeonSung', 'HiMelody', 'Goocneaeum', 'Bazzi', Arial, Helvetica, sans-serif;
         width: 100%;
         min-width: ${sizes.minWidth};
         max-width: ${sizes.maxWidth};
@@ -94,6 +94,7 @@ export const GlobalStyle = createGlobalStyle`
         padding-top: 10px;
         border-radius: 10px;
         border-color: ${colors.inputGray};
+        resize: none;
         &:focus {
             border-color: ${colors.mainPink};
             outline: none;

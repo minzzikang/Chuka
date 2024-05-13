@@ -61,5 +61,7 @@ export const EventDay = styled.p`
 export const Banner = styled.img`
   opacity: 0.5;
   width: 100%;
+  height: auto;
   max-height: 120px;
+  object-fit: cover;
 `;

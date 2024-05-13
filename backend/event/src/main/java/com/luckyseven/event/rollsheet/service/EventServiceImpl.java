@@ -17,6 +17,7 @@ import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
 import com.luckyseven.event.util.FileService;
+import com.luckyseven.event.util.ProfanityFilter;
 import com.luckyseven.event.util.feign.FundingFeignClient;
 import feign.Response;
 import lombok.RequiredArgsConstructor;
@@ -50,6 +51,8 @@ public class EventServiceImpl implements EventService {
 
     private final FundingFeignClient fundingFeignClient;
 
+    private final ProfanityFilter profanityFilter;
+
     private final int BANNER_WIDTH = 1080;
     private final int BANNER_HEIGHT = 220;
 
@@ -61,7 +64,7 @@ public class EventServiceImpl implements EventService {
         event.setNickname(nickname);
         event.setPageUri(UlidCreator.getUlid().toString());
         event.setType(eventDto.getType());
-        event.setTitle(eventDto.getTitle());
+        event.setTitle(profanityFilter.changeWithDeafultDelimiter(eventDto.getTitle()));
         event.setDate(eventDto.getDate());
         //Amazon S3에 배너 이미지 업로드 후 경로 저장
         if (eventDto.getBannerImage() != null) {
@@ -174,7 +177,7 @@ public class EventServiceImpl implements EventService {
         log.info("editEvent start: {}", eventDto);
         Event event = eventRepository.findByEventId(eventId);
         event.setDate(eventDto.getDate());
-        event.setTitle(eventDto.getTitle());
+        event.setTitle(profanityFilter.changeWithDeafultDelimiter(eventDto.getTitle()));
         event.setVisibility(eventDto.getVisibility());
         if (event.getBanner() != null) {
             fileService.deleteBannerImageOnAmazonS3(eventId);
@@ -285,11 +288,14 @@ public class EventServiceImpl implements EventService {
      * @throws IOException
      */
     @Async
-    @Scheduled(cron = "0 0 9 * * ?")
     @Override
+    @Scheduled(cron = "0 0 10 * * ?")
     public void sendDdayalarm() throws IOException {
-        log.info("9시에 실행되었는가?");
+//        log.info("실행되었는가?");
         List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+
+        if(userIdList.isEmpty()) return;
+
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
@@ -311,5 +317,10 @@ public class EventServiceImpl implements EventService {
 
         producerService.sendNotificationMessage(baseMessageDto);
         return ResponseEntity.ok().body(userIdList);
+    }
+
+    @Override
+    public void reloadProfanityData() {
+        profanityFilter.reloadProfanityData();
     }
 }

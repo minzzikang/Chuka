@@ -27,7 +27,7 @@ public class FcmServiceImpl implements FcmService {
 
     @Async
     @Override
-    public void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTableDto, Map<Integer, String> eventPageUriMap) throws IOException {
+    public void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTableDto, Map<Integer, String> eventPageUriMap, Map<Integer, String> eventTitleMap) throws IOException {
         String content = NotificationResponseDescription.EVENT_OPEN;
 
         System.out.println("eventPageUriMap ==> "+eventPageUriMap);
@@ -38,8 +38,10 @@ public class FcmServiceImpl implements FcmService {
 
         for (Integer event : eventSet) {
             String curPageUri = eventPageUriMap.get(event);
+            String cuTitle = eventTitleMap.get(event);
             FCMMessageDto fcmMessageDto = new FCMMessageDto(); // content => 타입으로 결정, data => eventId;
             fcmMessageDto.setContent(content);
+            fcmMessageDto.setBody(cuTitle);
             Map<String, String> data = new HashMap<>(); // eventId
 
             data.put("eventId", event.toString());
@@ -65,7 +67,7 @@ public class FcmServiceImpl implements FcmService {
 
     @Override
     public void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId, NotificationType type) throws IOException {
-        log.info("userFcmTokenList : {}",userFcmTokenList);
+//        log.info("userFcmTokenList : {}",userFcmTokenList);
         try {
             for (String token : userFcmTokenList) {
                 FCMMessageDto fcmMessageDto = new FCMMessageDto();

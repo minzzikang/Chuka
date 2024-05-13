@@ -1,25 +1,35 @@
 import { RegDataType } from "@/components/funding/FundingRegInfo";
 import { PayDataType } from "@/components/payment/index.tsx";
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
+import { refresh } from "./auth";
 
-const accessToken = localStorage.getItem("access_token");
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
 
 // 펀딩 생성
-export const createFunding = async (params: RegDataType) => {
+export const createFunding = async (params: RegDataType): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
+
   try {
-    const response = await axios.post(`${url}/fundings`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${accessToken}`,
-      },
-    });
+    const response: AxiosResponse = await axios.post(
+      `${url}/fundings`,
+      params,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
     return response.data;
-  } catch (err) {
-    alert("입력이 누락된 곳이 있는지 살펴봐주세요");
-    console.error(err);
-    throw err;
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return createFunding(params);
+    } else if (e.response.status === 404) {
+      alert("해당하는 이벤트가 없습니다");
+      return;
+    }
   }
 };
 
@@ -35,7 +45,8 @@ export const fetchFundings = async (eventId: string) => {
 };
 
 // 나의 펀딩 조회
-export const fetchMyFundings = async () => {
+export const fetchMyFundings = async (): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
   try {
     const response = await axios.get(`${url}/fundings/me`, {
       headers: {
@@ -43,8 +54,13 @@ export const fetchMyFundings = async () => {
       },
     });
     return response.data;
-  } catch (err) {
-    console.error(err);
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return fetchMyFundings();
+    } else {
+      console.error(e);
+    }
   }
 };
 
@@ -59,32 +75,54 @@ export const fetchFunding = async (fundingId: number) => {
 };
 
 // 펀딩 참여
-export const joinFunding = async (params: PayDataType) => {
+export const joinFunding = async (
+  fundingId: number,
+  params: PayDataType
+): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
+
   try {
-    const response = await axios.post(`${url}/fundings/test`, params, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${accessToken}`,
-      },
-    });
+    const response: AxiosResponse = await axios.post(
+      `${url}/fundings/${fundingId}`,
+      params,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
     return response.data;
-  } catch (err) {
-    console.error(err);
-    throw err;
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return joinFunding(fundingId, params);
+    } else {
+      console.error(e);
+    }
   }
 };
 
 // 펀딩 삭제
-export const deleteFunding = async (fundingId: number) => {
+export const deleteFunding = async (fundingId: number): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
   try {
-    const response = await axios.delete(`${url}/fundings/${fundingId}`, {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `${accessToken}`,
-      },
-    });
+    const response: AxiosResponse = await axios.delete(
+      `${url}/fundings/${fundingId}`,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `${accessToken}`,
+        },
+      }
+    );
     return response.data;
-  } catch (err) {
-    console.error(err);
+  } catch (e: any) {
+    if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return deleteFunding(fundingId);
+    } else {
+      console.error(e);
+    }
   }
 };

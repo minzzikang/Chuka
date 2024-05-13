@@ -34,22 +34,23 @@ export const CardWrap = styled.div`
   column-gap: 5px;
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
+  padding-bottom: 80px;
   min-height: 100vh;
 
   & > div:nth-child(3n) {
-    transform: rotate(-3deg);
+    transform: rotate(-4deg);
   }
 
   & > div:nth-child(5n) {
-    transform: rotate(3deg);
+    transform: rotate(10deg);
   }
 
   & > div:nth-child(even):not(:nth-child(3n)):not(:nth-child(5n)) {
-    transform: rotate(2deg);
+    transform: rotate(7deg);
   }
 
   & > div:nth-child(odd):not(:nth-child(3n)):not(:nth-child(5n)) {
-    transform: rotate(-2deg);
+    transform: rotate(-12deg);
   }
 `;
 
@@ -84,6 +85,10 @@ export const Card = styled.div<{
   align-items: center;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
+  font-size: 1.1em;
+  font: 700;
+  font-weight: bold;
+
   background-color: ${(props) =>
     props.$bgImage ? "transparent" : props.$bgColor || colors.white};
   background-image: ${(props) =>
@@ -101,11 +106,12 @@ export const CardDetail = styled.div<{
   $shape: string;
 }>`
   display: flex;
+  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 100%;
+  height: 90%;
   margin: 10px;
   z-index: 250;
   font-size: 1.5em;

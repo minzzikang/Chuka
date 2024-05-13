@@ -11,7 +11,7 @@ import java.util.Map;
 public interface FcmService {
 
     @Async
-    void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable, Map<Integer, String> eventPageUriMap) throws IOException;
+    void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTable, Map<Integer, String> eventPageUriMap, Map<Integer, String> eventTitleMap) throws IOException;
 
     @Async
     void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId, NotificationType type) throws IOException;

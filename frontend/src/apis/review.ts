@@ -17,10 +17,10 @@ export const createReview = async (params: object): Promise<any> => {
 export const fetchReview = async (): Promise<any> => {
   try {
     // Proxy LOCAL 연결 
-    const response = await axios.get(`${url}/reviews`);
+    // const response = await axios.get(`${url}/reviews`);
 
     // 배포 서버 연결
-    // const response = await axios.get("https://chuka.kr/api/v1/reviews");
+    const response = await axios.get(`${url}/reviews`);
     return response.data;
   } catch (error) {
     console.error(error);

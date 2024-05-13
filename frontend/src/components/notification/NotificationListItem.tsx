@@ -5,25 +5,27 @@ import { useNavigate } from "react-router-dom";
 
 interface NotificaionProps {
   content: string;
-  creationDateTime: string;
+  createDateTime: string;
   type: string;
   eventId?: number;
   fundingId?: number;
   pageUri?: string;
   notificationId: string;
+  eventTitle?: string;
   handleDelete: (notificationId: string) => void;
 }
 
 const NotificationListItem = (props: NotificaionProps) => {
   const {
     content,
-    creationDateTime,
+    createDateTime,
     type,
     eventId,
     fundingId,
     pageUri,
     notificationId,
     handleDelete,
+    eventTitle,
   } = props;
 
   const navigate = useNavigate();
@@ -33,17 +35,11 @@ const NotificationListItem = (props: NotificaionProps) => {
       case "EVENT_CREATE":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
-      case "FUNDING_APPROVED":
-        navigate(`/celebrate/funding/${fundingId}`);
-        break;
       case "EVENT_OPEN":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
       case "FUNDING_COMPLETE":
         navigate(`/celebrate/funding/${fundingId}`);
-        break;
-      case "FUNDING_DISAPPROVED":
-        navigate(`/celebrate/rolling/${eventId}/fundings`);
         break;
     }
   };
@@ -55,12 +51,6 @@ const NotificationListItem = (props: NotificaionProps) => {
           src: "icon/icon_alarm_event.png",
           width: "20px",
           height: "20px",
-        };
-      case "FUNDING_APPROVED":
-        return {
-          src: "icon/icon_alarm_funding_end.png",
-          width: "30px",
-          height: "30px",
         };
       case "EVENT_OPEN":
         return {
@@ -74,18 +64,12 @@ const NotificationListItem = (props: NotificaionProps) => {
           width: "25px",
           height: "23.1px",
         };
-      case "FUNDING_DISAPPROVED":
-        return {
-          src: "icon/icon_alarm_funding_fail.png",
-          width: "25px",
-          height: "25px",
-        };
     }
   };
 
   const icon = setImage(type);
   const formatDate =
-    creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
+    createDateTime.split("T")[0] + " " + createDateTime.split("T")[1];
 
   return (
     <N.Container onClick={goNavigate}>
@@ -96,6 +80,7 @@ const NotificationListItem = (props: NotificaionProps) => {
           </N.ImgWrap>
           <N.TextWrap>
             <N.Comment>{content}</N.Comment>
+            <N.Title>{eventTitle}</N.Title>
             <N.Date>{formatDate}</N.Date>
           </N.TextWrap>
         </N.LeftWrap>

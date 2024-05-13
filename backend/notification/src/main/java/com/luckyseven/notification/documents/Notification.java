@@ -17,7 +17,8 @@ public class Notification {
     private String notificationId;
     private String userId;
     private String content;
-    private String creationDateTime;
+    private String eventTitle;
+    private String createDateTime;
     private String pageUri;
     private Integer eventId;
     private Integer fundingId;
@@ -73,6 +74,6 @@ public class Notification {
         String formattedDateTime = nowDateTime.format(formatter);
 
         // 문자열을 LocalDateTime으로 다시 변환
-        this.creationDateTime = LocalDateTime.parse(formattedDateTime, formatter).toString();
+        this.createDateTime = LocalDateTime.parse(formattedDateTime, formatter).toString();
     }
 }

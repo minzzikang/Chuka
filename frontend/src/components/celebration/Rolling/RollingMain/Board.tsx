@@ -1,8 +1,11 @@
-
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useParams } from "react-router-dom";
-import { fetchRoll, fetchRollSheets } from "@/apis/roll";
+import { useRecoilValue } from "recoil";
+import { userState } from "@/stores/user";
+import { deleteRoll, fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
+import { colors } from "@/styles/theme";
+import { FaRegTrashCan } from "react-icons/fa6";
 import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
@@ -23,6 +26,7 @@ interface RollSheetListProps {
   fontColor: string;
   shape: string;
   rollSheetId: string;
+  userId: string | null;
 }
 
 interface BoardProps {
@@ -30,14 +34,13 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
+  const user = useRecoilValue(userState);
   const { theme } = props;
-
 
   const { eventId, pageUri } = useParams<{
     pageUri: string;
     eventId: string;
   }>();
-
 
   const [rollingModalOpen, setRollingModalOpen] = useState<boolean>(false);
 
@@ -58,18 +61,18 @@ const Board = (props: BoardProps) => {
       const response = await fetchRollSheets(eventId, currentPage, 8);
       if (response) {
         setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
-        console.log("현재 페이지", currentPage + 1);
+        // console.log("현재 페이지", currentPage + 1);
         if (response.rollSheetList.length < 8) {
           console.log("연결해제 전에");
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
-          setLoading(false)
+          setLoading(false);
           setCurrentPage((prevPage) => prevPage + 1); // 데이터 로드가 성공적이면 페이지 번호 증가
         }
       }
     } catch (error) {
       console.error(error);
-    } 
+    }
   }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
   const onIntersect = useCallback(
@@ -87,6 +90,7 @@ const Board = (props: BoardProps) => {
   });
 
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
+    userId: "",
     nickname: "",
     content: "",
     backgroundImageThumbnailUrl: "",
@@ -109,7 +113,18 @@ const Board = (props: BoardProps) => {
     }
   };
 
-
+  const handleDelete = async (rollSheetId: string) => {
+    try {
+      await deleteRoll(rollSheetId);
+      alert("메시지가 삭제되었습니다.");
+      setRollingModalOpen(false);
+      setRollSheetList((prev) =>
+        prev.filter((roll) => roll.rollSheetId !== rollSheetId)
+      );
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   return (
     <>
@@ -134,9 +149,9 @@ const Board = (props: BoardProps) => {
         {/* {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>} */}
         {/* {rollSheetList.length < totalCnt && (
           )} */}
-          <div ref={ref}>Loading more...</div>
-
-
+        <div ref={ref} style={{ color: "transparent" }}>
+          Loading more...
+        </div>
       </b.Container>
 
       {rollingModalOpen && selectedRoll && (
@@ -151,11 +166,30 @@ const Board = (props: BoardProps) => {
             $bgImage={selectedRoll.backgroundImageThumbnailUrl}
             $shape={selectedRoll.shape}
           >
+            {selectedRoll.userId && user.userId === selectedRoll.userId && (
+              <div
+                style={{
+                  display: "flex",
+                  position: "absolute",
+                  top: "0",
+                  right: "0",
+                  fontSize: "0.8em",
+                }}
+              >
+                <FaRegTrashCan
+                  color={colors.gray}
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    handleDelete(selectedRoll.rollSheetId);
+                  }}
+                />
+                <span style={{ color: colors.gray }}>삭제</span>
+              </div>
+            )}
             {selectedRoll.content}
           </b.CardDetail>
         </Modal>
       )}
-
     </>
   );
 };

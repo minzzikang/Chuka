@@ -36,13 +36,21 @@ export const Header = styled.div`
 export const SelectWrap = styled.div`
   display: flex;
   margin-top: 10px;
-  margin-left: 10px;
-  align-self: flex-start;
-  font-size: 0.9em;
-  cursor: pointer;
+  gap: 20px;
+  align-items: center;
 
-  span {
-    margin-left: 5px;
+  button {
+    display: flex;
+    border-radius: 0.3em;
+    padding: 5px;
+    font-size: 0.9em;
+    min-width: 100px; // 최소 너비 설정
+    white-space: nowrap; // 글자가 줄바꿈되지 않도록 설정
+
+    @media (min-width: 769px) {
+      font-size: 0.8em; // 데스크탑에서는 글씨 크기를 줄임
+      padding: 10px 5px; // 데스크탑에서는 패딩 조정
+    }
   }
 `;
 
@@ -61,7 +69,6 @@ export const Icon = styled(IoIosArrowBack)`
 `;
 
 export const WriterInfo = styled.input`
-  width: 95%;
   height: 2em;
   border: none;
   font-size: 1em;
@@ -122,6 +129,7 @@ export const PretendButton = styled.button<{ $isSelected: boolean }>`
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
+  margin-right: 15px;
   border: 2px solid
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
   background-color: ${colors.white};
@@ -132,6 +140,7 @@ export const GoocneaeumButton = styled.button<{ $isSelected: boolean }>`
   font-family: "Goocneaeum";
   width: 95px;
   height: 37px;
+  margin-right: 15px;
   border-radius: 0.5em;
   border: 2px solid
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
@@ -139,8 +148,8 @@ export const GoocneaeumButton = styled.button<{ $isSelected: boolean }>`
   color: ${(props) => (props.$isSelected ? colors.mainPink : colors.gray)};
 `;
 
-export const TreegardenButton = styled.button<{ $isSelected: boolean }>`
-  font-family: "Treegarden" !important;
+export const BazziButton = styled.button<{ $isSelected: boolean }>`
+  font-family: "Bazzi";
   width: 95px;
   height: 37px;
   border-radius: 0.5em;
@@ -148,6 +157,7 @@ export const TreegardenButton = styled.button<{ $isSelected: boolean }>`
     ${(props) => (props.$isSelected ? colors.mainPink : colors.inputGray)};
   background-color: ${colors.white};
   color: ${(props) => (props.$isSelected ? colors.mainPink : colors.gray)};
+  margin-right: 15px;
 `;
 
 export const Button = styled.button`
@@ -223,7 +233,7 @@ export const P = styled.p`
 `;
 
 export const MessageBox = styled.textarea<{
-  font: string;
+  $font: string;
   $backColor: string;
   $shape: string;
   $backImage?: string;
@@ -236,15 +246,18 @@ export const MessageBox = styled.textarea<{
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
-  margin: 20px;
+  margin: 10px;
   border-radius: 1em;
-  padding: ${(props) => (props.$shape === "CIRCLE" ? "20% 10px" : "10px")};
+  padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
   width: 95%;
   height: 380px;
   text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   resize: none;
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
   font-size: 1.5em;
-  font-family: ${(props) => (props.font ? props.font : "Pretendard")};
+  font-family: ${(props) => (props.$font ? props.$font : "Pretendard")};
 `;

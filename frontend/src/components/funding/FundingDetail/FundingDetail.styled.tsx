@@ -15,6 +15,7 @@ export const PinkBtn = styled.button`
   color: white;
   background-color: ${colors.mainPink};
   font-size: 1.2em;
+  margin-bottom: 20px;
 `;
 
 export const WhiteBtn = styled.button`
@@ -28,4 +29,4 @@ export const WhiteBtn = styled.button`
 export const BtnWrap = styled.div`
   display: flex;
   gap: 15px;
-`
+`;

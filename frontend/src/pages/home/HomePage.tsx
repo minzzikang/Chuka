@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/stores/user";
+
 import * as h from "./HomePage.styled";
 import Navbar from "@common/navbar";
 import HomeHeader from "@components/home/HomeHeader/";

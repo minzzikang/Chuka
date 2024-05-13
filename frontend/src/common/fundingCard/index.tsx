@@ -3,7 +3,7 @@ import * as f from "./FundingCard.styled";
 import { formattingTitle } from "@/utils/stringFormat";
 
 export type FundingCardType = {
-  eventUserId: string;
+  eventUserId?: string | undefined;
   fundingId: number;
   productImgUrl: string;
   productName: string;
@@ -27,14 +27,14 @@ const index = (props: FundingCardType) => {
   } = props;
 
   //   const formatCreateTime = createTime.split("T")[0];
-  const formatName = formattingTitle(productName);
+  const formatName = formattingTitle(productName ?? '상품명');
 
   // const formatDDay = date - today
 
   return (
     <f.Container
       $thumbNailUrl={productImgUrl}
-      onClick={() => navigate(`/celebrate/funding/${fundingId}`, {state: eventUserId})}
+      onClick={() => navigate(`/celebrate/funding/${fundingId}`, {state: eventUserId ?? ''})}
     >
       <f.Wrap>
         <f.WrapOverlay>
