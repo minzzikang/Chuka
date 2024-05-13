@@ -28,7 +28,7 @@ export const createEventReg = async (formdata: any) => {
           return;
         } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
           try {
-            const accessToken = refresh();
+            refresh();
             return createEventReg(formdata);
           } catch (err) {
             console.error(err);
