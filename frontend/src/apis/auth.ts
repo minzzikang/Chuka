@@ -1,7 +1,4 @@
-import { userType } from "@/types/authType";
 import axios from "axios";
-
-const JWT_EXPIRY_TIME = 3600 * 1000;
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
@@ -15,19 +12,21 @@ export const refresh = async () => {
       {},
       {
         headers: {
-          Refresh: refreshToken,
+          Authorization: `${refreshToken}`,
         },
       }
     )
-    .then((res) => loginSuccess(res.data))
-    .catch((err) => console.log(err));
-};
+    .then((res: any) => {
+      const newToken = res.headers["authorization"];
+      console.log("새 토큰", newToken);
+      console.log("refresh ----- 전 ", localStorage.getItem("access_token"));
 
-// 로그인 성공 시
-export const loginSuccess = async (res: { accessToken: string }) => {
-  const { accessToken } = res;
-  // authRequest.defaults.headers.Authorization = `Bearer ${accessToken}`;
-  setTimeout(() => refresh(), JWT_EXPIRY_TIME - 5000);
+      localStorage.setItem("access_token", newToken);
+
+      console.log("refresh ----- 후", localStorage.getItem("access_token"));
+      return newToken;
+    })
+    .catch((err) => console.log(err));
 };
 
 // 회원 정보 조회(내정보)

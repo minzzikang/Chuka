@@ -26,24 +26,24 @@ import java.util.NoSuchElementException;
 public class ConsumerService {
     private final String PRODUCT_QUEUE = "product.queue";//어노테이션은 상수여야해서 설정에서 못 가져옴
     private final FundingRepository fundingRepository;
-    private final ProducerService producerService;
+//    private final ProducerService producerService;
 
     @Transactional
     @RabbitListener(queues = PRODUCT_QUEUE)
     public void receiveCrawlingMessage(ProductInfoRes productRes) {
-        log.info(productRes.toString());
+//        log.info(productRes.toString());
 
 
-        Topic topic = Topic.FUNDING_DISAPPROVED;
-        String userId = productRes.getUserId();
-        Integer fundingId = productRes.getFundingId();
+//        Topic topic = Topic.FUNDING_DISAPPROVED;
+//        String userId = productRes.getUserId();
+//        Integer fundingId = productRes.getFundingId();
 
         Funding funding = fundingRepository.findById(productRes.getFundingId())
                 .orElseThrow(NoSuchElementException::new);
 
         switch (productRes.getStatus()){
             case 200:
-                topic=Topic.FUNDING_APPROVED;
+//                topic=Topic.FUNDING_APPROVED;
                 String productImageUrl = productRes.getProductImageUrl();
                 funding.successCrawling(FundingStatus.APPROVE, productImageUrl, productRes.getProductName(), productRes.getProductPrice());
                 break;
@@ -61,8 +61,8 @@ public class ConsumerService {
 
         }
         // 알림요청MQ
-        FundingToNotificationDto fundingStatusAlarmDto = new FundingToNotificationDto(userId,fundingId,topic);
-        producerService.sendFundingStatusMessage(fundingStatusAlarmDto);
+//        FundingToNotificationDto fundingStatusAlarmDto = new FundingToNotificationDto(userId,fundingId,topic);
+//        producerService.sendFundingStatusMessage(fundingStatusAlarmDto);
 
     }
 }
