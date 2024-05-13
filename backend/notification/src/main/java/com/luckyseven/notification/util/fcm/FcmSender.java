@@ -57,7 +57,8 @@ public class FcmSender {
                                         .notification(
                                                 FcmMSG.Notification.builder()
                                                         .title(fcmMessageDto.getContent())
-                                                        .body("눌러서 확인하기🎉")
+                                                        .body("🎉"+fcmMessageDto.getBody()+"🎉")
+//                                                        .body("눌러서 확인하기🎉")
                                                         .build())
                                         .build())
                         .validateOnly(false)
