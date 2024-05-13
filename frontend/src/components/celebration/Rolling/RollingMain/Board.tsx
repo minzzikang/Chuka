@@ -9,6 +9,7 @@ import { FaRegTrashCan } from "react-icons/fa6";
 import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
+import { formattingComment } from "@/utils/stringFormat";
 
 const TargetRef = styled.div`
   position: absolute;
@@ -139,7 +140,7 @@ const Board = (props: BoardProps) => {
               $shape={roll.shape}
               onClick={() => handleCardClick(roll.rollSheetId)}
             >
-              <p>{roll.content}</p>
+              <p>{formattingComment(roll.content)}</p>
               <p>From. {roll.nickname}</p>
             </b.Card>
           ))}
