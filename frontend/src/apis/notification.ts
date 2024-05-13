@@ -37,3 +37,18 @@ export const deleteNotification = async (notificationId: string) => {
     throw err;
   }
 };
+
+// 알림 전체 삭제
+export const deleteAllNotification = async () => {
+  const accessToken = localStorage.getItem("access_token");
+  try {
+    const response = await axios.delete(`${url}/notifications`, {
+      headers: {
+        Authorization: `${accessToken}`,
+      },
+    });
+    return response;
+  } catch (err) {
+    console.error(err);
+  }
+};
