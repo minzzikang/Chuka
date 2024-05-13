@@ -17,6 +17,7 @@ public class Notification {
     private String notificationId;
     private String userId;
     private String content;
+    private String eventTitle;
     private String createDateTime;
     private String pageUri;
     private Integer eventId;
