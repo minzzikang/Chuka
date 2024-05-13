@@ -27,7 +27,6 @@ const PaymentRedirectHandler = () => {
       joinFunding(fundingId, payData)
         .then((response) => {
           // 결제 성공 시 처리 로직
-          console.log("결제 성공:", response);
           navigate(`/celebrate/funding/${fundingId}/payment/done`);
         })
         .catch((error) => {

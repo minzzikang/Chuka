@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { colors } from "@/styles/theme";
 import * as c from "./ColorCard.styled";
 
