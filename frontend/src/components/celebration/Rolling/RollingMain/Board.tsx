@@ -131,6 +131,7 @@ const Board = (props: BoardProps) => {
 
   // 블러처리 DDAY 계산
   useEffect(() => {
+    console.log('ssssss', date);
     const isDDay = calculateDay(date);
     console.log('dday야??',isDDay);
     if (isDDay === 'DAY') {
