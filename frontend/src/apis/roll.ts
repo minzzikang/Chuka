@@ -9,6 +9,7 @@ export const createRollMsg = async (
   formdata: any,
   eventId: string
 ): Promise<any> => {
+  let accessToken = localStorage.getItem("access_token");
   try {
     const response: AxiosResponse = await axios.post(
       `${url}/events/${eventId}`,
@@ -16,6 +17,7 @@ export const createRollMsg = async (
       {
         headers: {
           "Content-Type": "multipart/form-data",
+          Authorization: `${accessToken}`,
         },
       }
     );
@@ -31,6 +33,12 @@ export const createRollMsg = async (
     } else if (e.response.status === 415) {
       alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
       return;
+    } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
+      await refresh();
+      return createRollMsg(formdata, eventId);
+    } else {
+      console.error(e);
+      throw e;
     }
   }
 };
