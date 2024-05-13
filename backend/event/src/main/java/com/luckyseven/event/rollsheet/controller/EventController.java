@@ -295,4 +295,18 @@ public class EventController {
 
     }
 
+    @PostMapping("/loadProfanityData")
+    @Operation(
+            summary = "비속어 데이터 리로드",
+            description = "서버를 중지하지 않고 다시 비속어 데이터를 로드한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "비속어 데이터 리로드 성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> loadProfanityData() {
+        eventService.reloadProfanityData();
+
+        return ResponseEntity.status(HttpStatus.OK).body("비속어 데이터 로드 됨");
+    }
+
 }
