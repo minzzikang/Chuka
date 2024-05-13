@@ -140,7 +140,9 @@ const Board = (props: BoardProps) => {
               $shape={roll.shape}
               onClick={() => handleCardClick(roll.rollSheetId)}
             >
-              <p>{formattingComment(roll.content)}</p>
+              <p style={{ filter: "blur(3px)" }}>
+                {formattingComment(roll.content)}
+              </p>
               <p>From. {roll.nickname}</p>
             </b.Card>
           ))}
@@ -182,7 +184,7 @@ const Board = (props: BoardProps) => {
                 <span style={{ color: colors.gray }}>삭제</span>
               </div>
             )} */}
-            {selectedRoll.content}
+            <p style={{ filter: "blur(5px)" }}>{selectedRoll.content}</p>
           </b.CardDetail>
         </Modal>
       )}
