@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -77,18 +78,17 @@ public class SecurityConfig {
         http
                 .formLogin(AbstractHttpConfigurer::disable);
 
-//        http
-//                .httpBasic(Customizer.withDefaults());
+        http
+                .httpBasic(Customizer.withDefaults());
 
         http
                 .httpBasic(AbstractHttpConfigurer::disable);
 
         http
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/api/v1/events/**", "/api/v1/reviews/**").permitAll()
-//                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
+                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
                         .requestMatchers("/actuator/**").permitAll()
                         .anyRequest().authenticated());
 
