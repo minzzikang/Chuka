@@ -55,7 +55,7 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                             jwtUtil.validateToken(authHeader);
 
                         } catch (Exception e) {
-                            throw new RuntimeException("un authorized access to application");
+                            throw new RuntimeException("invalid token");
                         }
 
                         if (!jwtUtil.getType(authHeader).equals("ATK")) {
@@ -80,7 +80,15 @@ public class AuthenticationUserOrNotFilter extends AbstractGatewayFilterFactory<
                 response.setStatusCode(HttpStatus.UNAUTHORIZED);
 
                 // Set custom error message in the response body
-                String errorMessage = "Authentication failed: " + e.getMessage();
+                String errorMessage;
+
+                switch (e.getMessage()) {
+                    case "invalid token" -> errorMessage = "EXPIRED";
+                    default -> errorMessage = "Authentication failed: " + e.getMessage();
+                }
+
+                log.info("AuthenticationUserOrNotFilter -> RuntimeException: {}", e.getMessage());
+
                 response.getHeaders().add(HttpHeaders.CONTENT_TYPE, "text/plain");
                 return response.writeWith(Mono.just(response.bufferFactory().wrap(errorMessage.getBytes())));
             }
