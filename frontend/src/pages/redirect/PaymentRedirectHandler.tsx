@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams  } from "react-router-dom";
 import { joinFunding } from "@/apis/funding";
 import { PayDataType } from "@/components/payment/index.tsx";
 
@@ -11,9 +11,10 @@ const PaymentRedirectHandler = () => {
   const nickname = sessionStorage.getItem("nickname") as string;
   const comment = sessionStorage.getItem("comment") as string;
   const amount = parseInt(sessionStorage.getItem("amount") || "0", 10);
-  const fundingId = parseInt(sessionStorage.getItem("fundingId") || "0", 10);
+  const { fundingId: fundingIdStr } = useParams<{ fundingId: string}>()
 
   useEffect(() => {
+    const fundingId = parseInt(fundingIdStr || '0', 10);
     if (isSuccess === "true") {
       const payData: PayDataType = {
         amount,
@@ -32,11 +33,13 @@ const PaymentRedirectHandler = () => {
         .catch((error) => {
           // 결제 실패 시 처리 로직
           console.error("결제 실패:", error);
+          alert("결제에 실패했습니다. 다시 시도해주세요.");
           navigate(`/celebrate/funding/${fundingId}/payment`);
         });
     } else {
       // 결제 실패 시 처리 로직
       console.error("결제 실패");
+      alert("결제에 실패했습니다. 다시 시도해주세요.");
       navigate(`/celebrate/funding/${fundingId}/payment`);
     }
   }, []);
