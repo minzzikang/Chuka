@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 
 interface NotificaionProps {
   content: string;
-  creationDateTime: string;
+  createDateTime: string;
   type: string;
   eventId?: number;
   fundingId?: number;
@@ -17,7 +17,7 @@ interface NotificaionProps {
 const NotificationListItem = (props: NotificaionProps) => {
   const {
     content,
-    creationDateTime,
+    createDateTime,
     type,
     eventId,
     fundingId,
@@ -85,7 +85,7 @@ const NotificationListItem = (props: NotificaionProps) => {
 
   const icon = setImage(type);
   const formatDate =
-    creationDateTime.split("T")[0] + " " + creationDateTime.split("T")[1];
+    createDateTime.split("T")[0] + " " + createDateTime.split("T")[1];
 
   return (
     <N.Container onClick={goNavigate}>

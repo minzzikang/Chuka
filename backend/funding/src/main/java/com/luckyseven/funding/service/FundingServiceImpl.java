@@ -206,4 +206,9 @@ public class FundingServiceImpl implements FundingService {
             fundingRepository.delete(funding);
         }
     }
+
+    @Override
+    public void reloadProfanityData() {
+        profanityFilter.reloadProfanityData();
+    }
 }
