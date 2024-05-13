@@ -28,9 +28,7 @@ export const createEventReg = async (formdata: any): Promise<any> => {
       alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
       return;
     } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
-      console.log("refresh 전 ", localStorage.getItem("access_token"));
       await refresh();
-      console.log("refresh 후", localStorage.getItem("access_token"));
       return createEventReg(formdata);
     }
   }

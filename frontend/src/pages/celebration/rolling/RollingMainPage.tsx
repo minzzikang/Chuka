@@ -17,7 +17,6 @@ const RollingMainPage = () => {
     eventId: string;
   }>();
   const prevUrl = window.location.href;
-  const accessToken = localStorage.getItem("access_token");
   const [isDrawerOpen, setDrawerOpen] = useState(false);
   const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
   const [eventInfoData, setEventInfoData] = useState<EventInfo>({
@@ -40,7 +39,6 @@ const RollingMainPage = () => {
         try {
           const eventInfo = await fetchEventInfo(eventId);
           setEventInfoData(eventInfo);
-          console.log('이벤트 정보 : ', eventInfo);
         } catch (err) {
           console.error(err);
         }
@@ -51,15 +49,6 @@ const RollingMainPage = () => {
     fetchEvent();
   }, [eventId]);
 
-  // 펀딩 drawer 오픈
-  // const goFunding = () => {
-  //   sessionStorage.setItem("prevUrl", prevUrl);
-  //   if (accessToken) {
-  //     setDrawerOpen(!isDrawerOpen);
-  //   } else {
-  //     setFundingModalOpen(true);
-  //   }
-  // };
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
     setDrawerOpen(true);
@@ -88,15 +77,6 @@ const RollingMainPage = () => {
             <DrawerModal eventUserId={eventInfoData.userId}/>
           </Drawer>
         )}
-
-        {/* {fundingModalOpen && (
-          <RModal
-            name={"선물 펀딩 서비스 이용 동의"}
-            onClose={() => setFundingModalOpen(false)}
-          >
-            <FundingModal setFundingModalOpen={setFundingModalOpen} />
-          </RModal>
-        )} */}
       </r.Container>
       <Navbar current="celebration" />
     </>

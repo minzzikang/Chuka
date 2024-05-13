@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import * as b from "./Banner.styled";
 import Default from "/img/img_default_banner.png";
 import { IoMdSettings } from "react-icons/io";
@@ -14,10 +13,6 @@ interface BannerInfo {
 
 const Banner = (props: BannerInfo) => {
   const { bannerThumbnailUrl, title, date, createTime, nickname } = props;
-
-  // if (!bannerThumbnailUrl) {
-  //   return <p>Loading...</p>;
-  // }
 
   const bannerImg = bannerThumbnailUrl ? bannerThumbnailUrl : Default;
 

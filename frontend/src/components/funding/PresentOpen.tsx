@@ -1,4 +1,3 @@
-import React from 'react';
 import styled from 'styled-components';
 import Lottie from 'react-lottie'
 import presentOpen from 'assets/lottie/presentOpen.json'
@@ -22,12 +21,9 @@ const Button = styled.button`
     height: 49px;
     background-color: ${colors.mainPink};
     color: white;
-    
-
 `
 
 const PresentOpen = () => {
-
     const defaultOptions = {
         loop: true,
         autoplay: true,
