@@ -146,17 +146,21 @@ public class AuthController {
         return ResponseEntity.status(200).body(newAccessToken);
     }
 
-    private final  ProducerService producerService;
-    @GetMapping("/mqTest")
-    public ResponseEntity<?> mqTest() {
+    @PostMapping("/token2")
+    @Operation(summary = "refresh token 생성기", description = "")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> refreshTokenCreator(
+            @Parameter(description = "userId") @RequestParam String id,
+            @Parameter(description = "nickname") @RequestParam String nickname
+    ) {
+        String newRefreshToken = jwtUtil.createRefreshTokenTmp(id, nickname);
 
-        BaseMessageDto dataSet = new BaseMessageDto();
-        dataSet.setTopic(Topic.DELETE_USER);
-        dataSet.setData("12345678");
-        producerService.sendNotificationMessage(dataSet);
-
-        return ResponseEntity.status(200).body(null);
+        return ResponseEntity.status(200).body(newRefreshToken);
     }
+
 
 }
 

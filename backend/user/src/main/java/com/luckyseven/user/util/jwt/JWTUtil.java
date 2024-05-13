@@ -120,4 +120,17 @@ public class JWTUtil {
                 .signWith(secretKey)
                 .compact();
     }
+
+    public String createRefreshTokenTmp(String id, String nickname) {
+
+        return Jwts.builder()
+                .claim("id", id)
+                .claim("nickname", nickname)
+                .claim("role", "ROLE_USER")
+                .claim("type", "RTK")
+                .issuedAt(new Date(System.currentTimeMillis()))
+                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.SECONDS)))
+                .signWith(secretKey)
+                .compact();
+    }
 }
