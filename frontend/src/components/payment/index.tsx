@@ -4,7 +4,7 @@ import AmountSection from "@components/payment/AmountSection";
 import MethodSection from "@components/payment/MethodSection";
 import MessageSection from "@/components/payment/MessageSection";
 import FinalAmountSection from "@components/payment/FinalAmountSection";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { joinFunding } from "@/apis/funding";
 
@@ -25,13 +25,6 @@ const PaymentPage = () => {
   const [nickname, setNickname] = useState("");
   const [comment, setComment] = useState("");
   const { fundingId } = useParams<{ fundingId: string}>()
-  const [payData, setPayData] = useState<PayDataType>({
-    amount: amount,
-    nickname: nickname,
-    comment: comment,
-    pgId: "",
-    transactionId: "",
-  });
 
   const onPayment = async () => {
     console.log(amount);
@@ -41,7 +34,6 @@ const PaymentPage = () => {
     sessionStorage.setItem('nickname', nickname);
     sessionStorage.setItem('comment', comment);
     sessionStorage.setItem('amount', amount.toString());
-    sessionStorage.setItem('fundingId', fundingId || "");
     
     const { IMP } = window as ImpWindow;
     IMP?.init(import.meta.env.VITE_PAYMENT_KEY);
@@ -56,24 +48,20 @@ const PaymentPage = () => {
         buyer_tel: '010-1234-5678',
         buyer_addr: '서울특별시 강남구 삼성동',
         buyer_postcode: '123-456',
-        m_redirect_url: 'https://chuka.kr/celebrate/payment/doing',
+        m_redirect_url: `/celebrate/funding/${fundingId}/payment/doing`,
       }, function (rsp: any) {
         if (rsp.success) {
           console.log('결제 성공');
           console.log(rsp.imp_uid);
           console.log(rsp.merchant_uid);
           
-          setPayData(prevPayData => ({
-            ...prevPayData,
+          joinFunding(fundingId? parseInt(fundingId, 10) : 0, {
+            amount: amount,
+            nickname: nickname,
+            comment: comment,
             pgId: rsp.imp_uid,
             transactionId: rsp.merchant_uid,
-          }));
-          joinFunding(fundingId? parseInt(fundingId, 10) : 0,
-            {
-          ...payData,
-          pgId: rsp.imp_uid,
-          transactionId: rsp.merchant_uid,
-        })
+          })
         .then(response => {
             console.log(response);
             navigate(`/celebrate/funding/${fundingId}/payment/done`);
