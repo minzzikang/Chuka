@@ -33,7 +33,7 @@ public class Funding {
     private int eventId;
 
     @NotNull
-    @Column(columnDefinition = "TEXT")
+    @Column(length = 2048)
     private String productLink;
 
     @Column(length = 50)
