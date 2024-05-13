@@ -19,3 +19,4 @@ WORKDIR /backend/notification
 COPY --from=builder /backend/notification/build/libs/*.jar app.jar
 ENTRYPOINT ["java", "-jar","app.jar" ]
 VOLUME /tmp
+ENV TZ Asia/Seoul
