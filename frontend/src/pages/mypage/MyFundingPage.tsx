@@ -1,7 +1,7 @@
 import Header from "@common/header";
 import Navbar from "@common/navbar";
 import FundingNull from "@/components/mypage/MyFundingNull";
-import MyFunding from "@/components/mypage/MyFunding/idex";
+import MyFunding from "@/components/mypage/MyFunding";
 import { useEffect, useState } from "react";
 import { fetchMyFundings } from "@/apis/funding";
 import { FundingDataType } from "@/types/fundingType";
