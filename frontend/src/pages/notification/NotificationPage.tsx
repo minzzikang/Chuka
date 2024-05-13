@@ -35,6 +35,7 @@ const NotificationPage = () => {
   const handleDeleteAll = async () => {
     try {
       await deleteAllNotification();
+      setNotifications([]);
       alert("알림이 삭제되었습니다.");
     } catch (err) {
       console.log(err);
