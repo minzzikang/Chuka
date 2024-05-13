@@ -98,7 +98,7 @@ const index = (props: RollingInfoSectionType) => {
             $active={theme === themeList[0]}
           >
             <c.ThemeImg src={CorkImg} />
-            {"보드"}
+            {"벽돌"}
           </c.ThemeButton>
           <c.ThemeButton
             onClick={() => onClickTheme(themeList[1])}
