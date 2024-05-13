@@ -22,10 +22,10 @@ const index = (props: FundingProps) => {
 
   return (
     <F.Container>
-      <F.Wrap>
-        <F.Text>펀딩 상품 링크</F.Text>
+      {/* <F.Wrap> */}
+        {/* <F.Text>펀딩 상품 링크</F.Text> */}
         {/* <div style={{backgroundColor:`${colors.mainPink}`, color:'white', height: '36px', paddingLeft:'10px', display:'flex', alignItems:"center"}} onClick={goProductUrl}>구매 링크 바로가기</div> */}
-      </F.Wrap>
+      {/* </F.Wrap> */}
       <F.Wrap>
         <F.Text>펀딩 소개</F.Text>
         <F.Intro>{introduce}</F.Intro>
