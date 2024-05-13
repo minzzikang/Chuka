@@ -68,6 +68,15 @@ export const P = styled.p`
   z-index: 10;
 `;
 
+export const SMComment = styled.p<{$active:boolean}>`
+  filter: ${(props) => props.$active ? 'none' : `blur(3px)`};
+`
+
+
+export const LGComment = styled.p<{$active:boolean}>`
+  filter: ${(props) => props.$active ? 'none' : `blur(5px)`};
+`
+
 export const DeleteBtn = styled.button`
   position: absolute;
   bottom: 0;

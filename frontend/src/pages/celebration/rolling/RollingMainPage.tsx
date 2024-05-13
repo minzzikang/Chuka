@@ -70,7 +70,7 @@ const RollingMainPage = () => {
           createTime={eventInfoData.createTime}
           nickname={eventInfoData.nickname}
         />
-        <Board theme={eventInfoData.theme} />
+        <Board theme={eventInfoData.theme} date={eventInfoData.date} />
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
         {isDrawerOpen && (
           <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
