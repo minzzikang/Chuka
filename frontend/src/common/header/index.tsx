@@ -9,7 +9,7 @@ type HeaderType = {
   onIconClick?: () => void;
 };
 
-const index = ({ children, onClick, label, icon, onIconClick }: HeaderType) => {
+const index = ({ children, icon, onIconClick }: HeaderType) => {
   const handleBack = () => {
     window.history.back();
   };
@@ -19,9 +19,6 @@ const index = ({ children, onClick, label, icon, onIconClick }: HeaderType) => {
       <h.Icon onClick={handleBack} />
       {icon && <h.Icon2 onClick={onIconClick}>{icon}</h.Icon2>}
       <h.Header>{children}</h.Header>
-      {onClick && label && (
-        <h.TextButton onClick={onClick}>{label}</h.TextButton>
-      )}
     </h.Wrapper>
   );
 };
