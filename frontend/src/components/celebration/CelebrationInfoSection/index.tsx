@@ -70,7 +70,7 @@ const index = (props: RollingInfoSectionType) => {
       <c.Wrap>
         <Label htmlFor="date" children="ㅊㅋ 날짜" />
         <Calendar onDateChange={handleDateChange} />
-        <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
+        <c.P>선택한 날짜부터 롤링페이퍼 메시지가 공개됩니다.</c.P>
       </c.Wrap>
       <c.Wrap>
         <c.FileInputLabel htmlFor="img">대표 이미지 설정</c.FileInputLabel>
