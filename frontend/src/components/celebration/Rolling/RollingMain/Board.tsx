@@ -126,9 +126,10 @@ const Board = (props: BoardProps) => {
 
   useEffect(() => {
     console.log("ssssss", date);
-    const isDDay = calculateDay(date);
-    console.log("dday야??", isDDay);
-    setIsDDay(isDDay);
+    const formatToday = new Date().toISOString().split("T")[0];
+    if (formatToday === date) {
+      setIsDDay(true);
+    }
   }, [date]);
 
   return (
