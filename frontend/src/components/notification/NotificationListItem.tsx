@@ -35,17 +35,11 @@ const NotificationListItem = (props: NotificaionProps) => {
       case "EVENT_CREATE":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
-      case "FUNDING_APPROVED":
-        navigate(`/celebrate/funding/${fundingId}`);
-        break;
       case "EVENT_OPEN":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
       case "FUNDING_COMPLETE":
         navigate(`/celebrate/funding/${fundingId}`);
-        break;
-      case "FUNDING_DISAPPROVED":
-        navigate(`/celebrate/rolling/${eventId}/fundings`);
         break;
     }
   };
@@ -58,12 +52,6 @@ const NotificationListItem = (props: NotificaionProps) => {
           width: "20px",
           height: "20px",
         };
-      case "FUNDING_APPROVED":
-        return {
-          src: "icon/icon_alarm_funding_end.png",
-          width: "30px",
-          height: "30px",
-        };
       case "EVENT_OPEN":
         return {
           src: "icon/icon_alarm_dday.png",
@@ -75,12 +63,6 @@ const NotificationListItem = (props: NotificaionProps) => {
           src: "icon/icon_alarm_funding_success.png",
           width: "25px",
           height: "23.1px",
-        };
-      case "FUNDING_DISAPPROVED":
-        return {
-          src: "icon/icon_alarm_funding_fail.png",
-          width: "25px",
-          height: "25px",
         };
     }
   };
