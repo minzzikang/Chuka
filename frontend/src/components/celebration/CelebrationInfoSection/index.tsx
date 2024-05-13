@@ -64,7 +64,7 @@ const index = (props: RollingInfoSectionType) => {
           placeholder="축하하는 날의 이름을 적어주세요."
           value={title}
           onChange={(e) => handleTitle(e.target.value)}
-          maxLength={15}
+          maxLength={20}
         />
       </c.Wrap>
       <c.Wrap>
