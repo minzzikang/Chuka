@@ -315,4 +315,9 @@ public class EventServiceImpl implements EventService {
         producerService.sendNotificationMessage(baseMessageDto);
         return ResponseEntity.ok().body(userIdList);
     }
+
+    @Override
+    public void reloadProfanityData() {
+        profanityFilter.reloadProfanityData();
+    }
 }
