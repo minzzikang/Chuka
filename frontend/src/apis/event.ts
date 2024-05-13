@@ -27,14 +27,10 @@ export const createEventReg = async (formdata: any) => {
           alert("지원하지 않는 확장자입니다.(jpg,png,jpeg,gif,webp 만 가능)");
           return;
         } else if (e.response.status === 401 && e.response.data === "EXPIRED") {
-          try {
-            console.log("refresh 전 ", localStorage.getItem("access_token"));
-            refresh();
-            console.log("refresh 후", localStorage.getItem("access_token"));
-            return createEventReg(formdata);
-          } catch (err) {
-            console.error(err);
-          }
+          console.log("refresh 전 ", localStorage.getItem("access_token"));
+          refresh();
+          console.log("refresh 후", localStorage.getItem("access_token"));
+          return createEventReg(formdata);
         }
       });
   } catch (err) {
