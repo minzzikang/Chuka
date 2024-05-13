@@ -16,8 +16,11 @@ import java.util.StringTokenizer;
 public class ProfanityFilter extends BadWordFiltering {
     private final String[] specialCharacters = {"_", "(", "?", "=", ".", "*", "[", "$", "@", "$", "!", "%", "*", "#", "?", "&", "]", ")", "0", "1", "2", "3", "4", "5", "6", "7", "8", "9"};
     private String substituteValue = "*";
+    private String url;
 
-    public ProfanityFilter(@Value("${bad-words-url}") String url) {
+    public ProfanityFilter(@Value("${bad-words-url}") String badWordsUrl) {
+        url = badWordsUrl;
+
         try {
             readURL(url, ",");
         } catch (Exception e) {
@@ -58,5 +61,9 @@ public class ProfanityFilter extends BadWordFiltering {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public void reloadProfanityData() {
+        readURL(url, ",");
     }
 }
