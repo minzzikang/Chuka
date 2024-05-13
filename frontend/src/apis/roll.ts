@@ -12,8 +12,8 @@ export const createRollMsg = async (formdata: any, eventId: string) => {
           "Content-Type": "multipart/form-data",
         },
       })
-      .then((e) => {
-        return response.data;
+      .then((res) => {
+        return res.data;
       })
       // 유효성 검사 예외처리
       .catch((e) => {
