@@ -6,7 +6,6 @@ const local = "/domain";
 
 // 리프레시 토큰 요청
 export const refresh = async () => {
-  const navigate = useNavigate();
   const refreshToken = localStorage.getItem("refresh_token");
   return axios
     .post(
@@ -27,7 +26,7 @@ export const refresh = async () => {
       if (e.response.status === 401) {
         console.log("401 에러 뜸~~");
         alert("인증이 만료되었습니다. 다시 로그인 해주세요.");
-        navigate("/login");
+        window.location.replace("https://chuka.kr/login");
       } else {
         console.log("에러", e);
         throw e;
