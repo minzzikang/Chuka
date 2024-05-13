@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-import { fetchEventInfo } from "@/apis/event";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
 import * as F from "@components/funding/FundingRegInfo/FundingRegInfo.styled";
@@ -47,14 +46,10 @@ const index = () => {
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
   const onRegister = async () => {
-
-    console.log(regData);
     try {
       const response = await createFunding(regData)
-      console.log('펀딩 등록 완료', response);
       setIsRegOpen(true);
     } catch (err) {
-      console.log(regData);
       console.error(err)
     }
 

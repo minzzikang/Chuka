@@ -61,9 +61,7 @@ const Board = (props: BoardProps) => {
       const response = await fetchRollSheets(eventId, currentPage, 8);
       if (response) {
         setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
-        // console.log("현재 페이지", currentPage + 1);
         if (response.rollSheetList.length < 8) {
-          console.log("연결해제 전에");
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
           setLoading(false);
@@ -146,9 +144,6 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        {/* {<TargetRef ref={targetRef}>Loading...@@@@@@@@@@@@@@@@@@@@@@@</TargetRef>} */}
-        {/* {rollSheetList.length < totalCnt && (
-          )} */}
         <div ref={ref} style={{ color: "transparent" }}>
           Loading more...
         </div>
@@ -166,7 +161,7 @@ const Board = (props: BoardProps) => {
             $bgImage={selectedRoll.backgroundImageThumbnailUrl}
             $shape={selectedRoll.shape}
           >
-            {selectedRoll.userId && user.userId === selectedRoll.userId && (
+            {/* {selectedRoll.userId && user.userId === selectedRoll.userId && (
               <div
                 style={{
                   display: "flex",
@@ -185,7 +180,7 @@ const Board = (props: BoardProps) => {
                 />
                 <span style={{ color: colors.gray }}>삭제</span>
               </div>
-            )}
+            )} */}
             {selectedRoll.content}
           </b.CardDetail>
         </Modal>

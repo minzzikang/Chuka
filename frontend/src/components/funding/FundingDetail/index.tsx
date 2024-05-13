@@ -30,24 +30,20 @@ type FundingType = {
 
 // 3463207627
 const index = () => {
-  const location = useLocation();
   const params = useParams();
   const navigate = useNavigate()
   const fundingId = Number(params.fundingId);
   const fundingUrl = window.location.href;
   const currentUser = JSON.parse(localStorage.getItem("currentUser") ?? "{}");
   const currentUserId = currentUser.userState?.userId ?? '';
-  const eventUrl = sessionStorage.getItem("prevUrl");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [values, setValues] = useState<FundingType>();
-  const accessToken = localStorage.getItem('access_token')
 
   // 펀딩 상세 조회 요청
   useEffect(() => {
     const fetchData = async () => {
       try {
         const response = await fetchFunding(fundingId);
-        console.log("펀딩 상세 조회", response);
         setValues(response);
       } catch (err) {
         console.log(err);

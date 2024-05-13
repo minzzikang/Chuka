@@ -41,7 +41,6 @@ const index = () => {
     const fetchRecentEventList = async () => {
       try {
         const response = await fetchList("creatTime", page-1, 3);
-        console.log("최신순 @@@@", response);
         setRecentEventData(response);
       } catch (err) {
         console.log(err);
@@ -53,7 +52,6 @@ const index = () => {
     const fetchPartiEventList = async () => {
       try {
         const response = await fetchList("participants", page-1, 3);
-        console.log("참여순 @@@@@", response);
         setParticipantsEventData(response);
       } catch (err) {
         console.log(err);
