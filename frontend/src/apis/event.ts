@@ -15,8 +15,8 @@ export const createEventReg = async (formdata: any) => {
           Authorization: `Bearer eyJhbGciOiJIUzI1NiJ9.eyJpZCI6IjM0NTI2NTk1NDMiLCJuaWNrbmFtZSI6Iuuwle2DnO2YuCIsInJvbGUiOiJST0xFX1VTRVIiLCJ0eXBlIjoiQVRLIiwiaWF0IjoxNzE1MDU1MzgwLCJleHAiOjE3MTUzMTQ1ODB9.yuwt2nCDD2VEkvJm1ZB-aFNfkFEFON8EeXYjJN6YlLI`,
         },
       })
-      .then((e) => {
-        return response.data;
+      .then((res) => {
+        return res.data;
       })
       // 유효성 검사 예외처리
       .catch((e:any) => {
