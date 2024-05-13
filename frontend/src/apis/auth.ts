@@ -19,7 +19,6 @@ export const refresh = async () => {
     .then((res) => {
       const newToken = res.headers["authorization"];
       localStorage.setItem("access_token", newToken);
-      return newToken;
     })
     .catch((err) => console.log(err));
 };
