@@ -1,8 +1,6 @@
 import styled from "styled-components";
 import NotificationListItem from "./NotificationListItem";
-import { useEffect, useState } from "react";
 import { notificationType } from "@/types/notificationType";
-import { fetchNotifications } from "@/apis/notification";
 import { deleteNotification } from "@/apis/notification";
 
 export const Container = styled.div`
@@ -21,28 +19,18 @@ export const Container = styled.div`
   }
 `;
 
-const NotificationList = () => {
-  const [values, setValues] = useState<notificationType[]>([]);
+interface NotificationProps {
+  notifications: notificationType[];
+  onDelete: (notificationId: string) => void;
+}
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await fetchNotifications();
-        setValues(response);
-      } catch (err) {
-        console.log(err);
-      }
-    };
-    fetchData();
-  }, []);
+const NotificationList = (props: NotificationProps) => {
+  const { notifications, onDelete } = props;
 
   const handleDelete = async (notificationId: string) => {
     try {
       await deleteNotification(notificationId);
-      const updatedValues = values.filter(
-        (item) => item.notificationId !== notificationId
-      );
-      setValues(updatedValues);
+      onDelete(notificationId);
       alert("알림이 삭제되었습니다.");
     } catch (err) {
       console.log(err);
@@ -51,8 +39,8 @@ const NotificationList = () => {
 
   return (
     <Container>
-      {values.length > 0 ? (
-        values.map((item) => (
+      {notifications.length > 0 ? (
+        notifications.map((item) => (
           <NotificationListItem
             key={item.notificationId}
             notificationId={item.notificationId}
@@ -66,7 +54,7 @@ const NotificationList = () => {
           />
         ))
       ) : (
-        <p>알림이 없습니다.</p>
+        <p style={{ margin: "20px" }}>알림이 없습니다.</p>
       )}
     </Container>
   );
