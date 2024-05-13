@@ -29,7 +29,6 @@ const NotificationList = () => {
       try {
         const response = await fetchNotifications();
         setValues(response);
-        console.log("내알림", values);
       } catch (err) {
         console.log(err);
       }
@@ -61,7 +60,7 @@ const NotificationList = () => {
             pageUri={item.pageUri}
             eventId={item.eventId}
             fundingId={item.fundingId}
-            creationDateTime={item.creationDateTime}
+            createDateTime={item.createDateTime}
             type={item.type}
             handleDelete={handleDelete}
           />
