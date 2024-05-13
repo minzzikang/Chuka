@@ -25,11 +25,13 @@ export const refresh = async () => {
     })
     .catch((e: any) => {
       if (e.response.status === 401) {
+        console.log("401 에러 뜸~~");
         alert("인증이 만료되었습니다. 다시 로그인 해주세요.");
         navigate("/login");
+      } else {
+        console.log("에러", e);
+        throw e;
       }
-      console.log(e);
-      throw e;
     });
 };
 
