@@ -12,7 +12,6 @@ import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
 import { calculateDay } from "@/utils/calculation";
 
-
 interface RollSheetListProps {
   nickname: string;
   content: string;
@@ -122,17 +121,14 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  
   // 블러처리 DDAY 계산
   const [isDDay, setIsDDay] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log('ssssss', date);
+    console.log("ssssss", date);
     const isDDay = calculateDay(date);
-    console.log('dday야??',isDDay);
-    if (isDDay === 'DAY') {
-      setIsDDay(true);
-    }
+    console.log("dday야??", isDDay);
+    setIsDDay(isDDay);
   }, [date]);
 
   return (
@@ -194,7 +190,7 @@ const Board = (props: BoardProps) => {
                 <span style={{ color: colors.gray }}>삭제</span>
               </div>
             )} */}
-            <b.LGComment $active={isDDay} >{selectedRoll.content}</b.LGComment>
+            <b.LGComment $active={isDDay}>{selectedRoll.content}</b.LGComment>
           </b.CardDetail>
         </Modal>
       )}
