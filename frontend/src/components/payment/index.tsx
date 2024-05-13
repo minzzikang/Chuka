@@ -5,7 +5,7 @@ import MethodSection from "@components/payment/MethodSection";
 import MessageSection from "@/components/payment/MessageSection";
 import FinalAmountSection from "@components/payment/FinalAmountSection";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { joinFunding } from "@/apis/funding";
 
 interface ImpWindow extends Window {
@@ -24,13 +24,7 @@ const PaymentPage = () => {
   const [amount, setAmount] = useState(1000);
   const [nickname, setNickname] = useState("");
   const [comment, setComment] = useState("");
-  const [payData, setPayData] = useState<PayDataType>({
-    amount: amount,
-    nickname: nickname,
-    comment: comment,
-    pgId: "",
-    transactionId: "",
-  });
+  const { fundingId } = useParams<{ fundingId: string}>()
 
   const onPayment = async () => {
     console.log(amount);
@@ -42,7 +36,7 @@ const PaymentPage = () => {
     sessionStorage.setItem('amount', amount.toString());
     
     const { IMP } = window as ImpWindow;
-    IMP?.init('imp34763563');
+    IMP?.init(import.meta.env.VITE_PAYMENT_KEY);
     IMP?.request_pay({
         pg: 'kakaopay',
         pay_method: 'card',
@@ -54,26 +48,23 @@ const PaymentPage = () => {
         buyer_tel: '010-1234-5678',
         buyer_addr: '서울특별시 강남구 삼성동',
         buyer_postcode: '123-456',
-        m_redirect_url: 'https://chuka.kr/celebrate/payment/doing',
+        m_redirect_url: `https://chuka.kr/celebrate/funding/${fundingId}/payment/doing`,
       }, function (rsp: any) {
         if (rsp.success) {
           console.log('결제 성공');
           console.log(rsp.imp_uid);
           console.log(rsp.merchant_uid);
           
-          setPayData(prevPayData => ({
-            ...prevPayData,
+          joinFunding(fundingId? parseInt(fundingId, 10) : 0, {
+            amount: amount,
+            nickname: nickname,
+            comment: comment,
             pgId: rsp.imp_uid,
             transactionId: rsp.merchant_uid,
-          }));
-        joinFunding({
-          ...payData,
-          pgId: rsp.imp_uid,
-          transactionId: rsp.merchant_uid,
-        })
+          })
         .then(response => {
             console.log(response);
-            navigate('/celebrate/payment/done');
+            navigate(`/celebrate/funding/${fundingId}/payment/done`);
         });
         } else {
           console.log('결제 실패');
@@ -89,7 +80,7 @@ const PaymentPage = () => {
       <P.Container>
         <P.Wrap>
           <AmountSection amount={amount} setAmount={setAmount} />
-          <MethodSection />
+          {/* <MethodSection /> */}
           <MessageSection
             nickname={nickname}
             setNickname={setNickname}

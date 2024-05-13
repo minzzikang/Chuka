@@ -65,7 +65,7 @@ public class FundingController {
     @GetMapping("/events/{eventId}")
     @Operation(
             summary = "이벤트에 해당하는 펀딩 목록",
-            description = "<strong>eventId</strong>를 통해 ✨<strong>승인</strong>✨된 펀딩 목록을 볼 수 있다")
+            description = "<strong>eventId</strong>를 통해 ✨<strong>크롤링이 성공 혹은 실패</strong>✨된 펀딩 목록을 볼 수 있다")
     @ApiResponses({
             @ApiResponse(responseCode = "200", description = "성공"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
@@ -275,6 +275,20 @@ public class FundingController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body(e.getMessage());
         }
+    }
+
+    @PostMapping("/loadProfanityData")
+    @Operation(
+            summary = "비속어 데이터 리로드",
+            description = "서버를 중지하지 않고 다시 비속어 데이터를 로드한다.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "비속어 데이터 리로드 성공"),
+            @ApiResponse(responseCode = "500", description = "서버 오류")
+    })
+    public ResponseEntity<?> loadProfanityData() {
+        fundingService.reloadProfanityData();
+
+        return ResponseEntity.status(HttpStatus.OK).body("비속어 데이터 로드 됨");
     }
 
 }

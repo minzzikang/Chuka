@@ -44,7 +44,7 @@ public class NotificationController {
     public void sendNotification(@RequestParam("receiverInfo") receiverInfoDto receiverInfo) {
         try {
             notificationService.sendNotification(receiverInfo.getUserId(), receiverInfo.getType());
-            log.info("Send Notifications !!");
+//            log.info("Send Notifications !!");
 
         } catch (Exception e) {
             throw new RuntimeException("알림 발생에 문제!");
@@ -58,7 +58,7 @@ public class NotificationController {
 
         try {
             String result = notificationService.findByNotificationId(notificationId);
-            log.info("name: {}", result);
+//            log.info("name: {}", result);
             if (result == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(BaseResponseBody.of(404, "이미 삭제된 메시지입니다."));
             }
@@ -67,7 +67,7 @@ public class NotificationController {
             JSONObject jsonObject = (JSONObject) parser.parse(result);
             String resultUserId = (String) jsonObject.get("userId");
 
-            log.info("resultUserId : {}", resultUserId);
+//            log.info("resultUserId : {}", resultUserId);
 
 
             // userId와 알림을 받은 회원의 아이디가 동일하면 본인 알림이 맞아서 삭제가능

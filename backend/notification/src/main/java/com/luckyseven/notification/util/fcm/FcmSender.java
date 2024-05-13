@@ -47,7 +47,13 @@ public class FcmSender {
 
     private String makeMessage(FCMMessageDto fcmMessageDto)
             throws JsonParseException, JsonProcessingException {
-        System.out.println("fcmMessageDto >> "+fcmMessageDto);
+        String body = fcmMessageDto.getBody();
+        if(body == null ){
+            body = "눌러서 확인하기🎉";
+        }else {
+            body = ("🎉"+fcmMessageDto.getBody()+"🎉");
+        }
+//        System.out.println("fcmMessageDto >> "+fcmMessageDto);
         FcmMSG fcmMessage =
                 FcmMSG.builder()
                         .message(
@@ -57,7 +63,8 @@ public class FcmSender {
                                         .notification(
                                                 FcmMSG.Notification.builder()
                                                         .title(fcmMessageDto.getContent())
-                                                        .body("눌러서 확인하기🎉")
+                                                        .body(body)
+//                                                        .body("눌러서 확인하기🎉")
                                                         .build())
                                         .build())
                         .validateOnly(false)

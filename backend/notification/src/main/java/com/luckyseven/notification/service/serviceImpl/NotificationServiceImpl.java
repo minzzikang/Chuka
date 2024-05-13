@@ -20,7 +20,7 @@ public class NotificationServiceImpl implements NotificationService {
 
     @Override
     public List<Notification> findAllByUserId(String userId) {
-        return repository.findAllByUserId(userId);
+        return repository.findAllByUserIdOrderByCreateDateTimeDesc(userId);
     }
 
     @Override
@@ -43,14 +43,16 @@ public class NotificationServiceImpl implements NotificationService {
 
     // 단체 알림.
     @Override
-    public void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri) {
+    public void sendGroupNotification(List<String> userIdList, NotificationType type, Integer curEventId, String curPageUri, String curEventTitle) {
         List<Notification> saveDataList = new ArrayList<>();
         for (String userId : userIdList) {
             Notification notification = new Notification(userId, type);
             notification.setEventId(curEventId);
             notification.setPageUri(curPageUri);
+            notification.setEventTitle(curEventTitle);
             saveDataList.add(notification);
         }
+
         repository.saveAll(saveDataList);
     }
 

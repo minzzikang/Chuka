@@ -1,7 +1,5 @@
 import * as e from "./EventCard.styled";
 import { useNavigate } from "react-router-dom";
-import Trash from "/icon/icon_trash.png";
-import Badge from "@components/badge";
 import { EventItem } from "@/types/rollingType";
 
 const index = (props: EventItem) => {
@@ -36,12 +34,12 @@ const index = (props: EventItem) => {
   return (
     <e.Container $imgSrc={bannerThumbnailUrl} onClick={goPage}>
       <e.InfoWrap>
-        <e.Dday>D-{dDay}</e.Dday>
+        <e.Dday>D{dDay >= 0 ? "-" + dDay : "+" + -dDay}</e.Dday>
         <e.Title>{title}</e.Title>
         <e.Date>{date}</e.Date>
       </e.InfoWrap>
       <e.IconWrap>
-        <e.Badge $result={isActive}>{isActive ? '진행 중' : '종료'}</e.Badge>
+        <e.Badge $result={isActive}>{isActive ? "진행 중" : "종료"}</e.Badge>
         {/* <img src={Trash} alt="delete" onClick={() => {}} /> */}
       </e.IconWrap>
     </e.Container>

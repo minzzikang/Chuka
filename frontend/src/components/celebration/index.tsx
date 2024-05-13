@@ -98,7 +98,8 @@ const Index = () => {
 
     try {
       const res = await createEventReg(formData);
-      navigate(`/celebrate/rolling/${res.eventId}/${res.pageUri}`);
+      console.log("제출 시 res값: ", res);
+      navigate(`/celebrate/rolling/${res.eventId}/${res.ageUri}`);
     } catch (err) {
       console.error(err);
     }

@@ -69,16 +69,23 @@ const GlobalFont = createGlobalStyle`
 @font-face {
     font-family: 'Goocneaeum';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_05@1.0/Gootneaeum.woff') format('woff');
-    font-weight: normal;
+    font-weight: bold;
     font-style: normal;
 }
 
 @font-face {
-    font-family: 'Treegarden';
-    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+    font-family: 'Bazzi';
+    src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_20-04@2.1/Bazzi.woff') format('woff');
     font-weight: normal;
     font-style: normal;
 }
+
+/* @font-face {
+    font-family: 'Treegarden';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/naverfont_10@1.0/Treegarden.woff') format('woff');
+    font-weight: bold;
+    font-style: normal;
+} */
 
 
 

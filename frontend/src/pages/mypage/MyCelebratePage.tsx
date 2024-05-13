@@ -21,7 +21,6 @@ const MyCelebratePage = () => {
     setIsSearchOpen(false);
     if (result) {
       setSearchResults(result);
-      console.log("searchResults.............", searchResults);
     } else {
       setSearchResults({ totalCnt: 0, eventList: [] });
     }
@@ -46,6 +45,7 @@ const MyCelebratePage = () => {
         setRegisteredEvents(response);
       } catch (err) {
         console.log(err);
+        setRegisteredEvents({ totalCnt: 0, eventList: [] });
       }
     };
     fetchRegEvents();
@@ -60,14 +60,11 @@ const MyCelebratePage = () => {
         setParticipatedEvents(response);
       } catch (err) {
         console.log(err);
+        setParticipatedEvents({ totalCnt: 0, eventList: [] });
       }
     };
     fetchParticipantEvents();
   }, [regPage, partPage]);
-
-  useEffect(() => {
-    console.log("전달받은 검색결과", searchResults);
-  }, [searchResults]);
 
   return (
     <div
@@ -84,31 +81,29 @@ const MyCelebratePage = () => {
       <Header icon={<IoIosSearch />} onIconClick={() => setIsSearchOpen(true)}>
         {"나의 ㅊㅋ"}
       </Header>
-      {searchResults.totalCnt !== 0 ? (
+      {!registeredEvents || !participatedEvents ? (
+        <p>데이터를 불러오는 데 실패했습니다.</p>
+      ) : searchResults.totalCnt !== 0 ? (
         <SearchResult result={searchResults} />
+      ) : registeredEvents.eventList.length === 0 &&
+        participatedEvents.eventList.length === 0 ? (
+        <EventNull />
       ) : (
         <>
-          {registeredEvents.totalCnt === 0 ||
-          participatedEvents.totalCnt === 0 ? (
-            <EventNull />
-          ) : (
-            <>
-              <Event
-                key="registerEvent"
-                eventList={registeredEvents}
-                title="내가 등록한 ㅊㅋ"
-                currentPage={regPage}
-                setCurrentPage={setRegPage}
-              />
-              <Event
-                key="participantEvent"
-                eventList={participatedEvents}
-                title="내가 참여한 ㅊㅋ"
-                currentPage={partPage}
-                setCurrentPage={setPartPage}
-              />
-            </>
-          )}
+          <Event
+            key="registerEvent"
+            eventList={registeredEvents}
+            title="내가 등록한 ㅊㅋ"
+            currentPage={regPage}
+            setCurrentPage={setRegPage}
+          />
+          <Event
+            key="participantEvent"
+            eventList={participatedEvents}
+            title="내가 참여한 ㅊㅋ"
+            currentPage={partPage}
+            setCurrentPage={setPartPage}
+          />
         </>
       )}
       <Navbar current="mypage" />

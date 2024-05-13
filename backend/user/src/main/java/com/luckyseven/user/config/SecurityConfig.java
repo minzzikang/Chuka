@@ -1,6 +1,5 @@
 package com.luckyseven.user.config;
 
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
-import org.springframework.web.cors.CorsConfigurationSource;
 
 import java.util.Collections;
 import java.util.List;
@@ -79,18 +77,15 @@ public class SecurityConfig {
         http
                 .formLogin((auth) -> auth.disable());
 
-//        http
-//                .httpBasic(Customizer.withDefaults());
         http
-                .httpBasic((auth) -> auth.disable());
+                .httpBasic(Customizer.withDefaults());
 
         http
                 .authorizeHttpRequests((auth) -> auth
-//                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
-                        .requestMatchers("/", "/swagger-ui/**", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
+                        .requestMatchers("/", "/swagger-resources/**", "/v3/api-docs/**").permitAll()
                         .requestMatchers("/actuator/**").permitAll()
                         .requestMatchers("/api/v1/users/**", "/api/v1/auth/**", "/api/v1/test").permitAll()
-//                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
+                        .requestMatchers( "/swagger-ui/**").hasRole("ADMIN")
                         .anyRequest().authenticated());
 
         http

@@ -89,8 +89,8 @@ public class JWTUtil {
                 .claim("role", role)
                 .claim("type", "ATK")
                 .issuedAt(new Date(System.currentTimeMillis()))
-//                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
-                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
+                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
+//                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
                 .signWith(secretKey)
                 .compact();
     }

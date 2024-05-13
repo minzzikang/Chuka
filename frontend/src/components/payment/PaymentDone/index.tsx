@@ -3,19 +3,19 @@ import { useNavigate } from 'react-router'
 import Lottie from 'react-lottie'
 import paySuccess from '@assets/lottie/paySuccess.json'
 import { useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 
 
 
 const Index = () => {
   const navigate = useNavigate()
+  const { fundingId } = useParams<{ fundingId: string}>()
 
   useEffect(() => {
     sessionStorage.removeItem("nickname");
     sessionStorage.removeItem("comment");
     sessionStorage.removeItem("amount");
   }, []);
-
-  const goPointsPage = () => navigate('/mypage')
 
   const defaultOptions = {
     loop: false,
@@ -42,7 +42,7 @@ const Index = () => {
         <r.Desc>
           <span>* 결제 취소는 가맹점에서 취소 요청을 해야합니다.</span>
         </r.Desc>
-        <r.Button disabled={false} onClick={goPointsPage}>확인</r.Button>
+        <r.Button disabled={false} onClick={() => navigate(`/celebrate/funding/${fundingId}`)}>확인</r.Button>
       </r.Bottom>
     </r.Container>
   )

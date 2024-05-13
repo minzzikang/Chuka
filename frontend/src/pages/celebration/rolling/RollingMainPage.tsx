@@ -39,7 +39,7 @@ const RollingMainPage = () => {
       if (typeof eventId === "string") {
         try {
           const eventInfo = await fetchEventInfo(eventId);
-          setEventInfoData(() => eventInfo);
+          setEventInfoData(eventInfo);
           console.log('이벤트 정보 : ', eventInfo);
         } catch (err) {
           console.error(err);
@@ -52,14 +52,19 @@ const RollingMainPage = () => {
   }, [eventId]);
 
   // 펀딩 drawer 오픈
+  // const goFunding = () => {
+  //   sessionStorage.setItem("prevUrl", prevUrl);
+  //   if (accessToken) {
+  //     setDrawerOpen(!isDrawerOpen);
+  //   } else {
+  //     setFundingModalOpen(true);
+  //   }
+  // };
   const goFunding = () => {
     sessionStorage.setItem("prevUrl", prevUrl);
-    if (accessToken) {
-      setDrawerOpen(!isDrawerOpen);
-    } else {
-      setFundingModalOpen(true);
-    }
+    setDrawerOpen(true);
   };
+
 
   return (
     <>
@@ -84,14 +89,14 @@ const RollingMainPage = () => {
           </Drawer>
         )}
 
-        {fundingModalOpen && (
+        {/* {fundingModalOpen && (
           <RModal
             name={"선물 펀딩 서비스 이용 동의"}
             onClose={() => setFundingModalOpen(false)}
           >
             <FundingModal setFundingModalOpen={setFundingModalOpen} />
           </RModal>
-        )}
+        )} */}
       </r.Container>
       <Navbar current="celebration" />
     </>
