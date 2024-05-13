@@ -1,10 +1,12 @@
 import axios, { AxiosResponse } from "axios";
+import { useNavigate } from "react-router-dom";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
 
 // 리프레시 토큰 요청
 export const refresh = async () => {
+  const navigate = useNavigate();
   const refreshToken = localStorage.getItem("refresh_token");
   return axios
     .post(
@@ -21,7 +23,14 @@ export const refresh = async () => {
       localStorage.setItem("access_token", newToken);
       return newToken;
     })
-    .catch((err) => console.log(err));
+    .catch((e: any) => {
+      if (e.response.status === 401) {
+        alert("인증이 만료되었습니다. 다시 로그인 해주세요.");
+        navigate("/login");
+      }
+      console.log(e);
+      throw e;
+    });
 };
 
 // 회원 정보 조회(내정보)
