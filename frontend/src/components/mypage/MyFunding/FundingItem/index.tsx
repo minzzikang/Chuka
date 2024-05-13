@@ -87,13 +87,13 @@ const index = (props: FundingProps) => {
           </f.InfoWrap>
           <f.IconWrap>
             <Badge result={fundingResult} />
-            <FaRegTrashCan
+            {/* <FaRegTrashCan
               color={colors.gray}
               onClick={(e) => {
                 e.stopPropagation();
                 handleDelete(fundingId);
               }}
-            />
+            /> */}
           </f.IconWrap>
         </f.RowWrap>
         <f.MoneyInfoWrap>
