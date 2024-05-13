@@ -125,7 +125,6 @@ const Board = (props: BoardProps) => {
   const [isDDay, setIsDDay] = useState<boolean>(false);
 
   useEffect(() => {
-    console.log("ssssss", date);
     const isDDay = calculateDay(date)
     if (isDDay === 'DAY') {
       setIsDDay(true);
