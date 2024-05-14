@@ -127,3 +127,16 @@
 <img src="./images/카카오결제.jpg" width="200" height="400"/>&nbsp; &nbsp;
 <img src="./images/카카오결제2.jpg" width="200" height="400"/>&nbsp; &nbsp;
 
+## 마이페이지
+
+> 유저가 참여한 이벤트와 생성한 이벤트를 확인할 수 있습니다.
+
+
+<img src="./images/나의추카.png" width="200" height="400"/>&nbsp; &nbsp;
+
+
+## 푸시알림
+
+> 이벤트 등록, 다가오는 이벤트, 펀딩 완료등 푸시알림과 일반 알림으로 확인할 수 있습니다.
+
+<img src="./images/푸시알림.jpg" width="200" height="400"/>&nbsp; &nbsp;
