@@ -11,6 +11,7 @@ import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
 import { calculateDay } from "@/utils/calculation";
+import { Dday } from "./Banner.styled";
 
 interface RollSheetListProps {
   nickname: string;
@@ -129,7 +130,7 @@ const Board = (props: BoardProps) => {
     if (isDDay === 'DAY') {
       setIsDDay(true);
     }
-  }, [date]);
+  }, [date, isDDay]);
 
   return (
     <>
