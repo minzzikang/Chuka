@@ -1,0 +1,18 @@
+input[type="radio"] {
+  -webkit-appearance: none; /* 웹킷 브라우저에서 기본 스타일 제거*/
+  -moz-appearance: none; /* 모질라 브라우저에서 기본 스타일 제거*/
+  appearance: none; /* 기본 브라우저에서 기본 스타일 제거*/
+  width: 18px;
+  height: 18px;
+  border: 2px solid #cacfd9; /* 체크되지 않았을 때 테두리 색싱*/
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+}
+
+/* 체크될 시 변화되는 스타일*/
+input[type="radio"]:checked {
+  background-color: #ff3b85;
+  border: 3px solid white; /* 테두리와 원 사이 색상 */
+  box-shadow: 0 0 0 1.6px #ff3b85; /* 체크된 원의 테두리 */
+}

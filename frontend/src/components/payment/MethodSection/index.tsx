@@ -1,10 +1,6 @@
-import { colors } from "@/styles/theme";
-import styled from "styled-components";
-import React, { useState } from "react";
-
-import * as M from '@components/payment/MethodSection/MethodSection.styled'
-
-
+import "@styles/radioBtn.css";
+import { useState } from "react";
+import * as M from "@components/payment/MethodSection/MethodSection.styled";
 
 const index = () => {
   const [payment, setPayment] = useState("kakao");
@@ -12,13 +8,15 @@ const index = () => {
   return (
     <M.Container>
       <M.Title>결제 수단</M.Title>
-
-      <M.Img
-        src="/img/img_logo_kakaopay.png"
-        alt=""
-        onClick={() => setPayment("kakao")}
-        $active={payment === "kakao"}
-      />
+      <label htmlFor="kakao" style={{ display: "flex", alignItems: "center" }}>
+        <M.Radio
+          type="radio"
+          id="kakao"
+          checked={payment === "kakao"}
+          onChange={() => setPayment("kakao")}
+        />
+        <M.Img src="/img/img_logo_kakaopay.png" alt="kakaoPay" />
+      </label>
     </M.Container>
   );
 };
