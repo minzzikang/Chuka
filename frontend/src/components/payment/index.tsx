@@ -71,13 +71,13 @@ const PaymentPage = () => {
       <P.Container>
         <P.Wrap>
           <AmountSection amount={amount} setAmount={setAmount} />
-          {/* <MethodSection /> */}
           <MessageSection
             nickname={nickname}
             setNickname={setNickname}
             comment={comment}
             setComment={setComment}
-          />
+            />
+            <MethodSection />
           <FinalAmountSection amount={amount} setAmount={setAmount} />
           <P.Button onClick={onPayment}>결제하기</P.Button>
         </P.Wrap>
