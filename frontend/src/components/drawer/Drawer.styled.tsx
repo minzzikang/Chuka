@@ -10,7 +10,7 @@ export type DrawerType = {
 export const Container = styled.div<{ $isOpen: boolean }>`
   display: flex;
   justify-content: flex-end;
-  position: fixed;
+  position: absolute;
   left: 0;
   top: 0;
   width: 100%;

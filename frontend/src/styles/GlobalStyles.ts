@@ -18,7 +18,7 @@ export const GlobalStyle = createGlobalStyle`
         padding: 0;
         font-weight: 400;
         line-height: 1.1;
-        background: linear-gradient(#e2e3ff, #eadeff);
+        /* background: linear-gradient(#e2e3ff, #eadeff); */
         -ms-user-select: none; 
         user-select: none;
         -webkit-user-select: none;
@@ -41,12 +41,15 @@ export const GlobalStyle = createGlobalStyle`
         max-width: ${sizes.maxWidth};
         min-height: 100dvh;
         margin: 0 auto;
+        background: linear-gradient(#e2e3ff, #eadeff);
+
         @media only screen and (min-width: 430px) {
             width: 430px;
         }
         @media only screen and (min-width: 600px) {
             width: 375px;
         }
+
     }
     a {
         outline: none;
