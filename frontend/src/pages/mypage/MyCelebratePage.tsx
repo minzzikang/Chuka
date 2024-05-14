@@ -75,6 +75,7 @@ const MyCelebratePage = () => {
         minHeight: "100vh", // 화면의 전체 높이를 채우도록 설정
         display: "flex",
         flexDirection: "column",
+        position:'relative',
       }}
     >
       {isSearchOpen && (

@@ -7,10 +7,10 @@ import RModal from "@common/responsiveModal";
 import AddressInput from "@/components/addressInput";
 import FundingRegDoneModal from "@/components/funding/FundingRegDoneModal";
 import { createFunding } from "@/apis/funding";
-
+import Spinners from "@common/spinners";
 
 export type RegDataType = {
-  eventId:  number;
+  eventId: number;
   productLink: string;
   introduce: string;
   option: string;
@@ -26,7 +26,7 @@ export type RegDataType = {
 const index = () => {
   const location = useLocation();
   const { productLink } = location.state;
-  const { eventId } = useParams<{ eventId: string }>()
+  const { eventId } = useParams<{ eventId: string }>();
   const [regData, setRegData] = useState<RegDataType>({
     eventId: Number(eventId),
     productLink: productLink,
@@ -41,26 +41,31 @@ const index = () => {
     addressDetail: "",
   });
 
-
   const [isAddressOpen, setIsAddressOpen] = useState<boolean>(false);
   const [isRegOpen, setIsRegOpen] = useState<boolean>(false);
 
+  const [loading, setLoading] = useState<boolean>(false);
   const onRegister = async () => {
     try {
-      const response = await createFunding(regData)
+      setLoading(true);
+      const response = await createFunding(regData);
+      setLoading(false);
       setIsRegOpen(true);
     } catch (err) {
-      console.error(err)
+      console.error(err);
     }
-
-
   };
 
   return (
-    <>
-      <F.Container>
+    <div style={{ position: "relative" }}>
+      <Spinners
+        text={"펀딩을 등록하는 중입니다"}
+        loading={loading}
+        setLoading={setLoading}
+      />
+      <F.Container $isLoading={loading}>
         <Header children="펀딩 등록하기" />
-        <F.Img src={DefaultFunding}  />
+        <F.Img src={DefaultFunding} />
         <F.Wrap>
           <F.Inner>
             <F.Label htmlFor="introduce">"한 줄 펀딩 소개"</F.Label>
@@ -113,7 +118,10 @@ const index = () => {
               onChange={(e) =>
                 setRegData((prevData) => ({
                   ...prevData,
-                  endDate: (e.target.value).replace(/(\d{4})(\d{2})(\d{2})/, "$1-$2-$3"),
+                  endDate: e.target.value.replace(
+                    /(\d{4})(\d{2})(\d{2})/,
+                    "$1-$2-$3"
+                  ),
                 }))
               }
               maxLength={10}
@@ -202,7 +210,7 @@ const index = () => {
           )}
         </F.Wrap>
       </F.Container>
-    </>
+    </div>
   );
 };
 

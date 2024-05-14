@@ -25,7 +25,7 @@ const index = (props: FundingHeaderType) => {
     <>
       <H.Container>
         <H.IconArrow onClick={handleBack} />
-        <div style={{ display: "flex", gap: "45px" }}>
+        <div style={{ display: "flex", gap: "45px", marginTop:'2px', marginRight:'12px' }}>
           <H.IconWrap
             onClick={() =>
               shareFundingKakao({
