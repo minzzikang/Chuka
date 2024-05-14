@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -16,6 +15,7 @@ export const Wrap = styled.div`
   flex-direction: column;
   align-items: center;
   gap: 30px;
+  padding-bottom: 20px;
 `;
 
 export const Button = styled.button`

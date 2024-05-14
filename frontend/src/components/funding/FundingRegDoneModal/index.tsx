@@ -28,8 +28,8 @@ const index = () => {
   return (
     <F.Container>
       <Lottie options={defaultOptions} width={150} height={150} />
-      <F.P>펀딩 등록이 신청되었습니다.</F.P>
-      <F.P>등록이 완료되면 알림으로 안내드립니다.</F.P>
+      <F.P>펀딩이 등록되었습니다.</F.P>
+      <F.P>목표까지 추카가 함께 할게요!</F.P>
       <F.Button
         onClick={goEvent}
       >
