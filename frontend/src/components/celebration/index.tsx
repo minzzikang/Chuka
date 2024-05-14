@@ -5,7 +5,8 @@ import CelebrationInfoSection from "./CelebrationInfoSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
-import Spinners from '@common/spinners'
+import Spinners from "@common/spinners";
+import Header from "@common/header";
 
 interface CelebrationProps {
   type: string;
@@ -74,11 +75,9 @@ const Index = () => {
     setBannerImage(file);
   };
 
-  const [loading, setLoading] = useState<boolean>(false)
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
-
-    
     if (!regData.title) {
       alert("제목을 입력해주세요.");
       return;
@@ -102,9 +101,9 @@ const Index = () => {
     }
 
     try {
-      setLoading(true)
+      setLoading(true);
       const res = await createEventReg(formData);
-      await setLoading(false)
+      await setLoading(false);
       navigate(`/celebrate/rolling/${res.eventId}/${res.ageUri}`);
     } catch (err) {
       console.error(err);
@@ -113,21 +112,26 @@ const Index = () => {
 
   return (
     <>
-    <Spinners text={"추카를 등록하는 중입니다"} loading={loading} setLoading={setLoading}/>
-    <c.Container $isLoading={loading}>
-      <TypeSection type={regData.type} handleType={handleType} />
-      <CelebrationInfoSection
-        isVisible={regData.visibility}
-        title={regData.title}
-        handleTitle={handleTitle}
-        handleVisible={handleVisible}
-        handleDateChange={handleDateChange}
-        handleFileChange={handleFileChange}
-        handleTheme={handleTheme}
-        theme={regData.theme}
+      <Spinners
+        text={"추카를 등록하는 중입니다"}
+        loading={loading}
+        setLoading={setLoading}
       />
-      <Button onClick={handleSubmit}>등록하기</Button>
-    </c.Container>
+      <c.Container $isLoading={loading}>
+        <Header children="축하 등록하기" />
+        <TypeSection type={regData.type} handleType={handleType} />
+        <CelebrationInfoSection
+          isVisible={regData.visibility}
+          title={regData.title}
+          handleTitle={handleTitle}
+          handleVisible={handleVisible}
+          handleDateChange={handleDateChange}
+          handleFileChange={handleFileChange}
+          handleTheme={handleTheme}
+          theme={regData.theme}
+        />
+        <Button onClick={handleSubmit}>등록하기</Button>
+      </c.Container>
     </>
   );
 };

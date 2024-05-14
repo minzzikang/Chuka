@@ -57,15 +57,15 @@ const index = () => {
 
   return (
     <>
+      <FundingHeaderSection
+        fundingUrl={fundingUrl}
+        productImgUrl={values?.productImage}
+        productName={values?.productName}
+        nickname={values?.nickname ?? ""}
+        pageUri={values?.pageUri}
+        eventId={values?.eventId}
+      />
       <f.Container>
-        <FundingHeaderSection
-          fundingUrl={fundingUrl}
-          productImgUrl={values?.productImage}
-          productName={values?.productName}
-          nickname={values?.nickname ?? ""}
-          pageUri={values?.pageUri}
-          eventId={values?.eventId}
-        />
         <FundingCrawlingSection
           productLink={
             values?.productLink ?? "상품 링크가 등록되지 않았습니다."

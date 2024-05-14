@@ -75,7 +75,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <>
+    <div style={{position:'relative'}}>
       <Header children="펀딩 참여하기" />
       <P.Container>
         <P.Wrap>
@@ -91,7 +91,7 @@ const PaymentPage = () => {
           <P.Button onClick={onPayment}>결제하기</P.Button>
         </P.Wrap>
       </P.Container>
-    </>
+    </div>
   );
 };
 

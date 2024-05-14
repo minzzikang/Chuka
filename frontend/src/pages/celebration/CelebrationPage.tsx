@@ -19,7 +19,6 @@ const CelebrationPage = () => {
   }
   return (
     <>
-      <Header children="축하 등록하기" />
       <Celebration />
       <Navbar current="celebration" />
       {!accessToken && (

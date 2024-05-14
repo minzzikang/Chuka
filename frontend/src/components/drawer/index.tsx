@@ -4,7 +4,6 @@ import { DrawerType } from './Drawer.styled'
 
 const index = ({ isOpen, name, children, onClose }: DrawerType) => {
   return (
-    <>
       <d.Container $isOpen={isOpen}>
         <d.BlackBox onClick={onClose} />
         <d.Wrap>
@@ -15,7 +14,6 @@ const index = ({ isOpen, name, children, onClose }: DrawerType) => {
           </d.Backdrop>
         </d.Wrap>
       </d.Container>
-    </>
   )
 }
 

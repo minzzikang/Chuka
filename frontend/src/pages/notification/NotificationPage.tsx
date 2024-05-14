@@ -50,7 +50,7 @@ const NotificationPage = () => {
   };
 
   return (
-    <div>
+    <div style={{position:'relative'}}>
       <Header>{"알림"}</Header>
       <p
         style={{
