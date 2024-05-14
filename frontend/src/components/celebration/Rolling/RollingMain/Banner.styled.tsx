@@ -31,7 +31,7 @@ export const Name = styled.p`
     0px -0.5px ${colors.white};
 `;
 
-export const Dday = styled.p`
+export const Dday = styled.div`
   position: relative;
   margin-right: 5px;
   font-size: 28px;
