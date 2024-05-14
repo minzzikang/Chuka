@@ -17,5 +17,5 @@ public interface AuthService {
     String reIssueAccessTokenWithRefreshToken(String refreshToken);
 
 
-
+    void deleteByFcmToken(String fcmtoken);
 }
