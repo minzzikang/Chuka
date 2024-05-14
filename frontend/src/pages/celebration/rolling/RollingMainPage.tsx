@@ -65,6 +65,7 @@ const RollingMainPage = () => {
           date={eventInfoData.date}
           createTime={eventInfoData.createTime}
           nickname={eventInfoData.nickname}
+          type={eventInfoData.type}
         />
         <Board theme={eventInfoData.theme} date={eventInfoData.date} />
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>

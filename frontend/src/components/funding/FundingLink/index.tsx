@@ -41,15 +41,13 @@ const index = () => {
           <F.Button onClick={handleClick}>다음</F.Button>
           <F.Label>주의사항</F.Label>
           <div>상품 크롤링 가능 사이트</div>
-          <div>* 아래의 사이트를 제외한 사이트는 상품 등록이 가능하나 상품을 크롤링하지 못합니다.</div>
-          <div>* 따라서 이용자님이 직접 수정하셔야 합니다.</div>
-          <ul>
+          <ol style={{display:'flex', flexDirection:'column', gap:'3px'}}>
             <li>* 네이버 쇼핑 스마트스토어</li>
             <li>* 11번가</li>
             <li>* GMarket</li>
             <li>* 옥션</li>
             <li>* SSG</li>
-          </ul>
+          </ol>
         </F.Wrap>
       </F.Container>
     </>
