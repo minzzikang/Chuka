@@ -15,7 +15,7 @@ const index = (props: AmountSectionType) => {
     Array(cashList.length).fill(false)
   );
 
-  const [targetCash, setTargetCash] = useState(0);
+  const [targetCash, setTargetCash] = useState<any>('');
 
   const onClickCash = (index: number) => {
     const clickedValue = cashList[index];
