@@ -27,10 +27,6 @@ const PaymentPage = () => {
   const { fundingId } = useParams<{ fundingId: string }>();
 
   const onPayment = async () => {
-    // console.log(amount);
-    // console.log(nickname);
-    // console.log(comment);
-
     sessionStorage.setItem("nickname", nickname);
     sessionStorage.setItem("comment", comment);
     sessionStorage.setItem("amount", amount.toString());
