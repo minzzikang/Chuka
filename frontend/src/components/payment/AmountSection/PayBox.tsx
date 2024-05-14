@@ -17,7 +17,7 @@ export const Container = styled.div<{ $active: boolean }>`
   height: 64px;
   background-color: #fff;
   border-radius: 6px;
-  border: 1px solid
+  border: 2px solid
     ${(props) => (props.$active ? colors.mainPink : colors.inputGray)};
   color: ${colors.inputGray};
   display: flex;
