@@ -68,15 +68,14 @@ export const P = styled.p`
   z-index: 10;
 `;
 
-export const SMComment = styled.p<{$active:boolean}>`
-  filter: ${(props) => props.$active ? 'none' : `blur(3px)`};
-  
-`
+export const SMComment = styled.p<{ $active: boolean }>`
+  filter: ${(props) => (props.$active ? "none" : `blur(3px)`)};
+`;
 
-
-export const LGComment = styled.p<{$active:boolean}>`
-  filter: ${(props) => props.$active ? 'none' : `blur(5px)`};
-`
+export const LGComment = styled.p<{ $active: boolean }>`
+  filter: ${(props) => (props.$active ? "none" : `blur(5px)`)};
+  margin: 5px;
+`;
 
 export const DeleteBtn = styled.button`
   position: absolute;
@@ -119,11 +118,29 @@ export const Card = styled.div<{
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
 
-export const CardDetail = styled.div<{
+export const DetailWrap = styled.div<{
+  $bgImage?: string;
   $bgColor?: string;
+  $shape: string;
+}>`
+  background-color: ${(props) =>
+    props.$bgImage ? "transparent" : props.$bgColor || colors.white};
+  background-image: ${(props) =>
+    props.$bgImage ? `url(${props.$bgImage})` : "none"};
+  background-size: cover;
+  background-position: center;
+  width: 95%;
+  height: 95%;
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
+
+export const CardDetail = styled.div<{
   $font: string;
   $fontColor: string;
-  $bgImage?: string;
   $shape: string;
 }>`
   display: flex;
@@ -131,6 +148,7 @@ export const CardDetail = styled.div<{
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding: 5px;
   width: 100%;
   height: 90%;
   margin: 10px;
@@ -138,11 +156,6 @@ export const CardDetail = styled.div<{
   font-size: 1.5em;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
-  background-color: ${(props) =>
-    props.$bgImage ? "transparent" : props.$bgColor || colors.white};
-  background-image: ${(props) =>
-    props.$bgImage ? `url(${props.$bgImage})` : "none"};
-  background-size: cover;
-  background-position: center;
+  background-color: rgba(255, 255, 255, 0.6);
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;

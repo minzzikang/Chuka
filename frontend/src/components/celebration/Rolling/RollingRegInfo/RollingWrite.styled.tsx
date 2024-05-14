@@ -257,8 +257,7 @@ export const P = styled.p`
   margin: 10px;
 `;
 
-export const MessageBox = styled.textarea<{
-  $font: string;
+export const MessageWrap = styled.div<{
   $backColor: string;
   $shape: string;
   $backImage?: string;
@@ -271,16 +270,32 @@ export const MessageBox = styled.textarea<{
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
+  border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+  width: 95%;
+  height: 380px;
+  padding: 5px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 5px;
+`;
+
+export const MessageBox = styled.textarea<{
+  $font: string;
+  $shape: string;
+  $type: string;
+}>`
   margin: 10px;
   border-radius: 1em;
   padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
-  width: 95%;
-  height: 380px;
+  width: 100%;
+  height: 90%;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  resize: none;
+  background-color: rgba(255, 255, 255, 0.6);
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
   font-size: 1.5em;
