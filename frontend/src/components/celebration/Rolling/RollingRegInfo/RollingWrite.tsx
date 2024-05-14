@@ -12,6 +12,7 @@ import { LuPaintbrush } from "react-icons/lu";
 import { TiScissors } from "react-icons/ti";
 import { BsMagic } from "react-icons/bs";
 import { makeMessage } from "@/utils/makeMessage";
+import Header from '@common/header'
 
 interface RegDataProps {
   shape: string;
@@ -175,11 +176,10 @@ const RollingWrite = () => {
   };
 
   return (
-    <>
-      <r.Header>
-        <r.Icon onClick={handleBack} />
-        <span>메시지 작성하기</span>
-      </r.Header>
+    <div style={{position:'relative'}}>
+      <Header>
+        메시지 작성하기
+      </Header>
       <r.Container>
         <r.SelectWrap>
           <r.SelectBtn onClick={() => setIsSelectModalOpen(true)}>
@@ -375,7 +375,7 @@ const RollingWrite = () => {
           </>
         )}
       </r.Container>
-    </>
+    </div>
   );
 };
 

@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { IoIosArrowBack } from "react-icons/io";
 
 export const Wrapper = styled.div`
-  margin-top: 15px;
+  /* margin-top: 15px; */
+  /* margin-top: 10px; */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -19,18 +20,20 @@ export const TextButton = styled.button`
   cursor: pointer;
 `;
 
-export const Header = styled.span`
+export const Header = styled.div`
   color: ${colors.black};
   font-weight: 700;
   flex-grow: 1;
   text-align: center;
+  margin-top: 20px;
 `;
 
 export const Icon = styled(IoIosArrowBack)`
-  position: fixed;
+  position: absolute;
   left: 10px;
   top: 10px;
   font-size: 24px;
+  margin-top: 7px;
   cursor: pointer;
 `;
 
