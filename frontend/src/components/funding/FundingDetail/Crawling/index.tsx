@@ -2,7 +2,6 @@ import { colors } from "@/styles/theme";
 import * as C from "./FundingCrawling.styled";
 import { HiOutlineExternalLink } from "react-icons/hi";
 
-
 type CrawlingType = {
   productLink: string;
   percent: number;
