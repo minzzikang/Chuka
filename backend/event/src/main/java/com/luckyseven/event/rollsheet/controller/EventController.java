@@ -44,7 +44,6 @@ public class EventController {
     @GetMapping("/test")
     public ResponseEntity<?> test() {
         return eventService.sendDdayalarmTest();
-//        return ResponseEntity.ok().body("보냄");
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -65,7 +64,13 @@ public class EventController {
         EventDto event;
 
         try {
-            String nickname = jwtUtil.getNickname(authorization.substring("Bearer ".length()));
+            String nickname;
+            if (createEventDto.getNickname().isBlank()) {
+                nickname = jwtUtil.getNickname(authorization.substring("Bearer ".length()));
+            } else {
+                nickname = createEventDto.getNickname();
+            }
+
             event = eventService.createEvent(createEventDto, userId, nickname);
 
             producerService.sendNotificationMessage(event.getEventId(), event.getPageUri(), userId);
