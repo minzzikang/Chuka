@@ -47,6 +47,8 @@ pipeline {
                     steps {
                         script {
                             sh "docker system prune --filter until=1h"
+                            sh "docker image prune --filter until=1h"
+                            sh "docker container prune --filter until=1h"
                         }
                     }
                 }
