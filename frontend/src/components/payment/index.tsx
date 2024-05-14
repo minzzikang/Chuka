@@ -21,9 +21,9 @@ export type PayDataType = {
 
 const PaymentPage = () => {
   const navigate = useNavigate();
-  const [amount, setAmount] = useState(1000);
-  const [nickname, setNickname] = useState("");
-  const [comment, setComment] = useState("");
+  const [amount, setAmount] = useState<any>('');
+  const [nickname, setNickname] = useState("익명");
+  const [comment, setComment] = useState("축하합니다 !");
   const { fundingId } = useParams<{ fundingId: string }>();
 
   const onPayment = async () => {
