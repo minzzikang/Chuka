@@ -40,7 +40,7 @@ const index = (props: EventItem) => {
         <e.Date>{date}</e.Date>
       </e.InfoWrap>
       <e.IconWrap>
-        <e.Badge $result={isActive}>{isActive ? "진행 중" : "종료"}</e.Badge>
+        <e.Badge $result={isActive}>{isActive ? "진행 중" : "공개"}</e.Badge>
         {/* <img src={Trash} alt="delete" onClick={() => {}} /> */}
       </e.IconWrap>
     </e.Container>

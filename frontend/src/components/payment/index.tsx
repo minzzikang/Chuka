@@ -1,4 +1,4 @@
-import * as P from "@components/payment/Payment.styled"
+import * as P from "@components/payment/Payment.styled";
 import Header from "@common/header";
 import AmountSection from "@components/payment/AmountSection";
 import MethodSection from "@components/payment/MethodSection";
@@ -24,50 +24,41 @@ const PaymentPage = () => {
   const [amount, setAmount] = useState(1000);
   const [nickname, setNickname] = useState("");
   const [comment, setComment] = useState("");
-  const { fundingId } = useParams<{ fundingId: string}>()
+  const { fundingId } = useParams<{ fundingId: string }>();
 
   const onPayment = async () => {
-    console.log(amount);
-    console.log(nickname);
-    console.log(comment);
+    sessionStorage.setItem("nickname", nickname);
+    sessionStorage.setItem("comment", comment);
+    sessionStorage.setItem("amount", amount.toString());
 
-    sessionStorage.setItem('nickname', nickname);
-    sessionStorage.setItem('comment', comment);
-    sessionStorage.setItem('amount', amount.toString());
-    
     const { IMP } = window as ImpWindow;
     IMP?.init(import.meta.env.VITE_PAYMENT_KEY);
-    IMP?.request_pay({
-        pg: 'kakaopay',
-        pay_method: 'card',
+    IMP?.request_pay(
+      {
+        pg: "kakaopay",
+        pay_method: "card",
         merchant_uid: `chuka_${new Date().getTime()}`,
-        name: 'ㅊㅋ',
+        name: "ㅊㅋ",
         amount: amount,
-        buyer_email: 'test@portone.io',
+        buyer_email: "test@portone.io",
         buyer_name: nickname,
-        buyer_tel: '010-1234-5678',
-        buyer_addr: '서울특별시 강남구 삼성동',
-        buyer_postcode: '123-456',
+        buyer_tel: "010-1234-5678",
+        buyer_addr: "서울특별시 강남구 삼성동",
+        buyer_postcode: "123-456",
         m_redirect_url: `https://chuka.kr/celebrate/funding/${fundingId}/payment/doing`,
-      }, function (rsp: any) {
+      },
+      function (rsp: any) {
         if (rsp.success) {
-          console.log('결제 성공');
-          console.log(rsp.imp_uid);
-          console.log(rsp.merchant_uid);
-          
-          joinFunding(fundingId? parseInt(fundingId, 10) : 0, {
+          joinFunding(fundingId ? parseInt(fundingId, 10) : 0, {
             amount: amount,
             nickname: nickname,
             comment: comment,
             pgId: rsp.imp_uid,
             transactionId: rsp.merchant_uid,
-          })
-        .then(response => {
-            console.log(response);
+          }).then((response) => {
             navigate(`/celebrate/funding/${fundingId}/payment/done`);
-        });
+          });
         } else {
-          console.log('결제 실패');
           console.log(rsp.error_msg);
         }
       }
@@ -75,7 +66,7 @@ const PaymentPage = () => {
   };
 
   return (
-    <div style={{position:'relative'}}>
+    <div style={{ position: "relative" }}>
       <Header children="펀딩 참여하기" />
       <P.Container>
         <P.Wrap>
