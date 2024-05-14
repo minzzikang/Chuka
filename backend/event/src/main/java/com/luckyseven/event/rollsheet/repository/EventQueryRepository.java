@@ -226,4 +226,40 @@ public class EventQueryRepository {
 
         return result;
     }
+
+    public List<DdayReceiveDto> findAllByCurdateTest() {
+        LocalDate currentDate = LocalDate.now();
+
+        List<Event> eventIdList = jpaQueryFactory
+                .select(Projections.bean(Event.class,
+                        event.eventId,
+                        event.title,
+                        event.userId,
+                        event.pageUri))
+                .from(event)
+                .where(event.eventId.eq(20))
+                .fetch();
+
+        List<DdayReceiveDto> result = new ArrayList<>();
+
+        for (Event curEvent : eventIdList) {
+            DdayReceiveDto ddayReceiveDto = new DdayReceiveDto();
+            Integer curEventId = curEvent.getEventId();
+            ddayReceiveDto.setCreater(curEvent.getUserId());
+            ddayReceiveDto.setEventId(curEventId);
+            ddayReceiveDto.setPageUri(curEvent.getPageUri());
+            ddayReceiveDto.setTitle(curEvent.getTitle());
+
+            // 이벤트에 참여한 사람불러오기
+            List<String> joinMembers = jpaQueryFactory
+                    .select(joinEvent.joinEventPK.userId)
+                    .from(joinEvent).leftJoin(event).on(joinEvent.joinEventPK.event.eq(event))
+                    .where(event.eventId.eq(curEventId))
+                    .fetch();
+            ddayReceiveDto.setJoinMembers(joinMembers);
+            result.add(ddayReceiveDto);
+        }
+
+        return result;
+    }
 }
