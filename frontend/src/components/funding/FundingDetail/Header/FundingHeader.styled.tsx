@@ -5,15 +5,19 @@ import { IoIosArrowBack } from "react-icons/io";
 export const Container = styled.div`
   display: flex;
   justify-content: flex-end;
+  position: relative;
   width: 100%;
+  padding-left: 10px;
 `;
 
 export const IconArrow = styled(IoIosArrowBack)`
-  position: fixed;
-  left: 10px;
+  position: absolute;
+  left: 0;
   top: 10px;
   font-size: 24px;
   cursor: pointer;
+  margin-left: 5px;
+
 `;
 
 export const IconWrap = styled.div`

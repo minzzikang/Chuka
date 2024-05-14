@@ -11,7 +11,8 @@ export const Container = styled.div`
 `;
 
 export const Header = styled.div`
-  margin-top: 15px;
+  /* margin-top: 15px; */
+  
   display: flex;
   align-items: center;
   justify-content: center;

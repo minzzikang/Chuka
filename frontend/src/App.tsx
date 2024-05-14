@@ -12,7 +12,9 @@ function App() {
       <GlobalStyle />
       <GlobalFont />
       <ScrollToTop />
+
       <HomeRouter />
+
     </BrowserRouter>
   );
 }
