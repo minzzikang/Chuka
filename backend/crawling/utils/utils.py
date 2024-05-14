@@ -2,6 +2,7 @@ from bs4 import BeautifulSoup
 import re
 from selenium import webdriver
 from selenium.webdriver.chrome.options import Options
+import requests
 
 def extract_and_convert_price(price_tag):
     if price_tag:
@@ -22,9 +23,22 @@ def fetch_html_with_selenium(url):
         html_source = driver.page_source
     return html_source
 
+def fetch_html_with_beautifulsoup(url):
+    headers = {
+    "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Safari/537.36",
+    "Accept-Language": "ko-KR,ko;q=0.8,en-US;q=0.5,en;q=0.3"
+    }
+
+    response = requests.get(url, headers=headers)
+    html_source = response.text
+    return html_source
+
 def extract_shopping_info(url: str, selectors: dict):
     try:
-        html_source = fetch_html_with_selenium(url)
+        if 'coupang.com' in url:
+            html_source = fetch_html_with_beautifulsoup(url)
+        else:
+            html_source = fetch_html_with_selenium(url)
         soup = BeautifulSoup(html_source, 'html.parser')
         
         # 이미지
@@ -50,6 +64,8 @@ def extract_shopping_info(url: str, selectors: dict):
         name_tag = soup.find(selectors['name_tag'], class_=selectors['name'])
         name = re.sub(r'\(.*?\)|\[.*?\]', '', name_tag.text).strip() if name_tag else None
 
+        if price is None:
+            price = 0
         return {"productImageUrl": image_url, "productPrice": price, "productName": name}
     except Exception as e:
         return {"status":400, "message": str(e)}
