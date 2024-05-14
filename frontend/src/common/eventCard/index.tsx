@@ -16,7 +16,7 @@ const index = (props: EventCardType) => {
       $thumbNailUrl={thumbNailUrl}
       onClick={() => navigate(`${eventUrl}`)}
     >
-      <e.Dday>D-{formatDDay}</e.Dday>
+      <e.Dday>D{formatDDay}</e.Dday>
       <e.Wrap>
         <e.WrapOverlay>
           <e.DescWrap>
