@@ -6,13 +6,11 @@
 
 
 # 산출물
-- [요구사항정의서]()
-- [기능명세서]()
-- [화면정의서]()
-- [API명세서]()
-- [시스템아키텍처]()
-- [피그마]()
-- [포팅매뉴얼]()
+- [요구사항정의서](https://broadleaf-rosehip-ec8.notion.site/1f93a3803dde43c6ac0a7baadbb85aeb)
+- [기능명세서](https://broadleaf-rosehip-ec8.notion.site/50fcb063ccc54adeb6465ec11dd6bd11)
+- [API명세서](https://broadleaf-rosehip-ec8.notion.site/API-297fa08688a645059db2732bbdb4bea1)
+- [화면정의서](https://www.figma.com/design/6apeUwpzSfb3UotQeXqGcF/%E3%85%8A%E3%85%8B?node-id=0-1&t=v86S4JliUXhMWVY6-0)
+- [포팅매뉴얼](./exec/추카_포팅_매뉴얼.docx)
 - [발표자료]()
 
 ---
@@ -92,7 +90,11 @@
 
 ## 아키텍처
 
-<img src="./images/아키텍처.png" width="800" height="500"/>&nbsp; &nbsp;
+<img src="./images/아키텍처.png" width="800" height="400"/>&nbsp; &nbsp;
+
+## ERD
+
+<img src="./images/7.7.7ERD.png" width="700" height="400"/>&nbsp; &nbsp;
 
 
 ## 소셜로그인
