@@ -2,18 +2,11 @@ from utils.utils import extract_shopping_info
 from utils.selectors import get_selectors
 import pika
 import json
-
-RABBITMQ_HOST_NAME = "k10c107.p.ssafy.io"
-RABBITMQ_PORT_NAME = 5672
-QUEUE_NAME = "crawling.queue"
-
+from config import RABBITMQ_HOST_NAME, RABBITMQ_PORT_NAME, QUEUE_NAME, RABBITMQ_ID, RABBITMQ_PASSWORD, PUB_QUEUE_NAME, PUB_EXCHANGE_NAME 
 
 
 def send_message(info):
-    PUB_QUEUE_NAME = "product.queue"
-    PUB_EXCHANGE_NAME = "product.topic"
-
-    credentials = pika.PlainCredentials('guest', 'guest')
+    credentials = pika.PlainCredentials(RABBITMQ_ID, RABBITMQ_PASSWORD)
     connection = pika.BlockingConnection(
         pika.ConnectionParameters(host=RABBITMQ_HOST_NAME, credentials=credentials)
     )
@@ -26,10 +19,11 @@ def send_message(info):
     
     connection.close()
 
+
 def receive_message():
-    credentials = pika.PlainCredentials('guest', 'guest')
+    credentials = pika.PlainCredentials(RABBITMQ_ID, RABBITMQ_PASSWORD)
     connection = pika.BlockingConnection(
-        pika.ConnectionParameters(host=RABBITMQ_HOST_NAME, port=5672, credentials=credentials)
+        pika.ConnectionParameters(host=RABBITMQ_HOST_NAME, port=RABBITMQ_PORT_NAME, credentials=credentials)
     )
     channel = connection.channel()
     channel.queue_declare(queue=QUEUE_NAME)
@@ -48,7 +42,7 @@ def receive_message():
         
         try:
 
-            if info.get("productImageUrl") and info.get("productName") and info.get("productPrice"):
+            if info.get("productImageUrl") and info.get("productName"):
                 info.update({"status": 200, "message": ""})
             else:
                 info.update({"status": 400, "message": "Please check the product details page again."})

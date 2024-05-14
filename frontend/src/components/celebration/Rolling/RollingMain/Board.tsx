@@ -164,35 +164,39 @@ const Board = (props: BoardProps) => {
           name={selectedRoll.nickname}
           onClose={() => setRollingModalOpen(false)}
         >
-          <b.CardDetail
+          <b.DetailWrap
             $bgColor={selectedRoll.backgroundColor}
-            $font={selectedRoll.font}
-            $fontColor={selectedRoll.fontColor}
             $bgImage={selectedRoll.backgroundImageThumbnailUrl}
             $shape={selectedRoll.shape}
           >
-            {/* {selectedRoll.userId && user.userId === selectedRoll.userId && (
+            <b.CardDetail
+              $font={selectedRoll.font}
+              $fontColor={selectedRoll.fontColor}
+              $shape={selectedRoll.shape}
+            >
+              {/* {selectedRoll.userId && user.userId === selectedRoll.userId && (
               <div
-                style={{
-                  display: "flex",
-                  position: "absolute",
-                  top: "0",
-                  right: "0",
-                  fontSize: "0.8em",
-                }}
+              style={{
+                display: "flex",
+                position: "absolute",
+                top: "0",
+                right: "0",
+                fontSize: "0.8em",
+              }}
               >
-                <FaRegTrashCan
-                  color={colors.gray}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    handleDelete(selectedRoll.rollSheetId);
-                  }}
-                />
-                <span style={{ color: colors.gray }}>삭제</span>
+              <FaRegTrashCan
+              color={colors.gray}
+              onClick={(e) => {
+                e.stopPropagation();
+                handleDelete(selectedRoll.rollSheetId);
+              }}
+              />
+              <span style={{ color: colors.gray }}>삭제</span>
               </div>
             )} */}
-            <b.LGComment $active={isDDay}>{selectedRoll.content}</b.LGComment>
-          </b.CardDetail>
+              <b.LGComment $active={isDDay}>{selectedRoll.content}</b.LGComment>
+            </b.CardDetail>
+          </b.DetailWrap>
         </Modal>
       )}
     </>
