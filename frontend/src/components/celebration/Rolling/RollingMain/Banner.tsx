@@ -21,11 +21,13 @@ const Banner = (props: BannerInfo) => {
     <>
       <b.Wrap>
         <b.Banner src={bannerImg} />
+        <div>
         <b.Title>
           {title}
           {/* <IoMdSettings onClick={() => navigate("/celebrate")} /> */}
         </b.Title>
         <b.Dday>{`D-${dDay}`}</b.Dday>
+        </div>
         <b.EventDay>{date}</b.EventDay>
         <b.Name>생성자 : {nickname}</b.Name>
       </b.Wrap>
