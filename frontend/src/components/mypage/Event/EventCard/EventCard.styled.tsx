@@ -78,5 +78,5 @@ export const Badge = styled.div<{ $result: boolean }>`
   align-items: center;
   font-weight: 200;
   background-color: ${(props) =>
-    props.$result === true ? colors.mainPink : colors.gray};
+    props.$result === true ? colors.mainPink : colors.blueFont};
 `;

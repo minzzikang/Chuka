@@ -4,6 +4,7 @@ import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.user.dto.UserDto;
 import com.luckyseven.user.user.entity.Roles;
 import com.luckyseven.user.user.entity.User;
+import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserRepository;
 import com.luckyseven.user.util.jwt.JWTUtil;
 import com.luckyseven.user.util.redis.RedisService;
@@ -34,6 +35,8 @@ public class AuthServiceImpl implements AuthService {
     private final JWTUtil jWTUtil;
     private final RedisService redisService;
     private final UserRepository userRepository;
+    private final FcmTokenRepository fcmTokenRepository;
+
     @Value("${kakao.api.rest.key}")
     private String apiKey;
 
@@ -199,6 +202,11 @@ public class AuthServiceImpl implements AuthService {
         }
 
         return null;
+    }
+
+    @Override
+    public void deleteByFcmToken(String fcmtoken) {
+        fcmTokenRepository.deleteByFcmToken(fcmtoken);
     }
 
 }
