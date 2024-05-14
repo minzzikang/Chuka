@@ -17,9 +17,9 @@ export const handleAllowNotification = async () => {
         alert("토큰 등록이 불가능 합니다. 생성하려면 권한을 허용해주세요");
       }
     } else if (permission === "denied") {
-      alert(
-        "알림 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요."
-      );
+      // alert(
+      //   "알림 권한이 차단되었습니다. 알림을 사용하시려면 권한을 허용해주세요."
+      // );
     }
   } catch (err) {
     console.error("푸시 토큰 에러", err);
