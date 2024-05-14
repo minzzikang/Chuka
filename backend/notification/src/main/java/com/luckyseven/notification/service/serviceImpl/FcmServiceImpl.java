@@ -30,7 +30,7 @@ public class FcmServiceImpl implements FcmService {
     public void DdayPushNotification(Map<Integer, List<String>> fcmTargetDataSet, DeduplicatedUsersIdDto lookupTableDto, Map<Integer, String> eventPageUriMap, Map<Integer, String> eventTitleMap) throws IOException {
         String content = NotificationResponseDescription.EVENT_OPEN;
 
-        System.out.println("eventPageUriMap ==> "+eventPageUriMap);
+//        System.out.println("eventPageUriMap ==> "+eventPageUriMap);
 
         HashMap<String, List<String>> lookupTable = lookupTableDto.getHashMapData();
 

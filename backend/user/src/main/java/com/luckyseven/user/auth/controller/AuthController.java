@@ -36,6 +36,18 @@ public class AuthController {
         log.info("test!!!!!");
         return ResponseEntity.status(200).body("test");
     }
+    @DeleteMapping("/fcm-token")
+    public ResponseEntity<?> deleteInvalidFcmtoken(@RequestBody() String fcmtoken) {
+        try {
+            log.info(" ** deleteInvalidFcmtoken!!!!!");
+            authService.deleteByFcmToken(fcmtoken);
+
+            return ResponseEntity.ok().body("Invalid Fcmtoken 삭제");
+        } catch (Exception e) {
+            log.error(e.getMessage());
+            return ResponseEntity.internalServerError().body(e.getMessage());
+        }
+    }
 
     @GetMapping("/token/{token}")
     public ResponseEntity<?> tokenTest(@PathVariable("token") String token) {
@@ -48,7 +60,6 @@ public class AuthController {
             log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
-
     }
 
     @PostMapping("/login/kakao")
