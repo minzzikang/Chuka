@@ -8,6 +8,7 @@ RUN apt-get -y update && \
     apt -y install ./google-chrome-stable_current_amd64.deb
 COPY requirements.txt requirements.txt
 COPY app.py app.py
+COPY config.py config.py
 COPY utils/ utils/
 COPY views/ views/
 RUN pip install -r requirements.txt
