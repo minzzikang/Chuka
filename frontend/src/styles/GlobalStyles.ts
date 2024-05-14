@@ -19,7 +19,7 @@ export const GlobalStyle = createGlobalStyle`
         font-weight: 400;
         line-height: 1.1;
         background: linear-gradient(#e2e3ff, #eadeff);
-        -ms-user-select: none;
+        -ms-user-select: none; 
         user-select: none;
         -webkit-user-select: none;
         -moz-user-select: none;
