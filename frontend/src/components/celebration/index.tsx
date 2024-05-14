@@ -12,6 +12,7 @@ interface CelebrationProps {
   date: string;
   theme: string;
   visibility: boolean;
+  nickname: string;
 }
 
 const Index = () => {
@@ -22,6 +23,7 @@ const Index = () => {
     date: "",
     theme: "CORK_BOARD", // 롤링페이퍼 배경
     visibility: true, // 노출 여부
+    nickname: "",
   });
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
@@ -69,6 +71,13 @@ const Index = () => {
     }));
   };
 
+  const handleNickname = (nickname: string) => {
+    setRegData((prev) => ({
+      ...prev,
+      nickname: nickname,
+    }));
+  };
+
   const handleFileChange = (file: File | null) => {
     setBannerImage(file);
   };
@@ -91,6 +100,7 @@ const Index = () => {
     formData.append("date", regData.date);
     formData.append("theme", regData.theme);
     formData.append("visibility", JSON.stringify(regData.visibility));
+    formData.append('nickname', regData.nickname)
 
     if (bannerImage) {
       formData.append("bannerImage", bannerImage);
@@ -110,12 +120,14 @@ const Index = () => {
       <CelebrationInfoSection
         isVisible={regData.visibility}
         title={regData.title}
+        nickname={regData.nickname}
         handleTitle={handleTitle}
         handleVisible={handleVisible}
         handleDateChange={handleDateChange}
         handleFileChange={handleFileChange}
         handleTheme={handleTheme}
         theme={regData.theme}
+        handleNickname={handleNickname}
       />
       <Button onClick={handleSubmit}>등록하기</Button>
     </c.Container>
