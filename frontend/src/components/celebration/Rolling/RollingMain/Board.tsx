@@ -127,7 +127,7 @@ const Board = (props: BoardProps) => {
 
   useEffect(() => {
     const isDDay = calculateDay(date)
-    if (isDDay === 'DAY') {
+    if (isDDay === '-DAY' || isDDay[0] === '+') {
       setIsDDay(true);
     }
   }, [date, isDDay]);
