@@ -92,6 +92,10 @@
 
 <img src="./images/아키텍처.png" width="800" height="400"/>&nbsp; &nbsp;
 
+## ERD
+
+<img src="./images/7.7.7ERD.png" width="700" height="400"/>&nbsp; &nbsp;
+
 
 ## 소셜로그인
 > 소셜로그인을 이용해 간편하게 회원가입, 로그인을 진행합니다.
