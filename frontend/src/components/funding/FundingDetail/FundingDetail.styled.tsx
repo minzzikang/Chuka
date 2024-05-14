@@ -4,9 +4,11 @@ import { colors } from "@/styles/theme";
 export const Container = styled.div`
   width: 90%;
   margin: auto auto;
+  margin-top: 30px;
   display: flex;
   flex-direction: column;
   gap: 30px;
+  position: relative;
 `;
 
 export const PinkBtn = styled.button`

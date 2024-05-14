@@ -14,6 +14,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 10px;
+  margin-top: 30px;
 `;
 
 export const Button = styled.button<{ $active: boolean }>`

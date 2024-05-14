@@ -2,12 +2,12 @@ import styled from "styled-components";
 import { colors } from "@styles/theme";
 
 export const Container = styled.div<{$isLoading:boolean}>`
+  position: relative;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-top: 20px;
   padding-bottom: 60px;
   overflow-y: scroll;
   -ms-overflow-style: none;

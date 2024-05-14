@@ -24,7 +24,7 @@ const index = () => {
   };
 
   return (
-    <>
+    <div style={{position:'relative'}}>
       <Header children="펀딩 등록하기" />
       <F.Container>
         <F.Img src={"/img/img_present_funding.png"} alt="" />
@@ -50,7 +50,7 @@ const index = () => {
           </ol>
         </F.Wrap>
       </F.Container>
-    </>
+    </div>
   );
 };
 

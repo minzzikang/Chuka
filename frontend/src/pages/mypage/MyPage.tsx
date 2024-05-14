@@ -9,7 +9,7 @@ const MyPage = () => {
   const userInfo = useRecoilValue(userState);
 
   return (
-    <>
+    <div style={{position:'relative'}}>
       <Header children="마이페이지" />
       <div style={{ marginBottom: "50px" }}></div>
       <ProfileSection 
@@ -19,7 +19,7 @@ const MyPage = () => {
       userInfo={userInfo}
       />
       <Navbar current="mypage" />
-    </>
+    </div>
   );
 };
 
