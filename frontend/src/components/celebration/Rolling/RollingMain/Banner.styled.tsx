@@ -2,15 +2,14 @@ import styled from "styled-components";
 import { colors } from "@styles/theme";
 
 export const Wrap = styled.div`
+  display: flex;
   position: relative;
   width: 100%;
 `;
 
 export const Title = styled.p`
-  position: absolute;
-  top: 10px;
-  left: 10px;
   font-size: 20px;
+  margin: 5px;
   color: ${colors.black};
   text-shadow:
     -0.5px 0px ${colors.white},
@@ -33,9 +32,8 @@ export const Name = styled.p`
 `;
 
 export const Dday = styled.p`
-  position: absolute;
-  top: 5px;
-  right: 10px;
+  position: relative;
+  margin-right: 5px;
   font-size: 28px;
   color: ${colors.black};
   text-shadow:
@@ -48,7 +46,7 @@ export const Dday = styled.p`
 export const EventDay = styled.p`
   position: absolute;
   top: 40px;
-  right: 10px;
+  right: 5px;
   font-size: 0.9em;
   color: ${colors.black};
   text-shadow:
@@ -64,4 +62,19 @@ export const Banner = styled.img`
   height: auto;
   max-height: 120px;
   object-fit: cover;
+`;
+
+export const Icon = styled.div`
+  position: absolute;
+  top: 0;
+  right: 85px;
+  background-color: ${colors.mainPink};
+  width: 28px;
+  height: 28px;
+  padding: 5px;
+  border-radius: 50%;
+  color: ${colors.white};
+  justify-content: center;
+  align-items: center;
+  display: flex;
 `;
