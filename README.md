@@ -40,6 +40,11 @@
 - Spring Cloud Routing
 - Spring cloud netflix Eureka Server
 - RabbitMQ
+- Python 3.12
+- Flask 3.0.3
+- BeautifulSoup4 4.10.0
+- Selenium 4.16.0
+- gunicorn 20.1.0
 
 ### FrontEnd
 - React 18.2.0
