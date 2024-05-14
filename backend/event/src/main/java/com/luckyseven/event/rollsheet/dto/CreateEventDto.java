@@ -33,4 +33,8 @@ public class CreateEventDto {
 
     @Schema(description = "배너 이미지 파일")
     private MultipartFile bannerImage;
+
+    @Schema(description = "닉네임")
+    private String nickname;
+
 }

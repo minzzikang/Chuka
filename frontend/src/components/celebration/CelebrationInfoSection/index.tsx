@@ -12,11 +12,13 @@ const index = (props: RollingInfoSectionType) => {
   const {
     handleTitle,
     title,
+    nickname,
     isVisible,
     handleVisible,
     handleDateChange,
     handleFileChange,
     handleTheme,
+    handleNickname,
     theme,
   } = props;
 
@@ -71,6 +73,16 @@ const index = (props: RollingInfoSectionType) => {
         <Label htmlFor="date" children="ㅊㅋ 날짜" />
         <Calendar onDateChange={handleDateChange} />
         <c.P>선택한 날짜부터 롤링페이퍼 메시지가 공개됩니다.</c.P>
+      </c.Wrap>
+      <c.Wrap>
+        <Label htmlFor="nickname" children="ㅊㅋ 만든 사람"/>
+        <c.Input 
+        id="nickname"
+        placeholder="등록한 사람(본인)의 별명을 적어주세요."
+        value={nickname}
+        onChange={(e) => handleNickname(e.target.value)}
+        />
+        <c.P>작성한 이름은 다른 사용자들에게 공개됩니다.</c.P>
       </c.Wrap>
       <c.Wrap>
         <c.FileInputLabel htmlFor="img">대표 이미지 설정</c.FileInputLabel>
