@@ -92,7 +92,7 @@
 
 ## 아키텍처
 
-<img src="./images/아키텍처.png" width="800" height="300"/>&nbsp; &nbsp;
+<img src="./images/아키텍처.png" width="800" height="500"/>&nbsp; &nbsp;
 
 
 ## 소셜로그인
