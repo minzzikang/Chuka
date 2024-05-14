@@ -5,6 +5,7 @@ import CelebrationInfoSection from "./CelebrationInfoSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
+import Spinners from '@common/spinners'
 
 interface CelebrationProps {
   type: string;
@@ -73,7 +74,11 @@ const Index = () => {
     setBannerImage(file);
   };
 
+  const [loading, setLoading] = useState<boolean>(false)
+
   const handleSubmit = async () => {
+
+    
     if (!regData.title) {
       alert("제목을 입력해주세요.");
       return;
@@ -97,7 +102,9 @@ const Index = () => {
     }
 
     try {
+      setLoading(true)
       const res = await createEventReg(formData);
+      await setLoading(false)
       navigate(`/celebrate/rolling/${res.eventId}/${res.ageUri}`);
     } catch (err) {
       console.error(err);
@@ -105,7 +112,9 @@ const Index = () => {
   };
 
   return (
-    <c.Container>
+    <>
+    <Spinners text={"추카를 등록하는 중입니다"} loading={loading} setLoading={setLoading}/>
+    <c.Container $isLoading={loading}>
       <TypeSection type={regData.type} handleType={handleType} />
       <CelebrationInfoSection
         isVisible={regData.visibility}
@@ -119,6 +128,7 @@ const Index = () => {
       />
       <Button onClick={handleSubmit}>등록하기</Button>
     </c.Container>
+    </>
   );
 };
 
