@@ -10,6 +10,7 @@ export const Wrap = styled.div`
   height: 100%;
   gap: 30px;
   position: relative;
+  /* opacity: 0.4; */
 `;
 
 export const Img = styled.img`
