@@ -12,6 +12,7 @@ import { LuPaintbrush } from "react-icons/lu";
 import { TiScissors } from "react-icons/ti";
 import { BsMagic } from "react-icons/bs";
 import { makeMessage } from "@/utils/makeMessage";
+import Header from '@common/header'
 
 interface RegDataProps {
   shape: string;
@@ -175,50 +176,48 @@ const RollingWrite = () => {
   };
 
   return (
-    <>
-      <r.Header>
-        <r.Icon onClick={handleBack} />
-        <span>메시지 작성하기</span>
-      </r.Header>
+    <div style={{position:'relative'}}>
+      <Header>
+        메시지 작성하기
+      </Header>
       <r.Container>
         <r.SelectWrap>
-          <r.SelectBtn
-            onClick={() => setIsSelectModalOpen(true)}
-          >
+          <r.SelectBtn onClick={() => setIsSelectModalOpen(true)}>
             <LuPaintbrush style={{ marginRight: "5px" }} />
             배경 선택
           </r.SelectBtn>
-          <r.SelectBtn
-            onClick={() => setIsShapeModalOpen(true)}
-          >
+          <r.SelectBtn onClick={() => setIsShapeModalOpen(true)}>
             <TiScissors style={{ marginRight: "5px" }} />
             모양 선택
           </r.SelectBtn>
-          <r.SelectPinkBtn
-            onClick={recommendMessage}
-          >
+          <r.SelectPinkBtn onClick={recommendMessage}>
             <BsMagic style={{ marginRight: "5px" }} />
             축하 멘트 자동 완성
           </r.SelectPinkBtn>
         </r.SelectWrap>
-        <r.MessageBox
-          id="content"
-          $font={selectedFont}
+        <r.MessageWrap
           $backColor={regData.backgroundColor}
           $backImage={selectedFile}
-          placeholder="내용을 작성해주세요."
-          style={{ color: regData.fontColor }}
           $shape={regData.shape}
           $type={backgroundType}
-          value={regData.content}
-          maxLength={300}
-          onChange={(e) => {
-            setRegData((prevData: any) => ({
-              ...prevData,
-              content: e.target.value,
-            }));
-          }}
-        />
+        >
+          <r.MessageBox
+            id="content"
+            $font={selectedFont}
+            placeholder="내용을 작성해주세요."
+            style={{ color: regData.fontColor }}
+            $shape={regData.shape}
+            $type={backgroundType}
+            value={regData.content}
+            maxLength={300}
+            onChange={(e) => {
+              setRegData((prevData: any) => ({
+                ...prevData,
+                content: e.target.value,
+              }));
+            }}
+          />
+        </r.MessageWrap>
         <r.Label>작성자</r.Label>
         <r.Wrap>
           <div
@@ -376,7 +375,7 @@ const RollingWrite = () => {
           </>
         )}
       </r.Container>
-    </>
+    </div>
   );
 };
 

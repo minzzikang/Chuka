@@ -5,6 +5,8 @@ import CelebrationInfoSection from "./CelebrationInfoSection";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { createEventReg } from "@/apis/event";
+import Spinners from "@common/spinners";
+import Header from "@common/header";
 
 interface CelebrationProps {
   type: string;
@@ -12,6 +14,7 @@ interface CelebrationProps {
   date: string;
   theme: string;
   visibility: boolean;
+  nickname: string;
 }
 
 const Index = () => {
@@ -22,6 +25,7 @@ const Index = () => {
     date: "",
     theme: "CORK_BOARD", // 롤링페이퍼 배경
     visibility: true, // 노출 여부
+    nickname: "",
   });
 
   const [bannerImage, setBannerImage] = useState<File | null>(null);
@@ -69,9 +73,18 @@ const Index = () => {
     }));
   };
 
+  const handleNickname = (nickname: string) => {
+    setRegData((prev) => ({
+      ...prev,
+      nickname: nickname,
+    }));
+  };
+
   const handleFileChange = (file: File | null) => {
     setBannerImage(file);
   };
+
+  const [loading, setLoading] = useState<boolean>(false);
 
   const handleSubmit = async () => {
     if (!regData.title) {
@@ -91,13 +104,16 @@ const Index = () => {
     formData.append("date", regData.date);
     formData.append("theme", regData.theme);
     formData.append("visibility", JSON.stringify(regData.visibility));
+    formData.append("nickname", regData.nickname);
 
     if (bannerImage) {
       formData.append("bannerImage", bannerImage);
     }
 
     try {
+      setLoading(true);
       const res = await createEventReg(formData);
+      await setLoading(false);
       navigate(`/celebrate/rolling/${res.eventId}/${res.ageUri}`);
     } catch (err) {
       console.error(err);
@@ -105,20 +121,30 @@ const Index = () => {
   };
 
   return (
-    <c.Container>
-      <TypeSection type={regData.type} handleType={handleType} />
-      <CelebrationInfoSection
-        isVisible={regData.visibility}
-        title={regData.title}
-        handleTitle={handleTitle}
-        handleVisible={handleVisible}
-        handleDateChange={handleDateChange}
-        handleFileChange={handleFileChange}
-        handleTheme={handleTheme}
-        theme={regData.theme}
+    <>
+      <Spinners
+        text={"추카를 등록하는 중입니다"}
+        loading={loading}
+        setLoading={setLoading}
       />
-      <Button onClick={handleSubmit}>등록하기</Button>
-    </c.Container>
+      <c.Container $isLoading={loading}>
+        <Header children="축하 등록하기" />
+        <TypeSection type={regData.type} handleType={handleType} />
+        <CelebrationInfoSection
+          isVisible={regData.visibility}
+          title={regData.title}
+          nickname={regData.nickname}
+          handleTitle={handleTitle}
+          handleVisible={handleVisible}
+          handleDateChange={handleDateChange}
+          handleFileChange={handleFileChange}
+          handleTheme={handleTheme}
+          theme={regData.theme}
+          handleNickname={handleNickname}
+        />
+        <Button onClick={handleSubmit}>등록하기</Button>
+      </c.Container>
+    </>
   );
 };
 

@@ -1,14 +1,13 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
-
-
-export const Container = styled.div`
+export const Container = styled.div<{ $isLoading: boolean }>`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
   gap: 40px;
+  opacity: ${(props) => (props.$isLoading ? "0.4" : "none")};
 `;
 
 export const Wrap = styled.div`

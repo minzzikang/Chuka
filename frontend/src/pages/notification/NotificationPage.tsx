@@ -50,13 +50,13 @@ const NotificationPage = () => {
   };
 
   return (
-    <div>
+    <div style={{position:'relative'}}>
       <Header>{"알림"}</Header>
       <p
         style={{
-          position: "fixed",
-          top: "15px",
-          right: "10px",
+          position:"absolute",
+          top: "20px",
+          right: "13px",
           color: "#959db1",
         }}
         onClick={handleDeleteAll}
