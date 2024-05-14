@@ -8,11 +8,13 @@ export type RollingTypeSectionType = {
 export type RollingInfoSectionType = {
   isVisible: boolean;
   title: string;
+  nickname: string;
   handleTitle: (value: string) => void;
   handleVisible: (value: boolean) => void;
   handleDateChange: (value: Date) => void;
   handleFileChange: (banner: File | null) => void;
   handleTheme: (value: string) => void;
+  handleNickname: (value: string) => void;
   theme: string;
 };
 
