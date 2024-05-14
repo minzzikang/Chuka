@@ -61,7 +61,7 @@ const Banner = (props: BannerInfo) => {
           </b.Title>
           <b.Dday>
             {" "}
-            <b.Icon>{icon}</b.Icon> {`D-${dDay}`}
+            <b.Icon>{icon}</b.Icon> {`D${dDay}`}
           </b.Dday>
         </div>
         <b.EventDay>{date}</b.EventDay>
