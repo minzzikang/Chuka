@@ -1,5 +1,3 @@
-import { Dispatch, SetStateAction } from "react";
-
 export type RollingTypeSectionType = {
   type: string;
   handleType: (value: string) => void;
