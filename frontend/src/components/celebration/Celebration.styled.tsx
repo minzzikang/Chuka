@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
-export const Container = styled.div`
+export const Container = styled.div<{$isLoading:boolean}>`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -19,6 +19,7 @@ export const Container = styled.div`
     background: transparent;
     -webkit-appearance: none;
   }
+  opacity: ${(props) => (props.$isLoading) ? '0.4' : "none" };
 `;
 
 export const InputWrap = styled.div`
