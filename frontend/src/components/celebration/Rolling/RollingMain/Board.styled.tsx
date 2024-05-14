@@ -70,6 +70,7 @@ export const P = styled.p`
 
 export const SMComment = styled.p<{$active:boolean}>`
   filter: ${(props) => props.$active ? 'none' : `blur(3px)`};
+  
 `
 
 
