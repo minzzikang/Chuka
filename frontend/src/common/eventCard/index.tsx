@@ -8,10 +8,8 @@ const index = (props: EventCardType) => {
   const navigate = useNavigate();
   const { title, createTime, date, thumbNailUrl, eventUrl } = props;
 
-  const formatCreateTime = createTime.split("T")[0];
-  const formatTitle = formattingTitle(title ?? '이벤트 제목');
-
-  const formatDDay = calculateDay(date, createTime);
+  const formatTitle = formattingTitle(title ?? "이벤트 제목");
+  const formatDDay = calculateDay(date);
 
   return (
     <e.Container

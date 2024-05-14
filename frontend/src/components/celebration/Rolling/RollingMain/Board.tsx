@@ -10,13 +10,7 @@ import Modal from "@common/modal";
 import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
-
-const TargetRef = styled.div`
-  position: absolute;
-  left: 0;
-  bottom: 0;
-  color: white;
-`;
+import { calculateDay } from "@/utils/calculation";
 
 interface RollSheetListProps {
   nickname: string;
@@ -32,11 +26,12 @@ interface RollSheetListProps {
 
 interface BoardProps {
   theme: string;
+  date: string;
 }
 
 const Board = (props: BoardProps) => {
   const user = useRecoilValue(userState);
-  const { theme } = props;
+  const { theme, date } = props;
 
   const { eventId, pageUri } = useParams<{
     pageUri: string;
@@ -112,6 +107,7 @@ const Board = (props: BoardProps) => {
     }
   };
 
+  // 롤링페이퍼 메시지 삭제
   const handleDelete = async (rollSheetId: string) => {
     try {
       await deleteRoll(rollSheetId);
@@ -124,6 +120,16 @@ const Board = (props: BoardProps) => {
       console.log(err);
     }
   };
+
+  // 블러처리 DDAY 계산
+  const [isDDay, setIsDDay] = useState<boolean>(false);
+
+  useEffect(() => {
+    const isDDay = calculateDay(date)
+    if (isDDay === 'DAY') {
+      setIsDDay(true);
+    }
+  }, [date]);
 
   return (
     <>
@@ -140,7 +146,9 @@ const Board = (props: BoardProps) => {
               $shape={roll.shape}
               onClick={() => handleCardClick(roll.rollSheetId)}
             >
-              <p>{formattingComment(roll.content)}</p>
+              <b.SMComment $active={isDDay}>
+                {formattingComment(roll.content)}
+              </b.SMComment>
               <p>From. {roll.nickname}</p>
             </b.Card>
           ))}
@@ -182,7 +190,7 @@ const Board = (props: BoardProps) => {
                 <span style={{ color: colors.gray }}>삭제</span>
               </div>
             )} */}
-            {selectedRoll.content}
+            <b.LGComment $active={isDDay}>{selectedRoll.content}</b.LGComment>
           </b.CardDetail>
         </Modal>
       )}

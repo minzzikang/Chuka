@@ -6,8 +6,6 @@ import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchEventInfo } from "@/apis/event";
 import Drawer from "@components/drawer";
-import RModal from "@common/homeResModal";
-import FundingModal from "@components/celebration/Rolling/RollingMain/FundingModal";
 import { EventInfo } from "./RollingMainPage.styled";
 import * as r from "./RollingMainPage.styled";
 import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
@@ -18,7 +16,6 @@ const RollingMainPage = () => {
   }>();
   const prevUrl = window.location.href;
   const [isDrawerOpen, setDrawerOpen] = useState(false);
-  const [fundingModalOpen, setFundingModalOpen] = useState<boolean>(false);
   const [eventInfoData, setEventInfoData] = useState<EventInfo>({
     userId: "",
     nickname: "",
@@ -54,7 +51,6 @@ const RollingMainPage = () => {
     setDrawerOpen(true);
   };
 
-
   return (
     <>
       <r.Container>
@@ -70,11 +66,15 @@ const RollingMainPage = () => {
           createTime={eventInfoData.createTime}
           nickname={eventInfoData.nickname}
         />
-        <Board theme={eventInfoData.theme} />
+        <Board theme={eventInfoData.theme} date={eventInfoData.date} />
         <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
         {isDrawerOpen && (
-          <Drawer isOpen={isDrawerOpen} onClose={() => setDrawerOpen(false)} name="펀딩 리스트">
-            <DrawerModal eventUserId={eventInfoData.userId}/>
+          <Drawer
+            isOpen={isDrawerOpen}
+            onClose={() => setDrawerOpen(false)}
+            name="펀딩 리스트"
+          >
+            <DrawerModal eventUserId={eventInfoData.userId} />
           </Drawer>
         )}
       </r.Container>

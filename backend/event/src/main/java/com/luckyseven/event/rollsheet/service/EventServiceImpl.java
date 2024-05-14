@@ -32,6 +32,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.io.IOException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -307,7 +308,17 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public ResponseEntity<?> sendDdayalarmTest() {
-        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+//        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
+        Event event = eventRepository.findByEventId(20);
+
+        DdayReceiveDto dto = new DdayReceiveDto();
+        dto.setEventId(event.getEventId());
+        dto.setCreater(event.getUserId());
+        dto.setPageUri(event.getPageUri());
+        dto.setTitle(event.getTitle());
+
+        List<DdayReceiveDto> userIdList = new ArrayList<>();
+        userIdList.add(dto);
 
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);

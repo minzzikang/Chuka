@@ -64,13 +64,13 @@ const index = (props: RollingInfoSectionType) => {
           placeholder="축하하는 날의 이름을 적어주세요."
           value={title}
           onChange={(e) => handleTitle(e.target.value)}
-          maxLength={15}
+          maxLength={20}
         />
       </c.Wrap>
       <c.Wrap>
         <Label htmlFor="date" children="ㅊㅋ 날짜" />
         <Calendar onDateChange={handleDateChange} />
-        <c.P>선택한 날짜부터 롤링페이퍼가 공개됩니다.</c.P>
+        <c.P>선택한 날짜부터 롤링페이퍼 메시지가 공개됩니다.</c.P>
       </c.Wrap>
       <c.Wrap>
         <c.FileInputLabel htmlFor="img">대표 이미지 설정</c.FileInputLabel>
@@ -81,7 +81,7 @@ const index = (props: RollingInfoSectionType) => {
             id="img"
             ref={fileInputRef}
             onChange={handleImgChange}
-            accept="image/jpeg, image/png, image/gif, image/webp"
+            accept="image/jpeg, image/png, image/gif"
           />
           {fileName || "축하하는 날을 대표하는 이미지를 등록해주세요."}
           <img src={FileIcon} />
@@ -98,7 +98,7 @@ const index = (props: RollingInfoSectionType) => {
             $active={theme === themeList[0]}
           >
             <c.ThemeImg src={CorkImg} />
-            {"보드"}
+            {"벽돌"}
           </c.ThemeButton>
           <c.ThemeButton
             onClick={() => onClickTheme(themeList[1])}
