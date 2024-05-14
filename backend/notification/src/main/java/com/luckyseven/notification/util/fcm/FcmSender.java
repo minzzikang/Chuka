@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.common.net.HttpHeaders;
 import com.luckyseven.notification.dto.FCMMessageDto;
+import com.luckyseven.notification.util.feign.UserFeignClient;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.*;
@@ -19,13 +20,13 @@ import java.util.List;
 @Component
 @RequiredArgsConstructor
 public class FcmSender {
-
+    private final UserFeignClient userFeignClient;
     private final String API_URL =
             "https://fcm.googleapis.com/v1/projects/chuka-62524/messages:send";
     private final ObjectMapper objectMapper;
 
     public void sendMessageTo(FCMMessageDto fcmMessageDto) throws IOException {
-        log.info("*********************sendMessageTo***************************");
+//        log.info("*********************sendMessageTo***************************");
         String message = makeMessage(fcmMessageDto);
 
         OkHttpClient client = new OkHttpClient();
@@ -39,10 +40,23 @@ public class FcmSender {
                         .addHeader(HttpHeaders.CONTENT_TYPE, "application/json; UTF-8")
                         .build();
 
-        Response response = client.newCall(request).execute();
+        try(Response response = client.newCall(request).execute()){
+//            log.info("********************\n{}\n*************************",response);
+            // 실패한 토큰제거.
+            if(!response.isSuccessful()){
+//                log.info("실패한 토큰 => {}",fcmMessageDto.getTargetToken());
+                userFeignClient.deleteInvalidFcmtoken(fcmMessageDto.getTargetToken());
+//                log.info("삭제함.");
+            }
+//            else {
+//                log.info("전송!");
+//            }
 
-        log.info("[FCM_Log] => {}", response.body().string());
-        log.info("[FCM_Log] => message : {}", response.message());
+        }catch (Exception e){
+            log.error("Error sending FCM message: {}", e.getMessage());
+        }
+
+
     }
 
     private String makeMessage(FCMMessageDto fcmMessageDto)
