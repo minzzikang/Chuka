@@ -308,17 +308,7 @@ public class EventServiceImpl implements EventService {
 
     @Override
     public ResponseEntity<?> sendDdayalarmTest() {
-//        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
-        Event event = eventRepository.findByEventId(20);
-
-        DdayReceiveDto dto = new DdayReceiveDto();
-        dto.setEventId(event.getEventId());
-        dto.setCreater(event.getUserId());
-        dto.setPageUri(event.getPageUri());
-        dto.setTitle(event.getTitle());
-
-        List<DdayReceiveDto> userIdList = new ArrayList<>();
-        userIdList.add(dto);
+        List<DdayReceiveDto> userIdList = eventQueryRepository.findAllByCurdate();
 
         BaseMessageDto baseMessageDto = new BaseMessageDto();
         baseMessageDto.setData(userIdList);
