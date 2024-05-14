@@ -72,10 +72,10 @@ export default (mode: string) => {
       host: true,
       strictPort: true,
       port: 5000,
-      hmr: {
-        host: "localhost",
-        protocol: "wss",
-      },
+      // hmr: {
+      //   host: "localhost",
+      //   protocol: "wss",
+      // },
     },
   });
 };

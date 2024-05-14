@@ -57,7 +57,6 @@ const Banner = (props: BannerInfo) => {
         >
           <b.Title>
             {title}
-            {/* <IoMdSettings onClick={() => navigate("/celebrate")} /> */}
           </b.Title>
           <b.Dday>
             {" "}

@@ -15,15 +15,12 @@ export const calculateDay = (eventDate: string) => {
   const eventDateTime = new Date(eventDate);
   eventDateTime.setHours(eventDateTime.getHours()- 9)
 
-  console.log('오늘 : ', today);
-  console.log('이벤트 날짜 : ', eventDateTime);
 
   // 날짜 정보만 비교하기 위해 'YYYY-MM-DD' 포맷으로 변환
   const formattedToday = `${today.getFullYear()}-${(today.getMonth() + 1).toString().padStart(2, '0')}-${today.getDate().toString().padStart(2, '0')}`;
   const formattedEventDate = `${eventDateTime.getFullYear()}-${(eventDateTime.getMonth() + 1).toString().padStart(2, '0')}-${eventDateTime.getDate().toString().padStart(2, '0')}`;
 
-  console.log('오늘 포맷', formattedToday);
-  console.log('이벤트 날짜 포맷', formattedEventDate);
+
 
   // 다시 Date 객체로 변환하여 시간 차이 계산
   const compareToday = new Date(formattedToday);
