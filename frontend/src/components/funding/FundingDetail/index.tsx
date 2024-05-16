@@ -29,7 +29,6 @@ type FundingType = {
   pageUri: string;
 };
 
-// 3463207627
 const index = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -45,6 +44,7 @@ const index = () => {
     const fetchData = async () => {
       try {
         const response = await fetchFunding(fundingId);
+        console.log(response);
         setValues(response);
       } catch (err) {
         console.log(err);
@@ -54,6 +54,18 @@ const index = () => {
   }, [fundingId]);
 
   const eventUserId = values?.userId;
+
+  const goPayment = () => {
+    if (
+      values?.remainAmount &&
+      values.goalAmount &&
+      values?.remainAmount < values?.goalAmount
+    ) {
+      navigate(`/celebrate/funding/${fundingId}/payment`);
+    } else {
+      alert("모금이 완료되었습니다.");
+    }
+  };
 
   return (
     <>
@@ -92,23 +104,13 @@ const index = () => {
 
         {eventUserId === currentUserId ? (
           <f.BtnWrap>
-            <f.PinkBtn
-              onClick={() =>
-                navigate(`/celebrate/funding/${fundingId}/payment`)
-              }
-            >
-              펀딩 직접 참여
-            </f.PinkBtn>
+            <f.PinkBtn onClick={goPayment}>펀딩 직접 참여</f.PinkBtn>
             <f.WhiteBtn onClick={() => setIsModalOpen(true)}>
               펀딩 삭제
             </f.WhiteBtn>
           </f.BtnWrap>
         ) : (
-          <f.PinkBtn
-            onClick={() => navigate(`/celebrate/funding/${fundingId}/payment`)}
-          >
-            선물 펀딩 참여하기
-          </f.PinkBtn>
+          <f.PinkBtn onClick={goPayment}>선물 펀딩 참여하기</f.PinkBtn>
         )}
 
         {isModalOpen && (
