@@ -1,4 +1,3 @@
-
 import styled from "styled-components";
 import { colors } from "@styles/theme";
 
@@ -17,14 +16,30 @@ export const Button = styled.button`
   font-size: 1.2em;
   z-index: 201;
   width: 30px;
-  height: 250px;
+  height: 180px;
   background-color: ${colors.mainPink};
   color: ${colors.white};
   position: absolute;
-  bottom: 30%;
+  bottom: 40%;
   right: 0;
   transition: right 0.3s ease-in-out;
   writing-mode: vertical-lr;
+`;
+
+export const shareButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3em;
+  z-index: 203;
+  width: 300px;
+  height: 40px;
+  background-color: ${colors.mainPink};
+  color: ${colors.white};
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translate(-50%, 0);
 `;
 
 export interface EventInfo {
