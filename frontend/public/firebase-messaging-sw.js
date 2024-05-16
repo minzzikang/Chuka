@@ -7,7 +7,6 @@ importScripts(
 
 // install event
 self.addEventListener("install", (e) => {
-  // console.log("[Service Worker] installed");
 });
 
 // activate event
@@ -18,7 +17,6 @@ self.addEventListener("activate", function (e) {
 
 // fetch event
 self.addEventListener("fetch", (e) => {
-  // console.log('[Service Worker] fetched resource ' + e.request.url);
 });
 
 const EVENT_CREATE = "EVENT_CREATE";
@@ -36,8 +34,6 @@ let thisFundingId = null;
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
   
-  // console.log("[TEST] : ", e.data.json().data);
-  // console.log("[TYPE] : ", e.data.json().data.type);
   const type = e.data.json().data.type;
 
   if(type === EVENT_OPEN || type ===  EVENT_CREATE){
@@ -58,7 +54,6 @@ self.addEventListener("push", function (e) {
     tag: resultData.tag,
     ...resultData,
   };
-  // console.log("resultData: ", { resultData });
 
   self.registration.showNotification(notificationTitle, notificationOptions);
 

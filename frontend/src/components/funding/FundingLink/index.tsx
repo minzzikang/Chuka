@@ -12,9 +12,6 @@ const index = () => {
 
   const handleClick = () => {
     if (productLink) {
-      // alert(
-      //   "상품 크롤링이 가능한 사이트는 네이버 쇼핑 스마트스토어, 11번가, GMarket, 옥션, SSG입니다. 확인해주세요 !"
-      // );
       navigate(`/celebrate/rolling/${eventId}/funding-info`, {
         state: { productLink },
       });
@@ -39,15 +36,6 @@ const index = () => {
             onChange={(e) => setProductLink(e.target.value.trim())}
           />
           <F.Button onClick={handleClick}>다음</F.Button>
-          {/* <F.Label>주의사항</F.Label>
-          <div>상품 크롤링 가능 사이트</div>
-          <ol style={{display:'flex', flexDirection:'column', gap:'3px'}}>
-            <li>* 네이버 쇼핑 스마트스토어</li>
-            <li>* 11번가</li>
-            <li>* GMarket</li>
-            <li>* 옥션</li>
-            <li>* SSG</li>
-          </ol> */}
         </F.Wrap>
       </F.Container>
     </div>

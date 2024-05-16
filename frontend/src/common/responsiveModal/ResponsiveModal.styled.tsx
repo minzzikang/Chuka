@@ -1,10 +1,12 @@
-import { colors, sizes } from '@styles/theme'
-import styled from 'styled-components'
+import { colors, sizes } from "@styles/theme";
+import styled from "styled-components";
 
 export const BlackBox = styled.div`
   display: flex;
   position: fixed;
   top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 100;
   width: 100%;
   height: 100dvh;
@@ -18,12 +20,14 @@ export const BlackBox = styled.div`
   @media only screen and (min-width: 600px) {
     width: 375px;
   }
-`
+`;
 
 export const Container = styled.div`
   display: flex;
   position: fixed;
   bottom: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 101;
   width: 100%;
   min-width: ${sizes.minWidth};
@@ -44,20 +48,20 @@ export const Container = styled.div`
   @media only screen and (min-width: 600px) {
     width: 375px;
   }
-`
+`;
 
 export const Wrap = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
-`
+`;
 
 export const ModalName = styled.div`
   display: flex;
   justify-content: center;
   padding-block: 1em;
   font-weight: 600;
-`
+`;
 
 export const Backdrop = styled.div`
   position: absolute;
@@ -70,4 +74,4 @@ export const Backdrop = styled.div`
     width: 16px;
     height: 16px;
   }
-`
+`;

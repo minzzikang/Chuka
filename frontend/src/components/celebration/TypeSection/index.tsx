@@ -1,7 +1,3 @@
-import { MdCake, MdFavorite } from "react-icons/md";
-import { RiGraduationCapFill, RiMedal2Fill } from "react-icons/ri";
-import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
-
 import Label from "@common/label";
 import { RollingTypeSectionType } from "@/types/rollingType";
 import * as t from "@/components/celebration/TypeSection/TypeSection.styled";
@@ -43,17 +39,53 @@ const index = (props: RollingTypeSectionType) => {
               $active={type === typeMap[item]}
             >
               {item === "생일" ? (
-                <MdCake />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_birthday_pink.png"
+                      : "/icon/icon_type_birthday_gray.png"
+                  }
+                />
               ) : item === "입학/졸업" ? (
-                <RiGraduationCapFill />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_school_pink.png"
+                      : "/icon/icon_type_school_gray.png"
+                  }
+                />
               ) : item === "승진" ? (
-                <RiMedal2Fill />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_promotion_pink.png"
+                      : "/icon/icon_type_promotion_gray.png"
+                  }
+                />
               ) : item === "스승의날" ? (
-                <PiFlowerLotusThin />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_teacher_pink.png"
+                      : "/icon/icon_type_teacher_gray.png"
+                  }
+                />
               ) : item === "결혼" ? (
-                <MdFavorite />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_marriage_pink.png"
+                      : "/icon/icon_type_marriage_gray.png"
+                  }
+                />
               ) : (
-                <PiDotsThreeOutlineFill />
+                <img
+                  src={
+                    type === typeMap[item]
+                      ? "/icon/icon_type_etc_pink.png"
+                      : "/icon/icon_type_etc_gray.png"
+                  }
+                />
               )}
               <span>{item}</span>
             </t.Button>
