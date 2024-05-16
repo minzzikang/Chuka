@@ -1,3 +1,7 @@
+import { useNavigate } from "react-router";
+import { EventCardType } from "./EventCard.styled";
+import { formattingTitle } from "@/utils/stringFormat";
+import { calculateDay } from "@/utils/calculation";
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
 
@@ -9,9 +13,9 @@ export const Container = styled.div<{ $thumbNailUrl: string }>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  width: 120px;
-  height: 120px;
-  border-radius: 30px;
+  width: 150px;
+  height: 150px;
+  border-radius: 1em;
   position: relative;
 `;
 
@@ -35,9 +39,9 @@ export const Wrap = styled.div`
   opacity: 0.7;
   display: flex;
   position: absolute;
-  top: 50%;
-  border-bottom-right-radius: 1.25em;
-  border-bottom-left-radius: 1.25em;
+  top: 64%;
+  border-bottom-right-radius: 1em;
+  border-bottom-left-radius: 1em;
 `;
 
 export const WrapOverlay = styled.div`
@@ -54,6 +58,7 @@ export const DescWrap = styled.div`
   padding-left: 6px;
   gap: 4px;
 `;
+
 export const Title = styled.div`
   font-size: 1em;
   font-weight: 700;
@@ -64,10 +69,30 @@ export const Date = styled.div`
   font-weight: 500;
 `;
 
-export type EventCardType = {
-  title: string;
-  createTime: string;
-  date: string;
-  thumbNailUrl: string;
-  eventUrl: string;
+
+const index = (props: EventCardType) => {
+  const navigate = useNavigate();
+  const { title, createTime, date, thumbNailUrl, eventUrl } = props;
+
+  const formatTitle = formattingTitle(title ?? "이벤트 제목");
+  const formatDDay = calculateDay(date);
+
+  return (
+    <Container
+      $thumbNailUrl={thumbNailUrl}
+      onClick={() => navigate(`${eventUrl}`)}
+    >
+      <Dday>D{formatDDay}</Dday>
+      <Wrap>
+        <WrapOverlay>
+          <DescWrap>
+            <Title>{formatTitle}</Title>
+            <Date>{date}</Date>
+          </DescWrap>
+        </WrapOverlay>
+      </Wrap>
+    </Container>
+  );
 };
+
+export default index;
