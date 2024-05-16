@@ -89,10 +89,10 @@ export const DeleteBtn = styled.button`
 
 export const Card = styled.div<{
   $bgColor?: string;
-  $font: string;
-  $fontColor: string;
+  $font?: string;
+  $fontColor?: string;
   $bgImage?: string;
-  $shape: string;
+  $shape?: string;
 }>`
   display: flex;
   padding: 10px;
