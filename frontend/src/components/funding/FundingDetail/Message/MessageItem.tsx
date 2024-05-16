@@ -40,10 +40,10 @@ const MessageItem = (props: MessageItemProps) => {
           <M.Text>From. {nickname}</M.Text>
           <M.Text>{comment}</M.Text>
         </M.TextWrap>
-        <div>
+        <M.AmountWrap>
           {setMedal(rank) && <M.Medal src={setMedal(rank)} />}
-          <M.Highlight>{amount.toLocaleString()}원</M.Highlight>
-        </div>
+          <M.Highlight>{amount.toLocaleString()} 원</M.Highlight>
+        </M.AmountWrap>
       </M.RightWrap>
     </M.Container>
   );
