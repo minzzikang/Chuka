@@ -44,7 +44,6 @@ const index = () => {
     const fetchData = async () => {
       try {
         const response = await fetchFunding(fundingId);
-        console.log(response);
         setValues(response);
       } catch (err) {
         console.log(err);
