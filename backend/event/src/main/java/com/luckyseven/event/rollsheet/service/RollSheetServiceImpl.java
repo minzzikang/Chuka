@@ -140,7 +140,7 @@ public class RollSheetServiceImpl implements RollSheetService {
     public boolean isMyRollSheet(String userId, String rollSheetId) {
         RollSheet rollSheet = rollSheetRepository.findByRollSheetId(rollSheetId);
 
-        if (rollSheet.getUserId().isBlank()) {
+        if (rollSheet == null || rollSheet.getUserId().isBlank()) {
             return false;
         }
 

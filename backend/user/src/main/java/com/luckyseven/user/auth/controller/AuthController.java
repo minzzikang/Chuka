@@ -2,11 +2,8 @@ package com.luckyseven.user.auth.controller;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
-import com.luckyseven.user.message.dto.BaseMessageDto;
 import com.luckyseven.user.user.service.UserService;
 import com.luckyseven.user.util.jwt.JWTUtil;
-import com.luckyseven.user.message.ProducerService;
-import com.luckyseven.user.message.dto.Topic;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -57,7 +54,6 @@ public class AuthController {
             jwtUtil.validateToken(token);
             return ResponseEntity.ok().body("유효함");
         } catch (Exception e) {
-            log.error(e.getMessage());
             return ResponseEntity.internalServerError().body(e.getMessage());
         }
     }
@@ -90,16 +86,14 @@ public class AuthController {
             responseHeaders.set("Authorization", "Bearer " + accessToken);
             responseHeaders.set("Refresh-Token", "Bearer " + refreshToken);
 
-            log.info("accessToken: {}", accessToken);
-            log.info("refreshToken: {}", refreshToken);
+            log.debug("accessToken: {}", accessToken);
+            log.debug("refreshToken: {}", refreshToken);
 
             return ResponseEntity.status(statusCode).headers(responseHeaders).body(userInfo);
         } catch (HttpClientErrorException e) {
-            log.error("KAKAO LOGIN FAILED");
-            log.error(e.getMessage());
+            log.error("--- KAKAO LOGIN FAILED ---");
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         } catch (Exception e) {
-            log.error(e.getMessage());
             return ResponseEntity.status(400).headers(responseHeaders).body(null);
         }
 
@@ -118,7 +112,6 @@ public class AuthController {
     ) {
         try {
             String refreshToken = authorization.substring("Bearer ".length());
-            log.info("refreshToken: {}", refreshToken);
 
             String newAccessToken = null;
             try {
@@ -132,11 +125,10 @@ public class AuthController {
             HttpHeaders responseHeaders = new HttpHeaders();
             responseHeaders.set("Authorization", "Bearer " + newAccessToken);
 
-            log.info("accessToken: {}", newAccessToken);
+            log.debug("reissue accessToken: {}", newAccessToken);
 
             return ResponseEntity.status(200).headers(responseHeaders).body(null);
         } catch (Exception e) {
-            log.error(e.getMessage());
 
             return ResponseEntity.status(400).body("access-token 발급 실패");
         }
