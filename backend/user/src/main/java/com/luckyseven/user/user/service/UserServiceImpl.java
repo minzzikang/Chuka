@@ -61,7 +61,7 @@ public class UserServiceImpl implements UserService {
     public MyInfoDto getMyInfo(String userId) {
         User user = userRepository.findByUserId(userId);
 
-        return MyInfoDto.of(user);
+        return (user == null) ? null : MyInfoDto.of(user);
     }
 
     @Override
