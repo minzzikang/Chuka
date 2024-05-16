@@ -51,7 +51,7 @@ const index = (props: CrawlingType) => {
         <C.CurrentAmount $percent={percent}></C.CurrentAmount>
       </C.GoalAmount>
       <C.BottomWrap>
-        <div>{(goalAmount - remainAmount).toLocaleString()}원</div>
+        <div>{(goalAmount).toLocaleString()}원</div>
       </C.BottomWrap>
     </C.Container>
   );
