@@ -16,11 +16,13 @@ import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import PaymentRedirectHandler from "@/pages/redirect/PaymentRedirectHandler";
 import MyCelebratePage from "@pages/mypage/MyCelebratePage";
 import MyFundingPage from "@pages/mypage/MyFundingPage";
+import EventListPage from "@/pages/eventList/EventListPage";
 
 const HomeRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/eventlist" element={<EventListPage />} />
       <Route path="/review" element={<ReviewPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />
