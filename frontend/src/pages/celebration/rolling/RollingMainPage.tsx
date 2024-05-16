@@ -57,11 +57,7 @@ const RollingMainPage = () => {
   return (
     <>
       <r.Container>
-        <RollingHeader
-          bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
-          title={eventInfoData.title}
-          nickname={eventInfoData.nickname}
-        />
+        <RollingHeader />
         <Banner
           bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
           title={eventInfoData.title}
