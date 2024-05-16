@@ -324,4 +324,9 @@ public class EventServiceImpl implements EventService {
     public void reloadProfanityData() {
         profanityFilter.reloadProfanityData();
     }
+
+    @Override
+    public void exceptionTest() {
+        throw new RuntimeException("되나?");
+    }
 }
