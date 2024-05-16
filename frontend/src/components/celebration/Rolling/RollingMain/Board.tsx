@@ -38,6 +38,7 @@ const Board = (props: BoardProps) => {
   const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([]);
   const [totalCnt, setTotalCnt] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(0); // 스크롤이 닿았을 때 새롭게 데이터 페이지를 바꿀 상태
+  const pageRef = useRef(null)
   const [loading, setLoading] = useState(false); // 로딩 성공
   const observerRef = useRef<IntersectionObserver>();
 
@@ -49,10 +50,11 @@ const Board = (props: BoardProps) => {
     }
     setLoading(true);
     try {
-      const response = await fetchRollSheets(eventId, currentPage, 8);
+      const response = await fetchRollSheets(eventId, currentPage, 6);
       if (response) {
         setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
-        if (response.rollSheetList.length < 8) {
+        console.log('페이지 응답', currentPage, response);
+        if (response.rollSheetList.length < 6) {
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
           setLoading(false);
@@ -65,7 +67,8 @@ const Board = (props: BoardProps) => {
   }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
   const onIntersect = useCallback(
-    (entry: any, observer: any) => {
+    async (entry: any, observer: any) => {
+      observer.unobserve(entry.target)
       if (entry.isIntersecting && !loading) {
         fetchMoreData();
       }
@@ -74,9 +77,9 @@ const Board = (props: BoardProps) => {
   );
 
   const ref = useIntersect(onIntersect, {
-    threshold: 0.1, // 관찰하고자 하는 element가 어느정도 노출됐을 때 activate할 것인지 결정하는 옵션, 0이면 1px이라도 노출됐을 때 activate
-    rootMargin: "200px", // 특정 요소에 닿았을 때 isIntersecting이 true가 될텐데, 관찰하고자 하는 element의 크기를 넘어서서 200px 전부터 체킹하고 싶다.
-    // root: null, // root는 default가 null 이다. 이 때, 특정 div 내에서 scroll을 하고 싶은거라면 root에 특정 element 값을 넣어주면 된다. ex)  document.querySelector('#scrollArea')
+    // root: null,
+    rootMargin: "200px", 
+    threshold: 0.1, 
   });
 
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
@@ -144,9 +147,9 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        <div ref={ref} style={{ color: "transparent" }}>
+        <b.Target ref={ref} >
           Loading more...
-        </div>
+        </b.Target>
       </b.Container>
       {rollingModalOpen && selectedRoll && (
         <Modal

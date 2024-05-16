@@ -87,6 +87,17 @@ export const DeleteBtn = styled.button`
   background-color: ${colors.mainPink};
 `;
 
+export const Target = styled.div`
+
+  position: absolute;
+  height: 1px;
+  bottom: 0;
+  font-size: 1em;
+  color: transparent;
+  
+`
+
+
 export const Card = styled.div<{
   $bgColor?: string;
   $font?: string;
@@ -122,6 +133,7 @@ export const Card = styled.div<{
     height: 30px;
   }
 `;
+
 
 export const DetailWrap = styled.div<{
   $bgImage?: string;
