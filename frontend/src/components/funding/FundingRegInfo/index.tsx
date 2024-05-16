@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
