@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   /* margin-top: 15px; */
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,6 +42,13 @@ export const SelectWrap = styled.div`
   margin-bottom: 10px;
   gap: 17px;
 
+  @media only screen and (min-width: 430px) {
+    width: 350px;
+  }
+  @media only screen and (min-width: 600px) {
+    width: 350px;
+  }
+
   button {
     display: flex;
     border-radius: 0.3em;
@@ -66,10 +73,11 @@ export const SelectBtn = styled.button`
     width: 90px; // 데스크탑에서는 글씨 크기를 줄임
   }
 `;
-export const SelectPinkBtn = styled.button`
+export const SelectPinkBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0.3em;
   border: 2px solid ${colors.mainPink};
   color: ${colors.mainPink};
   width: 150px;

@@ -56,4 +56,10 @@ export const Button = styled.button`
   margin-top: 5px;
   margin-bottom: 5px;
   font-size: 0.8em;
+
+  img {
+    width: 18px;
+    height: 20px;
+    margin-right: 3px;
+  }
 `;

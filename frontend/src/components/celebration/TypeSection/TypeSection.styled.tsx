@@ -35,4 +35,9 @@ export const Button = styled.button<{ $active: boolean }>`
     flex-grow: 1;
     text-align: center;
   }
+
+  img {
+    width: 18px;
+    height: 18px;
+  }
 `;
