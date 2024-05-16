@@ -5,6 +5,8 @@ export const BlackBox = styled.div`
   display: flex;
   position: fixed;
   top: 0;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 100;
   width: 100%;
   height: 100dvh;
@@ -24,6 +26,8 @@ export const Container = styled.div`
   display: flex;
   position: fixed;
   bottom: 60px;
+  left: 50%;
+  transform: translate(-50%, 0);
   z-index: 1000;
   width: 100%;
   min-width: ${sizes.minWidth};
