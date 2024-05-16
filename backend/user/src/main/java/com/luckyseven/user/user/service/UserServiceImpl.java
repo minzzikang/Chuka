@@ -9,7 +9,6 @@ import com.luckyseven.user.user.entity.User;
 import com.luckyseven.user.user.repository.FcmTokenRepository;
 import com.luckyseven.user.user.repository.UserQueryRepository;
 import com.luckyseven.user.user.repository.UserRepository;
-import com.luckyseven.user.util.feign.NotificationFeignClient;
 import com.luckyseven.user.util.jwt.JWTUtil;
 import com.luckyseven.user.message.ProducerService;
 import com.luckyseven.user.message.dto.Topic;
@@ -41,8 +40,6 @@ public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
     private final FcmTokenRepository fcmTokenRepository;
     private final UserQueryRepository userQueryRepository;
-
-    private final NotificationFeignClient notificationFeignClient;
 
     private final ProducerService producerService;
 
