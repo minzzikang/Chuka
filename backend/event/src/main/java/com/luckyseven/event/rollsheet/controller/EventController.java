@@ -48,9 +48,12 @@ public class EventController {
 
 
     @GetMapping("/test2")
-    public ResponseEntity<?> test2() {
-        throw new RuntimeException();
-//        return eventService.sendDdayalarmTest();
+    public void test2() {
+        try {
+            eventService.exceptionTest();
+        } catch (Exception e) {
+            log.error("exception");
+        }
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -114,7 +117,7 @@ public class EventController {
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
-        log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
+        log.debug("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
         try {
             List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
             EventListRes res = new EventListRes();
