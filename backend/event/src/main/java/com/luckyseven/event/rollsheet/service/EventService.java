@@ -39,5 +39,4 @@ public interface EventService {
 
     void reloadProfanityData();
 
-    void exceptionTest();
 }

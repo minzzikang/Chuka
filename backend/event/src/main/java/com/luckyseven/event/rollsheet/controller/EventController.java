@@ -5,8 +5,6 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.message.ProducerService;
-import com.luckyseven.event.message.dto.BaseMessageDto;
-import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.*;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
@@ -21,7 +19,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -44,16 +41,6 @@ public class EventController {
     @GetMapping("/test")
     public ResponseEntity<?> test() {
         return eventService.sendDdayalarmTest();
-    }
-
-
-    @GetMapping("/test2")
-    public void test2() {
-        try {
-            eventService.exceptionTest();
-        } catch (Exception e) {
-            log.error("exception");
-        }
     }
 
     @PostMapping(consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
