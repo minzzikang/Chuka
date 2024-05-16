@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import { colors } from "@styles/theme";
 
 export const Container = styled.div<{$isLoading:boolean}>`
   position: relative;
@@ -8,7 +7,7 @@ export const Container = styled.div<{$isLoading:boolean}>`
   justify-content: center;
   align-items: center;
   height: 100%;
-  padding-bottom: 60px;
+  padding-bottom: 80px;
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;

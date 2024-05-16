@@ -12,7 +12,7 @@ export const Container = styled.div`
 
 export const Header = styled.div`
   /* margin-top: 15px; */
-  
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -42,6 +42,13 @@ export const SelectWrap = styled.div`
   margin-bottom: 10px;
   gap: 17px;
 
+  @media only screen and (min-width: 430px) {
+    width: 350px;
+  }
+  @media only screen and (min-width: 600px) {
+    width: 350px;
+  }
+
   button {
     display: flex;
     border-radius: 0.3em;
@@ -66,10 +73,11 @@ export const SelectBtn = styled.button`
     width: 90px; // 데스크탑에서는 글씨 크기를 줄임
   }
 `;
-export const SelectPinkBtn = styled.button`
+export const SelectPinkBtn = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 0.3em;
   border: 2px solid ${colors.mainPink};
   color: ${colors.mainPink};
   width: 150px;
@@ -275,6 +283,7 @@ export const MessageWrap = styled.div<{
   width: 95%;
   height: 380px;
   padding: 5px;
+  padding-left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -286,7 +295,7 @@ export const MessageBox = styled.textarea<{
   $shape: string;
   $type: string;
 }>`
-  margin: 10px;
+  margin: 5px;
   border-radius: 1em;
   padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
   width: 100%;
@@ -295,7 +304,7 @@ export const MessageBox = styled.textarea<{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
   font-size: 1.5em;

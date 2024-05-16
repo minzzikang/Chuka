@@ -1,14 +1,15 @@
 import RollingHeader from "@/components/celebration/Rolling/RollingMain/RollingHeader";
 import Banner from "@/components/celebration/Rolling/RollingMain/Banner";
-import Navbar from "@common/navbar";
 import Board from "@/components/celebration/Rolling/RollingMain/Board";
+import Navbar from "@common/navbar";
+import Drawer from "@components/drawer";
+import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
+import { shareEventKakao } from "@/services/shareEventKakao";
 import { useParams } from "react-router-dom";
 import { useState, useEffect } from "react";
 import { fetchEventInfo } from "@/apis/event";
-import Drawer from "@components/drawer";
 import { EventInfo } from "./RollingMainPage.styled";
 import * as r from "./RollingMainPage.styled";
-import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
 
 const RollingMainPage = () => {
   const { eventId } = useParams<{
@@ -51,14 +52,12 @@ const RollingMainPage = () => {
     setDrawerOpen(true);
   };
 
+  const eventUrl = window.location.href;
+
   return (
     <>
       <r.Container>
-        <RollingHeader
-          bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
-          title={eventInfoData.title}
-          nickname={eventInfoData.nickname}
-        />
+        <RollingHeader />
         <Banner
           bannerThumbnailUrl={eventInfoData.bannerThumbnailUrl}
           title={eventInfoData.title}
@@ -68,7 +67,7 @@ const RollingMainPage = () => {
           type={eventInfoData.type}
         />
         <Board theme={eventInfoData.theme} date={eventInfoData.date} />
-        <r.Button onClick={goFunding}>선물펀딩확인하기</r.Button>
+        <r.Button onClick={goFunding}>선물펀딩보기</r.Button>
         {isDrawerOpen && (
           <Drawer
             isOpen={isDrawerOpen}
@@ -78,6 +77,18 @@ const RollingMainPage = () => {
             <DrawerModal eventUserId={eventInfoData.userId} />
           </Drawer>
         )}
+        <r.shareButton
+          onClick={() =>
+            shareEventKakao({
+              eventUrl: eventUrl,
+              bannerThumbnailUrl: eventInfoData.bannerThumbnailUrl,
+              title: eventInfoData.title,
+              nickname: eventInfoData.nickname,
+            })
+          }
+        >
+          SNS로 공유하기
+        </r.shareButton>
       </r.Container>
       <Navbar current="celebration" />
     </>

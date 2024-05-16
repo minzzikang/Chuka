@@ -1,8 +1,6 @@
-import React, { ChangeEvent, useState } from "react";
+import React, { useState } from "react";
 import * as A from "@components/payment/AmountSection/AmountSection.styled";
 import { AmountSectionType } from "@/types/fundingType";
-import styled from "styled-components";
-import { colors } from "@/styles/theme";
 import PayBox from "./PayBox";
 import { FUNDING_IMGURL, FUNDING_COMMENT, FUNDING_HEIGHT, FUNDING_WIDTH } from "@/assets/data/payBox";
 
@@ -15,7 +13,7 @@ const index = (props: AmountSectionType) => {
     Array(cashList.length).fill(false)
   );
 
-  const [targetCash, setTargetCash] = useState(0);
+  const [targetCash, setTargetCash] = useState<any>('');
 
   const onClickCash = (index: number) => {
     const clickedValue = cashList[index];
@@ -50,19 +48,6 @@ const index = (props: AmountSectionType) => {
             onClick={() => onClickCash(index)}
             />
         ))}
-
-        {/* <A.Button onClick={onClickCash} $active={targetCash === cashList[0]}>
-          {cashList[0].toLocaleString()}
-        </A.Button>
-        <A.Button onClick={onClickCash} $active={targetCash === cashList[1]}>
-          {cashList[1].toLocaleString()}
-        </A.Button>
-        <A.Button onClick={onClickCash} $active={targetCash === cashList[2]}>
-          {cashList[2].toLocaleString()}
-        </A.Button>
-        <A.Button onClick={onClickCash} $active={targetCash === cashList[3]}>
-          {cashList[3].toLocaleString()}
-        </A.Button> */}
       </A.Wrap>
     </A.Container>
   );

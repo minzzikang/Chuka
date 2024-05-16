@@ -52,7 +52,7 @@ export const Date = styled.div`
   color: ${colors.gray};
 `;
 
-export const Delete = styled.div`
+export const Delete = styled.img`
   width: 18px;
   height: 18px;
 `;

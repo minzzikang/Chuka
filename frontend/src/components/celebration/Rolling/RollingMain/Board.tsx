@@ -1,17 +1,11 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/stores/user";
-import { deleteRoll, fetchRoll, fetchRollSheets } from "@/apis/roll";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchRoll, fetchRollSheets } from "@/apis/roll";
 import * as b from "./Board.styled";
-import { colors } from "@/styles/theme";
-import { FaRegTrashCan } from "react-icons/fa6";
 import Modal from "@common/modal";
-import styled from "styled-components";
 import useIntersect from "@/hooks/useIntersect";
 import { formattingComment } from "@/utils/stringFormat";
 import { calculateDay } from "@/utils/calculation";
-import { Dday } from "./Banner.styled";
 
 interface RollSheetListProps {
   nickname: string;
@@ -31,7 +25,7 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-  const user = useRecoilValue(userState);
+  const navigate = useNavigate();
   const { theme, date } = props;
 
   const { eventId, pageUri } = useParams<{
@@ -108,26 +102,12 @@ const Board = (props: BoardProps) => {
     }
   };
 
-  // 롤링페이퍼 메시지 삭제
-  const handleDelete = async (rollSheetId: string) => {
-    try {
-      await deleteRoll(rollSheetId);
-      alert("메시지가 삭제되었습니다.");
-      setRollingModalOpen(false);
-      setRollSheetList((prev) =>
-        prev.filter((roll) => roll.rollSheetId !== rollSheetId)
-      );
-    } catch (err) {
-      console.log(err);
-    }
-  };
-
   // 블러처리 DDAY 계산
   const [isDDay, setIsDDay] = useState<boolean>(false);
 
   useEffect(() => {
-    const isDDay = calculateDay(date)
-    if (isDDay === '-DAY' || isDDay[0] === '+') {
+    const isDDay = calculateDay(date);
+    if (isDDay === "-DAY" || isDDay[0] === "+") {
       setIsDDay(true);
     }
   }, [date, isDDay]);
@@ -135,8 +115,17 @@ const Board = (props: BoardProps) => {
   return (
     <>
       <b.Container $theme={theme}>
-        {rollSheetList.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         <b.CardWrap>
+          <b.Card
+            style={{ border: "3px solid #ff3b85" }}
+            onClick={() => {
+              navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
+            }}
+          >
+            <img src="/icon/icon_add.png" />
+            <p style={{ marginTop: "10px", color: "#ff3b85" }}>롤링 페이퍼</p>
+            <p style={{ marginTop: "5px", color: "#ff3b85" }}>작성하기</p>
+          </b.Card>
           {rollSheetList.map((roll, index) => (
             <b.Card
               key={index}
@@ -158,7 +147,6 @@ const Board = (props: BoardProps) => {
           Loading more...
         </div>
       </b.Container>
-
       {rollingModalOpen && selectedRoll && (
         <Modal
           name={selectedRoll.nickname}
@@ -174,26 +162,6 @@ const Board = (props: BoardProps) => {
               $fontColor={selectedRoll.fontColor}
               $shape={selectedRoll.shape}
             >
-              {/* {selectedRoll.userId && user.userId === selectedRoll.userId && (
-              <div
-              style={{
-                display: "flex",
-                position: "absolute",
-                top: "0",
-                right: "0",
-                fontSize: "0.8em",
-              }}
-              >
-              <FaRegTrashCan
-              color={colors.gray}
-              onClick={(e) => {
-                e.stopPropagation();
-                handleDelete(selectedRoll.rollSheetId);
-              }}
-              />
-              <span style={{ color: colors.gray }}>삭제</span>
-              </div>
-            )} */}
               <b.LGComment $active={isDDay}>{selectedRoll.content}</b.LGComment>
             </b.CardDetail>
           </b.DetailWrap>

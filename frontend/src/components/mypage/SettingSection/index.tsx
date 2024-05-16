@@ -1,9 +1,5 @@
 import styled from "styled-components";
 import SettingItem from "./SettingItem";
-import { GiPartyHat } from "react-icons/gi";
-import { SlPresent } from "react-icons/sl";
-import { LuLogIn, LuLogOut } from "react-icons/lu";
-import { IoIosCloseCircleOutline } from "react-icons/io";
 import { useSetRecoilState } from "recoil";
 import { defaultUser, userState } from "@stores/user";
 import { logout } from "@/apis/auth";
@@ -50,28 +46,35 @@ const index = (props: userProps) => {
           <SettingItem
             title="나의 ㅊㅋ"
             url="/mypage/celebrate"
-            icon={<GiPartyHat />}
+            icon="/icon/icon_mypage1.png"
+            width={13}
+            height={15}
           />
           <SettingItem
             title="나의 펀딩"
             url="/mypage/funding"
-            icon={<SlPresent />}
+            icon="/icon/icon_mypage2.png"
+            width={15}
+            height={15}
           />
           <SettingItem
             title="로그아웃"
-            icon={<LuLogOut />}
+            icon="/icon/icon_mypage3.png"
             onClick={handleLogout}
+            width={15}
+            height={15}
           />
         </>
       )}
       {!isLoggedIn && (
-        <SettingItem title="로그인" url="/login" icon={<LuLogIn />} />
+        <SettingItem
+          title="로그인"
+          url="/login"
+          icon="/icon/icon_mypage4.png"
+          width={15}
+          height={15}
+        />
       )}
-      {/* <SettingItem
-        title="회원탈퇴"
-        // url="/mypage/funding"
-        icon={<IoIosCloseCircleOutline />}
-      /> */}
     </Container>
   );
 };

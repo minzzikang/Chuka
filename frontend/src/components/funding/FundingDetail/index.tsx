@@ -29,7 +29,6 @@ type FundingType = {
   pageUri: string;
 };
 
-// 3463207627
 const index = () => {
   const params = useParams();
   const navigate = useNavigate();
@@ -55,6 +54,18 @@ const index = () => {
 
   const eventUserId = values?.userId;
 
+  const goPayment = () => {
+    if (
+      values?.remainAmount &&
+      values?.goalAmount &&
+      values?.remainAmount <= values?.goalAmount
+    ) {
+      navigate(`/celebrate/funding/${fundingId}/payment`);
+    } else {
+      alert("모금이 완료되었습니다.");
+    }
+  };
+
   return (
     <>
       <FundingHeaderSection
@@ -78,7 +89,7 @@ const index = () => {
           image={values?.productImage ?? "/img/img_default_funding.png"}
           title={
             values?.productName ??
-            "유효하지않은 링크로 크롤링에 실패했습니다. 직접 수정해주세요."
+            "정보를 불러오는 데 실패했습니다."
           }
           date={values?.eventDate ?? "0000-00-00"}
           goalAmount={values?.goalAmount ?? 0}
@@ -86,29 +97,19 @@ const index = () => {
           dDay={values?.dday ?? 0}
         />
         <FundingMessageSection
-          introduce={values?.introduce ?? "펀딩을 소개하는 문구입니다."}
+          introduce={values?.introduce ?? "ㅊㅋ와 함께 원하는 선물은 펀딩해요."}
           sponsor={values?.sponsors ?? []}
         />
 
         {eventUserId === currentUserId ? (
           <f.BtnWrap>
-            <f.PinkBtn
-              onClick={() =>
-                navigate(`/celebrate/funding/${fundingId}/payment`)
-              }
-            >
-              펀딩 직접 참여
-            </f.PinkBtn>
+            <f.PinkBtn onClick={goPayment}>펀딩 직접 참여</f.PinkBtn>
             <f.WhiteBtn onClick={() => setIsModalOpen(true)}>
               펀딩 삭제
             </f.WhiteBtn>
           </f.BtnWrap>
         ) : (
-          <f.PinkBtn
-            onClick={() => navigate(`/celebrate/funding/${fundingId}/payment`)}
-          >
-            선물 펀딩 참여하기
-          </f.PinkBtn>
+          <f.PinkBtn onClick={goPayment}>선물 펀딩 참여하기</f.PinkBtn>
         )}
 
         {isModalOpen && (
