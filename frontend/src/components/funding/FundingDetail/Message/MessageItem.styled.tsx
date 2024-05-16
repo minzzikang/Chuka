@@ -46,7 +46,7 @@ export const Medal = styled.img`
 `;
 
 export const AmountWrap = styled.div`
-  width: 150px;
+  width: 140px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
