@@ -34,7 +34,7 @@ export const CardWrap = styled.div`
   column-gap: 5px;
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
   min-height: 100vh;
 
   & > div:nth-child(3n) {
@@ -108,7 +108,7 @@ export const Card = styled.div<{
   font-size: 1.1em;
   font: 700;
   font-weight: bold;
-
+  cursor: pointer;
   background-color: ${(props) =>
     props.$bgImage ? "transparent" : props.$bgColor || colors.white};
   background-image: ${(props) =>
@@ -116,6 +116,22 @@ export const Card = styled.div<{
   background-size: cover;
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+`;
+
+export const DeleteWrap = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  border-radius: 0.2em;
+  margin: 12px;
+  cursor: pointer;
+  border: 2px solid ${colors.gray};
+  color: ${colors.gray};
 `;
 
 export const DetailWrap = styled.div<{
@@ -136,6 +152,7 @@ export const DetailWrap = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 export const CardDetail = styled.div<{
@@ -144,7 +161,6 @@ export const CardDetail = styled.div<{
   $shape: string;
 }>`
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
