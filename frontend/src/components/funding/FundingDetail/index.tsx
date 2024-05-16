@@ -58,8 +58,8 @@ const index = () => {
   const goPayment = () => {
     if (
       values?.remainAmount &&
-      values.goalAmount &&
-      values?.remainAmount < values?.goalAmount
+      values?.goalAmount &&
+      values?.remainAmount <= values?.goalAmount
     ) {
       navigate(`/celebrate/funding/${fundingId}/payment`);
     } else {

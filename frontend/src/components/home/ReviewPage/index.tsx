@@ -26,22 +26,24 @@ const index = () => {
     }
   };
   return (
-    <r.Container>
-      <Header children={"후기 작성"} />
-      <div style={{ marginTop: "50px" }}></div>
-      <TopSection />
-      <MiddleSection
-        comment={regData.content}
-        setComment={(value) =>
-          setRegData((prev) => ({ ...prev, content: value }))
-        }
-        phone={regData.phoneNumber}
-        setPhone={(value) =>
-          setRegData((prev) => ({ ...prev, phoneNumber: value }))
-        }
-      />
-      <r.LargeBtn onClick={onRegister}>등록하기</r.LargeBtn>
-    </r.Container>
+    <>
+      <r.Container>
+        <Header children={"후기 작성"} />
+        <div style={{ marginTop: "50px" }}></div>
+        <TopSection />
+        <MiddleSection
+          comment={regData.content}
+          setComment={(value) =>
+            setRegData((prev) => ({ ...prev, content: value }))
+          }
+          phone={regData.phoneNumber}
+          setPhone={(value) =>
+            setRegData((prev) => ({ ...prev, phoneNumber: value }))
+          }
+        />
+        <r.LargeBtn onClick={onRegister}>등록하기</r.LargeBtn>
+      </r.Container>
+    </>
   );
 };
 
