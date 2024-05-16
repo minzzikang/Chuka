@@ -66,15 +66,20 @@ export const Banner = styled.img`
 
 export const Icon = styled.div`
   position: absolute;
-  top: 0;
-  right: 85px;
+  top: 60px;
+  right: 10px;
   background-color: ${colors.mainPink};
-  width: 28px;
-  height: 28px;
+  width: 35px;
+  height: 35px;
   padding: 5px;
   border-radius: 50%;
   color: ${colors.white};
   justify-content: center;
   align-items: center;
   display: flex;
+
+  img {
+    width: 20px;
+    height: 20px;
+  }
 `;
