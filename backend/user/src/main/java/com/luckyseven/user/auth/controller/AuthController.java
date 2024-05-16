@@ -2,11 +2,8 @@ package com.luckyseven.user.auth.controller;
 
 import com.luckyseven.user.auth.dto.KakaoUserDto;
 import com.luckyseven.user.auth.service.AuthService;
-import com.luckyseven.user.message.dto.BaseMessageDto;
 import com.luckyseven.user.user.service.UserService;
 import com.luckyseven.user.util.jwt.JWTUtil;
-import com.luckyseven.user.message.ProducerService;
-import com.luckyseven.user.message.dto.Topic;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;

@@ -36,7 +36,7 @@ public class LogUtil {
             return joinPoint.proceed();
         } finally {
             long finish = System.currentTimeMillis();
-            log.info("End: {}ms, joinPoint: {}", (finish - start), joinPoint.toString());
+            log.info("End: {}ms, joinPoint: {}", (finish - start), joinPoint);
         }
     }
 
