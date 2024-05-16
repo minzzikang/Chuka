@@ -116,6 +116,11 @@ export const Card = styled.div<{
   background-size: cover;
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 `;
 
 export const DetailWrap = styled.div<{

@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { fetchRoll, fetchRollSheets } from "@/apis/roll";
-import { IoIosAddCircle } from "react-icons/io";
 import * as b from "./Board.styled";
 import Modal from "@common/modal";
 import useIntersect from "@/hooks/useIntersect";
@@ -123,7 +122,7 @@ const Board = (props: BoardProps) => {
               navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
             }}
           >
-            <IoIosAddCircle color="#ff3b85" size={30} />
+            <img src="/icon/icon_add.png" />
             <p style={{ marginTop: "10px", color: "#ff3b85" }}>롤링 페이퍼</p>
             <p style={{ marginTop: "5px", color: "#ff3b85" }}>작성하기</p>
           </b.Card>
