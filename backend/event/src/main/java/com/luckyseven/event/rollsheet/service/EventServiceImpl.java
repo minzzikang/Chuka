@@ -301,7 +301,6 @@ public class EventServiceImpl implements EventService {
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
-
         producerService.sendNotificationMessage(baseMessageDto);
 
     }
@@ -325,8 +324,4 @@ public class EventServiceImpl implements EventService {
         profanityFilter.reloadProfanityData();
     }
 
-    @Override
-    public void exceptionTest() {
-        throw new RuntimeException("되나?");
-    }
 }
