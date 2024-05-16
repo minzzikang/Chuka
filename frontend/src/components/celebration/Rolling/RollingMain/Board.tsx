@@ -75,8 +75,9 @@ const Board = (props: BoardProps) => {
   );
 
   const ref = useIntersect(onIntersect, {
-    rootMargin: "200px",
-    threshold: 0.1,
+    threshold: 0.1, // 관찰하고자 하는 element가 어느정도 노출됐을 때 activate할 것인지 결정하는 옵션, 0이면 1px이라도 노출됐을 때 activate
+    rootMargin: "200px", // 특정 요소에 닿았을 때 isIntersecting이 true가 될텐데, 관찰하고자 하는 element의 크기를 넘어서서 200px 전부터 체킹하고 싶다.
+    // root: null, // root는 default가 null 이다. 이 때, 특정 div 내에서 scroll을 하고 싶은거라면 root에 특정 element 값을 넣어주면 된다. ex)  document.querySelector('#scrollArea')
   });
 
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
