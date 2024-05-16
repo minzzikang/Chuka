@@ -50,11 +50,10 @@ const Board = (props: BoardProps) => {
     }
     setLoading(true);
     try {
-      const response = await fetchRollSheets(eventId, currentPage, 6);
+      const response = await fetchRollSheets(eventId, currentPage, 8);
       if (response) {
         setRollSheetList((prev) => [...prev, ...response.rollSheetList]);
-        console.log('페이지 응답', currentPage, response);
-        if (response.rollSheetList.length < 6) {
+        if (response.rollSheetList.length < 8) {
           observerRef.current?.disconnect(); // 마지막 페이지일 경우 옵저버 중단
         } else {
           setLoading(false);
