@@ -301,7 +301,6 @@ public class EventServiceImpl implements EventService {
         baseMessageDto.setData(userIdList);
         baseMessageDto.setTopic(Topic.DDAY_ALARM);
 
-
         producerService.sendNotificationMessage(baseMessageDto);
 
     }
@@ -324,4 +323,5 @@ public class EventServiceImpl implements EventService {
     public void reloadProfanityData() {
         profanityFilter.reloadProfanityData();
     }
+
 }

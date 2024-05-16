@@ -19,9 +19,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
-import java.sql.SQLIntegrityConstraintViolationException;
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -65,7 +62,6 @@ public class UserController {
 
             return ResponseEntity.status(200).body(null);
         } catch (Exception e) {
-            log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(null);
         }
@@ -90,7 +86,6 @@ public class UserController {
 
             return ResponseEntity.status(200).body(userDto);
         } catch (Exception e) {
-            log.error(e.getMessage());
 
             return ResponseEntity.status(400).body(null);
         }
@@ -111,16 +106,14 @@ public class UserController {
 
             return ResponseEntity.status(200).body(BaseResponseBody.of(200, "fcm token 저장 성공"));
         } catch (DataIntegrityViolationException e) {
-            log.error(e.getMessage());
 
             return ResponseEntity.status(409).body(BaseResponseBody.of(HttpStatus.CONFLICT.value(), "fcm token 중복"));
-        }catch (IllegalArgumentException | OptimisticLockingFailureException e) {
-            log.error(e.getMessage());
+        } catch (IllegalArgumentException | OptimisticLockingFailureException e) {
 
             return ResponseEntity.status(400).body(BaseResponseBody.of(400, "fcm token 저장 실패"));
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.internalServerError().body(("[ERROR] : "+e.getMessage()));
+            return ResponseEntity.internalServerError().body(("[ERROR] : " + e.getMessage()));
         }
     }
 
@@ -131,14 +124,13 @@ public class UserController {
             @ApiResponse(responseCode = "400", description = "실패"),
             @ApiResponse(responseCode = "500", description = "서버 오류")
     })
-    public ResponseEntity<List<String>> getFcmToken( @PathVariable("userId") String userId) {
+    public ResponseEntity<List<String>> getFcmToken(@PathVariable("userId") String userId) {
 
         try {
             List<String> results = userService.getUserFcmToken(userId);
 
             return ResponseEntity.status(200).body(results);
         } catch (Exception e) {
-            log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
@@ -160,7 +152,6 @@ public class UserController {
             return ResponseEntity.status(200).body(deduplicatedUsersIdDto);
 
         } catch (Exception e) {
-            log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
@@ -180,7 +171,6 @@ public class UserController {
 
             return ResponseEntity.status(200).body(null);
         } catch (Exception e) {
-            log.error(e.getMessage());
             return ResponseEntity.status(400).body(null);
         }
     }
