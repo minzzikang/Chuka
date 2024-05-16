@@ -53,7 +53,7 @@ export const PhoneInput = styled.input`
   height: 39px;
   border: none;
   padding-left: 10px;
-  font-size: 0.9em;
+  font-size: 0.8em;
 `;
 
 export const Label = styled.label`
