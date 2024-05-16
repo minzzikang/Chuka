@@ -275,6 +275,7 @@ export const MessageWrap = styled.div<{
   width: 95%;
   height: 380px;
   padding: 5px;
+  padding-left: 15px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -286,7 +287,7 @@ export const MessageBox = styled.textarea<{
   $shape: string;
   $type: string;
 }>`
-  margin: 10px;
+  margin: 5px;
   border-radius: 1em;
   padding: ${(props) => (props.$shape === "CIRCLE" ? "50% 0px" : "10px")};
   width: 100%;
@@ -295,7 +296,7 @@ export const MessageBox = styled.textarea<{
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   border: none;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
   font-size: 1.5em;

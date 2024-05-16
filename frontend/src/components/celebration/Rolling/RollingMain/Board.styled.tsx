@@ -118,22 +118,6 @@ export const Card = styled.div<{
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
 
-export const DeleteWrap = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 24px;
-  height: 24px;
-  border-radius: 0.2em;
-  margin: 12px;
-  cursor: pointer;
-  border: 2px solid ${colors.gray};
-  color: ${colors.gray};
-`;
-
 export const DetailWrap = styled.div<{
   $bgImage?: string;
   $bgColor?: string;
@@ -172,6 +156,6 @@ export const CardDetail = styled.div<{
   font-size: 1.5em;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;
