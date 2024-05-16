@@ -1,6 +1,4 @@
 import * as h from "@components/home/HomeReg/HomeReg.styled";
-import { MdPostAdd } from "react-icons/md";
-import { LuPartyPopper } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 const index = () => {
@@ -32,7 +30,7 @@ const index = () => {
         공개됩니다
       </h.Text>
       <h.Button onClick={goEventReg}>
-        <LuPartyPopper size={20} />
+        <img src="/icon/icon_etc.png" />
         축하 공간 생성
       </h.Button>
     </h.Container>
