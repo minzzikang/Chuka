@@ -78,7 +78,7 @@ const index = () => {
           image={values?.productImage ?? "/img/img_default_funding.png"}
           title={
             values?.productName ??
-            "유효하지않은 링크로 크롤링에 실패했습니다. 직접 수정해주세요."
+            "정보를 불러오는 데 실패했습니다."
           }
           date={values?.eventDate ?? "0000-00-00"}
           goalAmount={values?.goalAmount ?? 0}
@@ -86,7 +86,7 @@ const index = () => {
           dDay={values?.dday ?? 0}
         />
         <FundingMessageSection
-          introduce={values?.introduce ?? "펀딩을 소개하는 문구입니다."}
+          introduce={values?.introduce ?? "ㅊㅋ와 함께 원하는 선물은 펀딩해요."}
           sponsor={values?.sponsors ?? []}
         />
 
