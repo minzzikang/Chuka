@@ -27,7 +27,6 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
-  const user = useRecoilValue(userState);
   const { theme, date } = props;
 
   const { eventId, pageUri } = useParams<{
