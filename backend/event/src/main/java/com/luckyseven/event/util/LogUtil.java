@@ -22,6 +22,10 @@ public class LogUtil {
     @AfterThrowing(pointcut = "controllerMethods()", throwing = "ex")
     public void logException(Exception ex) {
         log.error("[EXCEPTION] {} : {}", ex.getClass().getSimpleName(), ex.getMessage());
+        log.debug("length: {}", ex.getStackTrace().length);
+        for (int i = 0; i < 3 && i < ex.getStackTrace().length; i++) {
+            log.error("[STACK TRANCE {}] {}", i, ex.getStackTrace()[i]);
+        }
     }
 
     @Around(POINTCUT_EXPRESSION_CONTROLLER)
