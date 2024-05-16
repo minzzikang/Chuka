@@ -1,10 +1,8 @@
-
 import { ModalType } from '@/types/commonType'
 import * as r from '@common/homeResModal/HomeResModal.styled'
 
 
 const Index = ({ name, children, onClose }: ModalType) => {
-
 
   return (
     <>
