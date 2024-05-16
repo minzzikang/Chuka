@@ -5,6 +5,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   width: 100%;
+  max-width: 430px;
   height: 100%;
   position: relative;
 `;
@@ -22,7 +23,6 @@ export const Button = styled.button`
   position: absolute;
   bottom: 40%;
   right: 0;
-  transition: right 0.3s ease-in-out;
   writing-mode: vertical-lr;
 `;
 

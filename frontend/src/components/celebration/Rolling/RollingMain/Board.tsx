@@ -116,7 +116,6 @@ const Board = (props: BoardProps) => {
   return (
     <>
       <b.Container $theme={theme}>
-        {rollSheetList.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         <b.CardWrap>
           <b.Card
             style={{ border: "3px solid #ff3b85" }}
