@@ -1,8 +1,7 @@
 import { useEffect, useRef, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
-import { useRecoilValue } from "recoil";
-import { userState } from "@/stores/user";
-import { deleteRoll, fetchRoll, fetchRollSheets } from "@/apis/roll";
+import { useNavigate, useParams } from "react-router-dom";
+import { fetchRoll, fetchRollSheets } from "@/apis/roll";
+import { IoIosAddCircle } from "react-icons/io";
 import * as b from "./Board.styled";
 import Modal from "@common/modal";
 import useIntersect from "@/hooks/useIntersect";
@@ -27,6 +26,7 @@ interface BoardProps {
 }
 
 const Board = (props: BoardProps) => {
+  const navigate = useNavigate();
   const { theme, date } = props;
 
   const { eventId, pageUri } = useParams<{
@@ -118,6 +118,16 @@ const Board = (props: BoardProps) => {
       <b.Container $theme={theme}>
         {rollSheetList.length === 0 && <b.P>롤링페이퍼를 작성해주세요.</b.P>}
         <b.CardWrap>
+          <b.Card
+            style={{ border: "3px solid #ff3b85" }}
+            onClick={() => {
+              navigate(`/celebrate/rolling/${eventId}/${pageUri}/write`);
+            }}
+          >
+            <IoIosAddCircle color="#ff3b85" size={30} />
+            <p style={{ marginTop: "10px", color: "#ff3b85" }}>롤링 페이퍼</p>
+            <p style={{ marginTop: "5px", color: "#ff3b85" }}>작성하기</p>
+          </b.Card>
           {rollSheetList.map((roll, index) => (
             <b.Card
               key={index}
