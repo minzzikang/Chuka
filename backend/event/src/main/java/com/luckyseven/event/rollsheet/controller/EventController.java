@@ -127,7 +127,7 @@ public class EventController {
             @ApiResponse(responseCode = "500", description = "서버 오류"),
     })
     public ResponseEntity<EventListRes> getMyEvents(
-            @Parameter(description = "정렬 기준 -> upcoming(오늘을 포함) || participant(롤링페이퍼를 작성한 이벤트, 내 이벤트 제외) || default", example = "upcoming") @RequestParam(required = false, defaultValue = "default") String sort,
+            @Parameter(description = "정렬 기준 -> upcoming(오늘을 포함) || participant(롤링페이퍼를 작성한 이벤트. 내 이벤트는 제외) || default", example = "upcoming") @RequestParam(required = false, defaultValue = "default") String sort,
             @Parameter(description = "검색어 (이벤트 제목)", example = "") @RequestParam(required = false, defaultValue = "") String word,
             @Parameter(description = "페이지 번호 (0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size,
