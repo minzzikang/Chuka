@@ -17,8 +17,6 @@ self.addEventListener("activate", function (e) {
 
 // fetch event
 self.addEventListener("fetch", (e) => {
-  const type = e.data.json().data.type;
-  console.log(type);
 });
 
 const EVENT_CREATE = "EVENT_CREATE";
@@ -39,6 +37,8 @@ self.addEventListener("push", function (e) {
   
   const type = e.data.json().data.type;
   console.log(type);
+  console.log("e.data.json() ==>>",e.data.json());
+  console.log("e.data.json().data ==>>",e.data.json().data);
   if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
