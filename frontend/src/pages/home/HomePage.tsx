@@ -5,6 +5,7 @@ import HomeHeader from "@components/home/HomeHeader/";
 import HomeIntro from "@components/home/HomeIntro";
 import HomeEventReg from "@components/home/HomeReg";
 import HomeEventList from "@components/home/HomeEventList";
+import HomeBanner from "@components/home/HomeBanner";
 import HomeReview from "@components/home/HomeReview";
 import { fetchCount } from "@/apis/event";
 
@@ -34,7 +35,7 @@ const HomePage = () => {
         <HomeEventReg />
         <HomeEventList />
         <HomeReview />
-        <h.Img src="/img/img_main_banner.png" alt="" />
+        <HomeBanner />
       </h.Wrap>
       <Navbar current={"home"} />
     </>
