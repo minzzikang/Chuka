@@ -14,8 +14,8 @@ import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import PaymentRedirectHandler from "@/pages/redirect/PaymentRedirectHandler";
-import MyCelebratePage from "@pages/mypage/MyCelebratePage";
-import MyFundingPage from "@pages/mypage/MyFundingPage";
+import MyCelebratePage from "@/pages/mypage/MyCelebratePage/MyCelebratePage";
+import MyFundingPage from "@/pages/mypage/MyFundingPage/MyFundingPage";
 import EventListPage from "@/pages/eventList/EventListPage";
 
 const HomeRouter = () => {
