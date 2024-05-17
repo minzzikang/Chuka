@@ -38,6 +38,7 @@ const Board = (props: BoardProps) => {
   const [rollSheetList, setRollSheetList] = useState<RollSheetListProps[]>([]);
   const [totalCnt, setTotalCnt] = useState<number>(0);
   const [currentPage, setCurrentPage] = useState(0); // 스크롤이 닿았을 때 새롭게 데이터 페이지를 바꿀 상태
+  const pageRef = useRef(null)
   const [loading, setLoading] = useState(false); // 로딩 성공
   const observerRef = useRef<IntersectionObserver>();
 
@@ -65,7 +66,8 @@ const Board = (props: BoardProps) => {
   }, [eventId, currentPage, loading, totalCnt, rollSheetList.length]);
 
   const onIntersect = useCallback(
-    (entry: any, observer: any) => {
+    async (entry: any, observer: any) => {
+      observer.unobserve(entry.target)
       if (entry.isIntersecting && !loading) {
         fetchMoreData();
       }
@@ -74,8 +76,9 @@ const Board = (props: BoardProps) => {
   );
 
   const ref = useIntersect(onIntersect, {
-    rootMargin: "200px",
-    threshold: 0.1,
+    // root: null,
+    rootMargin: "200px", 
+    threshold: 0.1, 
   });
 
   const [selectedRoll, setSelectedRoll] = useState<RollSheetListProps>({
@@ -143,9 +146,9 @@ const Board = (props: BoardProps) => {
             </b.Card>
           ))}
         </b.CardWrap>
-        <div ref={ref} style={{ color: "transparent" }}>
+        <b.Target ref={ref} >
           Loading more...
-        </div>
+        </b.Target>
       </b.Container>
       {rollingModalOpen && selectedRoll && (
         <Modal
