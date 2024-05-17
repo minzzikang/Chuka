@@ -5,73 +5,74 @@ export const Container = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
-  padding: 5em;
 `;
 
 export const Carousel = styled.div`
   width: 100%;
   overflow: hidden;
   height: 90px;
-  position: fixed;
-  bottom: 58px;
+  position: relative;
 `;
 
-export const CarouselBox = styled.div`
+export const CarouselBox = styled.div<{ translateX: number }>`
   display: flex;
-  height: 100%;
+  transform: ${({ translateX }) => `translateX(-${translateX}%)`};
+  transition: transform 0.5s ease;
 `;
 
-export const CarouselItem = styled.div`
-  background-position: center;
-  width: 412px;
-  height: auto;
-  background-size: contain;
-  background-repeat: no-repeat;
-  flex: none;
+export const CarouselItem = styled.img`
+  width: 100%;
+  flex-shrink: 0;
 `;
 
+export const Button = styled.button`
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  border: none;
+  cursor: pointer;
+  padding: 10px;
+  z-index: 1;
 
-const index = () => {
-  const [items, setItems] = useState([
-    { url: "/img/img_main_banner.png" },
-    { url: "/img/img_main_banner2.png" },
-    { url: "/img/img_main_banner3.png" },
-    { url: "/img/img_main_banner4.png" },
-    { url: "/img/img_main_banner5.png" },
-  ]);
+  &:first-of-type {
+    left: 10px;
+  }
 
+  &:last-of-type {
+    right: 10px;
+  }
+`;
+
+interface CarouselProps {
+  images: string[];
+}
+
+const index = (props: CarouselProps) => {
+  const { images } = props;
   const [currentIdx, setCurrentIdx] = useState(0);
 
-  const nextImage = () => {
-    setCurrentIdx((current) => (current+1) % items.length)
-  }
-
   const prevImage = () => {
-    setCurrentIdx((current) => (current - 1 + items.length) % )
-  }
+    setCurrentIdx((prev) => (prev === 0 ? images.length - 1 : prev - 1));
+  };
+
+  const nextImage = () => {
+    setCurrentIdx((prev) => (prev === images.length - 1 ? 0 : prev + 1));
+  };
 
   return (
-    <>
-      <Container>
-        <Carousel>
-          <CarouselBox
-            style={{
-              transform: `translateX(${-100 * currentIdx}%)`,
-              transition,
-            }}
-          >
-            {slides.map(({ url, id }) => {
-              return (
-                <CarouselItem
-                  key={id}
-                  style={{ backgroundImage: `url(${url})` }}
-                />
-              );
-            })}
-          </CarouselBox>
-        </Carousel>
-      </Container>
-    </>
+    <Container>
+      <Carousel>
+        <Button />
+        <CarouselBox translateX={currentIdx * 100}>
+          {images.map(({ img, index }) => (
+            <CarouselItem key={index} src={img} />
+          ))}
+        </CarouselBox>
+      </Carousel>
+      <Button />
+    </Container>
   );
 };
 

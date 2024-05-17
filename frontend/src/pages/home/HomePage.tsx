@@ -27,6 +27,15 @@ const HomePage = () => {
     fetchEventCount();
   }, []);
 
+  const images = [
+    '/img/img_main_banner.png',
+    '/img/img_main_banner2.png',
+    '/img/img_main_banner3.png',
+    '/img/img_main_banner4.png',
+    '/img/img_main_banner5.png',
+    '/img/img_main_banner6.png',
+  ]
+
   return (
     <>
       <h.Wrap>
@@ -35,7 +44,7 @@ const HomePage = () => {
         <HomeEventReg />
         <HomeEventList />
         <HomeReview />
-        <HomeBanner />
+        <HomeBanner images={images}/>
       </h.Wrap>
       <Navbar current={"home"} />
     </>
