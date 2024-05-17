@@ -10,7 +10,7 @@ const index = () => {
       <f.Wrap>
         <f.Highlight>등록한</f.Highlight>펀딩이 없어요.
       </f.Wrap>
-      <f.Text>등록하러 가볼까요?</f.Text>
+      <f.Text>축하 이벤트를 추가해 펀딩을 등록해주세요.</f.Text>
       <img
         src="/img/img_arrow_btn.png"
         alt=""
