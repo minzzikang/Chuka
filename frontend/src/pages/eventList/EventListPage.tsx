@@ -112,7 +112,7 @@ const EventListPage = () => {
         )}
         <e.PagiWrap>
           <Pagination
-            totalPage={Math.ceil(participantsEventData.totalCnt / 3)}
+            totalPage={Math.ceil(participantsEventData.totalCnt / 6)}
             limit={5}
             page={page}
             setPage={setPage}
