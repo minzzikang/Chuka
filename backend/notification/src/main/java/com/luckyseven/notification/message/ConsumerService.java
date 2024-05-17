@@ -130,6 +130,9 @@ public class ConsumerService {
             } else if (dataSet.getTopic().equals(Topic.EVENT_CREATE)) {
                 sendEventCreateFcm(dataSet);
 
+            } else if (dataSet.getTopic().equals(Topic.ROLLING_CREATE)) {
+                sendRollingCreateFcm(dataSet);
+
             }
         } catch (IOException e) {
             log.error(e.getMessage());
@@ -141,8 +144,26 @@ public class ConsumerService {
 
     }
 
+    private void sendRollingCreateFcm(BaseMessageDto dataSet) throws IOException {
+        InputStream inputStream = null;
+        ObjectMapper om = new ObjectMapper();
+        String json = om.writeValueAsString(dataSet.getData());
+        RollingpaperCreatAlarmDto data = om.readValue(json, new TypeReference<RollingpaperCreatAlarmDto>() {
+        });
+
+        // 일반알림
+        notificationService.sendRollingCreate(data);
+
+        List<String> fcmTokenList = sendGetFcmTokenReq(data.getUserId());
+
+        // fcm
+        fcmService.sendRollingCreateFcm(fcmTokenList,data);
+
+
+    }
+
     private void sendEventCreateFcm(BaseMessageDto dataSet) throws JsonProcessingException {
-        System.out.println(dataSet.getData());
+//        System.out.println(dataSet.getData());
         InputStream inputStream = null;
         ObjectMapper om = new ObjectMapper();
         String json = om.writeValueAsString(dataSet.getData());
@@ -189,26 +210,20 @@ public class ConsumerService {
             }
             fcmTargetDataSet.put(curEventId, curMembers);
 
-            // List<userIdList>, 알림 type,
             // 단체 일반 알림 보내기
             notificationService.sendGroupNotification(curMembers, NotificationType.EVENT_OPEN, curEventId, curPageUri,curTitle);
 
 
         }
-//                System.out.println("*******fcmTargetDataSet********\n "+fcmTargetDataSet);
         Response response = userFeignClient.findAllUsersFcmToken(DUDdto);
-//                log.info(" \n ** response => {} \n ", response);
         inputStream = response.body().asInputStream();
-        // InputStream을 문자열로 변환한다.
         String responseBody = IOUtils.toString(inputStream, "UTF-8");
         inputStream.close();
 
-//                    ObjectMapper om = new ObjectMapper();
         json = om.writeValueAsString(responseBody);
         DeduplicatedUsersIdDto lookupTable = om.readValue(json, new TypeReference<DeduplicatedUsersIdDto>() {
         });
 
-//                log.info(" \n ** responseData => {}  \n(룩업으로 사용할 데이터)\n ", lookupTable);
 
         fcmService.DdayPushNotification(fcmTargetDataSet, lookupTable, eventPageUriMap,eventTitleMap);
     }

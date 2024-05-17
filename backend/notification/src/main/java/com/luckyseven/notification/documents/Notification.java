@@ -55,9 +55,16 @@ public class Notification {
 
         } else if (type.equals(NotificationType.FUNDING_COMPLETE)) {
             newContent = NotificationResponseDescription.FUNDING_COMPLETE;
+        } else if (type.equals(NotificationType.ROLLING_CREATE)) {
+            newContent = NotificationResponseDescription.ROLLING_CREATE;
         }
 
         this.content = newContent;
+    }
+
+    public void setContentForRollingCreate(String  stringdata){
+        this.content = stringdata;
+
     }
 
     /**
