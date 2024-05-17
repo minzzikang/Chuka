@@ -33,7 +33,7 @@ const HomePage = () => {
     '/img/img_main_banner3.png',
     '/img/img_main_banner4.png',
     '/img/img_main_banner5.png',
-    '/img/img_main_banner6.png',
+    '/img/img_main_banner6.PNG',
   ]
 
   return (
