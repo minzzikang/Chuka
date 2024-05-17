@@ -38,7 +38,9 @@ let thisFundingId = null;
 
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
-  
+  const pushData = e.data.json();
+  console.log("Push event received: ", pushData); // Add this line to log the push data
+
   const type = e.data.json().data.type;
 
   if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
@@ -46,7 +48,8 @@ self.addEventListener("push", function (e) {
     thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri
     
-  } else {
+  } else if(type === FUNDING_COMPLETE) {
+    console.log("여기로 왜오니",type)
     thisFundingId = e.data.json().data.fundingId
 
   }
