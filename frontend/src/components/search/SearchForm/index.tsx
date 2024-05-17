@@ -1,6 +1,5 @@
 import { Dispatch, SetStateAction, KeyboardEvent } from "react";
 import * as s from "./SearchForm.styled";
-import { IoIosSearch } from "react-icons/io";
 
 interface SearchProps {
   value: string;
@@ -31,7 +30,7 @@ const index = (props: SearchProps) => {
           }}
           onKeyDown={onKeyDown}
         />
-        <IoIosSearch size={18} onClick={onClick} />
+        <img src="/icon/icon_search.png" alt="" onClick={onClick} />
       </s.Container>
     </>
   );

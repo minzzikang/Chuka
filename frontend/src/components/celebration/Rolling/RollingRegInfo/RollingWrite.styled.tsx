@@ -69,10 +69,18 @@ export const SelectBtn = styled.button`
   border: 2px solid #495057;
   width: 100px;
   height: 35px;
+
   @media (min-width: 769px) {
     width: 90px; // 데스크탑에서는 글씨 크기를 줄임
   }
+
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
+  }
 `;
+
 export const SelectPinkBtn = styled.div`
   display: flex;
   justify-content: center;
@@ -82,8 +90,15 @@ export const SelectPinkBtn = styled.div`
   color: ${colors.mainPink};
   width: 150px;
   height: 35px;
+
   @media (min-width: 769px) {
     width: 140px; // 데스크탑에서는 글씨 크기를 줄임
+  }
+
+  img {
+    width: 15px;
+    height: 15px;
+    margin-right: 5px;
   }
 `;
 
