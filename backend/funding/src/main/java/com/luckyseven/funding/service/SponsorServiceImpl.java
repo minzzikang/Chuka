@@ -55,11 +55,10 @@ public class SponsorServiceImpl implements SponsorService{
         //funding 목표 금액을 채웠는지 확인함
         Integer sumSponsorAmount = sponsorRepository.sumAmountByFundingId(fundingId);
 
-        if (sumSponsorAmount>=funding.getGoalAmount()) {
+        if (FundingResult.SUCCESS!= funding.getResult() && sumSponsorAmount>=funding.getGoalAmount()) {
             funding.successFunding(FundingResult.SUCCESS);
             FundingToNotificationDto fundingToNotificationDto =
                     new FundingToNotificationDto(funding.getUserId(),fundingId, Topic.FUNDING_COMPLETE);
-            //TODO 코드 작성했지만 큐로 보내서 알림받는 테스트는 못해봐서 주석처리함
             producerService.sendFundingStatusMessage(fundingToNotificationDto);
         }
         return result.getSponsorId();
