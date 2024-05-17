@@ -3,6 +3,7 @@ import { refresh } from "./auth";
 
 const url = `https://chuka.kr/api/v1`;
 const local = "/domain";
+const local2 = "http://localhost:8082/api/v1";
 
 // 알림 목록 조회
 export const fetchNotifications = async (): Promise<any> => {
@@ -13,6 +14,7 @@ export const fetchNotifications = async (): Promise<any> => {
         Authorization: `${accessToken}`,
       },
     });
+    console.log("===>>",response.data)
     return response.data;
   } catch (e: any) {
     if (e.response.status === 401 && e.response.data === "EXPIRED") {

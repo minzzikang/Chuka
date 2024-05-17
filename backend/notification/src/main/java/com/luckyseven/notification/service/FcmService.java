@@ -2,6 +2,7 @@ package com.luckyseven.notification.service;
 
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
+import com.luckyseven.notification.dto.RollingpaperCreatAlarmDto;
 import org.springframework.scheduling.annotation.Async;
 
 import java.io.IOException;
@@ -17,4 +18,6 @@ public interface FcmService {
     void fundingStatusNotification(List<String> userFcmTokenList, String body, Integer fundingId, NotificationType type) throws IOException;
 
 
+    @Async
+    void sendRollingCreateFcm(List<String> fcmTokenList, RollingpaperCreatAlarmDto data);
 }

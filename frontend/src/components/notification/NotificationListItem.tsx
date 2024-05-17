@@ -37,6 +37,9 @@ const NotificationListItem = (props: NotificaionProps) => {
       case "EVENT_OPEN":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
+      case "ROLLING_CREATE":
+        navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
+        break;
       case "FUNDING_COMPLETE":
         navigate(`/celebrate/funding/${fundingId}`);
         break;
@@ -52,6 +55,12 @@ const NotificationListItem = (props: NotificaionProps) => {
           height: "20px",
         };
       case "EVENT_OPEN":
+        return {
+          src: "icon/icon_alarm_dday.png",
+          width: "26px",
+          height: "25px",
+        };
+      case "ROLLING_CREATE":
         return {
           src: "icon/icon_alarm_dday.png",
           width: "26px",
