@@ -31,15 +31,14 @@ let isEvent = false;
 let thisPageUri = null;
 let thisEventId = null;
 let thisFundingId = null;
-let thisType=null;
 
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
-  const pushData = e.data.json();
-  console.log("Push event received: ", pushData); // Add this line to log the push data
+  // const pushData = e.data.json();
+  // console.log("Push event received: ", pushData); // Add this line to log the push data
  
   const type = e.data.json().data.type;
-  thisType = type;
+
   if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
@@ -65,12 +64,9 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
-  console.log("1 ==>",thisType)
   if(isEvent === true){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
-      console.log(thisType)
     }else{
-    console.log(thisType)
     e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
   }
 
