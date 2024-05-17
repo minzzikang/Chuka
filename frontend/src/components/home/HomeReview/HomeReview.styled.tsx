@@ -56,7 +56,6 @@ export const Button = styled.button`
   border-radius: 5px;
   color: white;
   background-color: ${colors.mainPink};
-  margin-bottom: 200px;
   margin-top: 20px;
 `;
 
