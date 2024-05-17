@@ -1,5 +1,5 @@
 import Label from "@common/label";
-import Calendar from "@components/calendar";
+import Calendar from "@/common/calendar";
 import CorkImg from "/img/img_rolling_theme_cork.jpg";
 import BoardImg from "/img/img_rolling_theme_board.jpg";
 import FileIcon from "/icon/icon_file_upload.png";
@@ -75,12 +75,12 @@ const index = (props: RollingInfoSectionType) => {
         <c.P>선택한 날짜부터 롤링페이퍼 메시지가 공개됩니다.</c.P>
       </c.Wrap>
       <c.Wrap>
-        <Label htmlFor="nickname" children="ㅊㅋ 만든 사람"/>
-        <c.Input 
-        id="nickname"
-        placeholder="등록한 사람(본인)의 별명을 적어주세요."
-        value={nickname}
-        onChange={(e) => handleNickname(e.target.value)}
+        <Label htmlFor="nickname" children="ㅊㅋ 만든 사람" />
+        <c.Input
+          id="nickname"
+          placeholder="등록한 사람(본인)의 별명을 적어주세요."
+          value={nickname}
+          onChange={(e) => handleNickname(e.target.value)}
         />
         <c.P>작성한 이름은 다른 사용자들에게 공개됩니다.</c.P>
       </c.Wrap>
