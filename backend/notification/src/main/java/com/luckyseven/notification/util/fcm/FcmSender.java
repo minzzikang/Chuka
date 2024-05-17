@@ -41,15 +41,11 @@ public class FcmSender {
                         .build();
 
         try(Response response = client.newCall(request).execute()){
-//            log.info("********************\n{}\n*************************",response);
-            // 실패한 토큰제거.
             if(!response.isSuccessful()){
-//                log.info("실패한 토큰 => {}",fcmMessageDto.getTargetToken());
                 userFeignClient.deleteInvalidFcmtoken(fcmMessageDto.getTargetToken());
-//                log.info("삭제함.");
             }
 //            else {
-//                log.info("전송!");
+////                log.info("전송! {} ",message);
 //            }
 
         }catch (Exception e){
@@ -78,7 +74,6 @@ public class FcmSender {
                                                 FcmMSG.Notification.builder()
                                                         .title(fcmMessageDto.getContent())
                                                         .body(body)
-//                                                        .body("눌러서 확인하기🎉")
                                                         .build())
                                         .build())
                         .validateOnly(false)

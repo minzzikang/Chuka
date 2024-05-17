@@ -1,7 +1,7 @@
 import DatePicker from "react-datepicker";
 import "@styles/DatePicker.css";
 import { forwardRef, useState } from "react";
-import * as c from "@components/calendar/Calendar.styled";
+import * as c from "@/common/calendar/Calendar.styled";
 import "react-datepicker/dist/react-datepicker.css";
 import { ko } from "date-fns/locale"; //한국어 설정
 

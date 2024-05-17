@@ -17,6 +17,7 @@ self.addEventListener("activate", function (e) {
 
 // fetch event
 self.addEventListener("fetch", (e) => {
+
 });
 
 const EVENT_CREATE = "EVENT_CREATE";
@@ -24,24 +25,27 @@ const FUNDING_COMPLETE = "FUNDING_COMPLETE";
 const EVENT_OPEN = "EVENT_OPEN";
 const FUNDING_APPROVED = "FUNDING_APPROVED";
 const FUNDING_DISAPPROVED = "FUNDING_DISAPPROVED";
+const ROLLING_CREATE = "ROLLING_CREATE";
 
 let isEvent = false;
 let thisPageUri = null;
 let thisEventId = null;
 let thisFundingId = null;
-
+let thisType=null;
 
 self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
-  
+  const pushData = e.data.json();
+  console.log("Push event received: ", pushData); // Add this line to log the push data
+ 
   const type = e.data.json().data.type;
-
-  if(type === EVENT_OPEN || type ===  EVENT_CREATE){
+  thisType = type;
+  if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri
     
-  } else {
+  } else if(type === FUNDING_COMPLETE) {
     thisFundingId = e.data.json().data.fundingId
 
   }
@@ -61,9 +65,12 @@ self.addEventListener("push", function (e) {
 
 self.addEventListener("notificationclick", function (e) {
   e.notification.close();
+  console.log("1 ==>",thisType)
   if(isEvent === true){
       e.waitUntil(clients.openWindow(`/celebrate/rolling/${thisEventId}/${thisPageUri}`));
-  }else{
+      console.log(thisType)
+    }else{
+    console.log(thisType)
     e.waitUntil(clients.openWindow(`/celebrate/funding/${thisFundingId}`)); 
   }
 
