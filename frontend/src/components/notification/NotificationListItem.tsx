@@ -62,7 +62,7 @@ const NotificationListItem = (props: NotificaionProps) => {
         };
       case "ROLLING_CREATE":
         return {
-          src: "icon/icon_alarm_dday.png",
+          src: "icon/icon_goRoll.png",
           width: "26px",
           height: "25px",
         };

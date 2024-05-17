@@ -36,7 +36,7 @@ self.addEventListener("push", function (e) {
   if (!e.data.json()) return;
   
   const type = e.data.json().data.type;
-
+  console.log(type);
   if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
