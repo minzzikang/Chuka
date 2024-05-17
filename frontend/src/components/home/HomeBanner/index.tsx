@@ -1,17 +1,20 @@
 import styled from "styled-components";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 export const Container = styled.div`
   display: flex;
   justify-content: center;
   position: relative;
+  width: 100%;
+  height: 80px;
 `;
 
 export const Carousel = styled.div`
   width: 100%;
+  height: -100%;
   overflow: hidden;
-  height: 90px;
-  position: relative;
+  position: fixed;
+  bottom: 0px;
 `;
 
 export const CarouselBox = styled.div<{ translateX: number }>`
@@ -22,14 +25,13 @@ export const CarouselBox = styled.div<{ translateX: number }>`
 
 export const CarouselItem = styled.img`
   width: 100%;
+  height: 100%;
   flex-shrink: 0;
 `;
 
 export const Button = styled.button`
   position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: rgba(0, 0, 0, 0.5);
+  top: 30px;
   color: white;
   border: none;
   cursor: pointer;
@@ -37,11 +39,11 @@ export const Button = styled.button`
   z-index: 1;
 
   &:first-of-type {
-    left: 10px;
+    left: 0px;
   }
 
   &:last-of-type {
-    right: 10px;
+    right: 0px;
   }
 `;
 
@@ -64,14 +66,16 @@ const index = (props: CarouselProps) => {
   return (
     <Container>
       <Carousel>
-        <Button />
+        <Button onClick={prevImage}>
+          {"<"}
+        </Button>
         <CarouselBox translateX={currentIdx * 100}>
-          {images.map(({ img, index }) => (
+          {images.map((img, index) => (
             <CarouselItem key={index} src={img} />
           ))}
         </CarouselBox>
       </Carousel>
-      <Button />
+      <Button onClick={nextImage}>{">"}</Button>
     </Container>
   );
 };
