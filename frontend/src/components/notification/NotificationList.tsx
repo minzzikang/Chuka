@@ -9,6 +9,7 @@ export const Container = styled.div`
   overflow-y: scroll;
   -ms-overflow-style: none;
   scrollbar-width: none;
+  margin-bottom: 80px;
 
   &::-webkit-scrollbar {
     display: none;
