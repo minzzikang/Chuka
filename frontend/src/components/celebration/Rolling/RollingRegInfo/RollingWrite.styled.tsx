@@ -81,14 +81,14 @@ export const SelectBtn = styled.button`
   }
 `;
 
-export const SelectPinkBtn = styled.div`
+export const SelectPinkBtn = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 0.3em;
   border: 2px solid ${colors.mainPink};
   color: ${colors.mainPink};
-  width: 150px;
+  width: 120px;
   height: 35px;
 
   @media (min-width: 769px) {
