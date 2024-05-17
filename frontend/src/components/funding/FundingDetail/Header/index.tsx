@@ -1,7 +1,5 @@
 import * as H from "./FundingHeader.styled";
 import { shareFundingKakao } from "@/services/shareFundingKakao";
-import { colors } from "@/styles/theme";
-import { LuScrollText } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 export type FundingHeaderType = {
