@@ -5,6 +5,7 @@ import com.luckyseven.notification.commons.notification.NotificationResponseDesc
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.DeduplicatedUsersIdDto;
 import com.luckyseven.notification.dto.FCMMessageDto;
+import com.luckyseven.notification.dto.RollingpaperCreatAlarmDto;
 import com.luckyseven.notification.service.FcmService;
 import com.luckyseven.notification.util.fcm.FcmSender;
 import lombok.extern.slf4j.Slf4j;
@@ -51,7 +52,7 @@ public class FcmServiceImpl implements FcmService {
             List<String> eventMembers = fcmTargetDataSet.get(event);
             for (String eventMember : eventMembers) {
                 List<String> eventMemberTokens = lookupTable.get(eventMember);
-                System.out.println("*************** eventMemberTokens = " + eventMemberTokens);
+//                System.out.println("*************** eventMemberTokens = " + eventMemberTokens);
                 if (eventMemberTokens == null || eventMemberTokens.size() == 0) continue;
                 for (String eventMemberToken : eventMemberTokens) {
                     fcmMessageDto.setTargetToken(eventMemberToken);
@@ -81,6 +82,27 @@ public class FcmServiceImpl implements FcmService {
                 fcmSender.sendMessageTo(fcmMessageDto);
             }
 
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    public void sendRollingCreateFcm(List<String> fcmTokenList, RollingpaperCreatAlarmDto data) {
+
+        try {
+            for (String token : fcmTokenList) {
+                FCMMessageDto fcmMessageDto = new FCMMessageDto();
+                Map<String ,String > dataset = new HashMap<>();
+                dataset.put("eventId", String.valueOf(data.getEventId()));
+                dataset.put("pageUri",data.getPageUri());
+                dataset.put("type", NotificationType.ROLLING_CREATE.toString());
+                fcmMessageDto.setContent((data.getEventTitle()+" "+NotificationResponseDescription.ROLLING_CREATE));
+                fcmMessageDto.setTargetToken(token);
+                fcmMessageDto.setData(dataset);
+
+                fcmSender.sendMessageTo(fcmMessageDto);
+            }
         }catch (Exception e){
             e.printStackTrace();
         }

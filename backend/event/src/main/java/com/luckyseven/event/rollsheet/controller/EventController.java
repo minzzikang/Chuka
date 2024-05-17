@@ -5,6 +5,8 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
 import com.luckyseven.event.message.ProducerService;
+import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.*;
 import com.luckyseven.event.rollsheet.service.EventService;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
@@ -70,7 +72,9 @@ public class EventController {
 
             event = eventService.createEvent(createEventDto, userId, nickname);
 
-            producerService.sendNotificationMessage(event.getEventId(), event.getPageUri(), userId);
+            EventCreateAlarmDto eventCreateAlarmDto = new EventCreateAlarmDto(userId,event.getEventId(),event.getPageUri());
+            BaseMessageDto messageDto = new BaseMessageDto(Topic.EVENT_CREATE,eventCreateAlarmDto);
+            producerService.sendNotificationMessage(messageDto);
 
         } catch (EmptyFileException e) {
             //400

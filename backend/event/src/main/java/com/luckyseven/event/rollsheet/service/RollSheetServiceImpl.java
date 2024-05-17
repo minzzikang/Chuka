@@ -5,10 +5,12 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
+import com.luckyseven.event.rollsheet.dto.RollingpaperCreatAlarmDto;
 import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.entity.JoinEvent;
 import com.luckyseven.event.rollsheet.entity.JoinEventPk;
 import com.luckyseven.event.rollsheet.entity.RollSheet;
+import com.luckyseven.event.rollsheet.repository.EventQueryRepository;
 import com.luckyseven.event.rollsheet.repository.EventRepository;
 import com.luckyseven.event.rollsheet.repository.JoinEventRepository;
 import com.luckyseven.event.rollsheet.repository.RollSheetRepository;
@@ -35,6 +37,7 @@ import java.util.stream.Collectors;
 public class RollSheetServiceImpl implements RollSheetService {
 
     private final EventRepository eventRepository;
+    private final EventQueryRepository eventQueryRepository;
     private final RollSheetRepository rollSheetRepository;
     private final JoinEventRepository joinEventRepository;
 
@@ -189,5 +192,13 @@ public class RollSheetServiceImpl implements RollSheetService {
     @Override
     public int countRollSheetByEventId(int eventId) {
         return rollSheetRepository.countByEventId(eventId);
+    }
+
+    @Override
+    public RollingpaperCreatAlarmDto findByEventId(int eventId) {
+
+        RollingpaperCreatAlarmDto rollingpaperCreatAlarmDto = eventQueryRepository.findByEventId(eventId);
+
+        return rollingpaperCreatAlarmDto;
     }
 }
