@@ -12,6 +12,13 @@ export const Container = styled.article`
   border: 2px solid ${colors.inputGray};
   border-radius: 1em;
   padding-right: 5px;
+  position: relative;
+
+  img {
+    position: absolute;
+    top: 5px;
+    right: 15px;
+  }
 `;
 
 export const Input = styled.input`

@@ -9,4 +9,5 @@ public interface NotificationResponseDescription {
     String FUNDING_APPROVED ="펀딩 등록이 승인되었습니다."; // 펀딩 승인, 등록
     String FUNDING_DISAPPROVED ="펀딩 등록이 거절되었습니다."; // 펀딩 승인, 등록
 
+    String ROLLING_CREATE = "이벤트에 새로운 메시지가 등록되었습니다.";
 }

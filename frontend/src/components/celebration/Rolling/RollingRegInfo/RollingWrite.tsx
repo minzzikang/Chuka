@@ -175,19 +175,15 @@ const RollingWrite = () => {
       <r.Container>
         <r.SelectWrap>
           <r.SelectBtn onClick={() => setIsSelectModalOpen(true)}>
-            <LuPaintbrush style={{ marginRight: "5px" }} />
+            <img src="/icon/icon_brush.png" alt="" />
             배경 선택
           </r.SelectBtn>
           <r.SelectBtn onClick={() => setIsShapeModalOpen(true)}>
-            <TiScissors style={{ marginRight: "5px" }} />
+            <img src="/icon/icon_scissors.png" alt="" />
             모양 선택
           </r.SelectBtn>
           <r.SelectPinkBtn onClick={recommendMessage}>
-            <img
-              src="/icon/icon_makewrite.png"
-              alt=""
-              style={{ width: "15px", height: "15px", marginRight: "5px" }}
-            />
+            <img src="/icon/icon_makewrite.png" alt="" />
             <span>축하 멘트 추천</span>
           </r.SelectPinkBtn>
         </r.SelectWrap>

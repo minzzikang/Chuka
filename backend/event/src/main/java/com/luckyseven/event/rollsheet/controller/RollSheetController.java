@@ -4,9 +4,14 @@ import com.luckyseven.event.common.exception.BigFileException;
 import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.common.response.BaseResponseBody;
+import com.luckyseven.event.message.ProducerService;
+import com.luckyseven.event.message.dto.BaseMessageDto;
+import com.luckyseven.event.message.dto.Topic;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetListRes;
+import com.luckyseven.event.rollsheet.dto.RollingpaperCreatAlarmDto;
+import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.service.RollSheetService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,7 +37,7 @@ import java.util.NoSuchElementException;
 public class RollSheetController {
 
     private final RollSheetService rollSheetService;
-
+    private final ProducerService producerService;
     @PostMapping(value = "/{eventId}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
     @Operation(summary = "롤링페이퍼 등록", description = "롤링페이퍼를 등록(생성)한다.")
     @ApiResponses({
@@ -54,6 +59,13 @@ public class RollSheetController {
 
             if (rollSheet == null) {
                 return ResponseEntity.status(400).body(null);
+            }
+            // 이벤트 작성자에게 롤링페이퍼 작성 알림 발생
+            RollingpaperCreatAlarmDto rollingpaperCreatAlarmDto = rollSheetService.findByEventId(eventId);
+            if(!rollingpaperCreatAlarmDto.getUserId().equals(userId)){
+                log.info("호출");
+                BaseMessageDto baseMessageDto = new BaseMessageDto(Topic.ROLLING_CREATE,rollingpaperCreatAlarmDto);
+                producerService.sendNotificationMessage(baseMessageDto);
             }
 
             return ResponseEntity.status(200).body(rollSheet);

@@ -90,7 +90,7 @@
 
 ## 아키텍처
 
-<img src="./images/아키텍처.png" width="800" height="400"/>&nbsp; &nbsp;
+<img src="./images/아키텍처.png" width="800" height="450"/>&nbsp; &nbsp;
 
 ## ERD
 

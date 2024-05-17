@@ -2,6 +2,7 @@ package com.luckyseven.event.rollsheet.repository;
 
 import com.luckyseven.event.rollsheet.dto.DdayReceiveDto;
 import com.luckyseven.event.rollsheet.dto.EventDto;
+import com.luckyseven.event.rollsheet.dto.RollingpaperCreatAlarmDto;
 import com.luckyseven.event.rollsheet.entity.Event;
 import com.luckyseven.event.rollsheet.entity.JoinEvent;
 import com.querydsl.core.types.Expression;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 import static com.luckyseven.event.rollsheet.entity.QEvent.event;
 import static com.luckyseven.event.rollsheet.entity.QJoinEvent.joinEvent;
@@ -261,5 +263,24 @@ public class EventQueryRepository {
         }
 
         return result;
+    }
+
+    public RollingpaperCreatAlarmDto findByEventId(int eventId) {
+
+        Event result = jpaQueryFactory.select(Projections.bean(Event.class,
+                        event.pageUri,
+                        event.title,
+                        event.userId))
+                .from(event).where(event.eventId.eq(eventId)).fetchOne();
+
+        if(result == null){
+            throw new NoSuchElementException("삭제된 이벤트입니다.");
+        }
+
+        return RollingpaperCreatAlarmDto.builder()
+                .eventId(eventId)
+                .eventTitle(result.getTitle())
+                .userId(result.getUserId())
+                .pageUri(result.getPageUri()).build();
     }
 }
