@@ -17,6 +17,7 @@ const index = (props: { result: EventDataType }) => {
               key={index}
               eventId={item.eventId}
               pageUri={item.pageUri}
+              bannerThumbnailUrl={item.bannerThumbnailUrl}
               title={item.title}
               date={item.date}
               createTime={item.createTime}
