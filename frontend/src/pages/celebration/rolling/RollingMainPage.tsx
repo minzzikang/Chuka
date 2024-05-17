@@ -2,7 +2,7 @@ import RollingHeader from "@/components/celebration/Rolling/RollingMain/RollingH
 import Banner from "@/components/celebration/Rolling/RollingMain/Banner";
 import Board from "@/components/celebration/Rolling/RollingMain/Board";
 import Navbar from "@common/navbar";
-import Drawer from "@components/drawer";
+import Drawer from "@/common/drawer";
 import DrawerModal from "@/components/celebration/Rolling/RollingMain/DrawerModal";
 import { shareEventKakao } from "@/services/shareEventKakao";
 import { useParams } from "react-router-dom";

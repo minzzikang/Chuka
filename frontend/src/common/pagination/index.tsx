@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as p from "./Paginaation.styled";
+import * as p from "./Pagination.styled";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export type PaginationType = {
