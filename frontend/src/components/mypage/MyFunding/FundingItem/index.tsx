@@ -2,7 +2,7 @@ import * as f from "./FundingItem.styled";
 import { useNavigate } from "react-router-dom";
 import { colors } from "@/styles/theme";
 import { FaRegTrashCan } from "react-icons/fa6";
-import Badge from "@components/badge";
+import Badge from "@/common/badge";
 import { useEffect, useState } from "react";
 import { fetchFunding } from "@/apis/funding";
 
