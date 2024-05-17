@@ -97,6 +97,7 @@ public class FcmServiceImpl implements FcmService {
                 dataset.put("eventId", String.valueOf(data.getEventId()));
                 dataset.put("pageUri",data.getPageUri());
                 dataset.put("type", NotificationType.ROLLING_CREATE.toString());
+                log.info("==>>{}",dataset);
                 fcmMessageDto.setContent((data.getEventTitle()+" "+NotificationResponseDescription.ROLLING_CREATE));
                 fcmMessageDto.setTargetToken(token);
                 fcmMessageDto.setData(dataset);

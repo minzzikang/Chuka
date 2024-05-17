@@ -17,6 +17,8 @@ self.addEventListener("activate", function (e) {
 
 // fetch event
 self.addEventListener("fetch", (e) => {
+  const type = e.data.json().data.type;
+  console.log(type);
 });
 
 const EVENT_CREATE = "EVENT_CREATE";
