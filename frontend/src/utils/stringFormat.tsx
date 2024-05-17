@@ -7,8 +7,8 @@ export const deleteBlank = (value: string) => {
 
 // 제목 6글자 뒤부터는 ...
 export const formattingTitle = (title: string) => {
-  if (title.length > 6) {
-    return `${title.slice(0, 6)}...`;
+  if (title.length > 5) {
+    return `${title.slice(0, 5)}...`;
   }
   return title;
 };
