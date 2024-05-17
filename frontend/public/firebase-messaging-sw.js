@@ -24,6 +24,7 @@ const FUNDING_COMPLETE = "FUNDING_COMPLETE";
 const EVENT_OPEN = "EVENT_OPEN";
 const FUNDING_APPROVED = "FUNDING_APPROVED";
 const FUNDING_DISAPPROVED = "FUNDING_DISAPPROVED";
+const ROLLING_CREATE = "ROLLING_CREATE";
 
 let isEvent = false;
 let thisPageUri = null;
@@ -36,7 +37,7 @@ self.addEventListener("push", function (e) {
   
   const type = e.data.json().data.type;
 
-  if(type === EVENT_OPEN || type ===  EVENT_CREATE){
+  if(type === EVENT_OPEN || type ===  EVENT_CREATE || type === ROLLING_CREATE){
     isEvent = true;
     thisEventId = e.data.json().data.eventId
     thisPageUri = e.data.json().data.pageUri

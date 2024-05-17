@@ -1,7 +1,5 @@
 import * as H from "./FundingHeader.styled";
 import { shareFundingKakao } from "@/services/shareFundingKakao";
-import { colors } from "@/styles/theme";
-import { LuScrollText } from "react-icons/lu";
 import { useNavigate } from "react-router-dom";
 
 export type FundingHeaderType = {
@@ -45,7 +43,7 @@ const index = (props: FundingHeaderType) => {
             onClick={() => navigate(`/celebrate/rolling/${eventId}/${pageUri}`)}
           >
             <H.customIcon>
-              <LuScrollText color={colors.mainPink} size={22} />
+              <img src="/icon/icon_goRoll.png" alt="" />
             </H.customIcon>
             <H.Text>추카 보기</H.Text>
           </H.IconWrap>

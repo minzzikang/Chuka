@@ -26,39 +26,6 @@ export const shareFundingKakao = (props:FundingHeaderType) => {
           webUrl: fundingUrl ? `${fundingUrl}`:'https://chuka.kr', // 이벤트 URL
         },
       },
-      // itemContent: {
-      //   // profileText: "Kakao",
-      //   // profileImageUrl:
-      //   //   "/img/img_main_banner.png",
-      //   titleImageUrl:
-      //     "https://mud-kage.kakao.com/dn/Q2iNx/btqgeRgV54P/VLdBs9cvyn8BJXB3o7N8UK/kakaolink40_original.png", // 첫번째 상품 크롤링 이미지
-      //   titleImageText: "Cheese cake", // 상품 이름
-      //   titleImageCategory: "Cake", // 가격
-      //   items: [
-      //       {
-      //         item: 'Cake1',
-      //         itemOp: '1000원', // 상품이 2개 이상인 경우
-      //       },
-      //       {
-      //         item: 'Cake2',
-      //         itemOp: '2000원',
-      //       },
-      //       {
-      //         item: 'Cake3',
-      //         itemOp: '3000원',
-      //       },
-      //       {
-      //         item: 'Cake4',
-      //         itemOp: '4000원',
-      //       },
-      //       {
-      //         item: 'Cake5',
-      //         itemOp: '5000원',
-      //       },
-      //     ],
-      //   sum: "총 결제금액",
-      //   sumOp: "15000원",
-      // },
       buttons: [
         {
           title: "추카 서비스 이용하기",

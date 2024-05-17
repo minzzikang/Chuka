@@ -39,8 +39,8 @@ export const Icon = styled(IoIosArrowBack)`
 
 export const Icon2 = styled.div`
   cursor: pointer;
-  position: fixed;
+  position: absolute;
   right: 10px;
-  top: 10px;
+  top: 16px;
   font-size: 24px;
 `;

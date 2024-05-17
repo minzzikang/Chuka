@@ -7,6 +7,14 @@ export const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 10px;
+
+  button {
+    background-color: ${colors.mainPink};
+    width: 100px;
+    height: 30px;
+    color: ${colors.white};
+    font-size: 0.9em;
+  }
 `;
 
 export const Img = styled.img`

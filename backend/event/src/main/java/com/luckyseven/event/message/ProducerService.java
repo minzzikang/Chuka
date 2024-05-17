@@ -29,17 +29,17 @@ public class ProducerService {
         rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", dataSet);
     }
 
-    public void sendNotificationMessage(int eventId, String pageUri, String userId) {
-        // 알림 발생.
-        EventCreateAlarmDto eventCreateAlarmDto = new EventCreateAlarmDto();
-        eventCreateAlarmDto.setEventId(eventId);
-        eventCreateAlarmDto.setUserId(userId);
-        eventCreateAlarmDto.setEventPageUri(pageUri);
-
-        BaseMessageDto baseMessageDto = new BaseMessageDto();
-        baseMessageDto.setData(eventCreateAlarmDto);
-        baseMessageDto.setTopic(Topic.EVENT_CREATE);
-
-        rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", baseMessageDto);
-    }
+//    public void sendNotificationMessage(int eventId, String pageUri, String userId) {
+//        // 알림 발생.
+//        EventCreateAlarmDto eventCreateAlarmDto = new EventCreateAlarmDto();
+//        eventCreateAlarmDto.setEventId(eventId);
+//        eventCreateAlarmDto.setUserId(userId);
+//        eventCreateAlarmDto.setEventPageUri(pageUri);
+//
+//        BaseMessageDto baseMessageDto = new BaseMessageDto(Topic.EVENT_CREATE,eventCreateAlarmDto);
+////        baseMessageDto.setData(eventCreateAlarmDto);
+////        baseMessageDto.setTopic(Topic.EVENT_CREATE);
+//
+//        rabbitTemplate.convertAndSend(EVENT_TO_NOTIFICATION_EXCHANGE, "", baseMessageDto);
+//    }
 }
