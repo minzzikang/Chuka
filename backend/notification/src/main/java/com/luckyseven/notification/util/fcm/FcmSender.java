@@ -45,7 +45,7 @@ public class FcmSender {
                 userFeignClient.deleteInvalidFcmtoken(fcmMessageDto.getTargetToken());
             }
 //            else {
-//                log.info("전송!");
+////                log.info("전송! {} ",message);
 //            }
 
         }catch (Exception e){
@@ -74,7 +74,6 @@ public class FcmSender {
                                                 FcmMSG.Notification.builder()
                                                         .title(fcmMessageDto.getContent())
                                                         .body(body)
-//                                                        .body("눌러서 확인하기🎉")
                                                         .build())
                                         .build())
                         .validateOnly(false)
