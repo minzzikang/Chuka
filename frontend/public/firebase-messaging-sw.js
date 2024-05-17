@@ -11,7 +11,7 @@ self.addEventListener("install", (e) => {
 
 // activate event
 self.addEventListener("activate", function (e) {
-  // e.waitUntil(self.clients.claim())
+  e.waitUntil(self.clients.claim())
   console.log("fcm service worker가 실행되었습니다.");
 });
 
@@ -49,7 +49,6 @@ self.addEventListener("push", function (e) {
     thisPageUri = e.data.json().data.pageUri
     
   } else if(type === FUNDING_COMPLETE) {
-    console.log("여기로 왜오니",type)
     thisFundingId = e.data.json().data.fundingId
 
   }
