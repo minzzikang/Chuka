@@ -2,7 +2,7 @@ import FundingHeaderSection from "./Header";
 import FundingCrawlingSection from "./Crawling";
 import FundingMessageSection from "./Message";
 import * as f from "./FundingDetail.styled";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { fetchFunding } from "@/apis/funding";
 import { useEffect, useState } from "react";
 import { calculatePercent } from "@/utils/calculation";

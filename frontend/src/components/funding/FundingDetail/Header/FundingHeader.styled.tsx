@@ -38,6 +38,12 @@ export const customIcon = styled.div`
   position: absolute;
   right: 61px;
   top: 10px;
+
+  img {
+    width: 18px;
+    height: 18px;
+    margin-right: 3px;
+  }
 `;
 
 export const Text = styled.div`

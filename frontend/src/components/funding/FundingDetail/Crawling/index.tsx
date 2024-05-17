@@ -1,6 +1,4 @@
-import { colors } from "@/styles/theme";
 import * as C from "./FundingCrawling.styled";
-import { HiOutlineExternalLink } from "react-icons/hi";
 
 type CrawlingType = {
   productLink: string;
@@ -35,8 +33,8 @@ const index = (props: CrawlingType) => {
     <C.Container>
       <C.HighLight>{formatDate} ㅊㅋ</C.HighLight>
       <C.Img src={image} />
-      <div style={{ display: "flex", cursor: "pointer", gap: "5px" }}>
-        <HiOutlineExternalLink color={colors.gray} />
+      <div style={{ display: "flex", cursor: "pointer", gap: "5px", alignItems: 'center'}}>
+        <img src="/icon/icon_link.png" alt="" style={{ width: '15px', height: '15px'}}/>
         <C.LinkDiv onClick={goProductUrl}>구매 링크 바로가기</C.LinkDiv>
       </div>
       <C.Title>{title}</C.Title>
