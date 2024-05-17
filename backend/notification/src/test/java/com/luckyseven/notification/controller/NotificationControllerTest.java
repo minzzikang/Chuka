@@ -105,7 +105,8 @@ class NotificationControllerTest {
                         .header("loggedInUser", loggedInUser)
                         .contentType("application/json")
 //                        .content(objectMapper.writeValueAsString(receiverInfoDto))
-                        .requestAttr("receiverInfo",objectMapper.writeValueAsString(receiverInfoDto))
+//                        .param("receiverInfo",objectMapper.writeValueAsString(receiverInfoDto))
+                        .param("receiverInfo",String.valueOf(receiverInfoDto))
                         .with(csrf()))
                 .andExpect(status().isOk())
                 .andDo(print());
