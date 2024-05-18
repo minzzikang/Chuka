@@ -1,11 +1,14 @@
-# 우리들의 추억의 카드 ㅊㅋ
+# :love_letter: 우리들의 추억의 카드 ㅊㅋ
+특별한 날 마음을 전달하기 어려우셨나요?<br>
+축하 받는 사람도 축하 하는 사람도 행복한 서비스를 만들었습니다.<br>
+이벤트 해당 일자에 오픈 되는 롤링페이퍼와 선물 펀딩을 함께  경험해보세요.<br>
 > 개발 기간 : 2024-04-08 ~ 2024-05-20
 
 
 </br>
 
 
-# 산출물
+# :scroll: 산출물
 - [요구사항정의서](https://broadleaf-rosehip-ec8.notion.site/1f93a3803dde43c6ac0a7baadbb85aeb)
 - [기능명세서](https://broadleaf-rosehip-ec8.notion.site/50fcb063ccc54adeb6465ec11dd6bd11)
 - [API명세서](https://broadleaf-rosehip-ec8.notion.site/API-297fa08688a645059db2732bbdb4bea1)
@@ -15,7 +18,7 @@
 
 ---
 
-# 목차
+# :pushpin: 목차
 1. [Role](#role)
 2. [기술스택](#기술스택)
 3. [서비스](#서비스)
@@ -32,7 +35,7 @@
 
 ---
 
-# Role
+# :crown: Role
 
 | 이름   | 역할                                                         |
 | ------ | ------------------------------------------------------------ |
@@ -44,7 +47,7 @@
 | 승재홍 | **프론트엔드** |
 
 ---
-# 기술스택
+# :key: 기술스택
 
 ### BackEnd
 - JAVA 17
@@ -63,8 +66,11 @@
 
 ### FrontEnd
 - React 18.2.0
-- Ts 5.2.2
+- Typescript 5.2.2
+- Vite 5.2.0
+- Styled-component 6.1.8
 - Recoil 0.7.7
+- Axios 1.6.8
 
 ### DB 
 - MySQl 8.0.36
@@ -86,8 +92,7 @@
 </br>
 
 ---
-# 서비스 
-
+# :tada: 서비스
 ## 아키텍처
 
 <img src="./images/아키텍처.png" width="800" height="450"/>&nbsp; &nbsp;
