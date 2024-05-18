@@ -57,6 +57,7 @@ export const Button = styled.button`
   color: white;
   background-color: ${colors.mainPink};
   margin-top: 20px;
+  margin-bottom: 180px;
 `;
 
 export const Highlight = styled(Desc)`
