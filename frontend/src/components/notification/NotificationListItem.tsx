@@ -84,7 +84,7 @@ const NotificationListItem = (props: NotificaionProps) => {
       <N.Wrap>
         <N.LeftWrap>
           <N.ImgWrap>
-            <img src={icon?.src} alt="icon" />
+            <img src={icon?.src} alt="icon" width={icon?.width} height={icon?.height}/>
           </N.ImgWrap>
           <N.TextWrap>
             <N.Comment>{content}</N.Comment>
