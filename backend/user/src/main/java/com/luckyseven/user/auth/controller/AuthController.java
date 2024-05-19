@@ -30,9 +30,9 @@ public class AuthController {
 
     @GetMapping("/test")
     public ResponseEntity<?> test() {
-        log.info("test!!!!!");
         return ResponseEntity.status(200).body("test");
     }
+
     @DeleteMapping("/fcm-token")
     public ResponseEntity<?> deleteInvalidFcmtoken(@RequestBody() String fcmtoken) {
         try {
@@ -49,8 +49,6 @@ public class AuthController {
     @GetMapping("/token/{token}")
     public ResponseEntity<?> tokenTest(@PathVariable("token") String token) {
         try {
-
-            log.info("token!!!!!");
             jwtUtil.validateToken(token);
             return ResponseEntity.ok().body("유효함");
         } catch (Exception e) {
@@ -133,37 +131,6 @@ public class AuthController {
             return ResponseEntity.status(400).body("access-token 발급 실패");
         }
     }
-
-    @PostMapping("/token")
-    @Operation(summary = "access token 생성기", description = "유효기간 3일")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")
-    })
-    public ResponseEntity<?> tokenCreator(
-            @Parameter(description = "userId") @RequestParam String id,
-            @Parameter(description = "nickname") @RequestParam String nickname
-    ) {
-        String newAccessToken = jwtUtil.createAccessTokenTmp(id, nickname);
-
-        return ResponseEntity.status(200).body(newAccessToken);
-    }
-
-    @PostMapping("/token2")
-    @Operation(summary = "refresh token 생성기", description = "")
-    @ApiResponses({
-            @ApiResponse(responseCode = "200", description = "성공"),
-            @ApiResponse(responseCode = "500", description = "서버 오류")
-    })
-    public ResponseEntity<?> refreshTokenCreator(
-            @Parameter(description = "userId") @RequestParam String id,
-            @Parameter(description = "nickname") @RequestParam String nickname
-    ) {
-        String newRefreshToken = jwtUtil.createRefreshTokenTmp(id, nickname);
-
-        return ResponseEntity.status(200).body(newRefreshToken);
-    }
-
 
 }
 

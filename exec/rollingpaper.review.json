@@ -1,0 +1,154 @@
+[{
+  "_id": {
+    "$oid": "66420ca9b8864064423f38b5"
+  },
+  "content": "얘들아 축하한다~~~!!!!",
+  "phoneNumber": "",
+  "createTime": {
+    "$date": "2024-05-13T12:50:49.898Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642117ab8864064423f38b9"
+  },
+  "content": "친구들과 롤링페이퍼를 함께 공유할 수 있어 좋아요.",
+  "phoneNumber": "01036946469",
+  "createTime": {
+    "$date": "2024-05-13T13:11:22.878Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "66421210b8864064423f38ba"
+  },
+  "content": "생일 축하를 받을 수 있어서 기뻐요",
+  "phoneNumber": "00000000000",
+  "createTime": {
+    "$date": "2024-05-13T13:13:52.422Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "664214cfb8864064423f38c9"
+  },
+  "content": "서비스가 유용해요",
+  "phoneNumber": "01062433767",
+  "createTime": {
+    "$date": "2024-05-13T13:25:35.674Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642bbef6007bd7030d7eb2b"
+  },
+  "content": "광주캠 화이팅~!~!~!!!!",
+  "phoneNumber": "",
+  "createTime": {
+    "$date": "2024-05-14T01:18:39.009Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642c3636007bd7030d7eb30"
+  },
+  "content": "커피는 내꺼야",
+  "phoneNumber": "01026829765",
+  "createTime": {
+    "$date": "2024-05-14T01:50:27.248Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642c9a19a4bbd0ad2fee1de"
+  },
+  "content": "추카추카",
+  "phoneNumber": "01030428634",
+  "createTime": {
+    "$date": "2024-05-14T02:17:05.534Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642ccee9a4bbd0ad2fee1e6"
+  },
+  "content": "후기작성 이벤트까지... 완벽한 서비스인데, 팀원 모두가 고생많으셨겠네요 ㅠㅠ 마지막까지 화이팅하세요!! 투자하고싶어요. 창업하세요!!",
+  "phoneNumber": "01039003790",
+  "createTime": {
+    "$date": "2024-05-14T02:31:10.013Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642e5699a4bbd0ad2fee1eb"
+  },
+  "content": "사랑해요 연예가 중계",
+  "phoneNumber": "01072262558",
+  "createTime": {
+    "$date": "2024-05-14T04:15:37.333Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642e8789a4bbd0ad2fee1ee"
+  },
+  "content": "쭈까쭈🎉🎉 펀딩으로 등록된 상품 선물받고 싶어요~~~",
+  "phoneNumber": "01066041442",
+  "createTime": {
+    "$date": "2024-05-14T04:28:40.499Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642f0759a4bbd0ad2fee1f3"
+  },
+  "content": "우와 우리 막둥이 너무 멋있다~~~~~",
+  "phoneNumber": "01098385023",
+  "createTime": {
+    "$date": "2024-05-14T05:02:45.473Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "6642fd479a4bbd0ad2fee1f6"
+  },
+  "content": "일주일뒤 제일먼저 사용해보겠숴\n좋은 프로그램 공유 감솨❤️",
+  "phoneNumber": "01023729365",
+  "createTime": {
+    "$date": "2024-05-14T05:57:27.511Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "664314aa6f877860aae2caed"
+  },
+  "content": "배경 사진을 넣고 롤링페이퍼 작성 시 글씨 색상을 바꿔도 잘 안보이는 것들이 존재해요. 인스타 스토리 밑줄 or blur처리된 투명 공간 있으면 좋을 것 같아요!",
+  "phoneNumber": "01038956950",
+  "createTime": {
+    "$date": "2024-05-14T07:37:14.605Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+},
+{
+  "_id": {
+    "$oid": "66431fe179c38123607925d3"
+  },
+  "content": "아기자기한 디자인이 마음에 듭니다. 처음 들어왔을 때 뭐부터 해야할 지 모르겠는 아쉬움이 있었어요",
+  "phoneNumber": "01044351380",
+  "createTime": {
+    "$date": "2024-05-14T08:25:05.174Z"
+  },
+  "_class": "com.luckyseven.event.review.entity.Review"
+}]
