@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import * as p from "./Paginaation.styled";
+import * as p from "./Pagination.styled";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 
 export type PaginationType = {
@@ -40,11 +40,6 @@ const index = (props: PaginationType) => {
 
   return (
     <p.Container>
-      {/* <Icon
-        src="/icon/icon_arrow_doubbleleft_gray.png"
-        onClick={() => setPage(page - limit)}
-        aria-disabled={page === 1}
-      /> */}
       <button disabled={page === 1}>
         <IoIosArrowBack onClick={() => setPage(page - 1)} />
       </button>
@@ -67,11 +62,6 @@ const index = (props: PaginationType) => {
           aria-disabled={page === totalPage}
         />
       </button>
-      {/* <Icon
-        src="/icon/icon_arrow_doubbleright_gray.png"
-        onClick={() => setPage(page + limit)}
-        aria-disabled={page === totalPage}
-      /> */}
     </p.Container>
   );
 };

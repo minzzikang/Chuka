@@ -5,6 +5,8 @@ import com.luckyseven.event.common.exception.EmptyFileException;
 import com.luckyseven.event.common.exception.NotValidExtensionException;
 import com.luckyseven.event.rollsheet.dto.CreateRollSheetDto;
 import com.luckyseven.event.rollsheet.dto.RollSheetDto;
+import com.luckyseven.event.rollsheet.dto.RollingpaperCreatAlarmDto;
+import com.luckyseven.event.rollsheet.entity.Event;
 
 import java.io.IOException;
 import java.util.List;
@@ -23,4 +25,6 @@ public interface RollSheetService {
 
     int countRollSheet();
     int countRollSheetByEventId(int eventId);
+
+    RollingpaperCreatAlarmDto findByEventId(int eventId);
 }

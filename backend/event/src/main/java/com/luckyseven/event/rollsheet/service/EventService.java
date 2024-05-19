@@ -38,4 +38,5 @@ public interface EventService {
     ResponseEntity<?> sendDdayalarmTest() ;
 
     void reloadProfanityData();
+
 }

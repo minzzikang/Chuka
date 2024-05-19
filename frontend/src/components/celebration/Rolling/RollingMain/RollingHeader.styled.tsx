@@ -11,6 +11,7 @@ export const Img = styled.img`
   width: 15%;
   height: auto;
   margin-left: 10px;
+  cursor: pointer;
 `;
 
 export const IconWrap = styled.div`

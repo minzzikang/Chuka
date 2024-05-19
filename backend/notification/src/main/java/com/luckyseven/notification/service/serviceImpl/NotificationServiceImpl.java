@@ -4,6 +4,7 @@ import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.EventCreateAlarmDto;
 import com.luckyseven.notification.dto.FundingToNotificationMessageDto;
+import com.luckyseven.notification.dto.RollingpaperCreatAlarmDto;
 import com.luckyseven.notification.repository.NotificationRepository;
 import com.luckyseven.notification.service.NotificationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -75,6 +76,17 @@ public class NotificationServiceImpl implements NotificationService {
         Notification notification = new Notification(fundingToNotificationMessageDto.getUserId(), fundingToNotificationMessageDto.getType());
         notification.setFundingId(fundingToNotificationMessageDto.getFundingId());
         notification.setUserId(fundingToNotificationMessageDto.getUserId());
+        repository.save(notification);
+    }
+
+    @Override
+    public void sendRollingCreate(RollingpaperCreatAlarmDto data) {
+        Notification notification = new Notification(data.getUserId(), NotificationType.ROLLING_CREATE);
+        notification.setPageUri(data.getPageUri());
+        notification.setEventId(data.getEventId());
+        notification.setContentForRollingCreate((data.getEventTitle()+" "+notification.getContent()));
+//        notification.setEventTitle(data.getEventTitle());
+        notification.setUserId(data.getUserId());
         repository.save(notification);
     }
 }

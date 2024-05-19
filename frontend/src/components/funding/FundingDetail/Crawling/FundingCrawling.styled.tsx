@@ -18,18 +18,21 @@ export const TopWrap = styled.div`
 
 export const MiddleWrap = styled.div``;
 
-export const GoalAmount = styled.div`
+export const GoalAmount = styled.div<{ $remain: number }>`
   width: 100%;
   height: 12px;
-  background-color: #f2f4f6;
+  background-color: ${(props) =>
+    props.$remain <= 0 ? colors.mainPink : '#f2f4f6'};
   border-radius: 6px;
 `;
 
 export const CurrentAmount = styled.div<{ $percent: number }>`
   width: ${(props) => props.$percent}%;
   height: 12px;
-  background-color: ${colors.mainPink};
+  background-color: ${(props) =>
+    props.$percent >= 100 ? colors.mainPink : colors.mainPink};
   border-radius: 6px;
+  transition: width 0.3s ease-in-out;
 `;
 
 export const BottomWrap = styled.div`
@@ -62,8 +65,6 @@ export const Img = styled.img`
 `;
 
 export const LinkDiv = styled.div`
-  
   color: ${colors.gray};
   font-size: 1em;
-
-`
+`;

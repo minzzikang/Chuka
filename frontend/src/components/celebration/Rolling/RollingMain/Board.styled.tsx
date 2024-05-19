@@ -34,7 +34,7 @@ export const CardWrap = styled.div`
   column-gap: 5px;
   grid-template-columns: calc(50%) calc(50%);
   padding: 10px;
-  padding-bottom: 80px;
+  padding-bottom: 120px;
   min-height: 100vh;
 
   & > div:nth-child(3n) {
@@ -87,12 +87,23 @@ export const DeleteBtn = styled.button`
   background-color: ${colors.mainPink};
 `;
 
+export const Target = styled.div`
+
+  position: absolute;
+  height: 1px;
+  bottom: 0;
+  font-size: 1em;
+  color: transparent;
+  
+`
+
+
 export const Card = styled.div<{
   $bgColor?: string;
-  $font: string;
-  $fontColor: string;
+  $font?: string;
+  $fontColor?: string;
   $bgImage?: string;
-  $shape: string;
+  $shape?: string;
 }>`
   display: flex;
   padding: 10px;
@@ -108,7 +119,7 @@ export const Card = styled.div<{
   font-size: 1.1em;
   font: 700;
   font-weight: bold;
-
+  cursor: pointer;
   background-color: ${(props) =>
     props.$bgImage ? "transparent" : props.$bgColor || colors.white};
   background-image: ${(props) =>
@@ -116,7 +127,13 @@ export const Card = styled.div<{
   background-size: cover;
   background-position: center;
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
+
+  img {
+    width: 30px;
+    height: 30px;
+  }
 `;
+
 
 export const DetailWrap = styled.div<{
   $bgImage?: string;
@@ -136,6 +153,7 @@ export const DetailWrap = styled.div<{
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
 `;
 
 export const CardDetail = styled.div<{
@@ -144,7 +162,6 @@ export const CardDetail = styled.div<{
   $shape: string;
 }>`
   display: flex;
-  position: relative;
   flex-direction: column;
   justify-content: center;
   align-items: center;
@@ -156,6 +173,6 @@ export const CardDetail = styled.div<{
   font-size: 1.5em;
   color: ${(props) => props.$fontColor || colors.black};
   font-family: ${(props) => props.$font || "Pretendard"};
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: rgba(255, 255, 255, 0.4);
   border-radius: ${(props) => (props.$shape === "CIRCLE" ? "50%" : "1em")};
 `;

@@ -44,7 +44,7 @@ export const Hightlight = styled.div`
 `;
 
 export const Button = styled.button`
-  width: 104px;
+  width: 120px;
   height: 35.1px;
   background-color: ${colors.mainPink};
   color: white;
@@ -55,4 +55,11 @@ export const Button = styled.button`
   border-radius: 10px;
   margin-top: 5px;
   margin-bottom: 5px;
+  font-size: 0.8em;
+
+  img {
+    width: 18px;
+    height: 20px;
+    margin-right: 3px;
+  }
 `;

@@ -88,6 +88,7 @@ export const P = styled.p`
   margin-left: 5px;
 `;
 
+
 export const BtnWrap = styled.div`
   display: flex;
   margin-bottom: 3px;

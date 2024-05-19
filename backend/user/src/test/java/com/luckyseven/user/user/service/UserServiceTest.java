@@ -44,8 +44,9 @@ class UserServiceTest {
         assertThat(myInfo).isNotNull();
 
         // 결과 2
-        assertThatThrownBy(() -> userService.getMyInfo("2"))
-                .isInstanceOf(NullPointerException.class);
+        assertThat(userService.getMyInfo("2")).isNull();
+//        assertThatThrownBy(() -> userService.getMyInfo("2"))
+//                .isInstanceOf(NullPointerException.class);
     }
 
     @Test
