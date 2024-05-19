@@ -71,7 +71,6 @@ public class JWTUtil {
     }
 
     public Boolean isExpired(String token) {
-//        System.out.println("token ====> " + token);
         return Jwts.parser()
                 .verifyWith(secretKey)
                 .build()
@@ -89,8 +88,7 @@ public class JWTUtil {
                 .claim("role", role)
                 .claim("type", "ATK")
                 .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.HOURS)))
-//                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
+                .expiration(Date.from(Instant.now().plus(3, ChronoUnit.HOURS)))
                 .signWith(secretKey)
                 .compact();
     }
@@ -108,29 +106,4 @@ public class JWTUtil {
                 .compact();
     }
 
-    public String createAccessTokenTmp(String id, String nickname) {
-
-        return Jwts.builder()
-                .claim("id", id)
-                .claim("nickname", nickname)
-                .claim("role", "ROLE_USER")
-                .claim("type", "ATK")
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(Date.from(Instant.now().plus(72, ChronoUnit.HOURS)))
-                .signWith(secretKey)
-                .compact();
-    }
-
-    public String createRefreshTokenTmp(String id, String nickname) {
-
-        return Jwts.builder()
-                .claim("id", id)
-                .claim("nickname", nickname)
-                .claim("role", "ROLE_USER")
-                .claim("type", "RTK")
-                .issuedAt(new Date(System.currentTimeMillis()))
-                .expiration(Date.from(Instant.now().plus(1, ChronoUnit.SECONDS)))
-                .signWith(secretKey)
-                .compact();
-    }
 }
