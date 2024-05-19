@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import * as h from "@components/home/HomeEventList/HomeEventList.styled";
 import { fetchList } from "@/apis/event";
 import Pagination from "@common/pagination";
+import { useNavigate } from "react-router-dom";
 
 interface EventData {
   eventList: EventItem[];
@@ -15,32 +16,34 @@ interface EventItem {
   title: string;
   createTime: string;
   date: string;
-  bannerThumbnailUrl: string
+  bannerThumbnailUrl: string;
 }
 
-
 const index = () => {
+  const navigate = useNavigate();
   const [activeIdx, setActiveIdx] = useState<number>(0);
   const [page, setPage] = useState(1);
   const [recentEventData, setRecentEventData] = useState<EventData>({
     eventList: [],
-    totalCnt: 0
+    totalCnt: 0,
   });
-  const [participantsEventData, setParticipantsEventData] = useState<EventData>({
-    eventList: [],
-    totalCnt: 0
-  });
+  const [participantsEventData, setParticipantsEventData] = useState<EventData>(
+    {
+      eventList: [],
+      totalCnt: 0,
+    }
+  );
 
   const onClickFilter = (index: number) => {
     setActiveIdx(index);
-    setPage(1)
+    setPage(1);
   };
 
   useEffect(() => {
     // 최근 날짜
     const fetchRecentEventList = async () => {
       try {
-        const response = await fetchList("creatTime", page-1, 3);
+        const response = await fetchList("creatTime", page - 1, 3);
         setRecentEventData(response);
       } catch (err) {
         console.log(err);
@@ -51,7 +54,7 @@ const index = () => {
     // 참여자수
     const fetchPartiEventList = async () => {
       try {
-        const response = await fetchList("participants", page-1, 3);
+        const response = await fetchList("participants", page - 1, 3);
         setParticipantsEventData(response);
       } catch (err) {
         console.log(err);
@@ -63,20 +66,25 @@ const index = () => {
   return (
     <h.Container>
       <h.Title>공개된 ㅊㅋ</h.Title>
-      <h.FilterWrap>
-        <h.FilterText
-          onClick={() => onClickFilter(0)}
-          $active={activeIdx === 0}
-        >
-          최신순
-        </h.FilterText>
-        <h.FilterText
-          onClick={() => onClickFilter(1)}
-          $active={activeIdx === 1}
-        >
-          참여순
-        </h.FilterText>
-      </h.FilterWrap>
+      <div style={{ display: "flex", justifyContent: "space-between" }}>
+        <p style={{ color: "gray" }} onClick={() => navigate('/eventlist')}>
+          전체 보기
+        </p>
+        <h.FilterWrap>
+          <h.FilterText
+            onClick={() => onClickFilter(0)}
+            $active={activeIdx === 0}
+          >
+            최신순
+          </h.FilterText>
+          <h.FilterText
+            onClick={() => onClickFilter(1)}
+            $active={activeIdx === 1}
+          >
+            참여순
+          </h.FilterText>
+        </h.FilterWrap>
+      </div>
       {activeIdx === 0 ? (
         <h.DataWrap>
           {recentEventData &&

@@ -2,7 +2,6 @@ import * as e from "./Event.styled";
 import EventCard from "@components/mypage/Event/EventCard";
 import { EventDataType } from "@/types/rollingType";
 import Pagination from "@common/pagination";
-import { useEffect } from "react";
 
 interface EventProps {
   eventList: EventDataType;
@@ -13,10 +12,6 @@ interface EventProps {
 
 const index = (props: EventProps) => {
   const { eventList, title, currentPage, setCurrentPage } = props;
-
-  const handleDelete = async () => {
-
-  }
 
   return (
     <>

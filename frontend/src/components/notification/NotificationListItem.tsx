@@ -1,5 +1,4 @@
 import * as N from "./NotificationListItem.styled";
-import { FaRegTrashCan } from "react-icons/fa6";
 import { colors } from "@/styles/theme";
 import { useNavigate } from "react-router-dom";
 
@@ -38,6 +37,9 @@ const NotificationListItem = (props: NotificaionProps) => {
       case "EVENT_OPEN":
         navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
         break;
+      case "ROLLING_CREATE":
+        navigate(`/celebrate/rolling/${eventId}/${pageUri}`);
+        break;
       case "FUNDING_COMPLETE":
         navigate(`/celebrate/funding/${fundingId}`);
         break;
@@ -55,6 +57,12 @@ const NotificationListItem = (props: NotificaionProps) => {
       case "EVENT_OPEN":
         return {
           src: "icon/icon_alarm_dday.png",
+          width: "26px",
+          height: "25px",
+        };
+      case "ROLLING_CREATE":
+        return {
+          src: "icon/icon_goRoll.png",
           width: "26px",
           height: "25px",
         };
@@ -84,15 +92,13 @@ const NotificationListItem = (props: NotificaionProps) => {
             <N.Date>{formatDate}</N.Date>
           </N.TextWrap>
         </N.LeftWrap>
-        <N.Delete>
-          <FaRegTrashCan
-            color={colors.gray}
-            onClick={(e) => {
-              e.stopPropagation(); // 부모요소로 bubble 되는 것을 막음
-              handleDelete(notificationId);
-            }}
-          />
-        </N.Delete>
+        <N.Delete
+          src="/icon/icon_trash.png"
+          onClick={(e) => {
+            e.stopPropagation(); // 부모요소로 bubble 되는 것을 막음
+            handleDelete(notificationId);
+          }}
+        />
       </N.Wrap>
     </N.Container>
   );

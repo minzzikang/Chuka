@@ -1,10 +1,5 @@
 import * as b from "./Banner.styled";
 import Default from "/img/img_default_banner.png";
-import { IoMdSettings } from "react-icons/io";
-import { MdCake, MdFavorite } from "react-icons/md";
-import { GiPartyHat } from "react-icons/gi";
-import { RiGraduationCapFill, RiMedal2Fill } from "react-icons/ri";
-import { PiFlowerLotusThin, PiDotsThreeOutlineFill } from "react-icons/pi";
 import { calculateDay } from "@/utils/calculation";
 
 interface BannerInfo {
@@ -26,17 +21,29 @@ const Banner = (props: BannerInfo) => {
   const setImage = (type: string) => {
     switch (type) {
       case "BIRTHDAY":
-        return <MdCake size={24} />;
+        return {
+          src: "/icon/icon_birthday.png",
+        };
       case "MARRIAGE":
-        return <MdFavorite size={24} />;
+        return {
+          src: "/icon/icon_wedding.png",
+        };
       case "ETC":
-        return <GiPartyHat size={24} />;
+        return {
+          src: "/icon/icon_etc.png",
+        };
       case "PROMOTION":
-        return <RiMedal2Fill size={24} />;
+        return {
+          src: "/icon/icon_promotion.png",
+        };
       case "TEACHERS_DAY":
-        return <PiFlowerLotusThin size={24} />;
+        return {
+          src: "/icon/icon_teachers.png",
+        };
       case "SCHOOL_EVENT":
-        return <RiGraduationCapFill size={24} />;
+        return {
+          src: "/icon/icon_school.png",
+        };
     }
   };
 
@@ -55,12 +62,13 @@ const Banner = (props: BannerInfo) => {
             marginTop: "5px",
           }}
         >
-          <b.Title>
-            {title}
-          </b.Title>
+          <b.Title>{title}</b.Title>
           <b.Dday>
             {" "}
-            <b.Icon>{icon}</b.Icon> {`D${dDay}`}
+            <b.Icon>
+              <img src={icon?.src} />
+            </b.Icon>{" "}
+            {`D${dDay}`}
           </b.Dday>
         </div>
         <b.EventDay>{date}</b.EventDay>

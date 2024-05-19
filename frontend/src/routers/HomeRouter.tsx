@@ -14,13 +14,15 @@ import FundingDetailPage from "@pages/celebration/funding/FundingDetailPage";
 import RollingWritePage from "@pages/celebration/rolling/RollingWritePage";
 import LoginRedirectHandler from "@/pages/redirect/LoginRedirectHandler";
 import PaymentRedirectHandler from "@/pages/redirect/PaymentRedirectHandler";
-import MyCelebratePage from "@pages/mypage/MyCelebratePage";
-import MyFundingPage from "@pages/mypage/MyFundingPage";
+import MyCelebratePage from "@/pages/mypage/MyCelebratePage/MyCelebratePage";
+import MyFundingPage from "@/pages/mypage/MyFundingPage/MyFundingPage";
+import EventListPage from "@/pages/eventList/EventListPage";
 
 const HomeRouter = () => {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/eventlist" element={<EventListPage />} />
       <Route path="/review" element={<ReviewPage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/login/oauth2" element={<LoginRedirectHandler />} />

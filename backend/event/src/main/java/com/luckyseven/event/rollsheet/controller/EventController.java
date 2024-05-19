@@ -21,7 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
@@ -73,7 +72,9 @@ public class EventController {
 
             event = eventService.createEvent(createEventDto, userId, nickname);
 
-            producerService.sendNotificationMessage(event.getEventId(), event.getPageUri(), userId);
+            EventCreateAlarmDto eventCreateAlarmDto = new EventCreateAlarmDto(userId,event.getEventId(),event.getPageUri());
+            BaseMessageDto messageDto = new BaseMessageDto(Topic.EVENT_CREATE,eventCreateAlarmDto);
+            producerService.sendNotificationMessage(messageDto);
 
         } catch (EmptyFileException e) {
             //400
@@ -107,7 +108,7 @@ public class EventController {
             @Parameter(description = "페이지 번호(0부터 시작)") @RequestParam int page,
             @Parameter(description = "페이지당 항목 수") @RequestParam int size
     ) {
-        log.info("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
+        log.debug("order: {}, sort: {}, page: {}, pageSize: {}", order, sort, page, size);
         try {
             List<EventDto> events = eventService.getPublicEvents(order, sort, page, size);
             EventListRes res = new EventListRes();

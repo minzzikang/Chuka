@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { colors } from "@/styles/theme";
-import { useNavigate } from "react-router";
 
 export const Container = styled.div<{ $thumbNailUrl: string }>`
   background-image: ${(props) =>
@@ -10,7 +9,6 @@ export const Container = styled.div<{ $thumbNailUrl: string }>`
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
-  /* background-size: contain; */
   width: 120px;
   height: 120px;
   border-radius: 30px;
@@ -45,10 +43,7 @@ export const Wrap = styled.div`
 export const WrapOverlay = styled.div`
   display: flex;
   width: 100%;
-  /* height: 44px;
-  opacity: 0.7; */
   gap: 5px;
-  /* justify-content: center; */
   align-items: center;
 `;
 
@@ -58,7 +53,6 @@ export const DescWrap = styled.div`
   justify-content: center;
   padding-left: 6px;
   gap: 4px;
-  /* align-items: center; */
 `;
 export const Title = styled.div`
   font-size: 1em;

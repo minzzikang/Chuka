@@ -4,6 +4,7 @@ import com.luckyseven.notification.documents.Notification;
 import com.luckyseven.notification.documents.NotificationType;
 import com.luckyseven.notification.dto.EventCreateAlarmDto;
 import com.luckyseven.notification.dto.FundingToNotificationMessageDto;
+import com.luckyseven.notification.dto.RollingpaperCreatAlarmDto;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
@@ -26,4 +27,6 @@ public interface NotificationService {
     void sendNotification(EventCreateAlarmDto data);
 
     void sendFundingNotification(FundingToNotificationMessageDto fundingToNotificationMessageDto);
+
+    void sendRollingCreate(RollingpaperCreatAlarmDto data);
 }

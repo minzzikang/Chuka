@@ -10,9 +10,8 @@ import { userState } from "@/stores/user";
 import { createRollMsg } from "@/apis/roll";
 import { LuPaintbrush } from "react-icons/lu";
 import { TiScissors } from "react-icons/ti";
-import { BsMagic } from "react-icons/bs";
 import { makeMessage } from "@/utils/makeMessage";
-import Header from '@common/header'
+import Header from "@common/header";
 
 interface RegDataProps {
   shape: string;
@@ -124,11 +123,6 @@ const RollingWrite = () => {
     }));
   };
 
-  const handleBack = () => {
-    alert("작성한 내용이 저장되지 않습니다. 이 페이지를 떠나겠습니까?");
-    window.history.back();
-  };
-
   const [isSelectModalOpen, setIsSelectModalOpen] = useState(false);
   const [isShapeModalOpen, setIsShapeModalOpen] = useState(false);
 
@@ -176,23 +170,21 @@ const RollingWrite = () => {
   };
 
   return (
-    <div style={{position:'relative'}}>
-      <Header>
-        메시지 작성하기
-      </Header>
+    <div style={{ position: "relative" }}>
+      <Header>메시지 작성하기</Header>
       <r.Container>
         <r.SelectWrap>
           <r.SelectBtn onClick={() => setIsSelectModalOpen(true)}>
-            <LuPaintbrush style={{ marginRight: "5px" }} />
+            <img src="/icon/icon_brush.png" alt="" />
             배경 선택
           </r.SelectBtn>
           <r.SelectBtn onClick={() => setIsShapeModalOpen(true)}>
-            <TiScissors style={{ marginRight: "5px" }} />
+            <img src="/icon/icon_scissors.png" alt="" />
             모양 선택
           </r.SelectBtn>
           <r.SelectPinkBtn onClick={recommendMessage}>
-            <BsMagic style={{ marginRight: "5px" }} />
-            축하 멘트 자동 완성
+            <img src="/icon/icon_makewrite.png" alt="" />
+            <span>축하 멘트 추천</span>
           </r.SelectPinkBtn>
         </r.SelectWrap>
         <r.MessageWrap

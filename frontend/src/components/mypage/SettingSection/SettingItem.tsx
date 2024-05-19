@@ -4,14 +4,16 @@ import { useNavigate } from "react-router-dom";
 
 export type MypageMenuItemType = {
   title: string;
-  icon: JSX.Element;
+  icon: string;
+  width: number;
+  height: number;
   text?: string;
   url?: string;
   onClick?: () => void;
 };
 
 const SettingItem = (props: MypageMenuItemType) => {
-  const { title, url, text, onClick, icon } = props;
+  const { title, url, text, width, height, onClick, icon } = props;
 
   const navigate = useNavigate();
 
@@ -20,7 +22,9 @@ const SettingItem = (props: MypageMenuItemType) => {
   return (
     <m.Container onClick={url ? goPage : onClick}>
       <m.Left>
-        <m.ImageWrap>{icon}</m.ImageWrap>
+        <m.ImageWrap>
+          <img src={icon} alt="" width={width} height={height}/>
+        </m.ImageWrap>
         <span>{title}</span>
       </m.Left>
       <m.Right>

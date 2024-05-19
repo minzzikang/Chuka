@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import Header from "@common/header";
 import DefaultFunding from "/img/img_default_funding.png";
@@ -202,7 +202,7 @@ const index = () => {
 
           {isRegOpen && (
             <RModal
-              name={"펀딩 등록 신청 완료"}
+              name={"펀딩 등록 완료"}
               onClose={() => setIsRegOpen(false)}
             >
               <FundingRegDoneModal />
